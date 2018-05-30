@@ -1,9 +1,9 @@
-const { gql } = require('apollo-server');
+const { makeExecutableSchema } = require('graphql-tools');
 
-const { saveDb } = require('./db-utils.js');
+const { saveDb } = require('./db-utils');
 const { removeEmpty } = require('./utils');
 
-exports.typeDefs = gql`
+const typeDefs = `
   type Appointment {
     id: ID!
     user: String
@@ -25,7 +25,7 @@ exports.typeDefs = gql`
 `;
 
 // appts collection in database given as context
-exports.resolvers = {
+const resolvers = {
   Query: {
     appts: (root, args, appts) => {
       return appts.find(removeEmpty(args));
@@ -56,3 +56,5 @@ exports.resolvers = {
     }
   }
 };
+
+module.exports.schema = makeExecutableSchema({ typeDefs, resolvers });

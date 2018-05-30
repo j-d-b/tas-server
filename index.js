@@ -1,5 +1,5 @@
 const loki = require('lokijs');
-const { startServer } = require('./graphql-server.js');
+const { startServer } = require('./server');
 
 const db = new loki('./tas.json');
 
