@@ -1,0 +1,21 @@
+{
+  "name": "tas-backend",
+  "version": "0.0.1",
+  "description": "Truck appointment system for BCTC: backend service",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": "https://j-d-b@bitbucket.org/j-d-b/tas-backend.git",
+  "author": "j-d-b <jacob@jdbrady.info>",
+  "private": true,
+  "dependencies": {
+    "apollo-server": "^2.0.0-beta.2",
+    "apollo-server-express": "^2.0.0-beta.1",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "graphql": "^0.13.2",
+    "graphql-playground-middleware-express": "^1.6.3",
+    "lokijs": "^1.5.4"
+  }
+}
