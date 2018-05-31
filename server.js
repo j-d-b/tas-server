@@ -2,32 +2,30 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const jwt = require('express-jwt');
-const jwksRsa = require('jwks-rsa')
 const { graphqlExpress } = require('apollo-server-express');
 const expressPlayground = require('graphql-playground-middleware-express').default;
 
-const { schema } = require('./schema');
+const schema = require('./schema');
 const { initAppts } = require('./db-utils'); // setup collections in database
 
-
 exports.startServer = (db) => {
-  const appts = db.getCollection('appointments', { unique: ['id'] }) || initAppts(db);
+  const appts = db.getCollection('appointments', { unique: ['id'] });
+  const users = db.getCollection('users', { unique: ['email'] });
 
   const app = express();
 
   app.use(cors());
   app.use(bodyParser.json());
 
-  // authentication middleware
   const authMiddleware = jwt({
-    secret: 'some-secret-key'
+    secret: 'secret-boy',
+    credentialsRequired: false
   });
-  app.use(authMiddleware);
 
-  app.use('/graphql', graphqlExpress(req => {
+  app.use('/graphql', authMiddleware, graphqlExpress(req => {
     return {
       schema: schema,
-      context: { appts: appts, user: req.user }
+      context: { db: db, appts: appts, users: users, user: req.user }
     }
   }));
 
