@@ -31,7 +31,5 @@ exports.startServer = (db) => {
 
   app.use('/playground', expressPlayground({ endpoint: '/graphql' }));
 
-  app.get('/test', (req, res) => res.json({ test: 'hello' }));
-
   app.listen(4000, () => console.log('🚀  Server ready at http://localhost:4000'));
 };

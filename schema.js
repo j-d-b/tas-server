@@ -26,8 +26,8 @@ const typeDefs = `
     addAppt(user: String, time: String, block: String, type: String): Appointment
     delAppt(id: ID!): String
     updateAppt(id: ID!, user: String, time: String, block: String, type: String): Appointment
-    signup (email: String!, password: String!): String
-    login (email: String!, password: String!): String
+    signup (email: ID!, password: String!): String
+    login (email: ID!, password: String!): String
   }
 `;
 

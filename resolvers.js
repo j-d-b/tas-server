@@ -4,11 +4,6 @@ const jwt = require('jsonwebtoken');
 const { saveDb } = require('./db-utils');
 const { removeEmpty } = require('./utils');
 
-
-function checkAuth(user) {
-
-}
-
 // appts collection in database given as context
 const resolvers = {
   Query: {
@@ -16,7 +11,7 @@ const resolvers = {
     appt: (root, { id }, { appts }) => appts.by('id', id),
     me: (_, args, { users, user }) => {
       if (!user) {
-        return { error: 'You are not authenticated' };
+        throw new Error('You are not authenticated');
       }
       return users.by('email', user.email);
     }
@@ -53,24 +48,21 @@ const resolvers = {
         saveDb(db);
       }
       catch(error) {
-        console.log(`⚠️  Error adding: ${email}: ` + error);
-        return error;
+        throw new Error(`⚠️  Error adding: ${email}: ` + error);
       }
+
       const expDate = Math.floor(Date.now() / 1000) + (60 * 60); // in 1hr
       return jwt.sign({ exp: expDate, email: user.email }, 'secret-boy');
     },
     async login(_, { email, password }, { users }) {
       const user = users.by('email', email);
       if (!user) {
-        console.log(`😵  No user ${email}`);
-        return null;
+        throw new Error(`😵  No user ${email}`);
       }
 
       const valid = await bcrypt.compare(password, user.password);
-      console.log(valid);
       if (!valid) {
-        console.log('🙅‍  Incorrect password');
-        return null;
+        throw new Error('🙅‍  Incorrect password');
       }
 
       const expDate = Math.floor(Date.now() / 1000) + (60 * 60); // in 1hr
