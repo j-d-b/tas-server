@@ -3,12 +3,13 @@ const jwt = require('jsonwebtoken');
 
 const { saveDb, addAppt, updateAppt, changePass } = require('./db-utils');
 const { removeEmpty, TwentyFourHrFromNow } = require('./utils');
-const { isAuthorized, checkPass } = require('./auth');
+const { isAuthenticated, isAuthorized, checkPass } = require('./auth');
 
 // appts collection in database given as context
 const resolvers = {
   Query: {
     appts: (obj, args, { appts, users, user }) => {
+      console.log(user);
       isAuthenticated(user);
       isAuthorized(users, user, 'customer');
       return appts.find(removeEmpty(args));
@@ -56,17 +57,26 @@ const resolvers = {
 
       return delAppt(db, appts, targetAppt);
     },
-    addUser: async (obj, { email, password, userDetails }, { db, users }) => { // TODO add userDetails
+    addUser: async (obj, { email, password, userDetails }, { db, users, user }) => { // TODO add userDetails
       checkPass(password);
 
-      let newUser = users.by('email', email);
-      if (newUser) throw new Error(`User ${email} already exists`);
+      if (users.by('email', email)) throw new Error(`User with email ${email} already exists`);
+
+      if (userDetails.role) { // only admin can add user with a non-customer role
+        if (userDetails.role !== 'customer') isAuthorized(users, user, 'admin');
+      } else {
+        userDetails.role = 'customer';
+      }
 
       const encryptedPass = await bcrypt.hash(password, 10);
-      newUser = users.insert({ email, role: 'customer', password: encryptedPass });
+      users.insert({
+        email,
+        password: encryptedPass,
+        ...userDetails
+      });
       saveDb(db);
 
-      return jwt.sign({ exp: TwentyFourHrFromNow(), email: user.email }, process.env.JWT_SECRET);
+      return jwt.sign({ exp: TwentyFourHrFromNow(), email: email }, process.env.JWT_SECRET);
     },
     changePassword: async (obj, { email, currPassword, newPassword }, { db, users, user }) => {
       checkPass(newPassword);
@@ -78,7 +88,7 @@ const resolvers = {
 
       let isAdmin = false;
       if (user) { // if already authenicated
-        email === user.email ? isAuthorized(users, user, 'customer') : isAuthorized(users, user, 'admin');
+        if (email !== user.email) isAuthorized(users, user, 'admin');
         isAdmin = user.role === 'admin'; // TODO check this can't be hacked
       }
 

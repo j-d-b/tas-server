@@ -14,6 +14,7 @@ const typeDefs = `
   type User {
     email: ID!
     role: String!
+    name: String!
     company: String
     mobileNumber: String
   }
@@ -26,7 +27,9 @@ const typeDefs = `
   }
 
   input userDetails {
-    company: String
+    name: String!
+    company: String!
+    role: String
     mobileNumber: String
   }
 
@@ -41,7 +44,7 @@ const typeDefs = `
     addAppt(apptDetails: ApptDetails!): Appointment
     delAppt(id: ID!): String
     updateAppt(id: ID!, apptDetails: ApptDetails!): Appointment
-    addUser(email: ID!, password: String!, userDetails: userDetails): String
+    addUser(email: ID!, password: String!, userDetails: userDetails!): String
     changePassword(email: ID!, currPassword: String!, newPassword: String!): String
     login(email: ID!, password: String!): String
   }

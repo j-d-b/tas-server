@@ -17,7 +17,7 @@ function checkPermission(user, requiredRole) {
 // checks if the user object (from HTTP header) exists
 // throws error if not
 module.exports.isAuthenticated = (user) => {
-  if (!user) throw new Error('You are not authenicated');
+  if (!user) throw new Error('You are not authenticated');
   return true;
 }
 
