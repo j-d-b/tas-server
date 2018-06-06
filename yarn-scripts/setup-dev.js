@@ -85,12 +85,16 @@ const sampleAppts = [
   },
 ];
 
+console.log('Adding sample data:');
+
 const appts = db.getCollection('appointments');
 const users = db.getCollection('users');
 
+console.log('users...');
 users.insert(sampleUsers);
 saveDb(db);
 
+console.log('appointments...')
 for (const apptDetails of sampleAppts) {
   const newAppt = appts.insert(apptDetails);
   newAppt.id = newAppt.$loki; // use $loki as ID
