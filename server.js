@@ -6,9 +6,8 @@ const { graphqlExpress } = require('apollo-server-express');
 const expressPlayground = require('graphql-playground-middleware-express').default;
 
 const schema = require('./schema');
-const { initAppts } = require('./db-utils'); // setup collections in database
 
-exports.startServer = (db) => {
+module.exports = (db) => {
   const appts = db.getCollection('appointments', { unique: ['id'] });
   const users = db.getCollection('users', { unique: ['email'] });
 
@@ -17,8 +16,10 @@ exports.startServer = (db) => {
   app.use(cors());
   app.use(bodyParser.json());
 
+  // NOTE doesn't return errors to the GraphQL client...
+  // perhaps implement within resolvers
   const authMiddleware = jwt({
-    secret: 'secret-boy',
+    secret: process.env.JWT_SECRET,
     credentialsRequired: false
   });
 

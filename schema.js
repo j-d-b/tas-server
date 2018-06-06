@@ -14,20 +14,36 @@ const typeDefs = `
   type User {
     email: ID!
     role: String!
+    company: String
+    mobileNumber: String
   }
 
   type Query {
     appt(id: ID!): Appointment
     appts(user: String, time: String, block: String, type: String): [Appointment]
     me: User
+    users: [User]
+  }
+
+  input userDetails {
+    company: String
+    mobileNumber: String
+  }
+
+  input ApptDetails {
+    user: String
+    time: String
+    block: String
+    type: String
   }
 
   type Mutation {
-    addAppt(user: String, time: String, block: String, type: String): Appointment
+    addAppt(apptDetails: ApptDetails!): Appointment
     delAppt(id: ID!): String
-    updateAppt(id: ID!, user: String, time: String, block: String, type: String): Appointment
-    signup (email: ID!, password: String!): String
-    login (email: ID!, password: String!): String
+    updateAppt(id: ID!, apptDetails: ApptDetails!): Appointment
+    addUser(email: ID!, password: String!, userDetails: userDetails): String
+    changePassword(email: ID!, currPassword: String!, newPassword: String!): String
+    login(email: ID!, password: String!): String
   }
 `;
 

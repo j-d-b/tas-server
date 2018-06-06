@@ -1,72 +1,105 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const { saveDb } = require('./db-utils');
-const { removeEmpty } = require('./utils');
+const { saveDb, addAppt, updateAppt, changePass } = require('./db-utils');
+const { removeEmpty, TwentyFourHrFromNow } = require('./utils');
+const { isAuthorized, checkPass } = require('./auth');
 
 // appts collection in database given as context
 const resolvers = {
   Query: {
-    appts: (root, args, { appts }) => appts.find(removeEmpty(args)),
-    appt: (root, { id }, { appts }) => appts.by('id', id),
-    me: (_, args, { users, user }) => {
-      if (!user) {
-        throw new Error('You are not authenticated');
-      }
+    appts: (obj, args, { appts, users, user }) => {
+      isAuthenticated(user);
+      isAuthorized(users, user, 'customer');
+      return appts.find(removeEmpty(args));
+    },
+    appt: (obj, { id }, { appts, users, user }) => {
+      isAuthenticated(user);
+      isAuthorized(users, user, 'customer');
+      return appts.by('id', id);
+    },
+    me: (obj, args, { users, user }) => {
+      isAuthenticated(user);
+      isAuthorized(users, user, 'customer');
       return users.by('email', user.email);
+    },
+    users: (obj, args, { users, user }) => {
+      isAuthenticated(user);
+      isAuthorized(users, user, 'admin');
+      return users.find();
     }
   },
   Mutation: {
-    addAppt: (root, args, { db, appts }) => {
-      const newAppt = appts.insert(args);
-      newAppt.id = newAppt.$loki; // use $loki as ID
-      appts.update(newAppt);
-      saveDb(db);
-      return newAppt;
+    addAppt: (obj, { apptDetails }, { db, appts, users, user }) => { // IDEA disable adding duplicate appts?
+      isAuthenticated(user);
+
+      // only operators/admins can add appts for other users
+      apptDetails.user === user.email ? isAuthorized(users, user, 'customer') : isAuthorized(users, user, 'operator');
+
+      return addAppt(db, appts, apptDetails);
     },
-    updateAppt: (root, { id, user, time, block, type }, { db, appts }) => { // update appt by id
+    updateAppt: (obj, { id, apptDetails }, { db, appts, users, user }) => {
+      isAuthenticated(user);
       const targetAppt = appts.by('id', id);
-      user && (targetAppt.user = user);
-      time && (targetAppt.time = time);
-      block && (targetAppt.block = block);
-      type && (targetAppt.type = type);
-      appts.update(targetAppt);
-      saveDb(db);
-      return targetAppt;
+
+      // only operators/admins can update appts for other users
+      apptDetails.user === user.email ? isAuthorized(users, user, 'customer') : isAuthorized(users, user, 'operator');
+
+      return updateAppt(db, appts, targetAppt, apptDetails);
     },
-    delAppt: (root, { id }, { db, appts }) => {
-      appts.remove(appts.by('id', id));
-      saveDb(db);
-      return 'Appt deleted';
+    delAppt: (obj, { id }, { db, appts, user }) => {
+      isAuthenticated(user);
+      const targetAppt = appts.by('id', id);
+
+      // require operator permissions to delete other users appts
+      targetAppt.user === user.email ? isAuthorized(users, user, 'customer') : isAuthorized(users, user, 'operator');
+
+      return delAppt(db, appts, targetAppt);
     },
-    async signup(_, { email, password }, { db, users }) {
-      let user;
-      try {
-        const pw = await bcrypt.hash(password, 10);
-        console.log(pw);
-        user = users.insert({ email, password: pw });
-        saveDb(db);
-      }
-      catch(error) {
-        throw new Error(`⚠️  Error adding: ${email}: ` + error);
+    addUser: async (obj, { email, password, userDetails }, { db, users }) => { // TODO add userDetails
+      checkPass(password);
+
+      let newUser = users.by('email', email);
+      if (newUser) throw new Error(`User ${email} already exists`);
+
+      const encryptedPass = await bcrypt.hash(password, 10);
+      newUser = users.insert({ email, role: 'customer', password: encryptedPass });
+      saveDb(db);
+
+      return jwt.sign({ exp: TwentyFourHrFromNow(), email: user.email }, process.env.JWT_SECRET);
+    },
+    changePassword: async (obj, { email, currPassword, newPassword }, { db, users, user }) => {
+      checkPass(newPassword);
+
+      const targetUser = users.by('email', email);
+      if (!targetUser) {
+        throw new Error(`No user ${email}`);
       }
 
-      const expDate = Math.floor(Date.now() / 1000) + (60 * 60); // in 1hr
-      return jwt.sign({ exp: expDate, email: user.email }, 'secret-boy');
-    },
-    async login(_, { email, password }, { users }) {
-      const user = users.by('email', email);
-      if (!user) {
-        throw new Error(`😵  No user ${email}`);
+      let isAdmin = false;
+      if (user) { // if already authenicated
+        email === user.email ? isAuthorized(users, user, 'customer') : isAuthorized(users, user, 'admin');
+        isAdmin = user.role === 'admin'; // TODO check this can't be hacked
       }
+
+      // if admin, can change the password without knowing currPassword
+      const valid = isAdmin || await bcrypt.compare(currPassword, targetUser.password);
+      if (!valid) throw new Error('Incorrect password');
+
+      return bcrypt.hash(newPassword, 10).then(hash => {
+        changePass(db, users, targetUser, hash);
+        return 'Password updated successfully';
+      });
+    },
+    login: async (obj, { email, password }, { users }) => {
+      const user = users.by('email', email);
+      if (!user) throw new Error(`No user ${email}`);
 
       const valid = await bcrypt.compare(password, user.password);
-      if (!valid) {
-        throw new Error('🙅‍  Incorrect password');
-      }
+      if (!valid) throw new Error('Incorrect password');
 
-      const expDate = Math.floor(Date.now() / 1000) + (60 * 60); // in 1hr
-      return jwt.sign({ exp: expDate, email: user.email }, 'secret-boy');
+      const expDate = TwentyFourHrFromNow();
+      return jwt.sign({ exp: expDate, email: user.email }, process.env.JWT_SECRET);
     }
   }
 };
