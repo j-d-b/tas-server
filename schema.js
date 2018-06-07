@@ -5,17 +5,17 @@ const resolvers = require('./resolvers');
 const typeDefs = `
   type Appointment {
     id: ID!
-    user: String
-    time: String
-    block: String
-    type: String
+    user: String!
+    time: String!
+    block: String!
+    type: String!
   }
 
   type User {
     email: ID!
     role: String!
     name: String!
-    company: String
+    company: String!
     mobileNumber: String
   }
 
@@ -34,10 +34,10 @@ const typeDefs = `
   }
 
   input ApptDetails {
-    user: String
-    time: String
-    block: String
-    type: String
+    user: String!
+    time: String!
+    block: String!
+    type: String!
   }
 
   type Mutation {

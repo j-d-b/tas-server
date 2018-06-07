@@ -9,7 +9,7 @@ const startServer = require('../server.js');
 
 console.log(chalk.yellow('------- Development Mode -------'));
 
-const db = new loki('tas.json');
+const db = new loki('db.json');
 initDb(db);
 
 const sampleUsers = [

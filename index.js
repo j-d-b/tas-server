@@ -3,7 +3,7 @@ require('dotenv').config();
 const loki = require('lokijs');
 const startServer = require('./server');
 
-const db = new loki('tas.json');
+const db = new loki('db.json');
 
 db.loadDatabase({}, err => {
   if (err) {

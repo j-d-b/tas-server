@@ -2,14 +2,13 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const { saveDb, addAppt, updateAppt, changePass } = require('./db-utils');
-const { removeEmpty, TwentyFourHrFromNow } = require('./utils');
+const { removeEmpty, TwelveHrFromNow } = require('./utils');
 const { isAuthenticated, isAuthorized, checkPass } = require('./auth');
 
 // appts collection in database given as context
 const resolvers = {
   Query: {
     appts: (obj, args, { appts, users, user }) => {
-      console.log(user);
       isAuthenticated(user);
       isAuthorized(users, user, 'customer');
       return appts.find(removeEmpty(args));
@@ -57,7 +56,7 @@ const resolvers = {
 
       return delAppt(db, appts, targetAppt);
     },
-    addUser: async (obj, { email, password, userDetails }, { db, users, user }) => { // TODO add userDetails
+    addUser: async (obj, { email, password, userDetails }, { db, users, user }) => {
       checkPass(password);
 
       if (users.by('email', email)) throw new Error(`User with email ${email} already exists`);
@@ -76,7 +75,7 @@ const resolvers = {
       });
       saveDb(db);
 
-      return jwt.sign({ exp: TwentyFourHrFromNow(), email: email }, process.env.JWT_SECRET);
+      return jwt.sign({ exp: TwelveHrFromNow(), email: email }, process.env.JWT_SECRET);
     },
     changePassword: async (obj, { email, currPassword, newPassword }, { db, users, user }) => {
       checkPass(newPassword);
@@ -89,7 +88,7 @@ const resolvers = {
       let isAdmin = false;
       if (user) { // if already authenicated
         if (email !== user.email) isAuthorized(users, user, 'admin');
-        isAdmin = user.role === 'admin'; // TODO check this can't be hacked
+        isAdmin = users.by('email', user.email).role === 'admin'; // TODO check this can't be hacked
       }
 
       // if admin, can change the password without knowing currPassword
@@ -108,7 +107,7 @@ const resolvers = {
       const valid = await bcrypt.compare(password, user.password);
       if (!valid) throw new Error('Incorrect password');
 
-      const expDate = TwentyFourHrFromNow();
+      const expDate = TwelveHrFromNow();
       return jwt.sign({ exp: expDate, email: user.email }, process.env.JWT_SECRET);
     }
   }

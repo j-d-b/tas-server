@@ -8,16 +8,15 @@ const expressPlayground = require('graphql-playground-middleware-express').defau
 const schema = require('./schema');
 
 module.exports = (db) => {
-  const appts = db.getCollection('appointments', { unique: ['id'] });
-  const users = db.getCollection('users', { unique: ['email'] });
+  const appts = db.getCollection('appointments');
+  const users = db.getCollection('users');
 
   const app = express();
 
   app.use(cors());
   app.use(bodyParser.json());
 
-  // NOTE doesn't return errors to the GraphQL client...
-  // perhaps implement within resolvers
+  // NOTE throws server errors rather than GraphQL Errors (playground can't see these)
   const authMiddleware = jwt({
     secret: process.env.JWT_SECRET,
     credentialsRequired: false
