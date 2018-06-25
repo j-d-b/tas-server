@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 
-module.exports = {};
+module.exports = {
+  Mutation: {}
+};
 
 // this file is for actions, like sending password and such
 // think about renaming

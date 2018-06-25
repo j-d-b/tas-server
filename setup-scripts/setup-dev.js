@@ -4,13 +4,21 @@ const loki = require('lokijs');
 const bcrypt = require('bcrypt');
 const chalk = require('chalk');
 
-const { initDb, saveDb } = require('../db-utils');
-const startServer = require('../server.js');
+const db = new loki('db.json', {
+  autosave: true,
+  autosaveInterval: 4000 // currently arbitrary
+});
 
 console.log(chalk.yellow('------- Development Mode -------'));
 
-const db = new loki('db.json');
-initDb(db);
+console.log('⚙️  Initializing database');
+console.log('Adding collections:');
+
+db.addCollection('appointments', { unique: ['id'] });
+console.log('appointments...');
+
+db.addCollection('users', { unique: ['email'] });
+console.log('users...');
 
 const sampleUsers = [
   {
@@ -106,8 +114,8 @@ for (const apptDetails of sampleAppts) {
   newAppt.id = newAppt.$loki; // use $loki as ID
   appts.update(newAppt);
 }
-saveDb(db);
 
 console.log('users...');
 users.insert(sampleUsers);
-saveDb(db);
+
+process.exit(0);
