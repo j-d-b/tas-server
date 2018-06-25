@@ -8,6 +8,7 @@ const db = new loki('db.json');
 db.loadDatabase({}, err => {
   if (err) {
     console.log('⚠️  Error loading database: ' + err);
+    console.log('Exiting...');
     process.exit(1);
   }
 

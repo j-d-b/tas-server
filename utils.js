@@ -9,6 +9,6 @@ exports.removeEmpty = (obj) => {
   }, {});
 };
 
-exports.TwelveHrFromNow = () => {
+exports.twelveHrFromNow = () => {
   return Math.floor(Date.now() / 1000) + (60 * 60 * 12);
 };
