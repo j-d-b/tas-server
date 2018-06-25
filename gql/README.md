@@ -13,7 +13,7 @@ Secondly, `TypeDetails` is a union type, so `type-details.js` also contains the 
 ### Appointments
 Each appointment in the `appts` database collection contains a `userEmail` field, which is used to fetch corresponding user details from the `users` collection.
 
-Each appointment also contains a `typeDetails` field, which contains an object with a variable number of fields depending on the appointment `type` field. See `./schema/type-details` for examples of what this field can contain.
+Each appointment entry also contains a `typeDetails` field, which contains an object with a variable number of fields depending on the appointment `type` field. See `./schema/type-details` for examples of what this field can contain.
 
 Additionally, the `id` field on the `Appointment` type (see `./schema/appointment.js`) uses the automatically generated `$loki` identifier.
 

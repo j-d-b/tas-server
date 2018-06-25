@@ -2,8 +2,13 @@ require('dotenv').config();
 
 const loki = require('lokijs');
 const startServer = require('./server');
+const Lfsa = require('lokijs/src/loki-fs-structured-adapter'); // see https://github.com/techfort/LokiJS/wiki/LokiJS-persistence-and-adapters
 
-const db = new loki('db.json');
+// use Lfsa
+const db = new loki('db.json', {
+  autosave: true,
+  autosaveInterval: 4000 // currently arbitrary
+});
 
 db.loadDatabase({}, err => {
   if (err) {

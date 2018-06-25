@@ -12,6 +12,6 @@ const Mutation = require('./schema/mutation');
 const Resolvers = require('./resolvers');
 
 module.exports = makeExecutableSchema({
-  typeDefs: [ EnumTypes, TypeDetails, Appointment, User, Query, Mutation ],
+  typeDefs: [ ApptType, UserRole, ContainerSize, TypeDetails, Appointment, User, Query, Mutation ],
   resolvers: Resolvers
 });

@@ -6,19 +6,19 @@ const expressPlayground = require('graphql-playground-middleware-express').defau
 
 const schema = require('./gql/schema');
 
-module.exports = (db) => {
-  const appts = db.getCollection('appointments');
-  const users = db.getCollection('users');
+module.exports = db => {
+  const apptsCollection = db.getCollection('appointments');
+  const usersCollection = db.getCollection('users');
 
   const app = express();
 
-  app.use(cors());
+  app.use(cors()); // TODO is this needed
   app.use(bodyParser.json());
 
   app.use('/graphql', graphqlExpress(req => {
     return {
       schema: schema,
-      context: { db: db, appts: appts, users: users, user: req.user }
+      context: { appts: apptsCollection, users: usersCollection }
     }
   }));
 
