@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const {
   UnknownError,
+  AlreadyLoggedInError,
   AuthenticationError,
   AuthorizationError,
   NotOwnUserError,
@@ -23,11 +24,29 @@ const baseResolver = createResolver(
 const isAuthenticatedResolver = baseResolver.createResolver(
   (_, args, context) => {
     try {
-      const token = context.headers.authorization.replace('Bearer ', '');
+      const token = context.authHeader.replace('Bearer ', '');
       const user = jwt.verify(token, process.env.JWT_SECRET);
       context.user = user; // add user to the context
     } catch (err) {
       throw new AuthenticationError();
+    }
+  }
+);
+
+// TODO look into making this more robust
+// checks if user is already logged in
+// throws error if they are
+const notLoggedInResolver = baseResolver.createResolver(
+  (_, args, context) => {
+    if (context.authHeader) {
+      const token = context.authHeader.replace('Bearer ', '');
+      let decoded;
+      try {
+        decoded = jwt.verify(token, process.env.JWT_SECRET);
+      } catch (err) {
+        console.log(err); // but move on to next resolver
+      }
+      if (decoded) throw new AlreadyLoggedInError();
     }
   }
 );
@@ -72,9 +91,11 @@ const isAdminResolver = isAuthenticatedResolver.createResolver(
   }
 );
 
+module.exports.baseResolver = baseResolver;
 module.exports.isAuthenticatedResolver = isAuthenticatedResolver;
 module.exports.hasOperatorPermissionsResolver = hasOperatorPermissionsResolver;
 module.exports.isAdminResolver = isAdminResolver;
 module.exports.isOwnUserResolver = isOwnUserResolver;
 module.exports.isAddOwnApptResolver = isAddOwnApptResolver;
 module.exports.isOwnApptResolver = isOwnApptResolver;
+module.exports.notLoggedInResolver = notLoggedInResolver;

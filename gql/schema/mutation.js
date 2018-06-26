@@ -72,7 +72,7 @@ const Mutation = `
     deleteUser(email: String!): String
 
     login(email: String!, password: String!): String
-    changePassword(email: String, newPassword: String!, currPassword: String): String
+    changePassword(currPassword: String!, newPassword: String!): String
     changeEmail(currEmail: String!, newEmail: String!): String
     resetPassword(token: String!, newPassword: String!): String
     sendResetPassLink(email: String!): String

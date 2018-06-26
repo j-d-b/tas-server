@@ -18,7 +18,11 @@ module.exports = db => {
   app.use('/graphql', graphqlExpress(req => {
     return {
       schema: schema,
-      context: { appts: apptsCollection, users: usersCollection }
+      context: {
+        appts: apptsCollection,
+        users: usersCollection,
+        authHeader: req.headers.authorization
+      }
     }
   }));
 

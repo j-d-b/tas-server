@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken');
 const { createResolver } = require('apollo-resolvers');
 const { createError } = require('apollo-errors');
 
-const { isAuthenticatedResolver, isAdminResolver, isOwnUserResolver } = require('./auth');
+const { baseResolver, isAuthenticatedResolver, isAdminResolver, isOwnUserResolver } = require('./auth');
+const { AuthorizationError } = require('../errors');
 const { removeEmpty } = require('../../utils');
 
 // queries
@@ -21,14 +22,16 @@ const users = isAdminResolver.createResolver(
 
 // mutations
 const checkPass = (password) => {
-  if (password.length < 6) throw new Error('Password must be at least 6 characters');
+  if (password.length < 6) throw new Error('Password must be at least 6 characters'); // TODO
 };
 
-const addUser = isOwnUserResolver.createResolver(
+const addUser = baseResolver.createResolver(
   async (_, { password, details }, { users, user }) => {
+    if (user && user.userRole !== 'ADMIN') throw new AuthorizationError();
+
     checkPass(args.password); // form validation
 
-    if (users.by('email', details.email)) throw new Error(`User with email ${email} already exists`); // TODO convert to apollo-error
+    if (users.by('email', details.email)) throw new Error(`User with email ${details.email} already exists`); // TODO convert to apollo-error
 
     const encryptedPass = await bcrypt.hash(password, 10);
 
@@ -40,7 +43,7 @@ const addUser = isOwnUserResolver.createResolver(
 );
 
 const updateUser = isOwnUserResolver.createResolver(
-  (_, { email, details }, { user }) => {
+  (_, { email, details }) => {
     const targetUser = users.by('email', email);
     if (!targetUser) throw new Error(`User ${email} does not exist`);
 

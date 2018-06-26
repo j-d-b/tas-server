@@ -31,3 +31,7 @@ module.exports.NotOwnApptError = createError('NotOwnApptError', {
 module.exports.NoApptError = createError('NoApptError', {
   message: 'The requested appointment does not exist.'
 });
+
+module.exports.AlreadyLoggedInError = createError('AlreadyLoggedInError', {
+  message: 'You cannot perform this action as a logged in user.'
+});
