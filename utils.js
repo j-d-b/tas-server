@@ -12,3 +12,7 @@ module.exports.removeEmpty = (obj) => {
 module.exports.twelveHrFromNow = () => {
   return Math.floor(Date.now() / 1000) + (60 * 60 * 12);
 };
+
+module.exports.thirtyMinFromNow = () => {
+  return Math.floor(Date.now() / 1000) + (60 * 30);
+}
