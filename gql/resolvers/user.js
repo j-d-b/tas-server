@@ -12,19 +12,6 @@ function checkPass(password) {
   if (password.length < 6) throw new Error('Password must be at least 6 characters'); // TODO apollo-error
 };
 
-// queries
-const me = isAuthenticatedResolver.createResolver(
-  (_, args, { users, user }) => users.by('email', user.userEmail)
-);
-
-const user = isAdminResolver.createResolver(
-  (_, args, { users }) => users.by('email', args.email) // IDEA currently returns null if no matches, but could require a return and error otherwise..
-);
-
-const users = isAdminResolver.createResolver(
-  (_, { where }, { users }) => users.find(removeEmpty(where))
-);
-
 // mutations
 const addUser = baseResolver.createResolver( // TODO how to prevent spam creating users (e.g. a register mutation)
   async (_, { password, details }, { users }) => {
@@ -63,17 +50,9 @@ const deleteUser = isAdminResolver.createResolver(
 );
 
 module.exports = {
-  Query: {
-    me,
-    user,
-    users
-  },
   Mutation: {
     addUser,
     updateUser,
     deleteUser
-  },
-  User: {
-    appts: (user, args, { appts }) => appts.find({ userEmail: user.email })
   }
 };

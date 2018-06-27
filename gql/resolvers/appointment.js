@@ -1,22 +1,9 @@
 const { createResolver } = require('apollo-resolvers');
 const { createError } = require('apollo-errors');
 
-const { isAuthenticatedResolver, isAddOwnApptResolver, isOwnApptResolver, isUpdateApptOwnEmailResolver } = require('./auth');
+const { isAddOwnApptResolver, isOwnApptResolver, isUpdateApptOwnEmailResolver } = require('./auth');
 const { DBTypeError, NoUserInDBError } = require('../errors');
 const { removeEmpty } = require('../../utils');
-
-// queries
-const myAppts = isAuthenticatedResolver.createResolver(
-  (_, args, { appts, user }) => appts.find({ userEmail: user.userEmail })
-);
-
-const appt = isAuthenticatedResolver.createResolver(
-  (_, { id }, { appts }) => appts.get(id)
-);
-
-const appts = isAuthenticatedResolver.createResolver(
-  (_, { where }, { appts }) => appts.find(removeEmpty(where))
-);
 
 // mutations
 function getTypeDetails(apptDetails) {
@@ -70,50 +57,10 @@ const deleteAppt = isOwnApptResolver.createResolver(
 );
 
 module.exports = {
-  Query: {
-    myAppts,
-    appt,
-    appts
-  },
   Mutation: {
     addAppt,
     updateAppt,
     deleteAppt
   },
-  Appointment: { //
-    id: appt => appt.$loki, // uses $loki for id <- TODO assess this
-    user: (appt, args, { users }) => users.by('email', appt.userEmail),
-    typeDetails: appt => {
-      switch (appt.type) {
-        case 'IMPORTFULL':
-          return {
-            containerID: appt.typeDetails.containerID,
-            formNumber705: appt.typeDetails.formNumber705
-          }
-        case 'IMPORTEMPTY':
-          return {
-            containerSize: appt.typeDetails.containerSize,
-            emptyForCityFormNum: appt.typeDetails.emptyForCityFormNum
-          }
-        case 'EXPORTFULL':
-          return {
-            containerID: appt.typeDetails.containerID,
-            containerSize: appt.typeDetails.containerSize,
-            containerWeight: appt.typeDetails.containerWeight,
-            bookingNum: appt.typeDetails.bookingNum,
-            vesselName: appt.typeDetails.vesselName,
-            vesselETA: appt.typeDetails.vesselETA,
-            destinationPort: appt.typeDetails.desintationPort,
-            firstPortOfDischarge: appt.typeDetails.firstPortOfDischarge
-          }
-        case 'EXPORTEMPTY':
-          return {
-            containerID: appt.typeDetails.containerID,
-            containerSize: appt.typeDetails.containerSize
-          }
-        default:
-          throw new DBTypeError();
-      }
-    }
-  }
+
 };

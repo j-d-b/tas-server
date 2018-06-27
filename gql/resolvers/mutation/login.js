@@ -2,9 +2,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { createResolver } = require('apollo-resolvers');
 
-const { notLoggedInResolver } = require('./auth');
-const { NoUserInDBError, IncorrectPasswordError } = require('../errors');
-const { twelveHrFromNow } = require('../../utils');
+const { notLoggedInResolver } = require('../auth');
+const { NoUserInDBError, IncorrectPasswordError } = require('../../errors');
+const { twelveHrFromNow } = require('../../../utils');
 
 // login(email: String!, password: String!): String
 const login = notLoggedInResolver.createResolver(

@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt');
 const { createResolver } = require('apollo-resolvers');
 
-const { isAuthenticatedResolver } = require('./auth');
-const { IncorrectPasswordError } = require('../errors');
+const { isAuthenticatedResolver } = require('../auth');
+const { IncorrectPasswordError } = require('../../errors');
 
 // THIS IS IN users.js and reset-password.js as well! Modularize!
 const checkPass = (password) => { //

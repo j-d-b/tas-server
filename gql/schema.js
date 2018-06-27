@@ -9,7 +9,7 @@ const User = require('./schema/user');
 const Query = require('./schema/query');
 const Mutation = require('./schema/mutation');
 
-const Resolvers = require('./resolvers');
+const Resolvers = require('./resolvers/resolvers');
 
 module.exports = makeExecutableSchema({
   typeDefs: [ ApptType, UserRole, ContainerSize, TypeDetails, Appointment, User, Query, Mutation ],
