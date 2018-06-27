@@ -1,11 +1,10 @@
 const { createResolver } = require('apollo-resolvers');
-const { createError } = require('apollo-errors');
 
-const { isAddOwnApptResolver, isOwnApptResolver, isUpdateApptOwnEmailResolver } = require('./auth');
-const { DBTypeError, NoUserInDBError } = require('../errors');
-const { removeEmpty } = require('../../utils');
+const { isUpdateApptOwnEmailResolver } = require('../auth');
+const { NoUserInDBError } = require('../../errors');
+const { removeEmpty } = require('../../../utils');
 
-// mutations
+// TODO this is in add-appt.js also
 function getTypeDetails(apptDetails) {
   switch (apptDetails.type) {
     case 'IMPORTFULL':
@@ -19,20 +18,7 @@ function getTypeDetails(apptDetails) {
   }
 }
 
-const addAppt = isAddOwnApptResolver.createResolver(
-  (_, { details }, { appts, users }) => {
-    if (!users.by('email', details.userEmail)) throw new NoUserInDBError({ data: { targetUser: details.userEmail }}); // TODO move to auth.js resolver bc DRY
-
-    return appts.insert({
-      timeSlot: details.timeSlot,
-      block: details.block,
-      userEmail: details.userEmail,
-      type: details.type,
-      typeDetails: getTypeDetails(details) // TODO verify (schema doesn't verify)
-    });
-  }
-);
-
+// updateAppt(id: ID!, details: UpdateApptInput!): Appointment
 const updateAppt = isUpdateApptOwnEmailResolver.createResolver(
   (_, { id, details }, { appts, users, targetAppt }) => {
     if (!users.by('email', details.userEmail)) throw new NoUserInDBError({ data: { targetUser: details.userEmail }}); // TODO move to auth.js resolver bc DRY
@@ -49,18 +35,4 @@ const updateAppt = isUpdateApptOwnEmailResolver.createResolver(
   }
 );
 
-const deleteAppt = isOwnApptResolver.createResolver(
-  (_, args, { appts, targetAppt }) => {
-    appts.remove(targetAppt);
-    return 'Appointment deleted successfully';
-  }
-);
-
-module.exports = {
-  Mutation: {
-    addAppt,
-    updateAppt,
-    deleteAppt
-  },
-
-};
+module.exports = updateAppt;

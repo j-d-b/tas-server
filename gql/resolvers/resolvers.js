@@ -1,9 +1,4 @@
-const { combineResolvers } = require('apollo-resolvers');
-
 const { DBTypeError } = require('../errors');
-
-const UserResolvers = require('./user');
-const ApptResolvers = require('./appointment');
 
 // query
 const me = require('./query/me');
@@ -20,7 +15,15 @@ const sendResetPassLink = require('./mutation/send-reset-pass-link');
 const changeEmail = require('./mutation/change-email');
 const changePassword = require('./mutation/change-password');
 
-const res = {
+const addUser = require('./mutation/add-user');
+const updateUser = require('./mutation/update-user');
+const deleteUser = require('./mutation/delete-user');
+
+const addAppt = require('./mutation/add-appt');
+const updateAppt = require('./mutation/update-appt');
+const deleteAppt = require('./mutation/delete-appt');
+
+const Resolvers = {
   Query: {
     me,
     user,
@@ -30,11 +33,20 @@ const res = {
     appts
   },
   Mutation: {
+    // action
     login,
     resetPassword,
     sendResetPassLink,
     changeEmail,
-    changePassword
+    changePassword,
+    // user management
+    addUser,
+    updateUser,
+    deleteUser,
+    // appt management
+    addAppt,
+    updateAppt,
+    deleteAppt
   },
   User: {
     appts: (user, args, { appts }) => appts.find({ userEmail: user.email })
@@ -76,11 +88,5 @@ const res = {
     }
   }
 }
-
-const Resolvers = combineResolvers([
-  UserResolvers,
-  ApptResolvers,
-  res
-]);
 
 module.exports = Resolvers;
