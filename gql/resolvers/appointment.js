@@ -1,19 +1,13 @@
 const { createResolver } = require('apollo-resolvers');
 const { createError } = require('apollo-errors');
 
-const {
-  isAuthenticatedResolver,
-  hasOperatorPermissionsResolver,
-  isAdminResolver,
-  isAddOwnApptResolver,
-  isOwnApptResolver
-} = require('./auth');
+const { isAuthenticatedResolver, isAddOwnApptResolver, isOwnApptResolver, isUpdateApptOwnEmailResolver } = require('./auth');
+const { DBTypeError, NoUserInDBError } = require('../errors');
 const { removeEmpty } = require('../../utils');
-const { DBTypeError } = require('../errors');
 
 // queries
 const myAppts = isAuthenticatedResolver.createResolver(
-  (_, args, { users, user }) => appts.find({ userEmail: user.email })
+  (_, args, { appts, user }) => appts.find({ userEmail: user.userEmail })
 );
 
 const appt = isAuthenticatedResolver.createResolver(
@@ -21,9 +15,8 @@ const appt = isAuthenticatedResolver.createResolver(
 );
 
 const appts = isAuthenticatedResolver.createResolver(
-  (_, { apptsWhere }, { appts }) => appts.find(removeEmpty(apptsWhere))
+  (_, { where }, { appts }) => appts.find(removeEmpty(where))
 );
-// ⬆️ should it be { apptsWhere } or apptsWhere?
 
 // mutations
 function getTypeDetails(apptDetails) {
@@ -40,20 +33,24 @@ function getTypeDetails(apptDetails) {
 }
 
 const addAppt = isAddOwnApptResolver.createResolver(
-  (_, { details }, { appts }) => (
-    appts.insert({
+  (_, { details }, { appts, users }) => {
+    if (!users.by('email', details.userEmail)) throw new NoUserInDBError({ data: { targetUser: details.userEmail }}); // TODO move to auth.js resolver bc DRY
+
+    return appts.insert({
       timeSlot: details.timeSlot,
       block: details.block,
       userEmail: details.userEmail,
       type: details.type,
-      typeDetails: getTypeDetails(details)
-    })
-  )
+      typeDetails: getTypeDetails(details) // TODO verify (schema doesn't verify)
+    });
+  }
 );
 
-const updateAppt = isOwnApptResolver.createResolver(
-  (_, { id, details }, { appts, targetAppt }) => {
-    const newTypeDetails = getTypeDetails(details);
+const updateAppt = isUpdateApptOwnEmailResolver.createResolver(
+  (_, { id, details }, { appts, users, targetAppt }) => {
+    if (!users.by('email', details.userEmail)) throw new NoUserInDBError({ data: { targetUser: details.userEmail }}); // TODO move to auth.js resolver bc DRY
+
+    const newTypeDetails = getTypeDetails(details); // TODO verify (schema doesn't verify)
     const validFields = ['timeSlot', 'block', 'userEmail', 'type']; // TODO this probably should not be hardcoded, especailly not here
     const fieldsToChange = Object.keys(removeEmpty(details)).filter(key => validFields.includes(key));
 
@@ -85,7 +82,7 @@ module.exports = {
   },
   Appointment: { //
     id: appt => appt.$loki, // uses $loki for id <- TODO assess this
-    user: (appt, args, { users }) => users.by('email', appt.userEmail), // not sure this works at this point
+    user: (appt, args, { users }) => users.by('email', appt.userEmail),
     typeDetails: appt => {
       switch (appt.type) {
         case 'IMPORTFULL':

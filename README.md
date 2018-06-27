@@ -53,6 +53,13 @@ You can now access all endpoints until the token expires. Let's try out a simple
 
 This should return
 ```
+{
+  "data": {
+    "me": {
+      "name": "Jacob Brady"
+    }
+  }
+}
 ```
 
 ### Production
@@ -92,6 +99,8 @@ The payload of the JWT contains the following information:
   "iat": 1528383007                   // Token creation time
 }
 ```
+
+Even if the jwt
 
 ### Usage
 The JWT must be included in the HTTP authorization header to access much of the TAS queries.

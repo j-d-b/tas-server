@@ -9,10 +9,11 @@ const db = new loki('db.json', {
   autosaveInterval: 4000 // currently arbitrary
 });
 
-console.log(chalk.yellow('------- Development Mode -------'));
+console.log(chalk.red('------- Development Mode -------'));
 
-console.log('⚙️  Initializing database');
-console.log('Adding collections:');
+console.log(chalk.green('⚙️  Initializing database'));
+
+console.log(chalk.yellow('Adding collections:'));
 
 db.addCollection('appointments', { unique: ['id'] });
 console.log('appointments...');
@@ -24,35 +25,35 @@ const sampleUsers = [
   {
     email: 'robert@gmail.com',
     password: bcrypt.hashSync('123456', 10),
-    role: 'customer',
+    role: 'CUSTOMER',
     company: 'Wingworks',
     name: 'Robert Frost'
   },
   {
     email: 'william@hotmail.com',
     password: bcrypt.hashSync('robertfrost', 10),
-    role: 'customer',
+    role: 'CUSTOMER',
     company: 'Wingworks',
     name: 'William Wood'
   },
   {
     email: 'sam@trees.net',
     password: bcrypt.hashSync('greenforest', 10),
-    role: 'operator',
+    role: 'OPERATOR',
     company: 'TerminalTrue',
     name: 'Samuel Gardner'
   },
   {
     email: 'cory@mmt.net',
     password: bcrypt.hashSync('greatbaseball', 10),
-    role: 'customer',
+    role: 'CUSTOMER',
     company: 'Corigate Group',
     name: 'Cory Roberts'
   },
   {
     email: 'jacob@jdbrady.info',
     password: bcrypt.hashSync('dragonspark', 10),
-    role: 'admin',
+    role: 'ADMIN',
     company: 'KCUS',
     name: 'Jacob Brady'
   }
@@ -60,50 +61,71 @@ const sampleUsers = [
 
 const sampleAppts = [
   {
-    user: 'robert@gmail.com',
-    time: '',
+    userEmail: 'robert@gmail.com',
+    timeSlot: '',
     block: 'A',
-    type: 'export-full'
+    type: 'EXPORTFULL',
+    typeDetails: {
+
+    }
   },
   {
-    user: 'robert@gmail.com',
-    time: '',
+    userEmail: 'robert@gmail.com',
+    timeSlot: '',
     block: 'B',
-    type: 'export-full'
+    type: 'EXPORTFULL',
+    typeDetails: {
+
+    }
   },
   {
-    user: 'william@hotmail.com',
-    time: '',
+    userEmail: 'william@hotmail.com',
+    timeSlot: '',
     block: 'C',
-    type: 'export-full'
+    type: 'EXPORTFULL',
+    typeDetails: {
+
+    }
   },
   {
-    user: 'william@hotmail.com',
-    time: '',
+    userEmail: 'william@hotmail.com',
+    timeSlot: '',
     block: 'A',
-    type: 'export-empty'
+    type: 'EXPORTEMPTY',
+    typeDetails: {
+
+    }
   },
   {
-    user: 'cory@mmt.net',
-    time: '',
+    userEmail: 'cory@mmt.net',
+    timeSlot: '',
     block: 'C',
-    type: 'import-empty'
+    type: 'IMPORTEMPTY',
+    typeDetails: {
+
+    }
   },
   {
-    user: 'cory@mmt.net',
-    time: '',
+    userEmail: 'cory@mmt.net',
+    timeSlot: '',
     block: 'C',
-    type: 'export-full'
+    type: 'EXPORTFULL',
+    typeDetails: {
+
+    }
   },
   {
-    user: 'cory@mmt.net',
-    time: '',
+    userEmail: 'cory@mmt.net',
+    timeSlot: '',
     block: 'A',
-    type: 'import-full'
+    type: 'IMPORTFULL',
+    typeDetails: {
+
+    }
   },
 ];
 
-console.log('Adding sample data:');
+console.log(chalk.yellow('Adding sample data:'));
 
 const appts = db.getCollection('appointments');
 const users = db.getCollection('users');
@@ -118,4 +140,11 @@ for (const apptDetails of sampleAppts) {
 console.log('users...');
 users.insert(sampleUsers);
 
-process.exit(0);
+db.saveDatabase(err => {
+  if (err) {
+    throw new Error('⚠️  Error saving database: ' + err);
+  } else {
+    console.log('👌  Database setup complete');
+    process.exit(0);
+  }
+});

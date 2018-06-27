@@ -52,7 +52,7 @@ const Mutation = `
   }
 
   input UpdateApptInput {
-    timeSlot: String!
+    timeSlot: String
     block: String
     userEmail: String
     type: ApptType

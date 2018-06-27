@@ -12,10 +12,9 @@ module.exports = db => {
 
   const app = express();
 
-  app.use(cors()); // TODO is this needed
-  app.use(bodyParser.json());
+  app.use(cors()); // TODO is this needed?
 
-  app.use('/graphql', graphqlExpress(req => {
+  app.use('/graphql', bodyParser.json(), graphqlExpress(req => {
     return {
       schema: schema,
       context: {

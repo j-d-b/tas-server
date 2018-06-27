@@ -1,17 +1,21 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { createResolver } = require('apollo-resolvers');
-const { createError } = require('apollo-errors');
 
+const { twelveHrFromNow } = require('../../utils');
 const {
-  baseResolver,
   notLoggedInResolver,
   isAuthenticatedResolver,
   isAdminResolver,
   isOwnApptResolver
 } = require('./auth');
-const { twelveHrFromNow } = require('../../utils');
-const { DBTypeError } = require('../errors');
+const {
+  DBTypeError,
+  NoUserInDBError,
+  IncorrectPasswordError,
+  InvalidOrExpiredLinkError,
+  UserAlreadyInDBError
+} = require('../errors');
 
 // THIS IS IN users.js as well! Modularize!
 const checkPass = (password) => { //
@@ -22,15 +26,15 @@ const checkPass = (password) => { //
 const login = notLoggedInResolver.createResolver(
   async (_, { email, password }, { users }) => {
     const user = users.by('email', email);
-    if (!user) throw new Error(`No user ${email}`);
+    if (!user) throw new NoUserInDBError({ data: { targetUser: email }});
 
     const valid = await bcrypt.compare(password, user.password);
-    if (!valid) throw new Error('Incorrect password');
+    if (!valid) throw new IncorrectPasswordError();
 
     return jwt.sign({
       exp: twelveHrFromNow(),
-      email: user.userEmail,
-      role: user.userRole
+      userEmail: user.email,
+      userRole: user.role
     }, process.env.JWT_SECRET);
   }
 );
@@ -40,15 +44,50 @@ const changePassword = isAuthenticatedResolver.createResolver(
   async (obj, { currPassword, newPassword }, { users, user }) => {
     checkPass(newPassword); // form validation
 
-    const valid = await bcrypt.compare(currPassword, targetUser.password);
-    if (!valid) throw new Error('Incorrect password');
+    const userInDb = users.by('email', user.userEmail);
+    const valid = await bcrypt.compare(currPassword, userInDb.password);
+    if (!valid) throw new IncorrectPasswordError();
 
     return bcrypt.hash(newPassword, 10).then(hash => {
-      const userInDb = users.by('email', user.userEmail);
       userInDb.password = hash;
       users.update(userInDb);
       return 'Password updated successfully';
     });
+  }
+);
+
+// changeEmail(currEmail: String!, newEmail: String!): String
+const changeEmail = isAdminResolver.createResolver(
+  (_, { currEmail, newEmail }, { users }) => {
+    const targetUser = users.by('email', currEmail);
+    if (!targetUser) throw new NoUserInDBError({ data: { targetUser: currEmail }});
+    if (users.by('email', newEmail)) throw new UserAlreadyInDBError({ data: { targetUser: newEmail }});
+
+    targetUser.email = newEmail;
+    users.update(targetUser);
+
+    // IDEA send email to old user email and new one
+
+    return `User ${currEmail} changed to ${newEmail}`;
+  }
+);
+
+// sendResetPassLink(email: String!): String
+const sendResetPassLink = notLoggedInResolver.createResolver(
+  (_, { email }, { users }) => {
+    const targetUser = users.by('email', email);
+    if (!targetUser) throw new NoUserInDBError({ data: { targetUser: email }});
+
+    const resetToken = jwt.sign({
+      exp: Math.floor(Date.now() / 1000) + (30 * 60), // 30 minutes
+      userEmail: targetUser.email
+    }, targetUser.password); // use current password hash as secret; single use JWT
+
+    const resetLink = `http://localhost:3000/new-password/${resetToken}`; // TODO for production
+
+    console.log(resetLink);
+    // TODO send link, send success string if successful send
+    return resetLink;
   }
 );
 
@@ -57,50 +96,17 @@ const resetPassword = notLoggedInResolver.createResolver(
   async (_, { token, newPassword }, { users }) => {
     checkPass(newPassword); // form validation
 
-    const targetUser = users.by('email', jwt.decode(token).userEmail);
+    let targetUser;
     try {
+      targetUser = users.by('email', jwt.decode(token).userEmail);
       jwt.verify(token, targetUser.password); // current password hash is secret key
     } catch (err) {
-      throw new Error('Password reset link invalid or expired');
+      throw new InvalidOrExpiredLinkError();
     }
 
-    const hash = await bcrypt.hash(newPassword, 10);
-    changePass(db, users, targetUser, hash);
+    targetUser.password = await bcrypt.hash(newPassword, 10);
 
     return 'Password updated successfully';
-  }
-);
-
-// sendResetPassLink(email: String!): String
-const sendResetPassLink = notLoggedInResolver.createResolver(
-  (_, { email }, { users }) => {
-    const targetUser = users.by('email', email);
-    if (!targetUser) throw new Error(`No user ${email}`);
-
-    const resetToken = jwt.sign({
-      exp: Math.floor(Date.now() / 1000) + (60 * 60), // one hour
-      userEmail: targetUser.email
-    }, targetUser.password); // use current password hash as secret; single use JWT
-
-    const resetLink = `http://localhost:3000/new-password/${resetToken}`; // TODO for production
-
-    console.log(resetLink);
-    // TODO send link
-    return resetLink;
-  }
-);
-
-// changeEmail(currEmail: String!, newEmail: String!): String
-const changeEmail = isAdminResolver.createResolver(
-  (_, { currEmail, newEmail }, { users }) => {
-    const targetUser = users.by('email', currEmail);
-    if (!targetUser) throw new Error(`User ${email} does not exist`); // TODO apollo-errors
-
-    targetUser.email = newEmail;
-    users.update(targetUser);
-    // IDEA send email to old user email and new one
-
-    return `User ${currEmail} changed to ${newEmail}`;
   }
 );
 
