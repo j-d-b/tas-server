@@ -1,13 +1,9 @@
 const bcrypt = require('bcrypt');
 const { createResolver } = require('apollo-resolvers');
 
+const { checkPass } = require('../helpers');
 const { isAuthenticatedResolver } = require('../auth');
-const { IncorrectPasswordError } = require('../../errors');
-
-// THIS IS IN users.js and reset-password.js as well! Modularize!
-const checkPass = (password) => { //
-  if (password.length < 6) throw new Error('Password must be at least 6 characters'); // TODO apolo errorize
-};
+const { IncorrectPasswordError } = require('../errors');
 
 // changePassword(newPassword: String!, currPassword: String!): String
 const changePassword = isAuthenticatedResolver.createResolver(

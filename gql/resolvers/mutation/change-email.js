@@ -1,7 +1,7 @@
 const { createResolver } = require('apollo-resolvers');
 
 const { isAdminResolver } = require('../auth');
-const { NoUserInDBError, UserAlreadyInDBError } = require('../../errors');
+const { NoUserInDBError, UserAlreadyInDBError } = require('../errors');
 
 // changeEmail(currEmail: String!, newEmail: String!): String
 const changeEmail = isAdminResolver.createResolver(

@@ -1,7 +1,7 @@
 const { createResolver } = require('apollo-resolvers');
 
 const { isAuthenticatedResolver } = require('../auth');
-const { removeEmpty } = require('../../../utils');
+const { removeEmpty } = require('../helpers');
 
 // appts(where: ApptsWhere): [Appointment]
 const appts = isAuthenticatedResolver.createResolver(

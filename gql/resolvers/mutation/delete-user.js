@@ -1,7 +1,7 @@
 const { createResolver } = require('apollo-resolvers');
 
 const { isAdminResolver } = require('../auth');
-const { NoUserInDBError, DeleteSelfError } = require('../../errors');
+const { NoUserInDBError, DeleteSelfError } = require('../errors');
 
 // deleteUser(email: String!): String
 const deleteUser = isAdminResolver.createResolver(

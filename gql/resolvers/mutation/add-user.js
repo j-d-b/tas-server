@@ -2,12 +2,8 @@ const bcrypt = require('bcrypt');
 const { createResolver } = require('apollo-resolvers');
 
 const { baseResolver } = require('../auth');
-const { UserAlreadyInDBError } = require('../../errors');
-
-// TODO move this somewhere else; modularize
-function checkPass(password) {
-  if (password.length < 6) throw new Error('Password must be at least 6 characters'); // TODO apollo-error
-};
+const { checkPass } = require('../helpers');
+const { UserAlreadyInDBError } = require('../errors');
 
 // addUser(password: String!, details: AddUserInput!): User
 const addUser = baseResolver.createResolver( // TODO how to prevent spam creating users (e.g. a register mutation)

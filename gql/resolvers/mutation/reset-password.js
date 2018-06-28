@@ -3,11 +3,8 @@ const jwt = require('jsonwebtoken');
 const { createResolver } = require('apollo-resolvers');
 
 const { notLoggedInResolver } = require('../auth');
-const { InvalidOrExpiredLinkError } = require('../../errors');
-
-const checkPass = (password) => { //
-  if (password.length < 6) throw new Error('Password must be at least 6 characters'); // TODO
-};
+const { InvalidOrExpiredLinkError } = require('../errors');
+const { checkPass } = require('../helpers');
 
 // resetPassword(token: String!, newPassword: String!): String
 const resetPassword = notLoggedInResolver.createResolver(

@@ -1,6 +1,7 @@
 const { createResolver } = require('apollo-resolvers');
 
 const { isAdminResolver } = require('../auth');
+const { removeEmpty } = require('../helpers');
 
 // users(where: UsersWhere): [User]
 const users = isAdminResolver.createResolver(

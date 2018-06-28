@@ -3,8 +3,8 @@ const jwt = require('jsonwebtoken');
 const { createResolver } = require('apollo-resolvers');
 
 const { notLoggedInResolver } = require('../auth');
-const { NoUserInDBError, IncorrectPasswordError } = require('../../errors');
-const { twelveHrFromNow } = require('../../../utils');
+const { NoUserInDBError, IncorrectPasswordError } = require('../errors');
+const { twelveHrFromNow } = require('../helpers');
 
 // login(email: String!, password: String!): String
 const login = notLoggedInResolver.createResolver(

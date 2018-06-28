@@ -1,7 +1,7 @@
 const { createError } = require('apollo-errors');
 
 module.exports.UnexpectedError = createError('UnexpectedError', {
-  message: 'An unknown error occurred'
+  message: 'An unexpected error occurred'
 });
 
 module.exports.AuthenticationError = createError('AuthenticationError', {
@@ -55,3 +55,11 @@ module.exports.InvalidOrExpiredLinkError = createError('InvalidOrExpiredLinkErro
 module.exports.DeleteSelfError = createError('DeleteSelfError', {
   message: 'You cannot delete yourself'
 })
+
+module.exports.PasswordCheckError = createError('PasswordCheckError', {
+  message: 'Password must be at least 6 characters'
+});
+
+module.exports.UpdateApptUserError = createError('UpdateApptUserError', {
+  message: 'You must be an admin to change the user email associated with an appointment'
+});
