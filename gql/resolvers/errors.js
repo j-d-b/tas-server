@@ -20,6 +20,10 @@ module.exports.NotOwnUserError = createError('NotOwnUserError', {
   message: 'You cannot perform this action for another user'
 });
 
+module.exports.ChangeRoleError = createError('ChangeRoleError', {
+  message: 'You must be an administrator to change user role'
+});
+
 module.exports.AddNotOwnApptError = createError('AddNotOwnApptError', {
   message: 'You cannot add an appointment for another user'
 });
