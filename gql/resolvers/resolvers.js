@@ -1,6 +1,6 @@
 const { DBTypeError } = require('./errors');
 
-// query
+// queries
 const me = require('./query/me');
 const user = require('./query/user');
 const users = require('./query/users');
@@ -8,7 +8,7 @@ const myAppts = require('./query/my-appts');
 const appt = require('./query/appt');
 const appts = require('./query/appts');
 
-// mutation
+// mutations
 const login = require('./mutation/login');
 const resetPassword = require('./mutation/reset-password');
 const sendResetPassLink = require('./mutation/send-reset-pass-link');
@@ -52,39 +52,16 @@ const Resolvers = {
     appts: (user, args, { appts }) => appts.find({ userEmail: user.email })
   },
   Appointment: { //
-    id: appt => appt.$loki, // uses $loki for id <- TODO assess this
-    user: (appt, args, { users }) => users.by('email', appt.userEmail),
-    typeDetails: appt => {
-      switch (appt.type) {
-        case 'IMPORTFULL':
-          return {
-            containerID: appt.typeDetails.containerID,
-            formNumber705: appt.typeDetails.formNumber705
-          }
-        case 'IMPORTEMPTY':
-          return {
-            containerSize: appt.typeDetails.containerSize,
-            emptyForCityFormNum: appt.typeDetails.emptyForCityFormNum
-          }
-        case 'EXPORTFULL':
-          return {
-            containerID: appt.typeDetails.containerID,
-            containerSize: appt.typeDetails.containerSize,
-            containerWeight: appt.typeDetails.containerWeight,
-            bookingNum: appt.typeDetails.bookingNum,
-            vesselName: appt.typeDetails.vesselName,
-            vesselETA: appt.typeDetails.vesselETA,
-            destinationPort: appt.typeDetails.desintationPort,
-            firstPortOfDischarge: appt.typeDetails.firstPortOfDischarge
-          }
-        case 'EXPORTEMPTY':
-          return {
-            containerID: appt.typeDetails.containerID,
-            containerSize: appt.typeDetails.containerSize
-          }
-        default:
-          throw new DBTypeError();
-      }
+    id: appt => appt.$loki, // uses $loki for id <- TODO assess this choice
+    user: (appt, args, { users }) => users.by('email', appt.userEmail)
+  },
+  TypeDetails: {
+    __resolveType(obj) {
+      if (obj.formNumber705) return 'ImportFull';
+      if (obj.emptyForCityFormNum) return 'ImportEmpty';
+      if (obj.bookingNum) return 'ExportFull';
+      if (obj.containerID && obj.containerSize && Object.keys(obj).length === 2) return 'ExportEmpty';
+      return null;
     }
   }
 }

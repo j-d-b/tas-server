@@ -17,10 +17,10 @@ module.exports.getApptTypeDetails = (apptDetails) => {
   }
 };
 
-module.exports.isOpOrAdmin = (role) => role === 'OPERATOR' || role === 'ADMIN';
+module.exports.isOpOrAdmin = role => role === 'OPERATOR' || role === 'ADMIN';
 
 // remove null or empty keys from an object (at a depth of one)
-module.exports.removeEmpty = (obj) => {
+module.exports.removeEmpty = obj => {
   const nonNullKeys = Object.keys(obj).filter(key => obj[key]);
   return nonNullKeys.reduce((newObj, key) => {
     newObj[key] = obj[key];

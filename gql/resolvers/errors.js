@@ -1,5 +1,9 @@
 const { createError } = require('apollo-errors');
 
+module.exports.NotOperatorError = createError('NotOperatorError', {
+  message: 'You must be an operator (or admin) to perform this action'
+});
+
 module.exports.UnexpectedError = createError('UnexpectedError', {
   message: 'An unexpected error occurred'
 });
@@ -24,8 +28,8 @@ module.exports.ChangeRoleError = createError('ChangeRoleError', {
   message: 'You must be an administrator to change user role'
 });
 
-module.exports.AddNotOwnApptError = createError('AddNotOwnApptError', {
-  message: 'You cannot add an appointment for another user'
+module.exports.ChangeApptOwnerError = createError('ChangeApptOwnerError', {
+  message: 'You cannot set the appointment owner to another user'
 });
 
 module.exports.NotOwnApptError = createError('NotOwnApptError', {

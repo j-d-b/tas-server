@@ -66,25 +66,34 @@ const sampleAppts = [
     block: 'A',
     type: 'EXPORTFULL',
     typeDetails: {
-
+      containerID: '192fh1h2f',
+      containerSize: 'TWENTYFOOT',
+      containerWeight: 4000,
+      bookingNum: 1924192,
+      vesselName: 'Blueberry',
+      vesselETA: 'Tomorrow',
+      destinationPort: 'String!',
+      firstPortOfDischarge: 'String!'
     }
   },
   {
     userEmail: 'robert@gmail.com',
     timeSlot: '',
     block: 'B',
-    type: 'EXPORTFULL',
+    type: 'EXPORTEMPTY',
     typeDetails: {
-
+      containerID: '9hsdf923',
+      containerSize: 'FOURTYFOOT'
     }
   },
   {
     userEmail: 'william@hotmail.com',
     timeSlot: '',
     block: 'C',
-    type: 'EXPORTFULL',
+    type: 'IMPORTFULL',
     typeDetails: {
-
+      containerID: '9f9h239fhsd',
+      formNumber705: 'FORM239r0j23'
     }
   },
   {
@@ -93,7 +102,8 @@ const sampleAppts = [
     block: 'A',
     type: 'EXPORTEMPTY',
     typeDetails: {
-
+      containerID: 'jf21j1f3f2',
+      containerSize: 'TWENTYFOOT'
     }
   },
   {
@@ -102,7 +112,8 @@ const sampleAppts = [
     block: 'C',
     type: 'IMPORTEMPTY',
     typeDetails: {
-
+      containerSize: 'TWENTYFOOT',
+      emptyForCityFormNum: 'form2i38r923r'
     }
   },
   {
@@ -111,7 +122,14 @@ const sampleAppts = [
     block: 'C',
     type: 'EXPORTFULL',
     typeDetails: {
-
+      containerID: '2883hf8ttt',
+      containerSize: 'TWENTYFOOT',
+      containerWeight: 1222,
+      bookingNum: 293923,
+      vesselName: 'String',
+      vesselETA: 'String',
+      destinationPort: 'String',
+      firstPortOfDischarge: 'String'
     }
   },
   {
@@ -120,7 +138,8 @@ const sampleAppts = [
     block: 'A',
     type: 'IMPORTFULL',
     typeDetails: {
-
+      containerID: 'udfhd7f7d',
+      formNumber705: 'FORMio2h38hf'
     }
   },
 ];

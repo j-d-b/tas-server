@@ -7,22 +7,23 @@ const {
   UnexpectedError,
   AlreadyLoggedInError,
   AuthenticationError,
+  NotOperatorError,
   NotAdminError,
-  AddNotOwnApptError,
+  ChangeApptOwnerError,
   NotOwnApptError,
   NoApptError,
   NoUserInDBError
 } = require('./errors');
 
 
-// catch non 'apollo-errors' and mask with unexpected (generic) for client
+// catch all non 'apollo-errors' and mask with unexpected (generic) for client cleanliness
 const baseResolver = createResolver(
   null,
-  (_, args, context, error) => error //isInstance(error) ? error : new UnexpectedError() DEBUG
+  (_, args, context, error) => isInstance(error) ? error : new UnexpectedError()
 );
 
 // TODO look into making this more robust
-// throws error if use already logged in
+// throws error if user already logged in
 const notLoggedInResolver = baseResolver.createResolver(
   (_, args, context) => {
     if (context.authHeader) {
@@ -38,7 +39,7 @@ const notLoggedInResolver = baseResolver.createResolver(
   }
 );
 
-// authenticates using jwt
+// throws error if jwt in header is invalid
 // attaches `user` object from jwt payload onto GraphQL `context`
 const isAuthenticatedResolver = baseResolver.createResolver(
   (_, args, context) => {
@@ -53,33 +54,59 @@ const isAuthenticatedResolver = baseResolver.createResolver(
   }
 );
 
+// throws error if user is not an operator or admin
+const isOpOrAdminResolver = isAuthenticatedResolver.createResolver(
+  (_, args, { user }) => {
+    const isOpOrAdmin = user.userRole === 'OPERATOR' || user.userRole === 'ADMIN';
+    if (!isOpOrAdmin) throw new NotOperatorError();
+  }
+);
+
+// throws error if user is not an admin
 const isAdminResolver = isAuthenticatedResolver.createResolver(
   (_, args, { user }) => {
     if (user.userRole !== 'ADMIN') throw new NotAdminError();
   }
 );
 
-// uses given appt id and compares appt owner to requesting user
-// attaches `targetAppt` to the context
-const isOwnApptResolver = isAuthenticatedResolver.createResolver(
+// throws error if target appt (by id) does not exist in database
+// attaches `targetAppt` to the context if appt exists
+const doesApptExistResolver = isAuthenticatedResolver.createResolver(
   (_, { id }, context) => {
     const targetAppt = context.appts.get(id);
     if (!targetAppt) throw new NoApptError();
-    if (context.user.userEmail !== targetAppt.userEmail && !isOpOrAdmin(context.user.userRole)) throw new NotOwnApptError();
-    context.targetAppt = targetAppt; // attach targetAppt to context
+    context.targetAppt = targetAppt;
   }
 );
 
-// appt details user must exist in users database
+// throws error if appt details.userEmail does not match a user in the database
 const doesApptUserExistResolver = isAuthenticatedResolver.createResolver(
-  (_, { details }, { users }) => {
-    if (!users.by('email', details.userEmail)) throw new NoUserInDBError({ data: { targetUser: details.userEmail }});
+  (_, { details: { userEmail } }, { users }) => {
+    if (!users.by('email', userEmail)) throw new NoUserInDBError({ data: { targetUser: userEmail }});
   }
 );
+
+// throws error if target appt (by id) userEmail does not match user's email
+// attaches `targetAppt` to the context
+const isOwnApptResolver = doesApptExistResolver.createResolver(
+  (_, args, { user, targetAppt }) => {
+    if (user.userEmail !== targetAppt.userEmail) throw new NotOwnApptError();
+  }
+);
+
+// throws error if appt details.userEmail (to add or update to) differs from email of
+// user who is adding it (user.userEmail)
+const willBeOwnApptResolver = doesApptUserExistResolver.createResolver(
+  (_, { details: { userEmail } }, { user }) => {
+    if (userEmail !== user.userEmail) throw new ChangeApptOwnerError();
+  }
+);
+
 
 module.exports.baseResolver = baseResolver;
 module.exports.notLoggedInResolver = notLoggedInResolver;
 module.exports.isAuthenticatedResolver = isAuthenticatedResolver;
+module.exports.isOpOrAdminResolver = isOpOrAdminResolver;
 module.exports.isAdminResolver = isAdminResolver;
 module.exports.isOwnApptResolver = isOwnApptResolver;
-module.exports.doesApptUserExistResolver = doesApptUserExistResolver;
+module.exports.willBeOwnApptResolver = willBeOwnApptResolver;
