@@ -1,15 +1,12 @@
 const bcrypt = require('bcrypt');
-const { createResolver } = require('apollo-resolvers');
+const { createResolver, and } = require('apollo-resolvers');
 
-const { checkPass } = require('../helpers');
-const { isAuthenticatedResolver } = require('../auth');
+const { isAllowedPasswordResolver, isAuthenticatedResolver } = require('../auth');
 const { IncorrectPasswordError } = require('../errors');
 
 // changePassword(newPassword: String!, currPassword: String!): String
-const changePassword = isAuthenticatedResolver.createResolver(
+const changePassword = and(isAllowedPasswordResolver, isAuthenticatedResolver)(
   async (obj, { currPassword, newPassword }, { users, user }) => {
-    checkPass(newPassword); // form validation
-
     const userInDb = users.by('email', user.userEmail);
     const valid = await bcrypt.compare(currPassword, userInDb.password);
     if (!valid) throw new IncorrectPasswordError();

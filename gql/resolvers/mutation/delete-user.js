@@ -1,17 +1,18 @@
-const { createResolver } = require('apollo-resolvers');
+const { createResolver, and } = require('apollo-resolvers');
 
-const { isAdminResolver } = require('../auth');
-const { NoUserInDBError, DeleteSelfError } = require('../errors');
+const { isAdminResolver, doesUserExistResolver, isUserNotSelfResolver } = require('../auth');
+
+// check if user is admin
+// check if target user (by email) exists
+// ensure target user email is not user's email (can't delete self)
+// delete user
+
+const doesUserExistAndIsNotSelfResolver = doesUserExistResolver.createResolver(isUserNotSelfResolver);
 
 // deleteUser(email: String!): String
-const deleteUser = isAdminResolver.createResolver(
-  (_, { email }, { users, user }) => {
-    if (user.email === email) throw new DeleteSelfError();
-
-    const targetUser = users.by('email', email);
-    if (!targetUser) throw new NoUserInDBError({ data: { targetUser: email }});
+const deleteUser = and(isAdminResolver, doesUserExistAndIsNotSelfResolver)(
+  (_, { email }, { users, user, targetUser }) => {
     users.remove(targetUser);
-
     return `User ${email} deleted successfully`;
   }
 );

@@ -1,21 +1,18 @@
 const bcrypt = require('bcrypt');
-const { createResolver } = require('apollo-resolvers');
+const { createResolver, and } = require('apollo-resolvers');
 
-const { baseResolver } = require('../auth');
-const { checkPass } = require('../helpers');
+const { isAllowedPasswordResolver, doesUserNotExistResolver } = require('../auth');
 const { UserAlreadyInDBError } = require('../errors');
 
+// check if password is allowable
+// check if user details.email already exists in db
+// add user to db
+
 // addUser(password: String!, details: AddUserInput!): User
-const addUser = baseResolver.createResolver( // TODO how to prevent spam creating users (e.g. a register mutation)
-  async (_, { password, details }, { users }) => {
-    checkPass(password); // form validation
-
-    if (users.by('email', details.email)) throw new UserAlreadyInDBError({ data: { targetUser: details.email }});
-
-    const encryptedPass = await bcrypt.hash(password, 10);
-
+const addUser = and(isAllowedPasswordResolver, doesUserNotExistResolver)( // TODO how to prevent spam creating users (e.g. a register mutation)
+  async (_, { password, details }) => {
     return users.insert({
-      password: encryptedPass,
+      password: await bcrypt.hash(password, 10),
       ...details
     });
   }

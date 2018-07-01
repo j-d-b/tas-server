@@ -12,7 +12,12 @@ const {
   ChangeApptOwnerError,
   NotOwnApptError,
   NoApptError,
-  NoUserInDBError
+  NoUserInDBError,
+  DeleteSelfError,
+  UserAlreadyInDBError,
+  PasswordCheckError,
+  NotOwnUserError,
+  ChangeRoleError
 } = require('./errors');
 
 
@@ -102,6 +107,55 @@ const willBeOwnApptResolver = doesApptUserExistResolver.createResolver(
   }
 );
 
+// NOTE this can be changed to use isAuthenticatedResolver if registration mutation is implemented
+// throws error is given email does not match a user in the database
+// attaches `targetUser` to context
+const doesUserExistResolver = baseResolver.createResolver(
+  (_, { email }, context) => {
+    const targetUser = context.users.by('email', email);
+    if (!targetUser) throw new NoUserInDBError({ data: { targetUser: email }});
+    context.targetUser = targetUser;
+  }
+);
+
+// throws error if given email is the same as user's email
+const isUserNotSelfResolver = isAuthenticatedResolver.createResolver(
+  (_, { email }, { user }) => {
+    if (user.userEmail === email) throw new DeleteSelfError();
+  }
+);
+
+// throws error if given email is not the same as user's email
+const isUserSelfResolver = isAuthenticatedResolver.createResolver(
+  (_, { email }, { user }) => {
+    if (user.userEmail !== email) throw new NotOwnUserError();
+  }
+);
+
+// NOTE this can be changed to use isAuthenticatedResolver if registration mutation is implemented
+// throws error if user details.email already exists in the users database
+const doesUserNotExistResolver = baseResolver.createResolver(
+  (_, { details: { email } }, { users }) => {
+    if (users.by('email', email)) throw new UserAlreadyInDBError({ data: { targetUser: email }});
+  }
+);
+
+// throws error if
+const isUserRoleOwnRoleResolver = isAuthenticatedResolver.createResolver(
+  (_, { details: { role } }, { user }) => {
+    if (user.userRole !== role) throw new ChangeRoleError();
+  }
+);
+
+// throws error if password (args.password or args.newPassword) does not satisfy the
+// password strength criteria
+const isAllowedPasswordResolver = baseResolver.createResolver(
+  (_, args) => {
+    const passToCheck = args.password ? args.password : args.newPassword;
+    if (passToCheck.length < 6) throw new PasswordCheckError();
+  }
+);
+
 
 module.exports.baseResolver = baseResolver;
 module.exports.notLoggedInResolver = notLoggedInResolver;
@@ -110,3 +164,9 @@ module.exports.isOpOrAdminResolver = isOpOrAdminResolver;
 module.exports.isAdminResolver = isAdminResolver;
 module.exports.isOwnApptResolver = isOwnApptResolver;
 module.exports.willBeOwnApptResolver = willBeOwnApptResolver;
+module.exports.doesUserExistResolver = doesUserExistResolver;
+module.exports.isUserSelfResolver = isUserSelfResolver;
+module.exports.doesUserNotExistResolver = doesUserNotExistResolver;
+module.exports.isAllowedPasswordResolver = isAllowedPasswordResolver;
+module.exports.isUserSelfResolver = isUserSelfResolver;
+module.exports.isUserRoleOwnRoleResolver = isUserRoleOwnRoleResolver;

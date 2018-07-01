@@ -1,16 +1,13 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { createResolver } = require('apollo-resolvers');
+const { createResolver, and } = require('apollo-resolvers');
 
-const { notLoggedInResolver } = require('../auth');
+const { isAllowedPasswordResolver, notLoggedInResolver } = require('../auth');
 const { InvalidOrExpiredLinkError } = require('../errors');
-const { checkPass } = require('../helpers');
 
 // resetPassword(token: String!, newPassword: String!): String
-const resetPassword = notLoggedInResolver.createResolver(
+const resetPassword = and(isAllowedPasswordResolver, notLoggedInResolver)(
   async (_, { token, newPassword }, { users }) => {
-    checkPass(newPassword); // form validation
-
     let targetUser;
     try {
       targetUser = users.by('email', jwt.decode(token).userEmail);

@@ -1,9 +1,3 @@
-const { PasswordCheckError } = require('./errors');
-
-module.exports.checkPass = () => {
-  if (password.length < 6) throw new PasswordCheckError();
-};
-
 module.exports.getApptTypeDetails = (apptDetails) => {
   switch (apptDetails.type) {
     case 'IMPORTFULL':
