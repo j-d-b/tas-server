@@ -1,5 +1,3 @@
-const { DBTypeError } = require('./errors');
-
 // queries
 const me = require('./query/me');
 const user = require('./query/user');

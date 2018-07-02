@@ -3,7 +3,6 @@ const { createResolver } = require('apollo-resolvers');
 const { isAuthenticatedResolver } = require('../auth');
 const { removeEmpty, getApptTypeDetails, isOpOrAdmin } = require('../helpers');
 const { doesApptExistCheck, isOwnApptCheck, doesUserExistCheck, isUserSelfCheck } = require('../checks');
-const { NoUserInDBError, UpdateApptUserError } = require('../errors');
 
 // check auth
 // check if id matches an appointment in the database

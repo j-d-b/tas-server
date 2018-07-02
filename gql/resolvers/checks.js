@@ -3,11 +3,11 @@ const jwt = require('jsonwebtoken');
 
 const {
   NoApptError,
-  NoUserInDBError,
+  NoUserError,
   NotOwnApptError,
   OwnUserError,
   NotOwnUserError,
-  UserAlreadyInDBError,
+  UserAlreadyExistsError,
   NotOwnRoleError,
   PasswordCheckError,
   InvalidOrExpiredLinkError
@@ -25,7 +25,7 @@ module.exports.doesApptExistCheck = (apptId, appts) => {
 // returns target user
 module.exports.doesUserExistCheck = (userEmail, users) => {
   const targetUser = users.by('email', userEmail);
-  if (!targetUser) throw new NoUserInDBError({ data: { targetUser: userEmail }});
+  if (!targetUser) throw new NoUserError({ data: { targetUser: userEmail }});
   return targetUser;
 };
 
@@ -47,7 +47,7 @@ module.exports.isUserSelfCheck = (email, user) => {
 
 // check if user (by email) exists in the database
 module.exports.doesUserNotExistCheck = (userEmail, users) => {
-  if (users.by('email', email)) throw new UserAlreadyInDBError({ data: { targetUser: email }});
+  if (users.by('email', email)) throw new UserAlreadyExistsError({ data: { targetUser: email }});
 };
 
 // check if the given user has the given role

@@ -3,7 +3,6 @@ const { createResolver } = require('apollo-resolvers');
 const { isAuthenticatedResolver } = require('../auth');
 const { isAdmin } = require('../helpers');
 const { doesUserExistCheck, isUserSelfCheck, isRoleOwnRoleCheck } = require('../checks');
-const { NotOwnUserError, NoUserInDBError, ChangeRoleError } = require('../errors');
 
 // *if not admin*
 // check auth
