@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { createResolver } = require('apollo-resolvers');
 
 const { notLoggedInResolver } = require('../auth');
-const { NoUserInDBError, IncorrectPasswordError } = require('../errors');
+const { doesUserExistCheck, isCorrectPasswordCheck } = require('../helpers');
 const { twelveHrFromNow } = require('../helpers');
 
 // check if not already logged in
@@ -14,16 +14,13 @@ const { twelveHrFromNow } = require('../helpers');
 // login(email: String!, password: String!): String
 const login = notLoggedInResolver.createResolver(
   async (_, { email, password }, { users }) => {
-    const user = users.by('email', email);
-    if (!user) throw new NoUserInDBError({ data: { targetUser: email }});
-
-    const valid = await bcrypt.compare(password, user.password);
-    if (!valid) throw new IncorrectPasswordError();
+    const targetUser = doesUserExistCheck(email, users);
+    await isCorrectPasswordCheck(password, targetUser);
 
     return jwt.sign({
       exp: twelveHrFromNow(),
-      userEmail: user.email,
-      userRole: user.role
+      userEmail: targetUser.email,
+      userRole: targetUser.role
     }, process.env.JWT_SECRET);
   }
 );

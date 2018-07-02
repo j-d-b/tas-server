@@ -1,6 +1,8 @@
-const { createResolver, or } = require('apollo-resolvers');
+const { createResolver } = require('apollo-resolvers');
 
-const { isOwnApptResolver, isOpOrAdminResolver } = require('../auth');
+const { isAuthenticatedResolver } = require('../auth');
+const { doesApptExistCheck, isOwnApptCheck } = require('../checks');
+const { isOpOrAdmin } = require('../helpers');
 
 // check auth
 // check if id matches an appointment in the database
@@ -8,8 +10,14 @@ const { isOwnApptResolver, isOpOrAdminResolver } = require('../auth');
 // delete appt
 
 // deleteAppt(id: ID!): String
-const deleteAppt = or(isOpOrAdminResolver, isOwnApptResolver)(
-  (_, args, { appts, targetAppt }) => {
+const deleteAppt = isAuthenticatedResolver.createResolver(
+  (_, { id }, { appts, user }) => {
+    const targetAppt = doesApptExistCheck(id);
+
+    if (!isOpOrAdmin(user)) {
+      isOwnApptCheck(targetAppt);
+    }
+
     appts.remove(targetAppt);
     return 'Appointment deleted successfully';
   }

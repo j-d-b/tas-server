@@ -22,7 +22,7 @@ module.exports.DBTypeError = createError('DBTypeError', {
 });
 
 module.exports.NotOwnUserError = createError('NotOwnUserError', {
-  message: 'You cannot perform this action for another user'
+  message: 'The entered user email must not be different than your own'
 });
 
 module.exports.NotOwnRoleError = createError('NotOwnRoleError', {

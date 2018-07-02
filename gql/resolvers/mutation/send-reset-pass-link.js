@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const { createResolver } = require('apollo-resolvers');
 
 const { notLoggedInResolver } = require('../auth');
-const { NoUserInDBError } = require('../errors');
+const { doesUserExistCheck } = require('../checks');
 const { thirtyMinFromNow } = require('../helpers');
 
 // check if not logged in
@@ -14,8 +14,7 @@ const { thirtyMinFromNow } = require('../helpers');
 // sendResetPassLink(email: String!): String
 const sendResetPassLink = notLoggedInResolver.createResolver(
   (_, { email }, { users }) => {
-    const targetUser = users.by('email', email);
-    if (!targetUser) throw new NoUserInDBError({ data: { targetUser: email }});
+    const targetUser = doesUserExistCheck(email, users);
 
     const resetToken = jwt.sign({
       exp: thirtyMinFromNow(),

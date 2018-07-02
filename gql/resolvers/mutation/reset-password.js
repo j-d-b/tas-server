@@ -1,29 +1,20 @@
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const { createResolver, and } = require('apollo-resolvers');
+const { createResolver } = require('apollo-resolvers');
 
-const { isAllowedPasswordResolver, notLoggedInResolver } = require('../auth');
-const { InvalidOrExpiredLinkError } = require('../errors');
+const { notLoggedInResolver } = require('../auth');
+const { isAllowedPasswordCheck, resetTokenCheck } = require('../checks');
 
-// check if newPassword is allowable
 // check if not logged in
-// check given reset token for validity (using user's current password as secret key)
+// check if newPassword is allowable
+// check given reset token for validity
 // change current password to newPassword
 // return success string
 
 // resetPassword(resetToken: String!, newPassword: String!): String
-const resetPassword = and(isAllowedPasswordResolver, notLoggedInResolver)(
+const resetPassword = notLoggedInResolver.createResolver(
   async (_, { resetToken, newPassword }, { users }) => {
-    let targetUser;
-    try {
-      targetUser = users.by('email', jwt.decode(token).userEmail);
-      jwt.verify(token, targetUser.password); // current password hash is secret key
-    } catch (err) {
-      throw new InvalidOrExpiredLinkError();
-    }
-
+    const targetUser = resetTokenCheck(resetToken, users);
     targetUser.password = await bcrypt.hash(newPassword, 10);
-
     return 'Password updated successfully';
   }
 );

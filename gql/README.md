@@ -25,6 +25,6 @@ Unlike appointments, each user in the `users` collection contains the same field
 ## Resolver structure
 `auth.js` holds and exports resolvers/resolver chains which throw apollo errors. Resolvers in this file only check and modify the `context` parameter of the resolver. This includes checking jwts and verifying identity. Checks in `auth.js` do not assume anything in the resolver `arg` parameter.
 
-Each root resolver has an associated `.js` file of the same name (changing camelCase to dash-deliminated). Each file exports the resolver to perform the root resolver request. The goal is for no error logic to be present in t files and for them to *only* perform the requested action (usually a database query).
+Each root resolver has an associated `.js` file of the same name (changing camelCase to dash-deliminated). Each file exports (as default) the resolver to perform the root resolver request. No error throwing should occur in these files; *only* checks from `checks.js` (which throw errors) followed by the requested action, usually a database query or insertion.
 
-`checks.js` all checks will throw semantic errors if the check fails
+`checks.js` exports checks for use in resolvers. All checks will throw semantic errors if the check fails, halting further execution of the resolver. Some checks return objects to avoid duplicate database queries. For example, `doesUserExistCheck` returns the user object from the database.
