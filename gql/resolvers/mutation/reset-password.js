@@ -5,9 +5,15 @@ const { createResolver, and } = require('apollo-resolvers');
 const { isAllowedPasswordResolver, notLoggedInResolver } = require('../auth');
 const { InvalidOrExpiredLinkError } = require('../errors');
 
-// resetPassword(token: String!, newPassword: String!): String
+// check if newPassword is allowable
+// check if not logged in
+// check given reset token for validity (using user's current password as secret key)
+// change current password to newPassword
+// return success string
+
+// resetPassword(resetToken: String!, newPassword: String!): String
 const resetPassword = and(isAllowedPasswordResolver, notLoggedInResolver)(
-  async (_, { token, newPassword }, { users }) => {
+  async (_, { resetToken, newPassword }, { users }) => {
     let targetUser;
     try {
       targetUser = users.by('email', jwt.decode(token).userEmail);

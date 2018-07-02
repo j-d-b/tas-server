@@ -23,6 +23,8 @@ All other fields map directly to the `Appointment` schema fields and resolvers a
 Unlike appointments, each user in the `users` collection contains the same fields of type `User` as the GraphQL schema (`./schema/user.js`). Thus resolving the user object to the GraphQL return is trivial.
 
 ## Resolver structure
-`auth.js` holds and exports resolvers/resolver chains which throw apollo errors. This should be reorganized, but the intention is that every *check* that a resolver needs to perform, such as making sure the user owns the appointment they are trying to update.
+`auth.js` holds and exports resolvers/resolver chains which throw apollo errors. Resolvers in this file only check and modify the `context` parameter of the resolver. This includes checking jwts and verifying identity. Checks in `auth.js` do not assume anything in the resolver `arg` parameter.
 
-each root resolver has an associated `.js` file of the same name. The goal is for no error logic to be present in these files and for them to *only* perform the requested action (usually a database query). 
+Each root resolver has an associated `.js` file of the same name (changing camelCase to dash-deliminated). Each file exports the resolver to perform the root resolver request. The goal is for no error logic to be present in t files and for them to *only* perform the requested action (usually a database query).
+
+`checks.js` all checks will throw semantic errors if the check fails

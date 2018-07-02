@@ -9,15 +9,16 @@ const {
   AuthenticationError,
   NotOperatorError,
   NotAdminError,
+  // below should be removed
   ChangeApptOwnerError,
   NotOwnApptError,
   NoApptError,
   NoUserInDBError,
-  DeleteSelfError,
+  OwnUserError,
   UserAlreadyInDBError,
   PasswordCheckError,
   NotOwnUserError,
-  ChangeRoleError
+  NotOwnRoleError
 } = require('./errors');
 
 
@@ -74,6 +75,15 @@ const isAdminResolver = isAuthenticatedResolver.createResolver(
   }
 );
 
+module.exports.baseResolver = baseResolver;
+module.exports.notLoggedInResolver = notLoggedInResolver;
+module.exports.isAuthenticatedResolver = isAuthenticatedResolver;
+module.exports.isOpOrAdminResolver = isOpOrAdminResolver;
+module.exports.isAdminResolver = isAdminResolver;
+
+// all this below should be removed
+
+
 // throws error if target appt (by id) does not exist in database
 // attaches `targetAppt` to the context if appt exists
 const doesApptExistResolver = isAuthenticatedResolver.createResolver(
@@ -84,12 +94,14 @@ const doesApptExistResolver = isAuthenticatedResolver.createResolver(
   }
 );
 
+
 // throws error if appt details.userEmail does not match a user in the database
 const doesApptUserExistResolver = isAuthenticatedResolver.createResolver(
   (_, { details: { userEmail } }, { users }) => {
     if (!users.by('email', userEmail)) throw new NoUserInDBError({ data: { targetUser: userEmail }});
   }
 );
+
 
 // throws error if target appt (by id) userEmail does not match user's email
 // attaches `targetAppt` to the context
@@ -98,6 +110,7 @@ const isOwnApptResolver = doesApptExistResolver.createResolver(
     if (user.userEmail !== targetAppt.userEmail) throw new NotOwnApptError();
   }
 );
+
 
 // throws error if appt details.userEmail (to add or update to) differs from email of
 // user who is adding it (user.userEmail)
@@ -125,12 +138,14 @@ const isUserNotSelfResolver = isAuthenticatedResolver.createResolver(
   }
 );
 
+
 // throws error if given email is not the same as user's email
 const isUserSelfResolver = isAuthenticatedResolver.createResolver(
   (_, { email }, { user }) => {
     if (user.userEmail !== email) throw new NotOwnUserError();
   }
 );
+
 
 // NOTE this can be changed to use isAuthenticatedResolver if registration mutation is implemented
 // throws error if user details.email already exists in the users database
@@ -140,12 +155,14 @@ const doesUserNotExistResolver = baseResolver.createResolver(
   }
 );
 
+
 // throws error if
 const isUserRoleOwnRoleResolver = isAuthenticatedResolver.createResolver(
   (_, { details: { role } }, { user }) => {
     if (user.userRole !== role) throw new ChangeRoleError();
   }
 );
+
 
 // throws error if password (args.password or args.newPassword) does not satisfy the
 // password strength criteria
@@ -156,12 +173,11 @@ const isAllowedPasswordResolver = baseResolver.createResolver(
   }
 );
 
+// performs the check function, throws the given error
+function check(checkFunction, error) {
+  // TODO
+}
 
-module.exports.baseResolver = baseResolver;
-module.exports.notLoggedInResolver = notLoggedInResolver;
-module.exports.isAuthenticatedResolver = isAuthenticatedResolver;
-module.exports.isOpOrAdminResolver = isOpOrAdminResolver;
-module.exports.isAdminResolver = isAdminResolver;
 module.exports.isOwnApptResolver = isOwnApptResolver;
 module.exports.willBeOwnApptResolver = willBeOwnApptResolver;
 module.exports.doesUserExistResolver = doesUserExistResolver;

@@ -74,7 +74,7 @@ const Mutation = `
     login(email: String!, password: String!): String
     changePassword(currPassword: String!, newPassword: String!): String
     changeEmail(currEmail: String!, newEmail: String!): String
-    resetPassword(token: String!, newPassword: String!): String
+    resetPassword(resetToken: String!, newPassword: String!): String
     sendResetPassLink(email: String!): String
   }
 `;

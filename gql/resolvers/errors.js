@@ -1,5 +1,6 @@
 const { createError } = require('apollo-errors');
 
+// auth
 module.exports.NotOperatorError = createError('NotOperatorError', {
   message: 'You must be an operator (or admin) to perform this action'
 });
@@ -24,8 +25,8 @@ module.exports.NotOwnUserError = createError('NotOwnUserError', {
   message: 'You cannot perform this action for another user'
 });
 
-module.exports.ChangeRoleError = createError('ChangeRoleError', {
-  message: 'You must be an administrator to change user role'
+module.exports.NotOwnRoleError = createError('NotOwnRoleError', {
+  message: 'The entered user role cannot be different than your own'
 });
 
 module.exports.ChangeApptOwnerError = createError('ChangeApptOwnerError', {
@@ -60,8 +61,8 @@ module.exports.InvalidOrExpiredLinkError = createError('InvalidOrExpiredLinkErro
   message: 'Password reset link invalid or expired'
 });
 
-module.exports.DeleteSelfError = createError('DeleteSelfError', {
-  message: 'You cannot delete yourself'
+module.exports.OwnUserError = createError('OwnUserError', {
+  message: 'You cannot perform this action on yourself'
 })
 
 module.exports.PasswordCheckError = createError('PasswordCheckError', {

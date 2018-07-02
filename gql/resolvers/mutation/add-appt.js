@@ -1,7 +1,8 @@
 const { createResolver, or } = require('apollo-resolvers');
 
 const { willBeOwnApptResolver, isOpOrAdminResolver } = require('../auth');
-const { getApptTypeDetails, isOpOrAdmin } = require('../helpers');
+const { isOpOrAdmin, getApptTypeDetails } = require('../helpers');
+const { doesUserExistCheck, isUserSelfCheck } = require('../checks');
 const { NoUserInDBError, AddNotOwnApptError } = require('../errors');
 
 // check auth
@@ -10,8 +11,14 @@ const { NoUserInDBError, AddNotOwnApptError } = require('../errors');
 // add appt
 
 // addAppt(details: AddApptInput!): Appointment
-const addAppt = or(isOpOrAdminResolver, willBeOwnApptResolver)(
-  (_, { details }, { appts }) => {
+const addAppt = isAuthenticatedResolver.createResolver(
+  (_, { details }, { appts, users, user }) => {
+    doesUserExistCheck(details.userEmail, users);
+
+    if (!isOpOrAdmin(user.userRole)) {
+      isUserSelfCheck(details.userEmail, user);
+    }
+
     return appts.insert({
       timeSlot: details.timeSlot,
       block: details.block,
