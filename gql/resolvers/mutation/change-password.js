@@ -3,7 +3,6 @@ const { createResolver } = require('apollo-resolvers');
 
 const { isAuthenticatedResolver } = require('../auth');
 const { isAllowedPasswordCheck, isCorrectPasswordCheck } = require('../checks');
-const { IncorrectPasswordError } = require('../errors');
 
 // check auth
 // check if newPassword is allowable

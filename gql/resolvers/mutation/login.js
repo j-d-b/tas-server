@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { createResolver } = require('apollo-resolvers');
 
 const { notLoggedInResolver } = require('../auth');
-const { doesUserExistCheck, isCorrectPasswordCheck } = require('../helpers');
+const { doesUserExistCheck, isCorrectPasswordCheck } = require('../checks');
 const { twelveHrFromNow } = require('../helpers');
 
 // check if not already logged in
