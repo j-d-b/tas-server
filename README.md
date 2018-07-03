@@ -1,6 +1,8 @@
 # TAS Backend
 
-Truck appointment system for BCTC: backend service
+This repository contains the API backend service for the BCTC Truck Appointment System (TAS).
+
+The TAS has web and native mobile interfaces, and thus the backend is implemented as an API in a separate environment as a GraphQL server for use by the web and mobile applications.
 
 ## Usage
 Install dependencies
@@ -8,19 +10,24 @@ Install dependencies
 yarn
 ```
 
-An environment variables file (called `.env`) must also be added to the project root, containing the following definitions (values are given as examples only):
+An environment variables file (called `.env`) must also be added to the project root directory. It must contain the following definitions (values are given as examples only):
 ```
 JWT_SECRET=secret-key
-
 ```
 
-### Development and testing
-Setup database with sample data and start the server:
+The backend is an [Express](https://expressjs.com/) web server which provides a `/graphql` endpoint using [Apollo Server](https://www.apollographql.com/docs/apollo-server/). It uses a persistent, in-memory, [LokiJS](http://lokijs.org/#/) database.
+
+To use the backend, the database must be initialized and the server started.
+
+The server can run in two modes: `development` and `production`.
+
+### For development and testing
+Setup the database with sample data and start the server:
 ```
 yarn develop
 ```
 
-Test data is added manually in `setup-scripts/setup-dev.js`. Check it out for a list of possible users.
+Test data is added to the database manually in `setup-scripts/setup-dev.js`. Check it out for a list of possible users.
 
 In development mode, the server is run with `nodemon`, which restarts the server any time a file is modified.
 
@@ -28,7 +35,8 @@ For testing GraphQL queries, use GraphQL Playground, available at `http://localh
 
 A valid HTTP header must be included to access much of the data, obtain one by logging in or signing up *(login and signup mutations)*
 
-For example (using a test user)
+#### Usage Example (with GraphQL Playground)
+Login using a test user
 ```
 mutation {
   login(email: "jacob@jdbrady.info", password: "dragonspark")
@@ -37,7 +45,7 @@ mutation {
 
 This mutation will return a string, the JWT.
 
-Include the JWT string received from the response in the 'HTTP HEADERS' section in the bottom of the playground in the following form:
+Include the JWT string received from the response in the **HTTP HEADERS** section (in the bottom of the playground) in the following form:
 ```
 { "Authorization": "Bearer eyJhbGciOiJIUzI1NiI..." } // string truncated for brevity
 ```
@@ -62,10 +70,12 @@ This should return
 }
 ```
 
-### Production
-**Note:** Production version is not yet functional
+Great; you're on your way.
 
-Setup the database and relevant collection (users, appointments...) *first time only*
+### For production
+**Note: Production version is not yet actually production ready!**
+
+Setup the database and relevant collections (users, appointments...) *first time only*
 ```
 yarn setup
 ```
@@ -76,9 +86,9 @@ Start the server
 yarn start
 ```
 
-Endpoint will be available at `http://localhost:4000/graphql`
+GraphQL API endpoint will be available at `http://localhost:4000/graphql`.
 
-A signed, non-expired JSON Web Token must be included in the HTTP header of the request
+A signed, non-expired JSON Web Token must be included in the HTTP authorization header to access many of the resources.
 ```
 Authorization : Bearer <JWT>
 ```
@@ -100,15 +110,12 @@ The payload of the JWT contains the following information:
 }
 ```
 
-Even if the jwt
-
 ### Usage
 The JWT must be included in the HTTP authorization header to access much of the TAS queries.
 
 Verification of the JWT (that it has been encoded with the correct `JWT_SECRET`) allows access to all of the queries (`authentication`), though the `userRole` field in the token is also checked to ensure the query can be performed by that given user (`authorization`).
 
-**Example implementation:** The **TAS Web Application** stores the JWT given on login in `window.localStorage` and includes it with every request to the backend API. 'Logging out' of the application removes the JWT from storage.
-
+**Example implementation:** The **TAS Web Application** stores the JWT given on login in `window.localStorage` and includes it with every request to the backend API. *'Logging out'* of the application removes the JWT from storage.
 
 ### Unprotected routes
 Certain `queries` and `mutations` can be access without any JWT given:

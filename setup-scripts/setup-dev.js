@@ -9,7 +9,7 @@ const db = new loki('db.json', {
   autosaveInterval: 4000 // currently arbitrary
 });
 
-console.log(chalk.red('------- Development Mode -------'));
+console.log(chalk.magenta('------- Development Mode -------'));
 
 console.log(chalk.green('⚙️  Initializing database'));
 
