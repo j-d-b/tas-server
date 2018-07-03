@@ -7,7 +7,7 @@ const { doesUserExistCheck, isUserSelfCheck } = require('../checks');
 // addAppt(details: AddApptInput!): Appointment
 const addAppt = isAuthenticatedResolver.createResolver(
   (_, { details }, { appts, users, user }) => {
-    const apptUserEmail = details.userEmail
+    const apptUserEmail = details.userEmail;
 
     doesUserExistCheck(apptUserEmail, users);
 
