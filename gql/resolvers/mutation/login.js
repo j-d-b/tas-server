@@ -6,11 +6,6 @@ const { notLoggedInResolver } = require('../auth');
 const { doesUserExistCheck, isCorrectPasswordCheck } = require('../checks');
 const { twelveHrFromNow } = require('../helpers');
 
-// check if not already logged in
-// check if email matches a user in the database
-// check password is correct
-// return a signed jwt
-
 // login(email: String!, password: String!): String
 const login = notLoggedInResolver.createResolver(
   async (_, { email, password }, { users }) => {

@@ -3,13 +3,6 @@ const { createResolver } = require('apollo-resolvers');
 const { isAdminResolver } = require('../auth');
 const { doesUserExistCheck } = require('../checks');
 
-// check auth
-// is user admin
-// check if target user (by currEmail) exists
-// ensure newEmail does not match the email of another user already in the db
-// change email
-// return success string detailing change
-
 // changeEmail(currEmail: String!, newEmail: String!): String
 const changeEmail = isAdminResolver.createResolver(
   (_, { currEmail, newEmail }, { users }) => {

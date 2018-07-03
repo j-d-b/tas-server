@@ -4,11 +4,6 @@ const { isAuthenticatedResolver } = require('../auth');
 const { doesApptExistCheck, isOwnApptCheck } = require('../checks');
 const { isOpOrAdmin } = require('../helpers');
 
-// check auth
-// check if id matches an appointment in the database
-// check if target appt details.userEmail matches user.userEmail, or skip if user.userRole is op/admin
-// delete appt
-
 // deleteAppt(id: ID!): String
 const deleteAppt = isAuthenticatedResolver.createResolver(
   (_, { id }, { appts, user }) => {

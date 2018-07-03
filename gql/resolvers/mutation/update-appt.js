@@ -4,13 +4,6 @@ const { isAuthenticatedResolver } = require('../auth');
 const { removeEmpty, getApptTypeDetails, isOpOrAdmin } = require('../helpers');
 const { doesApptExistCheck, isOwnApptCheck, doesUserExistCheck, isUserSelfCheck } = require('../checks');
 
-// check auth
-// check if id matches an appointment in the database
-// check if new details.userEmail is in users db
-// check if target appt details.userEmail matches user.userEmail or skip if user.userRole is op/admin
-// check if new details.userEmail matches user.userEmail, or skip if user.userRole is op/admin
-// update appt
-
 // updateAppt(id: ID!, details: UpdateApptInput!): Appointment
 const updateAppt = isAuthenticatedResolver.createResolver(
   (_, { id, details }, { appts, users, user }) => {

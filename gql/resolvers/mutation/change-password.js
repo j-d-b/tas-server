@@ -4,12 +4,6 @@ const { createResolver } = require('apollo-resolvers');
 const { isAuthenticatedResolver } = require('../auth');
 const { isAllowedPasswordCheck, isCorrectPasswordCheck } = require('../checks');
 
-// check auth
-// check if newPassword is allowable
-// check if user's password is correct
-// change password
-// return success string
-
 // changePassword(newPassword: String!, currPassword: String!): String
 const changePassword = isAuthenticatedResolver.createResolver(
   async (obj, { currPassword, newPassword }, { users, user }) => {

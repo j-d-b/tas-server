@@ -4,16 +4,6 @@ const { isAuthenticatedResolver } = require('../auth');
 const { isAdmin } = require('../helpers');
 const { doesUserExistCheck, isUserSelfCheck, isRoleOwnRoleCheck } = require('../checks');
 
-// *if not admin*
-// check auth
-// check if target user email matches current user's email
-// check if new details.role matches current user's role
-// update user
-
-// *if admin*
-// check if target user (by email) exists
-// update user
-
 // updateUser(email: String!, details: UpdateUserInput!): User
 const updateUser = isAuthenticatedResolver.createResolver(
   (_, { email, details }, { users, user }) => {
