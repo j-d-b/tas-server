@@ -44,7 +44,7 @@ const Resolvers = {
   User: {
     appts: (user, args, { appts }) => appts.find({ userEmail: user.email })
   },
-  Appointment: { //
+  Appt: { //
     id: appt => appt.$loki, // uses $loki for id <- TODO assess this choice
     user: (appt, args, { users }) => users.by('email', appt.userEmail)
   },

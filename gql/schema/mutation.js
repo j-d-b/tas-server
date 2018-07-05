@@ -89,8 +89,8 @@ const Mutation = `
   }
 
   type Mutation {
-    addAppt(details: AddApptInput!): Appointment
-    updateAppt(id: ID!, details: UpdateApptInput!): Appointment
+    addAppt(details: AddApptInput!): Appt
+    updateAppt(id: ID!, details: UpdateApptInput!): Appt
     deleteAppt(id: ID!): String
 
     addUser(password: String!, details: AddUserInput!): User

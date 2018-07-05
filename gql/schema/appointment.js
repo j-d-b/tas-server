@@ -1,5 +1,5 @@
-const Appointment = `
-  type Appointment {
+const Appt = `
+  type Appt {
     id: ID! # uses $loki, but is this a good idea?
     timeSlot: String!
     block: String!
@@ -9,4 +9,4 @@ const Appointment = `
   }
 `;
 
-module.exports = Appointment;
+module.exports = Appt;

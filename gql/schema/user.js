@@ -5,7 +5,7 @@ const User = `
     role: UserRole!
     company: String!
     mobileNumber: String
-    appts: [Appointment]
+    appts: [Appt]
   }
 `;
 

@@ -15,9 +15,9 @@ const Query = `
   }
 
   type Query {
-    myAppts: [Appointment]
-    appt(id: ID!): Appointment
-    appts(where: ApptsWhere): [Appointment]
+    myAppts: [Appt]
+    appt(id: ID!): Appt
+    appts(where: ApptsWhere): [Appt]
 
     me: User
     user(email: String!): User
