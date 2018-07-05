@@ -96,6 +96,7 @@ const Mutation = `
     addUser(password: String!, details: AddUserInput!): User
     updateUser(email: String!, details: UpdateUserInput!): User
     deleteUser(email: String!): String
+    confirmUser(email: String!): User
 
     login(email: String!, password: String!): String
     changePassword(currPassword: String!, newPassword: String!): String

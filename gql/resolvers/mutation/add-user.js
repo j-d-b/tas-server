@@ -13,6 +13,7 @@ const addUser = baseResolver.createResolver(
 
     return users.insert({
       password: await bcrypt.hash(password, 10),
+      confirmed: false,
       ...details
     });
   }
