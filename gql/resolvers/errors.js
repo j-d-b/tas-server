@@ -49,6 +49,10 @@ module.exports.NoApptError = createError('NoApptError', {
   message: 'The requested appointment does not exist'
 });
 
+module.exports.NoApptTypeDetailsError = createError('NoApptTypeDetailsError', {
+  message: 'You must provide type-specific appointment details'
+});
+
 
 // action
 module.exports.IncorrectPasswordError = createError('IncorrectPasswordError', {

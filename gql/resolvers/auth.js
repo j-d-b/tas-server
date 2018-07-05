@@ -3,6 +3,7 @@ const { createResolver, and } = require('apollo-resolvers');
 const { createError, isInstance } = require('apollo-errors');
 
 const { UnexpectedError, AlreadyLoggedInError, AuthenticationError, NotAdminError } = require('./errors');
+const { getUserFromAuthHeader } = require('./helpers');
 
 
 // catch all non 'apollo-errors' and mask with unexpected (generic) for client cleanliness
@@ -11,19 +12,15 @@ const baseResolver = createResolver(
   (_, args, context, error) => isInstance(error) ? error : new UnexpectedError()
 );
 
-// TODO look into making this more robust
 // throws error if user already logged in
 const notLoggedInResolver = baseResolver.createResolver(
   (_, args, context) => {
-    if (context.authHeader) {
-      const token = context.authHeader.replace('Bearer ', '');
-      let decoded;
-      try {
-        decoded = jwt.verify(token, process.env.JWT_SECRET);
-      } catch (err) {
-        console.log(err); // but move on to next resolver
-      }
-      if (decoded) throw new AlreadyLoggedInError();
+    try {
+      const user = getUserFromAuthHeader(context.authHeader);
+      if (user) throw new AlreadyLoggedInError();
+    } catch (error) {
+      console.log('Logging error:' + error); // DEBUG
+      // move on to next resolver
     }
   }
 );
@@ -33,8 +30,7 @@ const notLoggedInResolver = baseResolver.createResolver(
 const isAuthenticatedResolver = baseResolver.createResolver(
   (_, args, context) => {
     try {
-      const token = context.authHeader.replace('Bearer ', '');
-      const user = jwt.verify(token, process.env.JWT_SECRET);
+      const user = getUserFromAuthHeader(context.authHeader);
       if (!user.userEmail || !user.userRole) throw new AuthenticationError();
       context.user = user; // add user to the context
     } catch (err) {

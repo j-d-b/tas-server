@@ -2,14 +2,15 @@ const { createResolver, or } = require('apollo-resolvers');
 
 const { isAuthenticatedResolver } = require('../auth');
 const { isOpOrAdmin, getApptTypeDetails } = require('../helpers');
-const { doesUserExistCheck, isUserSelfCheck } = require('../checks');
+const { doesUserExistCheck, hasTypeDetailsCheck, isUserSelfCheck } = require('../checks');
 
 // addAppt(details: AddApptInput!): Appointment
 const addAppt = isAuthenticatedResolver.createResolver(
   (_, { details }, { appts, users, user }) => {
     const apptUserEmail = details.userEmail;
-
     doesUserExistCheck(apptUserEmail, users);
+
+    const typeDetails = hasTypeDetailsCheck(details); // schema doesn't verify this
 
     if (!isOpOrAdmin(user)) {
       isUserSelfCheck(apptUserEmail, user);
@@ -20,7 +21,7 @@ const addAppt = isAuthenticatedResolver.createResolver(
       block: details.block,
       userEmail: apptUserEmail,
       type: details.type,
-      typeDetails: getApptTypeDetails(details) // TODO verify (schema doesn't verify)
+      typeDetails: typeDetails
     });
   }
 );

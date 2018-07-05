@@ -1,7 +1,7 @@
 const { createResolver } = require('apollo-resolvers');
 
 const { isAuthenticatedResolver } = require('../auth');
-const { removeEmpty, getApptTypeDetails, isOpOrAdmin } = require('../helpers');
+const { removeEmpty, isOpOrAdmin, getApptTypeDetails } = require('../helpers');
 const { doesApptExistCheck, isOwnApptCheck, doesUserExistCheck, isUserSelfCheck } = require('../checks');
 
 // updateAppt(id: ID!, details: UpdateApptInput!): Appointment
@@ -18,10 +18,10 @@ const updateAppt = isAuthenticatedResolver.createResolver(
 
     const mutableFields = ['timeSlot', 'block', 'userEmail', 'type']; // TODO this probably should not be hardcoded, especially not here
     const fieldsToChange = Object.keys(removeEmpty(details)).filter(key => mutableFields.includes(key));
-    const newTypeDetails = getApptTypeDetails(details); // TODO verify (schema doesn't verify)
+    const newTypeDetails = getApptTypeDetails(details);
 
     fieldsToChange.forEach(field => targetAppt[field] = details[field]);
-    if (newTypeDetails) Object.assign(targetAppt.typeDetails, newTypeDetails);
+    if (newTypeDetails) Object.assign(targetAppt.typeDetails, removeEmpty(newTypeDetails));
     appts.update(targetAppt);
 
     return targetAppt;

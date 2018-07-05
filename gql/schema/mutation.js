@@ -14,17 +14,43 @@ const Mutation = `
     mobileNumber: String
   }
 
-  input ImportFullInput {
+  input AddImportFullInput {
+    containerID: String!
+    formNumber705: String!
+  }
+
+  input AddImportEmptyInput {
+    containerID: ContainerSize!
+    emptyForCityFormNum: String!
+  }
+
+  input AddExportFullInput {
+    containerID: String!
+    containerSize: ContainerSize!
+    containerWeight: Int! # might be float
+    bookingNum: Int!
+    vesselName: String!
+    vesselETA: String!
+    destinationPort: String!
+    firstPortOfDischarge: String!
+  }
+
+  input AddExportEmptyInput {
+    containerID: String!
+    containerSize: ContainerSize!
+  }
+
+  input UpdateImportFullInput {
     containerID: String
     formNumber705: String
   }
 
-  input ImportEmptyInput {
+  input UpdateImportEmptyInput {
     containerID: ContainerSize
     emptyForCityFormNum: String
   }
 
-  input ExportFullInput {
+  input UpdateExportFullInput {
     containerID: String
     containerSize: ContainerSize
     containerWeight: Int # might be float
@@ -35,7 +61,7 @@ const Mutation = `
     firstPortOfDischarge: String
   }
 
-  input ExportEmptyInput {
+  input UpdateExportEmptyInput {
     containerID: String
     containerSize: ContainerSize
   }
@@ -45,10 +71,10 @@ const Mutation = `
     block: String!
     userEmail: String!
     type: ApptType!
-    importFull: ImportFullInput
-    importEmpty: ImportEmptyInput
-    exportFull: ExportFullInput
-    exportEmpty: ExportEmptyInput
+    importFull: AddImportFullInput
+    importEmpty: AddImportEmptyInput
+    exportFull: AddExportFullInput
+    exportEmpty: AddExportEmptyInput
   }
 
   input UpdateApptInput {
@@ -56,10 +82,10 @@ const Mutation = `
     block: String
     userEmail: String
     type: ApptType
-    importFull: ImportFullInput
-    importEmpty: ImportEmptyInput
-    exportFull: ExportFullInput
-    exportEmpty: ExportEmptyInput
+    importFull: UpdateImportFullInput
+    importEmpty: UpdateImportEmptyInput
+    exportFull: UpdateExportFullInput
+    exportEmpty: UpdateExportEmptyInput
   }
 
   type Mutation {

@@ -4,7 +4,7 @@ const { createResolver } = require('apollo-resolvers');
 const { baseResolver } = require('../auth');
 const { isAllowedPasswordCheck, doesUserNotExistCheck } = require('../checks');
 
-// IDEA how to prevent spam creating users (e.g. a register mutation)
+// TODO implement sendEmailVerification link. Signup alone won't use the addUser mutation
 // addUser(password: String!, details: AddUserInput!): User
 const addUser = baseResolver.createResolver(
   async (_, { password, details }) => {

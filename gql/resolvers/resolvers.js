@@ -12,11 +12,9 @@ const resetPassword = require('./mutation/reset-password');
 const sendResetPassLink = require('./mutation/send-reset-pass-link');
 const changeEmail = require('./mutation/change-email');
 const changePassword = require('./mutation/change-password');
-
 const addUser = require('./mutation/add-user');
 const updateUser = require('./mutation/update-user');
 const deleteUser = require('./mutation/delete-user');
-
 const addAppt = require('./mutation/add-appt');
 const updateAppt = require('./mutation/update-appt');
 const deleteAppt = require('./mutation/delete-appt');
@@ -31,17 +29,14 @@ const Resolvers = {
     appts
   },
   Mutation: {
-    // action
     login,
     resetPassword,
     sendResetPassLink,
     changeEmail,
     changePassword,
-    // user management
     addUser,
     updateUser,
     deleteUser,
-    // appt management
     addAppt,
     updateAppt,
     deleteAppt

@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const { getApptTypeDetails } = require('./helpers');
 const {
   NoApptError,
   NoUserError,
@@ -10,8 +11,10 @@ const {
   UserAlreadyExistsError,
   NotOwnRoleError,
   PasswordCheckError,
-  InvalidOrExpiredLinkError
+  InvalidOrExpiredLinkError,
+  NoApptTypeDetailsError
 } = require('./errors');
+
 
 // check if appt (by id) exists in the database
 // returns target appt
@@ -77,4 +80,12 @@ module.exports.resetTokenCheck = (resetToken, users) => {
   }
 
   return targetUser;
+};
+
+// check if apptDetails.typeDetails exists for the given details.type
+// returns typeDetails
+module.exports.hasTypeDetailsCheck = (apptDetails) => {
+  const typeDetails = getApptTypeDetails(apptDetails);
+  if (!typeDetails) throw new NoApptTypeDetailsError();
+  return typeDetails;
 };

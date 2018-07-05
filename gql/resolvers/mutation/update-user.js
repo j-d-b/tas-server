@@ -8,6 +8,7 @@ const { doesUserExistCheck, isUserSelfCheck, isRoleOwnRoleCheck } = require('../
 const updateUser = isAuthenticatedResolver.createResolver(
   (_, { email, details }, { users, user }) => {
     const targetUser = doesUserExistCheck(email, users);
+
     if (!isAdmin(user)) {
       isUserSelfCheck(email, user);
       isRoleOwnRoleCheck(details.role, user);
