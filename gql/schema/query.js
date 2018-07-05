@@ -11,6 +11,7 @@ const Query = `
     name: String
     role: UserRole
     company: String
+    confirmed: Boolean
   }
 
   type Query {
