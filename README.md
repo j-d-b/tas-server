@@ -13,6 +13,8 @@ yarn
 An environment variables file (called `.env`) must also be added to the project root directory. It must contain the following definitions (values are given as examples only):
 ```
 JWT_SECRET=secret-key
+FROM_EMAIL=robert@gmail.com
+FROM_EMAIL_PASS=123456
 ```
 
 The backend is an [Express](https://expressjs.com/) web server which provides a `/graphql` endpoint using [Apollo Server](https://www.apollographql.com/docs/apollo-server/). It uses a persistent, in-memory, [LokiJS](http://lokijs.org/#/) database.

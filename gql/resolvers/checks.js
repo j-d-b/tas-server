@@ -35,7 +35,6 @@ module.exports.doesUserExistCheck = (userEmail, users) => {
   return targetUser;
 };
 
-// TODO assumes appt and user are not malformed
 // check if appt (object) is owned by the given user (object)
 module.exports.isOwnApptCheck = (appt, user) => {
   if (user.userEmail !== appt.userEmail) throw new NotOwnApptError();
@@ -51,9 +50,9 @@ module.exports.isUserSelfCheck = (email, user) => {
   if (email !== user.userEmail) throw new NotOwnUserError();
 };
 
-// check if user (by email) exists in the database
+// ensure user (by email) does not already exist in the database
 module.exports.doesUserNotExistCheck = (userEmail, users) => {
-  if (users.by('email', email)) throw new UserAlreadyExistsError({ data: { targetUser: email }});
+  if (users.by('email', userEmail)) throw new UserAlreadyExistsError({ data: { targetUser: userEmail }});
 };
 
 // check if the given user has the given role
@@ -61,8 +60,9 @@ module.exports.isRoleOwnRoleCheck = (role, user) => {
   if (role !== user.userRole) throw new NotOwnRoleError();
 };
 
+// ensure block (by id) does not already exist in the database
 module.exports.doesBlockNotExistCheck = (blockId, blocks) => {
-  if (blocks.by('id', blockId)) throw new BlockAlreadyExistsError( { data: { blockId }});
+  if (blocks.by('id', blockId)) throw new BlockAlreadyExistsError( { data: { targetBlock: blockId }});
 };
 
 // check if the given block (by id) exists in the database
@@ -87,7 +87,7 @@ module.exports.isAllowedPasswordCheck = (password) => {
 
 // check if password is correct for the given user (db object)
 module.exports.isCorrectPasswordCheck = async (password, userInDb) => {
-  const correctPass = await bcrypt.compare(currPassword, userInDb.password);
+  const correctPass = await bcrypt.compare(password, userInDb.password);
   if (!correctPass) throw new IncorrectPasswordError();
 };
 

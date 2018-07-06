@@ -84,3 +84,7 @@ module.exports.InvalidOrExpiredLinkError = createError('InvalidOrExpiredLinkErro
 module.exports.PasswordCheckError = createError('PasswordCheckError', {
   message: 'Password must be at least 6 characters'
 });
+
+module.exports.MailSendError = createError('MailSendError', {
+  message: 'The requested email could not be sent'
+});

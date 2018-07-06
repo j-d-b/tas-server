@@ -169,6 +169,7 @@ console.log(chalk.yellow('Adding sample data:'));
 
 const appts = db.getCollection('appointments');
 const users = db.getCollection('users');
+const blocks = db.getCollection('blocks');
 
 console.log('appointments...')
 appts.insert(sampleAppts);
