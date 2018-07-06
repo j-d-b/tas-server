@@ -1,4 +1,4 @@
-const { createResolver, or } = require('apollo-resolvers');
+const { createResolver } = require('apollo-resolvers');
 
 const { isAuthenticatedResolver } = require('../auth');
 const { isOpOrAdmin, getApptTypeDetails } = require('../helpers');
