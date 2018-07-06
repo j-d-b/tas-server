@@ -19,7 +19,6 @@ const notLoggedInResolver = baseResolver.createResolver(
     try {
       user = getUserFromAuthHeader(authHeader);
     } catch (error) {
-      console.log('Logging error & passing through:' + error); // DEBUG
       // move on to next resolver
     }
     if (user) throw new AlreadyLoggedInError();
