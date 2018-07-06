@@ -13,6 +13,10 @@ module.exports.AlreadyLoggedInError = createError('AlreadyLoggedInError', {
   message: 'You cannot perform this action as a logged in user'
 });
 
+module.exports.NotOpOrAdminError = createError('NotOpOrAdminError', {
+  message: 'You must be an operator or admin to perform this action'
+});
+
 module.exports.NotAdminError = createError('NotAdminError', {
   message: 'You must be an admin to perform this action'
 });
@@ -61,6 +65,10 @@ module.exports.BlockAlreadyExistsError = createError('BlockAlreadyExistsError', 
 
 module.exports.InvalidAllowedApptsPerHourError = createError('InvalidAllowedApptsPerHourError', {
   message: 'Current allowed appointments per hour must be less than max appointments per hour, and neither can be negative'
+});
+
+module.exports.NoBlockError = createError('NoBlockError', {
+  message: 'No block with that ID exists'
 });
 
 

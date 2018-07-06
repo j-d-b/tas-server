@@ -105,8 +105,8 @@ const Mutation = `
     confirmUser(email: String!): User
 
     addBlock(details: AddBlockInput!): Block
-    updateMaxAllowedApptsPerHour(blockId: String!, newVal: Int!): Block
-    updateCurrAllowedApptsPerHour(blockId: String!, newVal: Int!): Block
+    updateBlockMaxAllowed(blockId: String!, newVal: Int!): Block
+    updateBlockCurrAllowed(blockId: String!, newVal: Int!): Block
 
     login(email: String!, password: String!): String
     changePassword(currPassword: String!, newPassword: String!): String

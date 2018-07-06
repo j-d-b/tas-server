@@ -14,7 +14,8 @@ const {
   InvalidOrExpiredLinkError,
   NoApptTypeDetailsError,
   BlockAlreadyExistsError,
-  InvalidAllowedApptsPerHourError
+  InvalidAllowedApptsPerHourError,
+  NoBlockError
 } = require('./errors');
 
 
@@ -63,6 +64,14 @@ module.exports.isRoleOwnRoleCheck = (role, user) => {
 module.exports.doesBlockNotExistCheck = (blockId, blocks) => {
   if (blocks.by('id', blockId)) throw new BlockAlreadyExistsError( { data: { blockId }});
 };
+
+// check if the given block (by id) exists in the database
+// returns the target block
+module.exports.doesBlockExistCheck = (blockId, blocks) => {
+  const targetBlock = blocks.by('id', blockId);
+  if (!targetBlock) throw new NoBlockError({ data: { targetBlock: blockId }});
+  return targetBlock;
+}
 
 // ensure allowed appts per hour is >= 0 and max >= current
 module.exports.isAllowedApptsPerHourValsCheck = (newBlockDetails) => {

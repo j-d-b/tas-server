@@ -5,6 +5,8 @@ const users = require('./query/users');
 const myAppts = require('./query/my-appts');
 const appt = require('./query/appt');
 const appts = require('./query/appts');
+const allBlocks = require('./query/all-blocks');
+const block = require('./query/block');
 
 // mutations
 const login = require('./mutation/login');
@@ -18,6 +20,8 @@ const deleteUser = require('./mutation/delete-user');
 const addAppt = require('./mutation/add-appt');
 const updateAppt = require('./mutation/update-appt');
 const deleteAppt = require('./mutation/delete-appt');
+const updateBlockMaxAllowed = require('./mutation/update-block-max-allowed');
+const updateBlockCurrAllowed = require('./mutation/update-block-curr-allowed');
 
 const Resolvers = {
   Query: {
@@ -26,7 +30,9 @@ const Resolvers = {
     users,
     myAppts,
     appt,
-    appts
+    appts,
+    allBlocks,
+    block
   },
   Mutation: {
     login,
@@ -39,7 +45,9 @@ const Resolvers = {
     deleteUser,
     addAppt,
     updateAppt,
-    deleteAppt
+    deleteAppt,
+    updateBlockMaxAllowed,
+    updateBlockCurrAllowed
   },
   User: {
     appts: (user, args, { appts }) => appts.find({ userEmail: user.email })
