@@ -27,8 +27,6 @@ function setupDB() {
     autosaveInterval: 4000 // currently arbitrary
   });
 
-  console.log()
-
   console.log(chalk.green('⚙️  Initializing database'));
   console.log(chalk.yellow('Adding collections:'));
 
