@@ -7,9 +7,9 @@ const { isAllowedPasswordCheck, doesUserNotExistCheck } = require('../checks');
 // TODO implement sendEmailVerification link. Signup alone won't use the addUser mutation
 // addUser(password: String!, details: AddUserInput!): User
 const addUser = baseResolver.createResolver(
-  async (_, { password, details }) => {
+  async (_, { password, details }, { users }) => {
     isAllowedPasswordCheck(password);
-    doesUserNotExistCheck(details.email);
+    doesUserNotExistCheck(details.email, users);
 
     return users.insert({
       password: await bcrypt.hash(password, 10),
