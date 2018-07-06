@@ -21,7 +21,6 @@ rl.question(chalk.yellow('Are you sure you wish to continue (Y/n)?\n'), (input) 
   rl.close();
 });
 
-
 function setupDB() {
   const db = new loki('db.json', {
     autosave: true,
@@ -33,11 +32,14 @@ function setupDB() {
   console.log(chalk.green('⚙️  Initializing database'));
   console.log(chalk.yellow('Adding collections:'));
 
-  db.addCollection('appointments', { unique: ['id'] });
+  db.addCollection('appointments');
   console.log(chalk.yellow('appointments...'));
 
   db.addCollection('users', { unique: ['email'] });
   console.log(chalk.yellow('users...'));
+
+  db.addCollection('blocks', { unique: ['id'] });
+  console.log(chalk.yellow('blocks...'));
 
   db.saveDatabase(err => {
     if (err) {

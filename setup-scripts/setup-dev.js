@@ -15,11 +15,14 @@ console.log(chalk.green('⚙️  Initializing database'));
 
 console.log(chalk.yellow('Adding collections:'));
 
-db.addCollection('appointments', { unique: ['id'] });
+db.addCollection('appointments');
 console.log('appointments...');
 
 db.addCollection('users', { unique: ['email'] });
 console.log('users...');
+
+db.addCollection('blocks', { unique: ['id'] });
+console.log(chalk.yellow('blocks...'));
 
 const sampleUsers = [
   {
@@ -144,20 +147,37 @@ const sampleAppts = [
   },
 ];
 
+const sampleBlocks = [
+  {
+    id: 'A',
+    maxAllowedApptsPerHour: 10,
+    allowedApptsPerHour: 8
+  },
+  {
+    id: 'B',
+    maxAllowedApptsPerHour: 15,
+    allowedApptsPerHour: 15
+  },
+  {
+    id: 'C',
+    maxAllowedApptsPerHour: 10,
+    allowedApptsPerHour: 5
+  }
+];
+
 console.log(chalk.yellow('Adding sample data:'));
 
 const appts = db.getCollection('appointments');
 const users = db.getCollection('users');
 
 console.log('appointments...')
-for (const apptDetails of sampleAppts) {
-  const newAppt = appts.insert(apptDetails);
-  newAppt.id = newAppt.$loki; // use $loki as ID
-  appts.update(newAppt);
-}
+appts.insert(sampleAppts);
 
 console.log('users...');
 users.insert(sampleUsers);
+
+console.log('blocks...');
+blocks.insert(sampleBlocks);
 
 db.saveDatabase(err => {
   if (err) {

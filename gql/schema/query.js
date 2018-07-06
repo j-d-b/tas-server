@@ -22,6 +22,9 @@ const Query = `
     me: User
     user(email: String!): User
     users(where: UsersWhere): [User]
+
+    allBlocks: [Block]
+    block(id: String!): Block
   }
 `;
 
