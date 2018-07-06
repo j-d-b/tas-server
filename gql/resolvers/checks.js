@@ -14,8 +14,10 @@ const {
   InvalidOrExpiredLinkError,
   NoApptTypeDetailsError,
   BlockAlreadyExistsError,
+  IncorrectPasswordError,
   InvalidAllowedApptsPerHourError,
-  NoBlockError
+  NoBlockError,
+  UnconfirmedUserError
 } = require('./errors');
 
 
@@ -110,4 +112,9 @@ module.exports.hasTypeDetailsCheck = (apptDetails) => {
   const typeDetails = getApptTypeDetails(apptDetails);
   if (!typeDetails) throw new NoApptTypeDetailsError();
   return typeDetails;
+};
+
+// check if user is confirmed (by admin)
+module.exports.isUserConfirmedCheck = (user) => {
+  if (!user.confirmed) throw new UnconfirmedUserError();
 };

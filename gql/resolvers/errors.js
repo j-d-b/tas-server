@@ -43,6 +43,10 @@ module.exports.NotOwnRoleError = createError('NotOwnRoleError', {
   message: 'The entered user role cannot be different than your own'
 });
 
+module.exports.UnconfirmedUserError = createError('UnconfirmedUserError', {
+  message: 'Your account must be confirmed by an admin before you can log in'
+});
+
 
 //appt
 module.exports.NotOwnApptError = createError('NotOwnApptError', {

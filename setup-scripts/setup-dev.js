@@ -30,35 +30,40 @@ const sampleUsers = [
     password: bcrypt.hashSync('123456', 10),
     role: 'CUSTOMER',
     company: 'Wingworks',
-    name: 'Robert Frost'
+    name: 'Robert Frost',
+    confirmed: true
   },
   {
     email: 'william@hotmail.com',
     password: bcrypt.hashSync('robertfrost', 10),
     role: 'CUSTOMER',
     company: 'Wingworks',
-    name: 'William Wood'
+    name: 'William Wood',
+    confirmed: true
   },
   {
     email: 'sam@trees.net',
     password: bcrypt.hashSync('greenforest', 10),
     role: 'OPERATOR',
     company: 'TerminalTrue',
-    name: 'Samuel Gardner'
+    name: 'Samuel Gardner',
+    confirmed: true
   },
   {
     email: 'cory@mmt.net',
     password: bcrypt.hashSync('greatbaseball', 10),
     role: 'CUSTOMER',
     company: 'Corigate Group',
-    name: 'Cory Roberts'
+    name: 'Cory Roberts',
+    confirmed: true
   },
   {
     email: 'jacob@jdbrady.info',
     password: bcrypt.hashSync('dragonspark', 10),
     role: 'ADMIN',
     company: 'KCUS',
-    name: 'Jacob Brady'
+    name: 'Jacob Brady',
+    confirmed: true
   }
 ];
 
