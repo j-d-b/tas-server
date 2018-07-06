@@ -54,6 +54,16 @@ module.exports.NoApptTypeDetailsError = createError('NoApptTypeDetailsError', {
 });
 
 
+// block
+module.exports.BlockAlreadyExistsError = createError('BlockAlreadyExistsError', {
+  message: 'A block with that id already exists'
+});
+
+module.exports.InvalidAllowedApptsPerHourError = createError('InvalidAllowedApptsPerHourError', {
+  message: 'Current allowed appointments per hour must be less than max appointments per hour, and neither can be negative'
+});
+
+
 // action
 module.exports.IncorrectPasswordError = createError('IncorrectPasswordError', {
   message: 'Incorrect password'

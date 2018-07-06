@@ -88,6 +88,12 @@ const Mutation = `
     exportEmpty: UpdateExportEmptyInput
   }
 
+  input AddBlockInput {
+    blockId: String!
+    maxAllowedApptsPerHour: Int!
+    currAllowedApptsPerHour: Int!
+  }
+
   type Mutation {
     addAppt(details: AddApptInput!): Appt
     updateAppt(id: ID!, details: UpdateApptInput!): Appt
@@ -97,6 +103,10 @@ const Mutation = `
     updateUser(email: String!, details: UpdateUserInput!): User
     deleteUser(email: String!): String
     confirmUser(email: String!): User
+
+    addBlock(details: AddBlockInput!): Block
+    updateMaxAllowedApptsPerHour(blockId: String!, newVal: Int!): Block
+    updateCurrAllowedApptsPerHour(blockId: String!, newVal: Int!): Block
 
     login(email: String!, password: String!): String
     changePassword(currPassword: String!, newPassword: String!): String

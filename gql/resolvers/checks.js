@@ -12,7 +12,9 @@ const {
   NotOwnRoleError,
   PasswordCheckError,
   InvalidOrExpiredLinkError,
-  NoApptTypeDetailsError
+  NoApptTypeDetailsError,
+  BlockAlreadyExistsError,
+  InvalidAllowedApptsPerHourError
 } = require('./errors');
 
 
@@ -56,6 +58,17 @@ module.exports.doesUserNotExistCheck = (userEmail, users) => {
 // check if the given user has the given role
 module.exports.isRoleOwnRoleCheck = (role, user) => {
   if (role !== user.userRole) throw new NotOwnRoleError();
+};
+
+module.exports.doesBlockNotExistCheck = (blockId, blocks) => {
+  if (blocks.by('id', blockId)) throw new BlockAlreadyExistsError( { data: { blockId }});
+};
+
+// ensure allowed appts per hour is >= 0 and max >= current
+module.exports.isAllowedApptsPerHourValsCheck = (newBlockDetails) => {
+  const curr = newBlockDetails.currAllowedApptsPerHour;
+  const max = newBlockDetails.maxAllowedApptsPerHour;
+  if (curr < 0 || max < 0 || curr > max) throw new InvalidAllowedApptsPerHourError();
 };
 
 // check if password satisfies the strength criteria
