@@ -17,7 +17,8 @@ const {
   IncorrectPasswordError,
   InvalidAllowedApptsPerHourError,
   NoBlockError,
-  UnconfirmedUserError
+  UnconfirmedUserError,
+  AlreadyConfirmedUserError
 } = require('./errors');
 
 
@@ -118,3 +119,8 @@ module.exports.hasTypeDetailsCheck = (apptDetails) => {
 module.exports.isUserConfirmedCheck = (user) => {
   if (!user.confirmed) throw new UnconfirmedUserError();
 };
+
+// ensure user is not already confirmed 
+module.exports.isUserNotConfirmedCheck = (user) => {
+  if (user.confirmed) throw new AlreadyConfirmedUserError();
+}

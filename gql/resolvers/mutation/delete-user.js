@@ -1,4 +1,4 @@
-const { createResolver, and } = require('apollo-resolvers');
+const { createResolver } = require('apollo-resolvers');
 
 const { isAdminResolver } = require('../auth');
 const { doesUserExistCheck, isUserNotSelfCheck } = require('../checks');

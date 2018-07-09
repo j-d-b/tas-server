@@ -64,6 +64,14 @@ const sampleUsers = [
     company: 'KCUS',
     name: 'Jacob Brady',
     confirmed: true
+  },
+  {
+    email: 'jbrady@kcus.org',
+    password: bcrypt.hashSync('000000', 10),
+    role: 'OPERATOR',
+    company: 'KCUS',
+    name: 'Jacob Brady',
+    confirmed: false
   }
 ];
 

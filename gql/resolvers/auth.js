@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { createResolver, and } = require('apollo-resolvers');
+const { createResolver } = require('apollo-resolvers');
 const { createError, isInstance } = require('apollo-errors');
 
 const { UnexpectedError, AlreadyLoggedInError, AuthenticationError, NotOpOrAdminError, NotAdminError } = require('./errors');
@@ -31,7 +31,6 @@ const isAuthenticatedResolver = baseResolver.createResolver(
   (_, args, context) => {
     try {
       const user = getUserFromAuthHeader(context.authHeader);
-      if (!user.userEmail || !user.userRole) throw new AuthenticationError();
       context.user = user; // add user to the context
     } catch (err) {
       throw new AuthenticationError();

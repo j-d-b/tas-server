@@ -47,6 +47,10 @@ module.exports.UnconfirmedUserError = createError('UnconfirmedUserError', {
   message: 'Your account must be confirmed by an admin before you can log in'
 });
 
+module.exports.AlreadyConfirmedUserError = createError('AlreadyConfirmedUserError', {
+  message: 'This user is already confirmed'
+});
+
 
 //appt
 module.exports.NotOwnApptError = createError('NotOwnApptError', {
