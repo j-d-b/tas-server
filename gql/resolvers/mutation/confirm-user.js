@@ -1,8 +1,8 @@
-const { createResolver, and } = require('apollo-resolvers');
+const { createResolver } = require('apollo-resolvers');
 
+const { sendAcctConfirmedLink } = require.main.require('./email/sendmail');
 const { isAdminResolver } = require('../auth');
 const { doesUserExistCheck, isUserNotConfirmedCheck } = require('../checks');
-const { sendAcctConfirmedLink } = require('../../../sendmail');
 
 // confirmUser(email: String!): User
 const confirmUser = isAdminResolver.createResolver(

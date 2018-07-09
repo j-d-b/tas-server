@@ -1,11 +1,11 @@
 const jwt = require('jsonwebtoken');
 const { createResolver } = require('apollo-resolvers');
 
+const { sendResetLink } = require.main.require('./email/sendmail');
 const { notLoggedInResolver } = require('../auth');
 const { doesUserExistCheck } = require('../checks');
 const { thirtyMinFromNow } = require('../helpers');
 const { MailSendError } = require('../errors');
-const { sendResetLink } = require('../../../sendmail');
 
 // sendResetPassLink(email: String!): String
 const sendResetPassLink = notLoggedInResolver.createResolver(
