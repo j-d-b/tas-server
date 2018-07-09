@@ -31,44 +31,6 @@ module.exports.doesApptExistCheck = (apptId, appts) => {
   return targetAppt;
 };
 
-// check if user (by email) exists in the database
-// returns target user
-module.exports.doesUserExistCheck = (userEmail, users) => {
-  const targetUser = users.by('email', userEmail);
-  if (!targetUser) throw new NoUserError({ data: { targetUser: userEmail }});
-  return targetUser;
-};
-
-// check if appt (object) is owned by the given user (object)
-module.exports.isOwnApptCheck = (appt, user) => {
-  if (user.userEmail !== appt.userEmail) throw new NotOwnApptError();
-};
-
-// check that given user (obj) does not match the given email
-module.exports.isUserNotSelfCheck = (user, email) => {
-  if (user.userEmail === email) throw new OwnUserError();
-};
-
-// check that the given user (obj) matches the given email
-module.exports.isUserSelfCheck = (email, user) => {
-  if (email !== user.userEmail) throw new NotOwnUserError();
-};
-
-// ensure user (by email) does not already exist in the database
-module.exports.doesUserNotExistCheck = (userEmail, users) => {
-  if (users.by('email', userEmail)) throw new UserAlreadyExistsError({ data: { targetUser: userEmail }});
-};
-
-// check if the given user has the given role
-module.exports.isRoleOwnRoleCheck = (role, user) => {
-  if (role !== user.userRole) throw new NotOwnRoleError();
-};
-
-// ensure block (by id) does not already exist in the database
-module.exports.doesBlockNotExistCheck = (blockId, blocks) => {
-  if (blocks.by('id', blockId)) throw new BlockAlreadyExistsError( { data: { targetBlock: blockId }});
-};
-
 // check if the given block (by id) exists in the database
 // returns the target block
 module.exports.doesBlockExistCheck = (blockId, blocks) => {
@@ -77,7 +39,33 @@ module.exports.doesBlockExistCheck = (blockId, blocks) => {
   return targetBlock;
 }
 
-// ensure allowed appts per hour is >= 0 and max >= current
+// ensure block (by id) does not already exist in the database
+module.exports.doesBlockNotExistCheck = (blockId, blocks) => {
+  if (blocks.by('id', blockId)) throw new BlockAlreadyExistsError( { data: { targetBlock: blockId }});
+};
+
+// check if user (by email) exists in the database
+// returns target user
+module.exports.doesUserExistCheck = (userEmail, users) => {
+  const targetUser = users.by('email', userEmail);
+  if (!targetUser) throw new NoUserError({ data: { targetUser: userEmail }});
+  return targetUser;
+};
+
+// ensure user (by email) does not already exist in the database
+module.exports.doesUserNotExistCheck = (userEmail, users) => {
+  if (users.by('email', userEmail)) throw new UserAlreadyExistsError({ data: { targetUser: userEmail }});
+};
+
+// check if apptDetails.typeDetails exists for the given details.type
+// returns typeDetails
+module.exports.hasTypeDetailsCheck = (apptDetails) => {
+  const typeDetails = getApptTypeDetails(apptDetails);
+  if (!typeDetails) throw new NoApptTypeDetailsError();
+  return typeDetails;
+};
+
+// ensure allowed appts per hour (curr and max) is >= 0 and max >= curr
 module.exports.isAllowedApptsPerHourValsCheck = (newBlockDetails) => {
   const curr = newBlockDetails.currAllowedApptsPerHour;
   const max = newBlockDetails.maxAllowedApptsPerHour;
@@ -89,10 +77,37 @@ module.exports.isAllowedPasswordCheck = (password) => {
   if (password.length < 6) throw new PasswordCheckError();
 };
 
-// check if password is correct for the given user (db object)
 module.exports.isCorrectPasswordCheck = async (password, userInDb) => {
   const correctPass = await bcrypt.compare(password, userInDb.password);
   if (!correctPass) throw new IncorrectPasswordError();
+};
+
+// check if appt (object) is owned by the given user (object)
+module.exports.isOwnApptCheck = (appt, user) => {
+  if (user.userEmail !== appt.userEmail) throw new NotOwnApptError();
+};
+
+// check if the given user has the given role
+module.exports.isRoleOwnRoleCheck = (role, user) => {
+  if (role !== user.userRole) throw new NotOwnRoleError();
+};
+
+module.exports.isUserConfirmedCheck = (user) => {
+  if (!user.confirmed) throw new UnconfirmedUserError();
+};
+
+module.exports.isUserEmailVerifiedCheck = (user) => {
+  if (!user.emailVerified) throw new UserEmailNotVerifiedError();
+};
+
+// check that given user (obj) does not match the given email
+module.exports.isUserNotSelfCheck = (user, email) => {
+  if (user.userEmail === email) throw new OwnUserError();
+};
+
+// check that the given user (obj) matches the given email
+module.exports.isUserSelfCheck = (email, user) => {
+  if (email !== user.userEmail) throw new NotOwnUserError();
 };
 
 // check if reset token is valid (using user's current password as secret key)
@@ -108,19 +123,6 @@ module.exports.resetTokenCheck = (resetToken, users) => {
   return targetUser;
 };
 
-// check if apptDetails.typeDetails exists for the given details.type
-// returns typeDetails
-module.exports.hasTypeDetailsCheck = (apptDetails) => {
-  const typeDetails = getApptTypeDetails(apptDetails);
-  if (!typeDetails) throw new NoApptTypeDetailsError();
-  return typeDetails;
-};
-
-// check if user is confirmed (by admin)
-module.exports.isUserConfirmedCheck = (user) => {
-  if (!user.confirmed) throw new UnconfirmedUserError();
-};
-
 // check if verify token is valid
 // returns target user
 module.exports.verifyTokenCheck = (verifyToken, users) => {
@@ -132,8 +134,4 @@ module.exports.verifyTokenCheck = (verifyToken, users) => {
   }
 
   return targetUser;
-}
-
-module.exports.isUserEmailVerifiedCheck = (user) => {
-  if (!user.emailVerified) throw new UserEmailNotVerifiedError();
 }
