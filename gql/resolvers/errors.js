@@ -51,6 +51,11 @@ module.exports.AlreadyConfirmedUserError = createError('AlreadyConfirmedUserErro
   message: 'This user is already confirmed'
 });
 
+module.exports.UserEmailNotVerifiedError = createError('UserEmailNotVerifiedError', {
+ message: 'You must verify your account email before you can log in'
+});
+
+
 
 //appt
 module.exports.NotOwnApptError = createError('NotOwnApptError', {
@@ -86,7 +91,7 @@ module.exports.IncorrectPasswordError = createError('IncorrectPasswordError', {
 });
 
 module.exports.InvalidOrExpiredLinkError = createError('InvalidOrExpiredLinkError', {
-  message: 'Password reset link invalid or expired'
+  message: 'This link is invalid or expired'
 });
 
 module.exports.PasswordCheckError = createError('PasswordCheckError', {

@@ -1,6 +1,22 @@
 const jwt = require('jsonwebtoken');
 
-module.exports.getApptTypeDetails = (apptDetails) => {
+const { sendVerifyEmailLink } = require.main.require('./email/sendmail');
+const { MailSendError } = require('./errors');
+
+module.exports.sendVerifyEmail = async (email) => {
+  const verifyToken = jwt.sign({ userEmail: email }, process.env.VERIFY_EMAIL_SECRET); // NOTE never expires
+  const verifyLink = `http://localhost:3000/verify-email/${verifyToken}`; // TODO production link
+
+  try {
+    await sendVerifyEmailLink(email, verifyLink);
+  } catch (err) {
+    throw new MailSendError();
+  }
+
+  return `Verify account email sent to ${email}`;
+}
+
+module.exports.getApptTypeDetails = apptDetails => {
   switch (apptDetails.type) {
     case 'IMPORTFULL':
       return apptDetails.importFull;
@@ -28,9 +44,12 @@ module.exports.removeEmpty = obj => {
 
 module.exports.getUserFromAuthHeader = authHeader => {
   const token = authHeader.replace('Bearer ', '');
-  return jwt.verify(token, process.env.JWT_SECRET);
+  return jwt.verify(token, process.env.PRIMARY_SECRET);
 };
 
-module.exports.thirtyMinFromNow = () => Math.floor(Date.now() / 1000) + (60 * 30);
-
-module.exports.twelveHrFromNow = () => Math.floor(Date.now() / 1000) + (60 * 60 * 12);
+module.exports.signJwt = targetUser => (
+  jwt.sign({
+    userEmail: targetUser.email,
+    userRole: targetUser.role
+  }, process.env.PRIMARY_SECRET, { expiresIn: '12h' })
+);

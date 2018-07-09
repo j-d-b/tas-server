@@ -1,21 +1,31 @@
 const bcrypt = require('bcrypt');
 const { createResolver } = require('apollo-resolvers');
 
+const { sendRegistrationRecievedMail } = require.main.require('./email/sendmail');
 const { baseResolver } = require('../auth');
 const { isAllowedPasswordCheck, doesUserNotExistCheck } = require('../checks');
+const { MailSendError } = require('../errors');
 
-// TODO implement sendEmailVerification link. Signup alone won't use the addUser mutation
 // addUser(password: String!, details: AddUserInput!): User
 const addUser = baseResolver.createResolver(
   async (_, { password, details }, { users }) => {
     isAllowedPasswordCheck(password);
     doesUserNotExistCheck(details.email, users);
 
-    return users.insert({
-      password: await bcrypt.hash(password, 10),
-      confirmed: false,
-      ...details
-    });
+    try {
+      await sendRegistrationRecievedMail(details.email);
+    } catch (err) {
+      throw new MailSendError();
+    }
+
+    return bcrypt.hash(password, 10).then(hash => (
+      users.insert({
+        password: hash,
+        confirmed: false,
+        emailVerified: false,
+        ...details
+      })
+    ));
   }
 );
 

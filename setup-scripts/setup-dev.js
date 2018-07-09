@@ -31,7 +31,8 @@ const sampleUsers = [
     role: 'CUSTOMER',
     company: 'Wingworks',
     name: 'Robert Frost',
-    confirmed: true
+    confirmed: true,
+    emailVerified: true
   },
   {
     email: 'william@hotmail.com',
@@ -39,7 +40,8 @@ const sampleUsers = [
     role: 'CUSTOMER',
     company: 'Wingworks',
     name: 'William Wood',
-    confirmed: true
+    confirmed: true,
+    emailVerified: true
   },
   {
     email: 'sam@trees.net',
@@ -47,7 +49,8 @@ const sampleUsers = [
     role: 'OPERATOR',
     company: 'TerminalTrue',
     name: 'Samuel Gardner',
-    confirmed: true
+    confirmed: true,
+    emailVerified: true
   },
   {
     email: 'cory@mmt.net',
@@ -55,7 +58,8 @@ const sampleUsers = [
     role: 'CUSTOMER',
     company: 'Corigate Group',
     name: 'Cory Roberts',
-    confirmed: true
+    confirmed: true,
+    emailVerified: true
   },
   {
     email: 'jacob@jdbrady.info',
@@ -63,7 +67,8 @@ const sampleUsers = [
     role: 'ADMIN',
     company: 'KCUS',
     name: 'Jacob Brady',
-    confirmed: true
+    confirmed: true,
+    emailVerified: true
   },
   {
     email: 'jbrady@kcus.org',
@@ -71,7 +76,8 @@ const sampleUsers = [
     role: 'OPERATOR',
     company: 'KCUS',
     name: 'Jacob Brady',
-    confirmed: false
+    confirmed: false,
+    emailVerified: false
   }
 ];
 

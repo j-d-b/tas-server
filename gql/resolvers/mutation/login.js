@@ -3,8 +3,8 @@ const jwt = require('jsonwebtoken');
 const { createResolver } = require('apollo-resolvers');
 
 const { notLoggedInResolver } = require('../auth');
-const { doesUserExistCheck, isUserConfirmedCheck, isCorrectPasswordCheck } = require('../checks');
-const { twelveHrFromNow } = require('../helpers');
+const { doesUserExistCheck, isUserConfirmedCheck, isUserEmailVerifiedCheck, isCorrectPasswordCheck } = require('../checks');
+const { signJwt } = require('../helpers');
 
 // login(email: String!, password: String!): String
 const login = notLoggedInResolver.createResolver(
@@ -12,14 +12,10 @@ const login = notLoggedInResolver.createResolver(
     const targetUser = doesUserExistCheck(email, users);
 
     isUserConfirmedCheck(targetUser);
-
+    isUserEmailVerifiedCheck(targetUser);
     await isCorrectPasswordCheck(password, targetUser);
 
-    return jwt.sign({
-      exp: twelveHrFromNow(),
-      userEmail: targetUser.email,
-      userRole: targetUser.role
-    }, process.env.JWT_SECRET);
+    return signJwt(targetUser);
   }
 );
 

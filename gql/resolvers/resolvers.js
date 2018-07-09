@@ -12,6 +12,7 @@ const block = require('./query/block');
 const login = require('./mutation/login');
 const resetPassword = require('./mutation/reset-password');
 const sendResetPassLink = require('./mutation/send-reset-pass-link');
+const verifyEmail = require('./mutation/verify-email');
 const changeEmail = require('./mutation/change-email');
 const changePassword = require('./mutation/change-password');
 const addUser = require('./mutation/add-user');
@@ -39,6 +40,7 @@ const Resolvers = {
     login,
     resetPassword,
     sendResetPassLink,
+    verifyEmail,
     changeEmail,
     changePassword,
     addUser,

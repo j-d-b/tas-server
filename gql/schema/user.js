@@ -5,6 +5,7 @@ const User = `
     role: UserRole!
     company: String!
     confirmed: Boolean!
+    emailVerified: Boolean!
     mobileNumber: String
     appts: [Appt]
   }

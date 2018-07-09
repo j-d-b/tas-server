@@ -11,7 +11,8 @@ const Query = `
     name: String
     role: UserRole
     company: String
-    confirmed: Boolean
+    confirmed: Boolean,
+    emailVerified: Boolean
   }
 
   type Query {

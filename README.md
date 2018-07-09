@@ -12,7 +12,8 @@ yarn
 
 An environment variables file (called `.env`) must also be added to the project root directory. It must contain the following definitions (values are given as examples only):
 ```
-JWT_SECRET=secret-key
+PRIMARY_SECRET=secret-key
+VERIFY_EMAIL_SECRET=different-secret-key
 FROM_EMAIL=robert@gmail.com
 FROM_EMAIL_PASS=123456
 ```
@@ -100,7 +101,7 @@ Where `<JWT>` is replaced by the JWT obtained from logging in (the `login` mutat
 ## JSON Web Tokens
 Authentication and authorization in the **TAS Backend** uses JWTs.
 
-The JWT is signed by the backend with the `JWT_SECRET` from `.env`.
+The JWT is signed by the backend with the `PRIMARY_SECRET` from `.env`.
 
 The payload of the JWT contains the following information:
 ```
@@ -115,7 +116,7 @@ The payload of the JWT contains the following information:
 ### Usage
 The JWT must be included in the HTTP authorization header to access much of the TAS queries.
 
-Verification of the JWT (that it has been encoded with the correct `JWT_SECRET`) allows access to all of the queries (`authentication`), though the `userRole` field in the token is also checked to ensure the query can be performed by that given user (`authorization`).
+Verification of the JWT (that it has been encoded with the correct `PRIMARY_SECRET`) allows access to all of the queries (`authentication`), though the `userRole` field in the token is also checked to ensure the query can be performed by that given user (`authorization`).
 
 **Example implementation:** The **TAS Web Application** stores the JWT given on login in `window.localStorage` and includes it with every request to the backend API. *'Logging out'* of the application removes the JWT from storage.
 

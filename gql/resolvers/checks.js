@@ -18,7 +18,8 @@ const {
   InvalidAllowedApptsPerHourError,
   NoBlockError,
   UnconfirmedUserError,
-  AlreadyConfirmedUserError
+  AlreadyConfirmedUserError,
+  UserEmailNotVerifiedError
 } = require('./errors');
 
 
@@ -120,7 +121,19 @@ module.exports.isUserConfirmedCheck = (user) => {
   if (!user.confirmed) throw new UnconfirmedUserError();
 };
 
-// ensure user is not already confirmed 
-module.exports.isUserNotConfirmedCheck = (user) => {
-  if (user.confirmed) throw new AlreadyConfirmedUserError();
+// check if verify token is valid
+// returns target user
+module.exports.verifyTokenCheck = (verifyToken, users) => {
+  try {
+    targetUser = users.by('email', jwt.decode(verifyToken).userEmail);
+    jwt.verify(verifyToken, process.env.VERIFY_EMAIL_SECRET, { ignoreExpiration: true });
+  } catch (err) {
+    throw new InvalidOrExpiredLinkError();
+  }
+
+  return targetUser;
+}
+
+module.exports.isUserEmailVerifiedCheck = (user) => {
+  if (!user.emailVerified) throw new UserEmailNotVerifiedError();
 }

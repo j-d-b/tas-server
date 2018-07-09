@@ -29,21 +29,43 @@ const buildResetLinkMailOptions = (toEmail, resetLink) => {
   }
 };
 
-const buildAcctConfirmedMailOptions = (toEmail, loginLink) => {
+const buildRegistrationReceivedMailOptions = (toEmail, loginLink) => {
   return {
     from: `BCTC TAS 🚚 <${process.env.FROM_EMAIL}>`,
     to: toEmail,
-    subject: 'Account Confirmed',
+    subject: 'Registration Received',
     text: `
       Your account has been confirmed. Follow the link below to login.\n
       ${loginLink}
     `,
     html: `
       <div style="text-align:center;">
-        <h1 style="text-align:center;">Account Confirmed</h1>
+        <h1 style="text-align:center;">Registration Received</h1>
+        <p>Thank you for signing up for the BCTC TAS!</p>
+        <p>We've received your registration information and sent your request to TAS administrators for review.</p>
+        <p>You will be notified once an admin has confirmed your account, at which point you can log in.</p>
+        <p>Sit tight until then 👍</p>
+      </div>
+    `
+  }
+};
+
+const buildVerifyEmailMailOptions = (toEmail, verifyLink) => {
+  return {
+    from: `BCTC TAS 🚚 <${process.env.FROM_EMAIL}>`,
+    to: toEmail,
+    subject: 'Account Confirmed - Verify Your Email',
+    text: `
+      Your account has been confirmed by an administrator!\n
+      You may now login and use the BCTC TAS. Please verify your email and login using the link below.\n
+      ${verifyLink}
+    `,
+    html: `
+      <div style="text-align:center;">
+        <h1 style="text-align:center;">Verify Your Email</h1>
         <p>Your account has been confirmed by an administrator!</p>
-        <p>You may now login and use the BCTC TAS. Follow the link below to login.</p>
-        <a href="${loginLink}">Login</a>
+        <p>You may now log in and use the BCTC TAS. Please verify your email and log in using the link below.</p>
+        <a href="${verifyLink}">Verify & Log In</a>
       </div>
     `
   }
@@ -57,4 +79,5 @@ const sendLink = (buildMailOptions, transporter) => {
 };
 
 module.exports.sendResetLink = sendLink(buildResetLinkMailOptions, baseTransporter);
-module.exports.sendAcctConfirmedLink = sendLink(buildAcctConfirmedMailOptions, baseTransporter);
+module.exports.sendRegistrationRecievedMail = toEmail => baseTransporter.sendMail(buildRegistrationReceivedMailOptions(toEmail));
+module.exports.sendVerifyEmailLink = sendLink(buildVerifyEmailMailOptions, baseTransporter);

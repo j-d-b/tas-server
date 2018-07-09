@@ -102,13 +102,14 @@ const Mutation = `
     addUser(password: String!, details: AddUserInput!): User
     updateUser(email: String!, details: UpdateUserInput!): User
     deleteUser(email: String!): String
-    confirmUser(email: String!): User
 
     addBlock(details: AddBlockInput!): Block
     updateBlockMaxAllowed(blockId: String!, newVal: Int!): Block
     updateBlockCurrAllowed(blockId: String!, newVal: Int!): Block
 
     login(email: String!, password: String!): String
+    verifyEmail(verifyToken: String!): String
+    confirmUser(email: String!): String
     changePassword(currPassword: String!, newPassword: String!): String
     changeEmail(currEmail: String!, newEmail: String!): String
     resetPassword(resetToken: String!, newPassword: String!): String
