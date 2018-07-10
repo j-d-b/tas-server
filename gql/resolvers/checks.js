@@ -1,33 +1,14 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const Errors = require('./errors');
 const { getApptTypeDetails } = require('./helpers');
-const {
-  NoApptError,
-  NoUserError,
-  NotOwnApptError,
-  OwnUserError,
-  NotOwnUserError,
-  UserAlreadyExistsError,
-  NotOwnRoleError,
-  PasswordCheckError,
-  InvalidOrExpiredLinkError,
-  NoApptTypeDetailsError,
-  BlockAlreadyExistsError,
-  IncorrectPasswordError,
-  InvalidAllowedApptsPerHourError,
-  NoBlockError,
-  UnconfirmedUserError,
-  AlreadyConfirmedUserError,
-  UserEmailNotVerifiedError
-} = require('./errors');
-
 
 // check if appt (by id) exists in the database
 // returns target appt
 module.exports.doesApptExistCheck = (apptId, appts) => {
   const targetAppt = context.appts.get(id);
-  if (!targetAppt) throw new NoApptError();
+  if (!targetAppt) throw new Errors.NoApptError();
   return targetAppt;
 };
 
@@ -35,33 +16,33 @@ module.exports.doesApptExistCheck = (apptId, appts) => {
 // returns the target block
 module.exports.doesBlockExistCheck = (blockId, blocks) => {
   const targetBlock = blocks.by('id', blockId);
-  if (!targetBlock) throw new NoBlockError({ data: { targetBlock: blockId }});
+  if (!targetBlock) throw new Errors.NoBlockError({ data: { targetBlock: blockId }});
   return targetBlock;
 }
 
 // ensure block (by id) does not already exist in the database
 module.exports.doesBlockNotExistCheck = (blockId, blocks) => {
-  if (blocks.by('id', blockId)) throw new BlockAlreadyExistsError( { data: { targetBlock: blockId }});
+  if (blocks.by('id', blockId)) throw new Errors.BlockAlreadyExistsError( { data: { targetBlock: blockId }});
 };
 
 // check if user (by email) exists in the database
 // returns target user
 module.exports.doesUserExistCheck = (userEmail, users) => {
   const targetUser = users.by('email', userEmail);
-  if (!targetUser) throw new NoUserError({ data: { targetUser: userEmail }});
+  if (!targetUser) throw new Errors.NoUserError({ data: { targetUser: userEmail }});
   return targetUser;
 };
 
 // ensure user (by email) does not already exist in the database
 module.exports.doesUserNotExistCheck = (userEmail, users) => {
-  if (users.by('email', userEmail)) throw new UserAlreadyExistsError({ data: { targetUser: userEmail }});
+  if (users.by('email', userEmail)) throw new Errors.UserAlreadyExistsError({ data: { targetUser: userEmail }});
 };
 
 // check if apptDetails.typeDetails exists for the given details.type
 // returns typeDetails
 module.exports.hasTypeDetailsCheck = (apptDetails) => {
   const typeDetails = getApptTypeDetails(apptDetails);
-  if (!typeDetails) throw new NoApptTypeDetailsError();
+  if (!typeDetails) throw new Errors.NoApptTypeDetailsError();
   return typeDetails;
 };
 
@@ -69,45 +50,45 @@ module.exports.hasTypeDetailsCheck = (apptDetails) => {
 module.exports.isAllowedApptsPerHourValsCheck = (newBlockDetails) => {
   const curr = newBlockDetails.currAllowedApptsPerHour;
   const max = newBlockDetails.maxAllowedApptsPerHour;
-  if (curr < 0 || max < 0 || curr > max) throw new InvalidAllowedApptsPerHourError();
+  if (curr < 0 || max < 0 || curr > max) throw new Errors.InvalidAllowedApptsPerHourError();
 };
 
 // check if password satisfies the strength criteria
 module.exports.isAllowedPasswordCheck = (password) => {
-  if (password.length < 6) throw new PasswordCheckError();
+  if (password.length < 6) throw new Errors.PasswordCheckError();
 };
 
 module.exports.isCorrectPasswordCheck = async (password, userInDb) => {
   const correctPass = await bcrypt.compare(password, userInDb.password);
-  if (!correctPass) throw new IncorrectPasswordError();
+  if (!correctPass) throw new Errors.IncorrectPasswordError();
 };
 
 // check if appt (object) is owned by the given user (object)
 module.exports.isOwnApptCheck = (appt, user) => {
-  if (user.userEmail !== appt.userEmail) throw new NotOwnApptError();
+  if (user.userEmail !== appt.userEmail) throw new Errors.NotOwnApptError();
 };
 
 // check if the given user has the given role
 module.exports.isRoleOwnRoleCheck = (role, user) => {
-  if (role !== user.userRole) throw new NotOwnRoleError();
+  if (role !== user.userRole) throw new Errors.NotOwnRoleError();
 };
 
 module.exports.isUserConfirmedCheck = (user) => {
-  if (!user.confirmed) throw new UnconfirmedUserError();
+  if (!user.confirmed) throw new Errors.UnconfirmedUserError();
 };
 
 module.exports.isUserEmailVerifiedCheck = (user) => {
-  if (!user.emailVerified) throw new UserEmailNotVerifiedError();
+  if (!user.emailVerified) throw new Errors.UserEmailNotVerifiedError();
 };
 
 // check that given user (obj) does not match the given email
 module.exports.isUserNotSelfCheck = (user, email) => {
-  if (user.userEmail === email) throw new OwnUserError();
+  if (user.userEmail === email) throw new Errors.OwnUserError();
 };
 
 // check that the given user (obj) matches the given email
 module.exports.isUserSelfCheck = (email, user) => {
-  if (email !== user.userEmail) throw new NotOwnUserError();
+  if (email !== user.userEmail) throw new Errors.NotOwnUserError();
 };
 
 // check if reset token is valid (using user's current password as secret key)
@@ -117,7 +98,7 @@ module.exports.resetTokenCheck = (resetToken, users) => {
     targetUser = users.by('email', jwt.decode(resetToken).userEmail);
     jwt.verify(resetToken, targetUser.password); // current password hash is secret key
   } catch (err) {
-    throw new InvalidOrExpiredLinkError();
+    throw new Errors.InvalidOrExpiredLinkError();
   }
 
   return targetUser;
@@ -130,7 +111,7 @@ module.exports.verifyTokenCheck = (verifyToken, users) => {
     targetUser = users.by('email', jwt.decode(verifyToken).userEmail);
     jwt.verify(verifyToken, process.env.VERIFY_EMAIL_SECRET, { ignoreExpiration: true });
   } catch (err) {
-    throw new InvalidOrExpiredLinkError();
+    throw new Errors.InvalidOrExpiredLinkError();
   }
 
   return targetUser;

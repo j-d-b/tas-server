@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const { createResolver } = require('apollo-resolvers');
 const { createError, isInstance } = require('apollo-errors');
 
-const { UnexpectedError, AlreadyLoggedInError, AuthenticationError, NotOpOrAdminError, NotAdminError } = require('./errors');
+const Errors = require('./errors');
 const { isOpOrAdmin, getUserFromAuthHeader } = require('./helpers');
 
 
@@ -21,7 +21,7 @@ const notLoggedInResolver = baseResolver.createResolver(
     } catch (error) {
       // move on to next resolver
     }
-    if (user) throw new AlreadyLoggedInError();
+    if (user) throw new Errors.AlreadyLoggedInError();
   }
 );
 
@@ -33,7 +33,7 @@ const isAuthenticatedResolver = baseResolver.createResolver(
       const user = getUserFromAuthHeader(context.authHeader);
       context.user = user; // add user to the context
     } catch (err) {
-      throw new AuthenticationError();
+      throw new Errors.AuthenticationError();
     }
   }
 );
@@ -41,14 +41,14 @@ const isAuthenticatedResolver = baseResolver.createResolver(
 // throws error if user is not an operator or admin
 const isOpOrAdminResolver = isAuthenticatedResolver.createResolver(
   (_, args, { user }) => {
-    if (!isOpOrAdmin(user)) throw new NotOpOrAdminError();
+    if (!isOpOrAdmin(user)) throw new Errors.NotOpOrAdminError();
   }
 );
 
 // throws error if user is not an admin
 const isAdminResolver = isAuthenticatedResolver.createResolver(
   (_, args, { user }) => {
-    if (user.userRole !== 'ADMIN') throw new NotAdminError();
+    if (user.userRole !== 'ADMIN') throw new Errors.NotAdminError();
   }
 );
 
