@@ -57,14 +57,14 @@ const buildVerifyEmailMailOptions = (toEmail, verifyLink) => {
     subject: 'Account Confirmed - Verify Your Email',
     text: `
       Your account has been confirmed by an administrator!\n
-      You may now login and use the BCTC TAS. Please verify your email and login using the link below.\n
+      You're now ready to log in and use the BCTC TAS. Please verify your email and log in using the link below.\n
       ${verifyLink}
     `,
     html: `
       <div style="text-align:center;">
-        <h1 style="text-align:center;">Verify Your Email</h1>
+        <h1 style="text-align:center;">Account Confirmed - Verify Your Email</h1>
         <p>Your account has been confirmed by an administrator!</p>
-        <p>You may now log in and use the BCTC TAS. Please verify your email and log in using the link below.</p>
+        <p>You're now ready to log in and use the BCTC TAS. Please verify your email and log in using the link below.</p>
         <a href="${verifyLink}">Verify & Log In</a>
       </div>
     `
@@ -79,5 +79,5 @@ const sendLink = (buildMailOptions, transporter) => {
 };
 
 module.exports.sendResetLink = sendLink(buildResetLinkMailOptions, baseTransporter);
-module.exports.sendRegistrationRecievedMail = toEmail => baseTransporter.sendMail(buildRegistrationReceivedMailOptions(toEmail));
+module.exports.sendRegistrationRecievedMail = async toEmail => await baseTransporter.sendMail(buildRegistrationReceivedMailOptions(toEmail));
 module.exports.sendVerifyEmailLink = sendLink(buildVerifyEmailMailOptions, baseTransporter);
