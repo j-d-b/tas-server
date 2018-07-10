@@ -20,7 +20,7 @@ const Mutation = `
   }
 
   input AddImportEmptyInput {
-    containerID: ContainerSize!
+    containerSize: ContainerSize!
     emptyForCityFormNum: String!
   }
 
@@ -46,7 +46,7 @@ const Mutation = `
   }
 
   input UpdateImportEmptyInput {
-    containerID: ContainerSize
+    containerSize: ContainerSize
     emptyForCityFormNum: String
   }
 
