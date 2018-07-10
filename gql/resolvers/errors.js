@@ -1,9 +1,6 @@
 const { createError } = require('apollo-errors');
 
 module.exports = {
-  AlreadyConfirmedUserError: createError('AlreadyConfirmedUserError', {
-    message: 'This user is already confirmed'
-  }),
   AlreadyLoggedInError:  createError('AlreadyLoggedInError', {
     message: 'You cannot perform this action as a logged in user'
   }),
