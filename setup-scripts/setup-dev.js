@@ -84,7 +84,10 @@ const sampleUsers = [
 const sampleAppts = [
   {
     userEmail: 'robert@gmail.com',
-    timeSlot: '',
+    timeSlot: {
+      hour: 10,
+      date: '2018-09-15'
+    },
     block: 'A',
     type: 'EXPORTFULL',
     typeDetails: {
@@ -100,7 +103,10 @@ const sampleAppts = [
   },
   {
     userEmail: 'robert@gmail.com',
-    timeSlot: '',
+    timeSlot: {
+      hour: 10,
+      date: '2018-09-14'
+    },
     block: 'B',
     type: 'EXPORTEMPTY',
     typeDetails: {
@@ -110,7 +116,10 @@ const sampleAppts = [
   },
   {
     userEmail: 'william@hotmail.com',
-    timeSlot: '',
+    timeSlot: {
+      hour: 23,
+      date: '2018-09-13'
+    },
     block: 'C',
     type: 'IMPORTFULL',
     typeDetails: {
@@ -120,7 +129,10 @@ const sampleAppts = [
   },
   {
     userEmail: 'william@hotmail.com',
-    timeSlot: '',
+    timeSlot: {
+      hour: 16,
+      date: '2018-09-12'
+    },
     block: 'A',
     type: 'EXPORTEMPTY',
     typeDetails: {
@@ -130,7 +142,10 @@ const sampleAppts = [
   },
   {
     userEmail: 'cory@mmt.net',
-    timeSlot: '',
+    timeSlot: {
+      hour: 13,
+      date: '2018-09-12'
+    },
     block: 'C',
     type: 'IMPORTEMPTY',
     typeDetails: {
@@ -140,7 +155,10 @@ const sampleAppts = [
   },
   {
     userEmail: 'cory@mmt.net',
-    timeSlot: '',
+    timeSlot: {
+      hour: 12,
+      date: '2018-09-11'
+    },
     block: 'C',
     type: 'EXPORTFULL',
     typeDetails: {
@@ -156,7 +174,10 @@ const sampleAppts = [
   },
   {
     userEmail: 'cory@mmt.net',
-    timeSlot: '',
+    timeSlot: {
+      hour: 12,
+      date: '2018-09-11'
+    },
     block: 'A',
     type: 'IMPORTFULL',
     typeDetails: {

@@ -25,7 +25,8 @@
     "graphql-tools": "^3.0.5",
     "jsonwebtoken": "^8.2.2",
     "lokijs": "^1.5.4",
-    "nodemailer": "^4.6.7"
+    "nodemailer": "^4.6.7",
+    "validator": "^10.4.0"
   },
   "devDependencies": {
     "graphql-playground-middleware-express": "^1.6.3",

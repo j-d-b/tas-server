@@ -66,8 +66,13 @@ const Mutation = `
     containerSize: ContainerSize
   }
 
+  input TimeSlotInput {
+    hour: Hour!
+    date: ISODate!
+  }
+
   input AddApptInput {
-    timeSlot: String!
+    timeSlot: TimeSlotInput!
     block: String!
     userEmail: String!
     type: ApptType!
@@ -78,7 +83,7 @@ const Mutation = `
   }
 
   input UpdateApptInput {
-    timeSlot: String
+    timeSlot: TimeSlotInput
     block: String
     userEmail: String
     type: ApptType
