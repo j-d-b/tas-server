@@ -4,6 +4,8 @@ This repository contains the API backend service for the BCTC Truck Appointment 
 
 The TAS has web and native mobile interfaces, and thus the backend is implemented as an API in a separate environment as a GraphQL server for use by the web and mobile applications.
 
+The entry point file, `index.js`, loads the database and starts the server (`server/server.js`)
+
 ## Usage
 Install dependencies
 ```
