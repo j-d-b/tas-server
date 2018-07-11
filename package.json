@@ -7,7 +7,7 @@
     "setup": "node setup-scripts/setup-prod",
     "develop": "node setup-scripts/setup-dev && NODE_ENV=development nodemon index",
     "start": "NODE_ENV=production node index",
-    "lint": "eslint index.js server"
+    "lint": "eslint index.js setup-scripts server"
   },
   "repository": "https://j-d-b@bitbucket.org/j-d-b/tas-backend.git",
   "author": "Jacob Brady <jbrady@kcus.org>",

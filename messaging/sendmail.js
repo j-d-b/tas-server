@@ -88,5 +88,5 @@ const sendLink = (buildMailOptions, transporter) => {
 };
 
 module.exports.sendResetLink = sendLink(buildResetLinkMailOptions, baseTransporter);
-module.exports.sendRegistrationRecievedMail = async toEmail => await mgTransporter.sendMail(buildRegistrationReceivedMailOptions(toEmail));
+module.exports.sendRegistrationRecievedMail = async toEmail => await baseTransporter.sendMail(buildRegistrationReceivedMailOptions(toEmail));
 module.exports.sendVerifyEmailLink = sendLink(buildVerifyEmailMailOptions, baseTransporter);

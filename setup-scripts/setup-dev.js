@@ -1,30 +1,11 @@
-require('dotenv').config();
-
-const loki = require('lokijs');
-const LokiFSSA = require('lokijs/src/loki-fs-structured-adapter'); // see https://github.com/techfort/LokiJS/wiki/LokiJS-persistence-and-adapters
 const bcrypt = require('bcrypt');
 const chalk = require('chalk');
 
-const db = new loki('database/db.json', {
-  adapter: new LokiFSSA(),
-  autosave: true,
-  autosaveInterval: 4000 // currently arbitrary
-});
+const initDb = require('./init-db');
 
 console.log(chalk.magenta('------- Development Mode -------'));
 
-console.log(chalk.green('⚙️  Initializing database'));
-
-console.log(chalk.yellow('Adding collections:'));
-
-db.addCollection('appointments');
-console.log('appointments...');
-
-db.addCollection('users', { unique: ['email'] });
-console.log('users...');
-
-db.addCollection('blocks', { unique: ['id'] });
-console.log(chalk.yellow('blocks...'));
+const db = initDb();
 
 const sampleUsers = [
   {
@@ -222,7 +203,7 @@ users.insert(sampleUsers);
 console.log('blocks...');
 blocks.insert(sampleBlocks);
 
-db.saveDatabase(err => {
+db.saveDatabase((err) => {
   if (err) {
     throw new Error('⚠️  Error saving database: ' + err);
   } else {
