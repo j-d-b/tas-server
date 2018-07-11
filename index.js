@@ -1,8 +1,10 @@
 require('dotenv').config();
 
+const fs = require('fs');
 const loki = require('lokijs');
 const startServer = require('./server/server');
 const LokiFSSA = require('lokijs/src/loki-fs-structured-adapter'); // see https://github.com/techfort/LokiJS/wiki/LokiJS-persistence-and-adapters
+const chalk = require('chalk');
 
 // use Lfsa
 const db = new loki('database/db.json', {
@@ -12,14 +14,16 @@ const db = new loki('database/db.json', {
 });
 
 db.loadDatabase({}, (err) => {
-  if (err) {
-    console.log('⚠️  Error loading database: ' + err);
-    console.log('Exiting...');
-    process.exit(1);
-  }
+  if (err) throw new Error(`🚫  Error loading database: ${err}`);
+
+  const appts = db.getCollection('appointments');
+  const users = db.getCollection('users');
+  const blocks = db.getCollection('blocks');
+
+  if (!appts || !users || !blocks) throw new Error('🚫  Database collections not found');
 
   console.log('👌  Database loaded successfully');
   console.log('🏃🏻‍  Running TAS backend service');
 
-  startServer(db);
+  startServer({ appts, users, blocks });
 });

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const { sendVerifyEmailLink } = require.main.require('./messaging/sendmail');
+const { sendVerifyEmailLink } = require.main.require('./server/messaging/sendmail');
 const { isAdminResolver } = require('../auth');
 const { doesUserExistCheck } = require('../checks');
 const { MailSendError } = require('../errors');
