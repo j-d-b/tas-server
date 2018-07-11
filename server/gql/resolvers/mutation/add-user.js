@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-const { sendRegistrationRecievedMail } = require.main.require('./server/messaging/sendmail');
+const { sendSignupReceivedNotice } = require.main.require('./server/messaging/sendmail');
 const { baseResolver } = require('../auth');
 const { isAllowedPasswordCheck, doesUserNotExistCheck } = require('../checks');
 const { MailSendError } = require('../errors');
@@ -12,7 +12,7 @@ const addUser = baseResolver.createResolver(
     doesUserNotExistCheck(details.email, users);
 
     try {
-      await sendRegistrationRecievedMail(details.email);
+      await sendSignupReceivedNotice(details.email, { name: details.name });
     } catch (err) {
       throw new MailSendError();
     }
