@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 const readline = require('readline');
 const loki = require('lokijs');
-const lfsa = require('lokijs/src/loki-fs-structured-adapter'); // see https://github.com/techfort/LokiJS/wiki/LokiJS-persistence-and-adapters
+const LokiFSSA = require('lokijs/src/loki-fs-structured-adapter'); // see https://github.com/techfort/LokiJS/wiki/LokiJS-persistence-and-adapters
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -15,14 +15,15 @@ rl.question(chalk.yellow('Are you sure you wish to continue (Y/n)?\n'), (input) 
   if (input.toLowerCase() === 'n' || input.toLowerCase() === 'no') {
     console.log(chalk.green('cancelling...'));
     process.exit(0);
-  } else {
-    setupDB();
   }
+  setupDB();
   rl.close();
 });
 
+
 function setupDB() {
-  const db = new loki('db.json', {
+  const db = new loki('database/db.json', {
+    adapter: new LokiFSSA(),
     autosave: true,
     autosaveInterval: 4000 // currently arbitrary
   });

@@ -97,6 +97,11 @@ Authorization : Bearer <JWT>
 ```
 Where `<JWT>` is replaced by the JWT obtained from logging in (the `login` mutation).
 
+### Linting
+Uses ESLint linting configuration in .eslintrc.js
+```
+yarn lint
+```
 
 ## JSON Web Tokens
 Authentication and authorization in the **TAS Backend** uses JWTs.

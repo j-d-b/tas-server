@@ -1,10 +1,12 @@
 require('dotenv').config();
 
 const loki = require('lokijs');
+const LokiFSSA = require('lokijs/src/loki-fs-structured-adapter'); // see https://github.com/techfort/LokiJS/wiki/LokiJS-persistence-and-adapters
 const bcrypt = require('bcrypt');
 const chalk = require('chalk');
 
-const db = new loki('db.json', {
+const db = new loki('database/db.json', {
+  adapter: new LokiFSSA(),
   autosave: true,
   autosaveInterval: 4000 // currently arbitrary
 });
@@ -211,7 +213,7 @@ const appts = db.getCollection('appointments');
 const users = db.getCollection('users');
 const blocks = db.getCollection('blocks');
 
-console.log('appointments...')
+console.log('appointments...');
 appts.insert(sampleAppts);
 
 console.log('users...');
