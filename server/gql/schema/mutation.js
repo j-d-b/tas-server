@@ -120,6 +120,8 @@ const Mutation = `
     resetPass(resetToken: String!, newPassword: String!): String
     sendResetPassLink(email: String!): String
     sendVerifyEmailLink(email: String!): String
+
+    updateTotalAllowed(newVal: Int!): Int
   }
 `;
 

@@ -13,6 +13,8 @@ const db = new loki('database/db.json', {
   autosaveInterval: 4000 // currently arbitrary
 });
 
+global.totalAllowed = 60; // FOR DEV ONLY, until we have SQL db
+
 db.loadDatabase({}, (err) => {
   if (err) throw new Error(`🚫  Error loading database: ${err}`);
 

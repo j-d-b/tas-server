@@ -26,6 +26,8 @@ const Query = `
 
     allBlocks: [Block]
     block(id: String!): Block
+
+    totalAllowedApptsPerHour: Int
   }
 `;
 
