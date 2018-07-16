@@ -174,17 +174,17 @@ const sampleBlocks = [
   {
     id: 'A',
     maxAllowedApptsPerHour: 10,
-    allowedApptsPerHour: 8
+    currAllowedApptsPerHour: 8
   },
   {
     id: 'B',
     maxAllowedApptsPerHour: 15,
-    allowedApptsPerHour: 15
+    currAllowedApptsPerHour: 15
   },
   {
     id: 'C',
     maxAllowedApptsPerHour: 10,
-    allowedApptsPerHour: 5
+    currAllowedApptsPerHour: 5
   }
 ];
 

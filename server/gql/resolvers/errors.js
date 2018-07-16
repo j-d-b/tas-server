@@ -17,7 +17,7 @@ module.exports = {
     message: 'Current allowed appointments per hour must be less than max appointments per hour, and neither can be negative'
   }),
   InvalidDateValueError: createError('InvalidDateValueError', {
-    message: 'The date must be a string in ISO8601 format'
+    message: 'The date must be a string in ISO8601 format',
   }),
   InvalidOrExpiredLinkError: createError('InvalidOrExpiredLinkError', {
     message: 'This link is invalid or expired'

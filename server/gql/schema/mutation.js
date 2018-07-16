@@ -2,7 +2,6 @@ const Mutation = `
   input AddUserInput {
     email: String!
     name: String!
-    role: UserRole!
     company: String!
     mobileNumber: String
   }
@@ -95,8 +94,8 @@ const Mutation = `
 
   input AddBlockInput {
     blockId: String!
-    maxAllowedApptsPerHour: Int!
     currAllowedApptsPerHour: Int!
+    maxAllowedApptsPerHour: Int!
   }
 
   type Mutation {
@@ -109,16 +108,18 @@ const Mutation = `
     deleteUser(email: String!): String
 
     addBlock(details: AddBlockInput!): Block
+    deleteBlock(id: String!): String
     updateBlockMaxAllowed(blockId: String!, newVal: Int!): Block
     updateBlockCurrAllowed(blockId: String!, newVal: Int!): Block
 
     login(email: String!, password: String!): String
     verifyEmail(verifyToken: String!): String
     confirmUser(email: String!): String
-    changePassword(currPassword: String!, newPassword: String!): String
+    changePass(currPassword: String!, newPassword: String!): String
     changeEmail(currEmail: String!, newEmail: String!): String
-    resetPassword(resetToken: String!, newPassword: String!): String
+    resetPass(resetToken: String!, newPassword: String!): String
     sendResetPassLink(email: String!): String
+    sendVerifyEmailLink(email: String!): String
   }
 `;
 

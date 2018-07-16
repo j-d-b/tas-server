@@ -5,7 +5,7 @@ const { doesUserExistCheck, isUserNotSelfCheck } = require('../checks');
 const deleteUser = isAdminResolver.createResolver(
   (_, { email }, { users, user }) => {
     const targetUser = doesUserExistCheck(email, users);
-    isUserNotSelfCheck(targetUser, user.userEmail);
+    isUserNotSelfCheck(targetUser.email, user);
 
     users.remove(targetUser);
     return `User ${email} deleted successfully`;

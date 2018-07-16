@@ -22,7 +22,7 @@ module.exports.doesBlockExistCheck = (blockId, blocks) => {
 
 // ensure block (by id) does not already exist in the database
 module.exports.doesBlockNotExistCheck = (blockId, blocks) => {
-  if (blocks.by('id', blockId)) throw new Errors.BlockAlreadyExistsError( { data: { targetBlock: blockId }});
+  if (blocks.by('id', blockId)) throw new Errors.BlockAlreadyExistsError({ data: { targetBlock: blockId }});
 };
 
 // check if user (by email) exists in the database
@@ -70,7 +70,9 @@ module.exports.isOwnApptCheck = (appt, user) => {
 
 // check if the given user has the given role
 module.exports.isRoleOwnRoleCheck = (role, user) => {
-  if (role !== user.userRole) throw new Errors.NotOwnRoleError();
+  if (role) {
+    if (role !== user.userRole) throw new Errors.NotOwnRoleError();
+  }
 };
 
 module.exports.isUserConfirmedCheck = (user) => {
@@ -81,12 +83,12 @@ module.exports.isUserEmailVerifiedCheck = (user) => {
   if (!user.emailVerified) throw new Errors.UserEmailNotVerifiedError();
 };
 
-// check that given user (obj) does not match the given email
-module.exports.isUserNotSelfCheck = (user, email) => {
+// check that given email does not match the user's (user) email
+module.exports.isUserNotSelfCheck = (email, user) => {
   if (user.userEmail === email) throw new Errors.OwnUserError();
 };
 
-// check that the given user (obj) matches the given email
+// check that given email matches the user's (user) email
 module.exports.isUserSelfCheck = (email, user) => {
   if (email !== user.userEmail) throw new Errors.NotOwnUserError();
 };

@@ -14,6 +14,11 @@ module.exports.getUserFromAuthHeader = (authHeader) => {
   return jwt.verify(token, process.env.PRIMARY_SECRET);
 };
 
+module.exports.getVerifyLink = (email) => {
+  const verifyToken = jwt.sign({ userEmail: email }, process.env.VERIFY_EMAIL_SECRET); // NOTE never expires
+  return `http://localhost:3000/verify-email/${verifyToken}`; // TODO production link
+}
+
 module.exports.isAdmin = user => user.userRole === 'ADMIN';
 
 module.exports.isOpOrAdmin = user => user.userRole === 'OPERATOR' || user.userRole === 'ADMIN';

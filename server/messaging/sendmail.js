@@ -2,14 +2,6 @@ const nodemailer = require('nodemailer');
 const mg = require('nodemailer-mailgun-transport');
 const handlebars = require('handlebars');
 
-// const gmailTransporter = nodemailer.createTransport({
-//   service: 'gmail',
-//   auth: {
-//     user: process.env.FROM_EMAIL,
-//     pass: process.env.FROM_EMAIL_PASS
-//   }
-// });
-
 const mgTransporter = nodemailer.createTransport(mg({
   auth: {
     api_key: process.env.MG_API_KEY,

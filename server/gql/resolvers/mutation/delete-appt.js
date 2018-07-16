@@ -5,10 +5,10 @@ const { isOpOrAdmin } = require('../helpers');
 // deleteAppt(id: ID!): String
 const deleteAppt = isAuthenticatedResolver.createResolver(
   (_, { id }, { appts, user }) => {
-    const targetAppt = doesApptExistCheck(id);
+    const targetAppt = doesApptExistCheck(id, appts);
 
     if (!isOpOrAdmin(user)) {
-      isOwnApptCheck(targetAppt);
+      isOwnApptCheck(targetAppt, user);
     }
 
     appts.remove(targetAppt);

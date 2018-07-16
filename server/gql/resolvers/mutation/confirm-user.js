@@ -1,22 +1,18 @@
-const jwt = require('jsonwebtoken');
-
 const { sendAcctConfirmedNotice } = require.main.require('./server/messaging/sendmail');
 const { isAdminResolver } = require('../auth');
 const { doesUserExistCheck } = require('../checks');
+const { getVerifyLink } = require('../helpers');
 const { MailSendError } = require('../errors');
 
 // confirmUser(email: String!): User
 const confirmUser = isAdminResolver.createResolver(
   async (_, { email }, { users }) => {
     const targetUser = doesUserExistCheck(email, users);
-
-    const verifyToken = jwt.sign({ userEmail: email }, process.env.VERIFY_EMAIL_SECRET); // NOTE never expires
-    const verifyLink = `http://localhost:3000/verify-email/${verifyToken}`; // TODO production link
+    const verifyLink = getVerifyLink(email);
 
     try {
-      await sendAcctConfirmedNotice(email, { name: targetUser.name, verifyLink });
+      await sendAcctConfirmedNotice(email, { name: targetUser.name.split(' ')[0], verifyLink });
     } catch (err) {
-      console.log(err);
       throw new MailSendError();
     }
 

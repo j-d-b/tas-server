@@ -17,7 +17,7 @@ const sendResetPassLink = notLoggedInResolver.createResolver(
     const resetLink = `http://localhost:3000/new-password/${resetToken}`; // TODO for production
 
     try {
-      await sendPassResetLink(email, { name: targetUser.name, resetLink }); // IDEA could log this return value
+      await sendPassResetLink(email, { name: targetUser.name.split(' ')[0], resetLink }); // IDEA could log this return value
     } catch (err) {
       throw new MailSendError();
     }

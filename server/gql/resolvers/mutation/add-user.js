@@ -12,7 +12,7 @@ const addUser = baseResolver.createResolver(
     doesUserNotExistCheck(details.email, users);
 
     try {
-      await sendSignupReceivedNotice(details.email, { name: details.name });
+      await sendSignupReceivedNotice(details.email, { name: details.name.split(' ')[0] });
     } catch (err) {
       throw new MailSendError();
     }
@@ -22,6 +22,7 @@ const addUser = baseResolver.createResolver(
         password: hash,
         confirmed: false,
         emailVerified: false,
+        role: 'CUSTOMER',
         ...details
       })
     ));
