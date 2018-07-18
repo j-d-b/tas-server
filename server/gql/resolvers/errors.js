@@ -40,8 +40,11 @@ module.exports = {
   NoApptTypeDetailsError: createError('NoApptTypeDetailsError', {
     message: 'You must provide type-specific appointment details'
   }),
+  NoAvailabilityError: createError('NoAvailabilityError', {
+    message: 'The appointment cannot be scheduled for this time slot'
+  }),
   NoBlockError: createError('NoBlockError', {
-    message: 'No block with that ID exists'
+    message: 'The provided block does not exist'
   }),
   NotOpOrAdminError: createError('NotOpOrAdminError', {
     message: 'You must be an operator or admin to perform this action'

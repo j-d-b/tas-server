@@ -72,7 +72,6 @@ const Mutation = `
 
   input AddApptInput {
     timeSlot: TimeSlotInput!
-    block: String!
     userEmail: String!
     type: ApptType!
     importFull: AddImportFullInput
@@ -83,9 +82,7 @@ const Mutation = `
 
   input UpdateApptInput {
     timeSlot: TimeSlotInput
-    block: String
     userEmail: String
-    type: ApptType
     importFull: UpdateImportFullInput
     importEmpty: UpdateImportEmptyInput
     exportFull: UpdateExportFullInput

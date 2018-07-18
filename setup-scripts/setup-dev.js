@@ -107,7 +107,8 @@ const sampleAppts = [
     type: 'IMPORTFULL',
     typeDetails: {
       containerID: '9f9h239fhsd',
-      formNumber705: 'FORM239r0j23'
+      formNumber705: 'FORM239r0j23',
+      block: 'A'
     }
   },
   {
@@ -165,7 +166,8 @@ const sampleAppts = [
     type: 'IMPORTFULL',
     typeDetails: {
       containerID: 'udfhd7f7d',
-      formNumber705: 'FORMio2h38hf'
+      formNumber705: 'FORMio2h38hf',
+      block: 'A'
     }
   },
 ];
@@ -174,7 +176,7 @@ const sampleBlocks = [
   {
     id: 'A',
     maxAllowedApptsPerHour: 5,
-    currAllowedApptsPerHour: 4
+    currAllowedApptsPerHour: 1
   },
   {
     id: 'B',

@@ -2,6 +2,8 @@ const TypeDetails = `
   type ImportFull {
     containerID: String!
     formNumber705: String!
+    containerSize: String!
+    block: String!
   }
 
   type ImportEmpty {

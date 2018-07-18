@@ -72,6 +72,22 @@ module.exports.isAllowedPasswordCheck = (password) => {
   if (password.length < 6) throw new Errors.PasswordCheckError();
 };
 
+// check for availability of new/updated appt (with given details array)
+module.exports.isAvailableCheck = (apptDetailsArr, appts, blocks) => {
+  apptDetailsArr.forEach(details => {
+    const slot = details.timeSlot;
+
+    const slotTotalCurrScheduled = appts.count({ 'timeSlot.hour': slot.hour, 'timeSlot.date': slot.date });
+    if (slotTotalCurrScheduled >= global.TOTAL_ALLOWED) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
+
+    if (details.type === 'IMPORTFULL') {
+      const blockCurrAllowed = blocks.by('id', details.importFull.block).currAllowedApptsPerHour;
+      const slotBlockCurrScheduled = appts.count({ 'timeSlot.hour': slot.hour, 'timeSlot.date': slot.date, 'block': details.importFull.block });
+      if (slotBlockCurrScheduled >= blockCurrAllowed) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
+    }
+  });
+};
+
 module.exports.isCorrectPasswordCheck = async (password, userInDb) => {
   const correctPass = await bcrypt.compare(password, userInDb.password);
   if (!correctPass) throw new Errors.IncorrectPasswordError();
