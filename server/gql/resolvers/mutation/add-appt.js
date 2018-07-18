@@ -1,18 +1,17 @@
 const { isAuthenticatedResolver } = require('../auth');
 const { isOpOrAdmin } = require('../helpers');
-const { doesUserExistCheck, hasTypeDetailsCheck, isUserSelfCheck, isAvailableCheck } = require('../checks');
+const { doesUserExistCheck, doesContainerIdExistCheck, hasTypeDetailsCheck, isUserSelfCheck, isAvailableCheck } = require('../checks');
 
-// addAppt(details: AddApptInput!): Appointment
+// addAppt(details: AddApptInput!): Appt
 const addAppt = isAuthenticatedResolver.createResolver(
   (_, { details }, { appts, users, blocks, user }) => {
     const apptUserEmail = details.userEmail;
     doesUserExistCheck(apptUserEmail, users);
 
-    const typeDetails = hasTypeDetailsCheck(details); // schema doesn't verify this
+    let typeDetails = hasTypeDetailsCheck(details); // schema doesn't verify this
+    if (details.type === 'IMPORTFULL') typeDetails = { ...typeDetails, ...doesContainerIdExistCheck(typeDetails.container) };
 
-    if (!isOpOrAdmin(user)) {
-      isUserSelfCheck(apptUserEmail, user);
-    }
+    if (!isOpOrAdmin(user)) isUserSelfCheck(apptUserEmail, user);
 
     isAvailableCheck([details], appts, blocks); // appt scheduling logic
 

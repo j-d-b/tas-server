@@ -4,6 +4,21 @@ const jwt = require('jsonwebtoken');
 const Errors = require('./errors');
 const { getApptTypeDetails, containerSizeToInt } = require('./helpers');
 
+// TODO
+// checks if containers in given list of id exists in TOS
+// returns list of obj w/ block and size for each
+// batched version of `doesContainerIdExistCheck` for less db queries
+module.exports.doContainerIdsExistCheck = (containerIDs) => {
+  console.log('This requires a connection to the TOS database and is yet to be implemented!');
+  return containerIDs.map((cid) => {
+    // if (!containers.find(cid)) throw NoContainerError(); <- pseudocode
+    return {
+      block: 'A',
+      containerSize: 'TWENTYFOOT'
+    };
+  });
+};
+
 // check if appt (by id) exists in the database
 // returns target appt
 module.exports.doesApptExistCheck = (apptId, appts) => {
@@ -26,17 +41,11 @@ module.exports.doesBlockNotExistCheck = (blockId, blocks) => {
 };
 
 // TODO
-// checks if containers in given list of id exists in TOS
-// returns list of obj w/ block and size for each
-module.exports.doContainerIdsExistCheck = (containerIDs) => {
-  console.log('This requires a connection to the TOS database and is yet to be implemented!');
-  return containerIDs.map((cid) => {
-    // if (!containers.find(cid)) throw NoContainerError(); <- pseudocode
-    return {
-      block: 'A',
-      size: 'TWENTYFOOT'
-    };
-  });
+module.exports.doesContainerIdExistCheck = (containerId) => {
+  return {
+    block: 'A',
+    containerSize: 'TWENTYFOOT'
+  };
 };
 
 // check if user (by email) exists in the database
@@ -72,19 +81,28 @@ module.exports.isAllowedPasswordCheck = (password) => {
   if (password.length < 6) throw new Errors.PasswordCheckError();
 };
 
-// check for availability of new/updated appt (with given details array)
+// check for availability of new/updated appt(s) (in given array of apptDetails)
 module.exports.isAvailableCheck = (apptDetailsArr, appts, blocks) => {
-  apptDetailsArr.forEach(details => {
-    const slot = details.timeSlot;
+  const detailsBySlotMap = apptDetailsArr.reduce((map, { timeSlot }, i) => {
+    map.has(timeSlot) ? map.set(timeSlot, map.get(timeSlot).push(apptDetailsArr[i])) : map.set(timeSlot, [apptDetailsArr[i]]);
+    return map;
+  }, new Map());
 
+  detailsBySlotMap.forEach((detailsArr, slot) => {
     const slotTotalCurrScheduled = appts.count({ 'timeSlot.hour': slot.hour, 'timeSlot.date': slot.date });
-    if (slotTotalCurrScheduled >= global.TOTAL_ALLOWED) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
+    if (slotTotalCurrScheduled + detailsArr.length > global.TOTAL_ALLOWED) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
 
-    if (details.type === 'IMPORTFULL') {
-      const blockCurrAllowed = blocks.by('id', details.importFull.block).currAllowedApptsPerHour;
-      const slotBlockCurrScheduled = appts.count({ 'timeSlot.hour': slot.hour, 'timeSlot.date': slot.date, 'block': details.importFull.block });
-      if (slotBlockCurrScheduled >= blockCurrAllowed) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
-    }
+    const moveCountByBlockMap = detailsArr.reduce((map, { typeDetails }) => {
+      const block = typeDetails && typeDetails.block;
+      map.has(block) ? map.set(block, map.get(block) + 1) : map.set(block, 1);
+      return map;
+    }, new Map());
+
+    moveCountByBlockMap.forEach((count, block) => {
+      const blockCurrAllowed = blocks.by('id', block).currAllowedApptsPerHour;
+      const slotBlockCurrScheduled = appts.count({ 'timeSlot.hour': slot.hour, 'timeSlot.date': slot.date, block });
+      if (slotBlockCurrScheduled + count > blockCurrAllowed) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
+    });
   });
 };
 

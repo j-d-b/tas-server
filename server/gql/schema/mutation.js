@@ -45,13 +45,11 @@ const Mutation = `
   }
 
   input UpdateImportEmptyInput {
-    containerSize: ContainerSize
     emptyForCityFormNum: String
   }
 
   input UpdateExportFullInput {
     containerID: String
-    containerSize: ContainerSize
     containerWeight: Int # might be float
     bookingNum: Int
     vesselName: String
@@ -62,7 +60,6 @@ const Mutation = `
 
   input UpdateExportEmptyInput {
     containerID: String
-    containerSize: ContainerSize
   }
 
   input TimeSlotInput {
@@ -97,6 +94,7 @@ const Mutation = `
 
   type Mutation {
     addAppt(details: AddApptInput!): Appt
+    addAppts(input: [AddApptInput!]!): [Appt]
     updateAppt(id: ID!, details: UpdateApptInput!): Appt
     deleteAppt(id: ID!): String
 

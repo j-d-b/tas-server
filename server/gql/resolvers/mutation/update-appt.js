@@ -2,7 +2,7 @@ const { isAuthenticatedResolver } = require('../auth');
 const { removeEmpty, isOpOrAdmin, getApptTypeDetails } = require('../helpers');
 const { doesApptExistCheck, isOwnApptCheck, doesUserExistCheck, isUserSelfCheck, isAvailableCheck } = require('../checks');
 
-// updateAppt(id: ID!, details: UpdateApptInput!): Appointment
+// updateAppt(id: ID!, details: UpdateApptInput!): Appt
 const updateAppt = isAuthenticatedResolver.createResolver(
   (_, { id, details }, { appts, users, blocks, user }) => {
     const targetAppt = doesApptExistCheck(id, appts);

@@ -28,6 +28,7 @@ const updateUser = requireMutation('update-user');
 const deleteUser = requireMutation('delete-user');
 const confirmUser = requireMutation('confirm-user');
 const addAppt = requireMutation('add-appt');
+const addAppts = requireMutation('add-appts');
 const updateAppt = requireMutation('update-appt');
 const deleteAppt = requireMutation('delete-appt');
 const addBlock = requireMutation('add-block');
@@ -80,6 +81,7 @@ const Resolvers = {
     deleteUser,
     confirmUser,
     addAppt,
+    addAppts,
     updateAppt,
     deleteAppt,
     addBlock,
