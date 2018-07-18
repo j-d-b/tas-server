@@ -1,7 +1,7 @@
-const { isAdminResolver } = require('../auth');
+const { isOpOrAdminResolver } = require('../auth');
 
 // totalAllowedApptsPerHour: Int
-const totalAllowedApptsPerHour = isAdminResolver.createResolver(
+const totalAllowedApptsPerHour = isOpOrAdminResolver.createResolver(
   () => global.TOTAL_ALLOWED
 );
 
