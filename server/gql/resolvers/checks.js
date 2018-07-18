@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const Errors = require('./errors');
-const { getApptTypeDetails } = require('./helpers');
+const { getApptTypeDetails, containerSizeToInt } = require('./helpers');
 
 // check if appt (by id) exists in the database
 // returns target appt
@@ -23,6 +23,20 @@ module.exports.doesBlockExistCheck = (blockId, blocks) => {
 // ensure block (by id) does not already exist in the database
 module.exports.doesBlockNotExistCheck = (blockId, blocks) => {
   if (blocks.by('id', blockId)) throw new Errors.BlockAlreadyExistsError({ data: { targetBlock: blockId }});
+};
+
+// TODO
+// checks if containers in given list of id exists in TOS
+// returns list of obj w/ block and size for each
+module.exports.doContainerIdsExistCheck = (containerIDs) => {
+  console.log('This requires a connection to the TOS database and is yet to be implemented!');
+  return containerIDs.map((cid) => {
+    // if (!containers.find(cid)) throw NoContainerError(); <- pseudocode
+    return {
+      block: 'A',
+      size: 'TWENTYFOOT'
+    };
+  });
 };
 
 // check if user (by email) exists in the database
@@ -91,6 +105,16 @@ module.exports.isUserNotSelfCheck = (email, user) => {
 // check that given email matches the user's (user) email
 module.exports.isUserSelfCheck = (email, user) => {
   if (email !== user.userEmail) throw new Errors.NotOwnUserError();
+};
+
+// returns total TFU
+module.exports.isValidNumContainersCheck = (numContainers, containerSizes) => {
+  if (numContainers !== containerSizes.length) throw new Errors.InvalidNumContainersError();
+
+  const totalTFU = containerSizes.reduce((acc, size) => acc + containerSizeToInt(size));
+  if (totalTFU > global.MAX_TFU) throw new Errors.InvalidNumContainersError();
+
+  return totalTFU;
 };
 
 // check if reset token is valid (using user's current password as secret key)

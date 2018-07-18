@@ -11,8 +11,14 @@ const Query = `
     name: String
     role: UserRole
     company: String
-    confirmed: Boolean,
+    confirmed: Boolean
     emailVerified: Boolean
+  }
+
+  input AvailableSlotsInput {
+    numContainers: Int!
+    importFullContainerIDs: [String]
+    knownContainerSizes: [ContainerSize] # exports or import empty
   }
 
   type Query {
@@ -27,6 +33,7 @@ const Query = `
     allBlocks: [Block]
     block(id: String!): Block
 
+    availableSlots(input: AvailableSlotsInput!): [TimeSlot]
     totalAllowedApptsPerHour: Int
   }
 `;

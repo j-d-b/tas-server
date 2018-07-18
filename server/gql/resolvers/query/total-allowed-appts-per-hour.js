@@ -2,7 +2,7 @@ const { isAdminResolver } = require('../auth');
 
 // totalAllowedApptsPerHour: Int
 const totalAllowedApptsPerHour = isAdminResolver.createResolver(
-  () => global.totalAllowed
+  () => global.TOTAL_ALLOWED
 );
 
 module.exports = totalAllowedApptsPerHour;

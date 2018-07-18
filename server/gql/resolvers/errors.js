@@ -19,6 +19,9 @@ module.exports = {
   InvalidDateValueError: createError('InvalidDateValueError', {
     message: 'The date must be a string in ISO8601 format',
   }),
+  InvalidNumContainersError: createError('InvalidNumContainersError', {
+    message: 'Invalid number of containers given (using TFU)'
+  }),
   InvalidOrExpiredLinkError: createError('InvalidOrExpiredLinkError', {
     message: 'This link is invalid or expired'
   }),

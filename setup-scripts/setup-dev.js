@@ -68,8 +68,8 @@ const sampleAppts = [
   {
     userEmail: 'robert@gmail.com',
     timeSlot: {
-      hour: 10,
-      date: '2018-09-15'
+      hour: 20,
+      date: new Date().toISOString().split('T')[0]
     },
     block: 'A',
     type: 'EXPORTFULL',
@@ -87,10 +87,10 @@ const sampleAppts = [
   {
     userEmail: 'robert@gmail.com',
     timeSlot: {
-      hour: 10,
-      date: '2018-09-14'
+      hour: 20,
+      date: new Date().toISOString().split('T')[0]
     },
-    block: 'B',
+    block: 'A',
     type: 'EXPORTEMPTY',
     typeDetails: {
       containerID: '9hsdf923',
@@ -100,10 +100,10 @@ const sampleAppts = [
   {
     userEmail: 'william@hotmail.com',
     timeSlot: {
-      hour: 23,
-      date: '2018-09-13'
+      hour: 20,
+      date: new Date().toISOString().split('T')[0]
     },
-    block: 'C',
+    block: 'A',
     type: 'IMPORTFULL',
     typeDetails: {
       containerID: '9f9h239fhsd',
@@ -114,7 +114,7 @@ const sampleAppts = [
     userEmail: 'william@hotmail.com',
     timeSlot: {
       hour: 16,
-      date: '2018-09-12'
+      date: new Date().toISOString().split('T')[0]
     },
     block: 'A',
     type: 'EXPORTEMPTY',
@@ -126,8 +126,8 @@ const sampleAppts = [
   {
     userEmail: 'cory@mmt.net',
     timeSlot: {
-      hour: 13,
-      date: '2018-09-12'
+      hour: 16,
+      date: new Date().toISOString().split('T')[0]
     },
     block: 'C',
     type: 'IMPORTEMPTY',
@@ -139,8 +139,8 @@ const sampleAppts = [
   {
     userEmail: 'cory@mmt.net',
     timeSlot: {
-      hour: 12,
-      date: '2018-09-11'
+      hour: 16,
+      date: new Date().toISOString().split('T')[0]
     },
     block: 'C',
     type: 'EXPORTFULL',
@@ -158,8 +158,8 @@ const sampleAppts = [
   {
     userEmail: 'cory@mmt.net',
     timeSlot: {
-      hour: 12,
-      date: '2018-09-11'
+      hour: 18,
+      date: new Date().toISOString().split('T')[0]
     },
     block: 'A',
     type: 'IMPORTFULL',
@@ -173,8 +173,8 @@ const sampleAppts = [
 const sampleBlocks = [
   {
     id: 'A',
-    maxAllowedApptsPerHour: 10,
-    currAllowedApptsPerHour: 8
+    maxAllowedApptsPerHour: 5,
+    currAllowedApptsPerHour: 4
   },
   {
     id: 'B',

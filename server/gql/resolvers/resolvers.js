@@ -14,6 +14,7 @@ const appts = requireQuery('appts');
 const allBlocks = requireQuery('all-blocks');
 const block = requireQuery('block');
 const totalAllowedApptsPerHour = requireQuery('total-allowed-appts-per-hour');
+const availableSlots = requireQuery('available-slots');
 
 const login = requireMutation('login');
 const resetPass = requireMutation('reset-pass');
@@ -63,7 +64,8 @@ const Resolvers = {
     appts,
     allBlocks,
     block,
-    totalAllowedApptsPerHour
+    totalAllowedApptsPerHour,
+    availableSlots
   },
   Mutation: {
     login,

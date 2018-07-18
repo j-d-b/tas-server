@@ -1,10 +1,8 @@
 require('dotenv').config();
 
-const fs = require('fs');
 const loki = require('lokijs');
 const startServer = require('./server/server');
 const LokiFSSA = require('lokijs/src/loki-fs-structured-adapter'); // see https://github.com/techfort/LokiJS/wiki/LokiJS-persistence-and-adapters
-const chalk = require('chalk');
 
 // use Lfsa
 const db = new loki('database/db.json', {
@@ -13,7 +11,9 @@ const db = new loki('database/db.json', {
   autosaveInterval: 4000 // currently arbitrary
 });
 
-global.totalAllowed = 60; // FOR DEV ONLY, until we have SQL db
+// TAS CONFIG (here for dev only) until SQL db setup
+global.TOTAL_ALLOWED = 12; // appts/hr
+global.MAX_TFU = 40; // max TFU per appt
 
 db.loadDatabase({}, (err) => {
   if (err) throw new Error(`🚫  Error loading database: ${err}`);

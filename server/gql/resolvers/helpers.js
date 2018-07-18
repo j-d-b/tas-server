@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 
+module.exports.containerSizeToInt = size => size === 'TWENTYFOOT' ? 20 : 40;
+
 module.exports.getApptTypeDetails = (apptDetails) => {
   switch (apptDetails.type) {
     case 'IMPORTFULL': return apptDetails.importFull;
@@ -17,7 +19,23 @@ module.exports.getUserFromAuthHeader = (authHeader) => {
 module.exports.getVerifyLink = (email) => {
   const verifyToken = jwt.sign({ userEmail: email }, process.env.VERIFY_EMAIL_SECRET); // NOTE never expires
   return `http://localhost:3000/verify-email/${verifyToken}`; // TODO production link
-}
+};
+
+module.exports.getTimeSlotsInNextWeek = () => {
+  const HR_IN_MS = 60 * 60 * 1000;
+  const WEEK_IN_HRS = 7 * 24;
+
+  const startDate = new Date(Date.now() + HR_IN_MS); // start at next hour
+
+  // returns slot object for each hour in the next week
+  return [...Array(WEEK_IN_HRS).keys()].map((hour) => {
+    const slotTime = new Date(startDate.valueOf() + hour * HR_IN_MS);
+    return {
+      hour: slotTime.getUTCHours(),
+      date: slotTime.toISOString().split('T')[0]
+    };
+  });
+};
 
 module.exports.isAdmin = user => user.userRole === 'ADMIN';
 
