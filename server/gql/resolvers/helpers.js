@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 
+module.exports.buildSlotId = timeSlot => timeSlot.hour + ':' + timeSlot.date;
+
 module.exports.containerSizeToInt = size => size === 'TWENTYFOOT' ? 20 : 40;
 
 module.exports.getApptTypeDetails = (apptDetails) => {
@@ -11,14 +13,9 @@ module.exports.getApptTypeDetails = (apptDetails) => {
   }
 };
 
-module.exports.getUserFromAuthHeader = (authHeader) => {
-  const token = authHeader.replace('Bearer ', '');
-  return jwt.verify(token, process.env.PRIMARY_SECRET);
-};
-
-module.exports.getVerifyLink = (email) => {
-  const verifyToken = jwt.sign({ userEmail: email }, process.env.VERIFY_EMAIL_SECRET); // NOTE never expires
-  return `http://localhost:3000/verify-email/${verifyToken}`; // TODO production link
+module.exports.getTimeSlotFromId = (slotId) => {
+  const slotHourDate = slotId.split(':');
+  return { hour: slotHourDate[0], date: slotHourDate[1] };
 };
 
 module.exports.getTimeSlotsInNextWeek = () => {
@@ -35,6 +32,16 @@ module.exports.getTimeSlotsInNextWeek = () => {
       date: slotTime.toISOString().split('T')[0]
     };
   });
+};
+
+module.exports.getUserFromAuthHeader = (authHeader) => {
+  const token = authHeader.replace('Bearer ', '');
+  return jwt.verify(token, process.env.PRIMARY_SECRET);
+};
+
+module.exports.getVerifyLink = (email) => {
+  const verifyToken = jwt.sign({ userEmail: email }, process.env.VERIFY_EMAIL_SECRET); // NOTE never expires
+  return `http://localhost:3000/verify-email/${verifyToken}`; // TODO production link
 };
 
 module.exports.isAdmin = user => user.userRole === 'ADMIN';

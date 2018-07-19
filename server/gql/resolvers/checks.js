@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const Errors = require('./errors');
-const { getApptTypeDetails, containerSizeToInt } = require('./helpers');
+const { getApptTypeDetails, containerSizeToInt, buildSlotId, getTimeSlotFromId } = require('./helpers');
 
 // TODO
 // checks if containers in given list of id exists in TOS
@@ -83,18 +83,21 @@ module.exports.isAllowedPasswordCheck = (password) => {
 
 // check for availability of new/updated appt(s) (in given array of apptDetails)
 module.exports.isAvailableCheck = (apptDetailsArr, appts, blocks) => {
-  const detailsBySlotMap = apptDetailsArr.reduce((map, { timeSlot }, i) => {
-    map.has(timeSlot) ? map.set(timeSlot, map.get(timeSlot).push(apptDetailsArr[i])) : map.set(timeSlot, [apptDetailsArr[i]]);
-    return map;
-  }, new Map());
+  const detailsBySlot = apptDetailsArr.reduce((obj, { timeSlot }, i) => {
+    const slotId = buildSlotId(timeSlot); // for map key
+    obj[slotId] ? obj[slotId].push(apptDetailsArr[i]) : obj[slotId] = [apptDetailsArr[i]];
+    return obj;
+  }, {});
 
-  detailsBySlotMap.forEach((detailsArr, slot) => {
+  Object.entries(detailsBySlot).forEach(([slotId, detailsArr]) => {
+    const slot = getTimeSlotFromId(slotId);
+
     const slotTotalCurrScheduled = appts.count({ 'timeSlot.hour': slot.hour, 'timeSlot.date': slot.date });
     if (slotTotalCurrScheduled + detailsArr.length > global.TOTAL_ALLOWED) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
 
     const moveCountByBlockMap = detailsArr.reduce((map, { typeDetails }) => {
       const block = typeDetails && typeDetails.block;
-      map.has(block) ? map.set(block, map.get(block) + 1) : map.set(block, 1);
+      if (block) map.has(block) ? map.set(block, map.get(block) + 1) : map.set(block, 1);
       return map;
     }, new Map());
 

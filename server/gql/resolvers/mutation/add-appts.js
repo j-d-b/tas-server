@@ -22,7 +22,8 @@ const addAppts = isAuthenticatedResolver.createResolver(
       };
     });
 
-    isAvailableCheck(input, appts, blocks); // appt scheduling logic
+    isAvailableCheck(toInsert, appts, blocks); // appt scheduling logic
+
     const insertedAppts = appts.insert(toInsert);
     return Array.isArray(insertedAppts) ? insertedAppts : [insertedAppts];
   }
