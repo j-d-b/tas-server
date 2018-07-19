@@ -114,7 +114,7 @@ const sampleAppts = [
   {
     userEmail: 'william@hotmail.com',
     timeSlot: {
-      hour: 16,
+      hour: 23,
       date: new Date().toISOString().split('T')[0]
     },
     block: 'A',
@@ -127,7 +127,7 @@ const sampleAppts = [
   {
     userEmail: 'cory@mmt.net',
     timeSlot: {
-      hour: 16,
+      hour: 23,
       date: new Date().toISOString().split('T')[0]
     },
     block: 'C',
@@ -140,7 +140,7 @@ const sampleAppts = [
   {
     userEmail: 'cory@mmt.net',
     timeSlot: {
-      hour: 16,
+      hour: 23,
       date: new Date().toISOString().split('T')[0]
     },
     block: 'C',
