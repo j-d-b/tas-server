@@ -24,9 +24,16 @@ All other fields map directly to the `Appt` schema fields and resolvers are triv
 Unlike appointments, each user in the `users` collection contains the same fields of type `User` as the GraphQL schema (`./schema/user.js`). Thus resolving the user object to the GraphQL return is trivial.
 
 
-## Resolver structure
+## Resolvers
 `auth.js` holds and exports resolvers/resolver chains which throw apollo errors. Resolvers in this file only check and modify the `context` parameter of the resolver. This includes checking jwts and verifying identity. Checks in `auth.js` do not assume anything in the resolver `arg` parameter.
 
-Each root resolver has an associated `.js` file of the same name (though dash-deliminated rather than camelCase). Each file exports (as default) the resolver to perform the root resolver request. No error throwing should occur in these files (sendmail as an exception); *only* checks from `checks.js` (which throw errors) followed by the requested action, usually a database query or insertion.
+Each root resolver has an associated `.js` file of the same name (though dash-deliminated rather than camelCase). Each file exports (as default) the resolver to perform the root resolver request. No error throwing should occur in these files (sending mail is an exception); *only* checks from `checks.js` (which throw errors) followed by the requested action, usually a database query or insertion.
 
 `checks.js` exports checks for use in resolvers. All checks will throw semantic errors if the check fails, halting further execution of the resolver. Some checks return objects to avoid duplicate database queries. For example, `doesUserExistCheck` returns the user object from the database.
+
+### Sending mail
+The following mutations send transactional emails to a given user:
+* addUser
+* confirmUser
+* sendResetPassLink
+* sendVerifyEmailLink
