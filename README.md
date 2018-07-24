@@ -29,7 +29,7 @@ MARIADB_DATABASE=tas
 
 The backend is an [Express](https://expressjs.com/) web server which provides a `/graphql` endpoint using [Apollo Server](https://www.apollographql.com/docs/apollo-server/). It uses [Sequelize](http://docs.sequelizejs.com/) to connect to, setup, and model a MariaDB database.
 
-To use the backend, the database tables must be setup and the server started.
+To use the backend, the database and tables must be setup and the server started.
 
 The server can run in two modes: `development` and `production`.
 
@@ -87,11 +87,11 @@ Great; you're on your way.
 ### For production
 **Note: Production version is not yet actually production ready!**
 
-Setup the database and relevant collections (users, appointments...) *first time only*
+Setup the database tables (users, blocks, appts, config) *first time only*
 ```
 yarn setup
 ```
-**Note:** Running `yarn setup` will delete any data in the database `db.json` (it will warn you), so *only run if looking for a fresh start.*
+**Note:** Running `yarn setup` will drop all existing database tables (it will warn you), so *only run if looking for a fresh start.*
 
 Start the server
 ```
