@@ -48,10 +48,10 @@ module.exports.doesContainerIdExistCheck = (containerId) => {
   };
 };
 
-// check if user (by email) exists in the database
+// check if user (by email) exists in the database (using User model)
 // returns target user
-module.exports.doesUserExistCheck = (userEmail, users) => {
-  const targetUser = users.by('email', userEmail);
+module.exports.doesUserExistCheck = async (userEmail, User) => {
+  const targetUser = await User.findById(userEmail);
   if (!targetUser) throw new Errors.NoUserError({ data: { targetUser: userEmail }});
   return targetUser;
 };
