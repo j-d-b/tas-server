@@ -16,8 +16,13 @@ An environment variables file (called `.env`) must also be added to the project 
 ```
 PRIMARY_SECRET=secret-key
 VERIFY_EMAIL_SECRET=different-secret-key
-FROM_EMAIL=robert@gmail.com
-FROM_EMAIL_PASS=123456
+MG_FROM_EMAIL=test@mailgun.org
+MG_API_KEY=my-mailgun-api-key
+MG_DOMAIN=my-mailgun-domain.org
+MARIADB_HOST=127.0.0.1
+MARIADB_USER=root
+MARIADB_PASSWORD=''
+MARIADB_DATABASE=tas
 ```
 
 The backend is an [Express](https://expressjs.com/) web server which provides a `/graphql` endpoint using [Apollo Server](https://www.apollographql.com/docs/apollo-server/). It uses a persistent, in-memory, [LokiJS](http://lokijs.org/#/) database.

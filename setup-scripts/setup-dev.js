@@ -1,11 +1,29 @@
+require('dotenv').config();
+
 const bcrypt = require('bcrypt');
 const chalk = require('chalk');
+const Sequelize = require('sequelize');
 
-const initDb = require('./init-db');
+const sequelize = require('../data/sequelize-connection');
+const defineModels = require('../data/define-models');
 
-console.log(chalk.magenta('------- Development Mode -------'));
-
-const db = initDb();
+const sampleBlocks = [
+  {
+    id: 'A',
+    maxAllowedApptsPerHour: 5,
+    currAllowedApptsPerHour: 1
+  },
+  {
+    id: 'B',
+    maxAllowedApptsPerHour: 15,
+    currAllowedApptsPerHour: 15
+  },
+  {
+    id: 'C',
+    maxAllowedApptsPerHour: 10,
+    currAllowedApptsPerHour: 5
+  }
+];
 
 const sampleUsers = [
   {
@@ -71,15 +89,14 @@ const sampleAppts = [
       hour: 20,
       date: new Date().toISOString().split('T')[0]
     },
-    block: 'A',
     type: 'EXPORTFULL',
     typeDetails: {
-      containerID: '192fh1h2f',
+      containerId: '192fh1h2f',
       containerSize: 'TWENTYFOOT',
       containerWeight: 4000,
       bookingNum: 1924192,
       vesselName: 'Blueberry',
-      vesselETA: 'Tomorrow',
+      vesselETA: '10-10-2018',
       destinationPort: 'String!',
       firstPortOfDischarge: 'String!'
     }
@@ -90,10 +107,9 @@ const sampleAppts = [
       hour: 20,
       date: new Date().toISOString().split('T')[0]
     },
-    block: 'A',
     type: 'EXPORTEMPTY',
     typeDetails: {
-      containerID: '9hsdf923',
+      containerId: '9hsdf923',
       containerSize: 'FOURTYFOOT'
     }
   },
@@ -103,10 +119,9 @@ const sampleAppts = [
       hour: 20,
       date: new Date().toISOString().split('T')[0]
     },
-    block: 'A',
     type: 'IMPORTFULL',
     typeDetails: {
-      containerID: '9f9h239fhsd',
+      containerId: '9f9h239fhsd',
       formNumber705: 'FORM239r0j23',
       block: 'A'
     }
@@ -117,10 +132,9 @@ const sampleAppts = [
       hour: 23,
       date: new Date().toISOString().split('T')[0]
     },
-    block: 'A',
     type: 'EXPORTEMPTY',
     typeDetails: {
-      containerID: 'jf21j1f3f2',
+      containerId: 'jf21j1f3f2',
       containerSize: 'TWENTYFOOT'
     }
   },
@@ -130,7 +144,6 @@ const sampleAppts = [
       hour: 23,
       date: new Date().toISOString().split('T')[0]
     },
-    block: 'C',
     type: 'IMPORTEMPTY',
     typeDetails: {
       containerSize: 'TWENTYFOOT',
@@ -143,15 +156,14 @@ const sampleAppts = [
       hour: 23,
       date: new Date().toISOString().split('T')[0]
     },
-    block: 'C',
     type: 'EXPORTFULL',
     typeDetails: {
-      containerID: '2883hf8ttt',
+      containerId: '2883hf8ttt',
       containerSize: 'TWENTYFOOT',
       containerWeight: 1222,
       bookingNum: 293923,
       vesselName: 'String',
-      vesselETA: 'String',
+      vesselETA: '10-10-2018',
       destinationPort: 'String',
       firstPortOfDischarge: 'String'
     }
@@ -162,54 +174,36 @@ const sampleAppts = [
       hour: 18,
       date: new Date().toISOString().split('T')[0]
     },
-    block: 'A',
     type: 'IMPORTFULL',
     typeDetails: {
-      containerID: 'udfhd7f7d',
+      containerId: 'udfhd7f7d',
       formNumber705: 'FORMio2h38hf',
       block: 'A'
     }
   },
 ];
 
-const sampleBlocks = [
-  {
-    id: 'A',
-    maxAllowedApptsPerHour: 5,
-    currAllowedApptsPerHour: 1
-  },
-  {
-    id: 'B',
-    maxAllowedApptsPerHour: 15,
-    currAllowedApptsPerHour: 15
-  },
-  {
-    id: 'C',
-    maxAllowedApptsPerHour: 10,
-    currAllowedApptsPerHour: 5
-  }
-];
+const sampleConfig = {
+  maxTFUPerAppt: 40,
+  totalAllowedApptsPerHour: 5
+};
 
-console.log(chalk.yellow('Adding sample data:'));
+const { User, Appt, Block, Config } = defineModels(sequelize);
 
-const appts = db.getCollection('appointments');
-const users = db.getCollection('users');
-const blocks = db.getCollection('blocks');
+const createTables = async () => await sequelize.sync({ force: true });
+const addBlocks = async () => await Promise.all(sampleBlocks.map(async block => await Block.create(block)));
+const addUsers = async () => await Promise.all(sampleUsers.map(async user => await User.create(user)));
+const addAppts = async () => await Promise.all(sampleAppts.map(async ({ typeDetails, ...rest }) => await Appt.create({ ...rest, ...typeDetails })));
+const addConfig = async () => await Config.create(sampleConfig);
 
-console.log('appointments...');
-appts.insert(sampleAppts);
+const setupDev = async () => {
+  console.log(chalk.magenta('------- Development Mode -------'));
 
-console.log('users...');
-users.insert(sampleUsers);
+  console.log(chalk.yellow('🛠  Creating tables'));
+  await createTables();
 
-console.log('blocks...');
-blocks.insert(sampleBlocks);
+  console.log(chalk.yellow('⚙️  Adding sample data'));
+  addBlocks().then(addUsers).then(addAppts).then(addConfig).then(() => console.log(chalk.green('💫  Database setup complete'))).then(() => process.exit(0));
+}
 
-db.saveDatabase((err) => {
-  if (err) {
-    throw new Error('⚠️  Error saving database: ' + err);
-  } else {
-    console.log('👌  Database setup complete');
-    process.exit(0);
-  }
-});
+setupDev();

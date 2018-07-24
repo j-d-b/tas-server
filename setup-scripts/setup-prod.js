@@ -1,29 +1,29 @@
+require('dotenv').config();
+
 const chalk = require('chalk');
 const readline = require('readline');
+const Sequelize = require('sequelize');
 
-const initDb = require('./init-db.js');
+const sequelize = require('../data/sequelize-connection');
+const defineModels = require('../data/define-models');
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
-console.log(chalk.green('This process will set up a fresh TAS database, clearing any existing data in ') + chalk.bgGreen('db.json'));
+console.log(chalk.green('This process will set fresh TAS database tables, dropping any existing tables in the ') + chalk.bgGreen('`tas`') + ' database');
 
-rl.question(chalk.yellow('Are you sure you wish to continue (Y/n)?\n'), (input) => {
+rl.question(chalk.yellow('Are you sure you wish to continue (Y/n)?\n'), async (input) => {
   if (input.toLowerCase() === 'n' || input.toLowerCase() === 'no') {
-    console.log(chalk.green('cancelling...'));
+    console.log(chalk.green('Cancelling...'));
     process.exit(0);
   }
 
-  const db = initDb();
+  console.log(chalk.yellow('🛠  Creating tables'));
+  const models = defineModels(sequelize);
+  await sequelize.sync({ force: true });
 
-  db.saveDatabase((err) => {
-    if (err) {
-      throw new Error('⚠️  Error saving database: ' + err);
-    } else {
-      console.log('👌  Database setup complete');
-      process.exit(0);
-    }
-  });
+  console.log(chalk.green('💫  Database setup complete'));
+  process.exit(0);
 });
