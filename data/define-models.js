@@ -36,7 +36,7 @@ module.exports = (sequelize) => {
       type: Sequelize.STRING,
       field: 'mobile_number'
     }
-  });
+  }, { underscored: true });
 
   const Block = sequelize.define('block', {
     id: {
@@ -61,15 +61,6 @@ module.exports = (sequelize) => {
       primaryKey: true,
       autoIncrement: true
     },
-    userEmail: {
-      type: Sequelize.STRING,
-      field: 'user_email',
-      allowNull: false,
-      references: {
-        model: 'users',
-        key: 'email'
-      }
-    },
     timeSlotHour: {
       type: Sequelize.INTEGER,
       field: 'time_slot_hour',
@@ -84,13 +75,6 @@ module.exports = (sequelize) => {
       type: Sequelize.ENUM,
       values: ['IMPORTFULL', 'IMPORTEMPTY', 'EXPORTFULL', 'EXPORTEMPTY'],
       allowNull: false
-    },
-    block: {
-      type: Sequelize.STRING,
-      references: {
-        model: 'blocks',
-        key: 'id'
-      }
     },
     containerId: {
       type: Sequelize.STRING,
@@ -144,7 +128,8 @@ module.exports = (sequelize) => {
         this.setDataValue('timeSlotHour', slot.hour);
         this.setDataValue('timeSlotDate', slot.date);
       }
-    }
+    },
+    underscored: true
   });
 
   // single row config table
@@ -159,7 +144,11 @@ module.exports = (sequelize) => {
       field: 'max_tfu_per_appt',
       allowNull: false
     }
-  }, { timestamps: false, freezeTableName: true });
+  }, { timestamps: false, freezeTableName: true, underscored: true });
+
+  // associations
+  Block.hasMany(Appt, { foreignKey: 'block' });
+  User.hasMany(Appt, { foreignKey: 'userEmail' });
 
   return { User, Appt, Block, Config };
 };
