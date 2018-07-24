@@ -27,17 +27,18 @@ module.exports.doesApptExistCheck = (apptId, appts) => {
   return targetAppt;
 };
 
-// check if the given block (by id) exists in the database
+// check if the given block (by id) exists in the database (usin Block model)
 // returns the target block
-module.exports.doesBlockExistCheck = (blockId, blocks) => {
-  const targetBlock = blocks.by('id', blockId);
+module.exports.doesBlockExistCheck = async (blockId, Block) => {
+  const targetBlock = await Block.findById(blockId);
   if (!targetBlock) throw new Errors.NoBlockError({ data: { targetBlock: blockId }});
   return targetBlock;
 };
 
-// ensure block (by id) does not already exist in the database
-module.exports.doesBlockNotExistCheck = (blockId, blocks) => {
-  if (blocks.by('id', blockId)) throw new Errors.BlockAlreadyExistsError({ data: { targetBlock: blockId }});
+// ensure block (by id) does not already exist in the database (using Block model)
+module.exports.doesBlockNotExistCheck = async (blockId, Block) => {
+  const block = await Block.findById(blockId);
+  if (block) throw new Errors.BlockAlreadyExistsError({ data: { targetBlock: blockId }});
 };
 
 // TODO

@@ -3,10 +3,10 @@ const { doesBlockExistCheck } = require('../checks');
 
 // deleteBlock(id: String!): String
 const deleteBlock = isAdminResolver.createResolver(
-  (_, { id }, { blocks }) => {
-    const targetBlock = doesBlockExistCheck(id, blocks);
+  async (_, { id }, { Block }) => {
+    const targetBlock = await doesBlockExistCheck(id, Block);
 
-    blocks.remove(targetBlock);
+    //blocks.remove(targetBlock);
     return `Block ${id} deleted successfully`;
   }
 );
