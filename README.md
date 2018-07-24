@@ -4,7 +4,9 @@ This repository contains the API backend service for the BCTC Truck Appointment 
 
 The TAS has web and native mobile interfaces, and thus the backend is implemented as an API in a separate environment as a GraphQL server for use by the web and mobile applications.
 
-The entry point file, `index.js`, loads the database and starts the server (`server/server.js`)
+The entry point file, `index.js`, starts the server (`server/server.js`).
+
+The backend connects to a MariaDB database server specified in the `.env` configuration
 
 ## Usage
 Install dependencies
@@ -25,9 +27,9 @@ MARIADB_PASSWORD=''
 MARIADB_DATABASE=tas
 ```
 
-The backend is an [Express](https://expressjs.com/) web server which provides a `/graphql` endpoint using [Apollo Server](https://www.apollographql.com/docs/apollo-server/). It uses a persistent, in-memory, [LokiJS](http://lokijs.org/#/) database.
+The backend is an [Express](https://expressjs.com/) web server which provides a `/graphql` endpoint using [Apollo Server](https://www.apollographql.com/docs/apollo-server/). It uses [Sequelize](http://docs.sequelizejs.com/) to connect to, setup, and model a MariaDB database.
 
-To use the backend, the database must be initialized and the server started.
+To use the backend, the database tables must be setup and the server started.
 
 The server can run in two modes: `development` and `production`.
 
