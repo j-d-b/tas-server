@@ -6,8 +6,7 @@ const expressPlayground = require('graphql-playground-middleware-express').defau
 
 const schema = require('./gql/schema');
 
-module.exports = (db) => {
-  const { appts, users, blocks } = db;
+module.exports = (models) => {
 
   const app = express();
 
@@ -17,9 +16,7 @@ module.exports = (db) => {
     return {
       schema: schema,
       context: {
-        appts: appts,
-        users: users,
-        blocks: blocks,
+        ...models,
         authHeader: req.headers.authorization
       }
     };

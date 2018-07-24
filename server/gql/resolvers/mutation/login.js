@@ -4,13 +4,13 @@ const { signJwt } = require('../helpers');
 
 // login(email: String!, password: String!): String
 const login = notLoggedInResolver.createResolver(
-  async (_, { email, password }, { users }) => {
-    const targetUser = doesUserExistCheck(email, users);
+  async (_, { email, password }, { User }) => {
+    //const targetUser = doesUserExistCheck(email, users);
 
-    isUserConfirmedCheck(targetUser);
-    isUserEmailVerifiedCheck(targetUser);
-    await isCorrectPasswordCheck(password, targetUser);
-
+    //isUserConfirmedCheck(targetUser);
+    //isUserEmailVerifiedCheck(targetUser);
+    //await isCorrectPasswordCheck(password, targetUser);
+    const targetUser = await User.findById(email);
     return signJwt(targetUser);
   }
 );

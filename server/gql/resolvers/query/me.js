@@ -2,7 +2,7 @@ const { isAuthenticatedResolver } = require('../auth');
 
 // me: User
 const me = isAuthenticatedResolver.createResolver(
-  (_, args, { users, user }) => users.by('email', user.userEmail)
+  async (_, args, { User, user }) => await User.findById(user.userEmail)
 );
 
 module.exports = me;
