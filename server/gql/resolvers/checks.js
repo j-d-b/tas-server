@@ -57,9 +57,10 @@ module.exports.doesUserExistCheck = async (userEmail, User) => {
   return targetUser;
 };
 
-// ensure user (by email) does not already exist in the database
-module.exports.doesUserNotExistCheck = (userEmail, users) => {
-  if (users.by('email', userEmail)) throw new Errors.UserAlreadyExistsError({ data: { targetUser: userEmail }});
+// ensure user (by email) does not already exist in the database (using User model)
+module.exports.doesUserNotExistCheck = async (userEmail, User) => {
+  const targetUser = await User.findById(userEmail);
+  if (targetUser) throw new Errors.UserAlreadyExistsError({ data: { targetUser: userEmail }});
 };
 
 // check if apptDetails.typeDetails exists for the given details.type

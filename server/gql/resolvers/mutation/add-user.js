@@ -7,25 +7,17 @@ const { MailSendError } = require('../errors');
 
 // addUser(password: String!, details: AddUserInput!): User
 const addUser = baseResolver.createResolver(
-  async (_, { password, details }, { users }) => {
+  async (_, { password, details }, { User }) => {
     isAllowedPasswordCheck(password);
-    doesUserNotExistCheck(details.email, users);
+    await doesUserNotExistCheck(details.email, User);
 
-    try {
-      await sendSignupReceivedNotice(details.email, { name: details.name.split(' ')[0] });
-    } catch (err) {
+    const firstName = details.name.split(' ')[0];
+
+    return sendSignupReceivedNotice(details.email, { name: firstName }).catch(err => {
       throw new MailSendError();
-    }
-
-    return bcrypt.hash(password, 10).then(hash => (
-      users.insert({
-        password: hash,
-        confirmed: false,
-        emailVerified: false,
-        role: 'CUSTOMER',
-        ...details
-      })
-    ));
+    }).then(() => (
+      bcrypt.hash(password, 10)
+    )).then(hash => User.create({ password: hash, ...details }));
   }
 );
 
