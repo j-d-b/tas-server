@@ -2,8 +2,8 @@ const { isAdminResolver } = require('../auth');
 
 // updateTotalAllowed(newVal: Int!): Int
 const updateTotalAllowed = isAdminResolver.createResolver(
-  (_, { newVal }) => {
-    global.TOTAL_ALLOWED = newVal;
+  async (_, { newVal }, { Config }) => {
+    await Config.update({ totalAllowedApptsPerHour: newVal }, { where: {}});
     return newVal;
   }
 );

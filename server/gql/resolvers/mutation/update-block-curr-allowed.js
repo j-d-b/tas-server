@@ -3,18 +3,17 @@ const { doesBlockExistCheck, isAllowedApptsPerHourValsCheck } = require('../chec
 
 // updateBlockCurrAllowed(blockId: String!, newVal: Int!): Block
 const updateBlockCurrAllowed = isOpOrAdminResolver.createResolver(
-  (_, { blockId, newVal }, { blocks }) => {
-    const targetBlock = doesBlockExistCheck(blockId, blocks);
+  async (_, { blockId, newVal }, { Block }) => {
+    const targetBlock = await doesBlockExistCheck(blockId, Block);
 
     isAllowedApptsPerHourValsCheck({
       maxAllowedApptsPerHour: targetBlock.maxAllowedApptsPerHour,
       currAllowedApptsPerHour: newVal
     });
 
-    targetBlock.currAllowedApptsPerHour = newVal;
-    blocks.update(targetBlock);
+    await Block.update({ currAllowedApptsPerHour: newVal }, { where: { id: blockId }});
 
-    return targetBlock;
+    return Block.findById(blockId); // IDEA not another database interaction here, if update fails we won't get here, if it doesn't, we know what it'll be
   }
 );
 

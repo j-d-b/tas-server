@@ -3,12 +3,11 @@ const { doesUserExistCheck, doesUserNotExistCheck } = require('../checks');
 
 // changeEmail(currEmail: String!, newEmail: String!): String
 const changeEmail = isAdminResolver.createResolver(
-  (_, { currEmail, newEmail }, { users }) => {
-    const targetUser = doesUserExistCheck(currEmail, users);
-    doesUserNotExistCheck(newEmail, users);
+  async (_, { currEmail, newEmail }, { User }) => {
+    await doesUserExistCheck(currEmail, User); // IDEA chain these for single db connection
+    await doesUserNotExistCheck(newEmail, User);
 
-    targetUser.email = newEmail;
-    users.update(targetUser);
+    await User.update({ email: newEmail }, { where: { email: currEmail } });
 
     // IDEA send email to old user email and new one
 

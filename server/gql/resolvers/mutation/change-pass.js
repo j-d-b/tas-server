@@ -5,17 +5,16 @@ const { isAllowedPasswordCheck, isCorrectPasswordCheck } = require('../checks');
 
 // changePass(newPassword: String!, currPassword: String!): String
 const changePass = isAuthenticatedResolver.createResolver(
-  async (obj, { currPassword, newPassword }, { users, user }) => {
-    const userInDb = users.by('email', user.userEmail);
+  async (obj, { currPassword, newPassword }, { user, User }) => {
+    const userInDb = await User.findById(user.userEmail);
     await isCorrectPasswordCheck(currPassword, userInDb);
-    
+
     isAllowedPasswordCheck(newPassword);
 
-    return bcrypt.hash(newPassword, 10).then((hash) => {
-      userInDb.password = hash;
-      users.update(userInDb);
-      return 'Password updated successfully';
-    });
+    const hash = await bcrypt.hash(newPassword, 10);
+    await User.update({ password: hash }, { where: { email: user.userEmail }});
+
+    return 'Password updated successfully';
   }
 );
 

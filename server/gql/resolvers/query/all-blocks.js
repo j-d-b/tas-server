@@ -2,7 +2,7 @@ const { isAuthenticatedResolver } = require('../auth');
 
 // allBlocks: [Block]
 const allBlocks = isAuthenticatedResolver.createResolver(
-  (_, args, { blocks }) => blocks.find()
+  async (_, args, { Block }) => Block.findAll()
 );
 
 module.exports = allBlocks;

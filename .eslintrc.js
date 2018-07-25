@@ -30,6 +30,7 @@ module.exports = {
       2,
       "as-needed",
       { "requireForBlockBody": true }
-    ]
+    ],
+    "no-return-await": 1
   }
 };

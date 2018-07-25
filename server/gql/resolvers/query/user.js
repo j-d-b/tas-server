@@ -2,7 +2,7 @@ const { isAdminResolver } = require('../auth');
 
 // user(email: String!): User
 const user = isAdminResolver.createResolver(
-  (_, args, { users }) => users.by('email', args.email)
+  async (_, args, { User }) => User.findById(args.email)
 );
 
 module.exports = user;

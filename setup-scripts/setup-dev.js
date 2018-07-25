@@ -10,17 +10,17 @@ const defineModels = require('../data/define-models');
 const sampleBlocks = [
   {
     id: 'A',
-    maxAllowedApptsPerHour: 5,
+    maxAllowedApptsPerHour: 3,
     currAllowedApptsPerHour: 1
   },
   {
     id: 'B',
-    maxAllowedApptsPerHour: 15,
-    currAllowedApptsPerHour: 15
+    maxAllowedApptsPerHour: 2,
+    currAllowedApptsPerHour: 2
   },
   {
     id: 'C',
-    maxAllowedApptsPerHour: 10,
+    maxAllowedApptsPerHour: 5,
     currAllowedApptsPerHour: 5
   }
 ];

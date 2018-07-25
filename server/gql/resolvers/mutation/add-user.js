@@ -11,13 +11,17 @@ const addUser = baseResolver.createResolver(
     isAllowedPasswordCheck(password);
     await doesUserNotExistCheck(details.email, User);
 
-    const firstName = details.name.split(' ')[0];
-
-    return sendSignupReceivedNotice(details.email, { name: firstName }).catch(err => {
+    // IDEA mail sending and creating the user could be concurrent, with Promise.all
+    try {
+      await sendSignupReceivedNotice(details.email, { name: details.name.split(' ')[0] });
+    } catch (err) {
       throw new MailSendError();
-    }).then(() => (
-      bcrypt.hash(password, 10)
-    )).then(hash => User.create({ password: hash, ...details }));
+    }
+
+    const hash = await bcrypt.hash(password, 10);
+    await User.create({ password: hash, ...details });
+
+    return User.findById(details.email);
   }
 );
 

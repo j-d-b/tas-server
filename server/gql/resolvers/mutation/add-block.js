@@ -3,15 +3,19 @@ const { doesBlockNotExistCheck, isAllowedApptsPerHourValsCheck } = require('../c
 
 // addBlock(details: AddBlockInput!): Block
 const addBlock = isAdminResolver.createResolver(
-  (_, { details }, { blocks }) => {
-    doesBlockNotExistCheck(details.blockId, blocks);
+  async (_, { details }, { Block }) => {
+    await doesBlockNotExistCheck(details.blockId, Block);
     isAllowedApptsPerHourValsCheck(details);
 
-    return blocks.insert({
+    const newBlock = {
       id: details.blockId,
       maxAllowedApptsPerHour: details.maxAllowedApptsPerHour,
       currAllowedApptsPerHour: details.currAllowedApptsPerHour
-    });
+    };
+
+    await Block.create(newBlock);
+
+    return newBlock;
   }
 );
 

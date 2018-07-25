@@ -41,7 +41,7 @@ module.exports = {
     message: 'You must provide type-specific appointment details'
   }),
   NoAvailabilityError: createError('NoAvailabilityError', {
-    message: 'The appointment cannot be scheduled for this time slot'
+    message: 'The appointment(s) cannot be scheduled for this time slot'
   }),
   NoBlockError: createError('NoBlockError', {
     message: 'The provided block does not exist'

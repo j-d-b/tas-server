@@ -21,8 +21,8 @@ module.exports.doContainerIdsExistCheck = (containerIDs) => {
 
 // check if appt (by id) exists in the database
 // returns target appt
-module.exports.doesApptExistCheck = (apptId, appts) => {
-  const targetAppt = appts.get(apptId);
+module.exports.doesApptExistCheck = async (apptId, Appt) => {
+  const targetAppt = await Appt.findById(apptId);
   if (!targetAppt) throw new Errors.NoApptError();
   return targetAppt;
 };
@@ -83,32 +83,38 @@ module.exports.isAllowedPasswordCheck = (password) => {
   if (password.length < 6) throw new Errors.PasswordCheckError();
 };
 
+// IDEA rewrite with Promise.all for concurrency/speed
 // check for availability of new/updated appt(s) (in given array of apptDetails)
-module.exports.isAvailableCheck = (apptDetailsArr, appts, blocks) => {
+module.exports.isAvailableCheck = async (apptDetailsArr, Appt, Block, Config) => {
   const detailsBySlot = apptDetailsArr.reduce((obj, { timeSlot }, i) => {
     const slotId = buildSlotId(timeSlot); // for map key
     obj[slotId] ? obj[slotId].push(apptDetailsArr[i]) : obj[slotId] = [apptDetailsArr[i]];
     return obj;
   }, {});
 
-  Object.entries(detailsBySlot).forEach(([slotId, detailsArr]) => {
+  // check overall availability per timeSlot
+  for (const [slotId, detailsArr] of Object.entries(detailsBySlot)) {
     const slot = getTimeSlotFromId(slotId);
 
-    const slotTotalCurrScheduled = appts.count({ 'timeSlot.hour': slot.hour, 'timeSlot.date': slot.date });
-    if (slotTotalCurrScheduled + detailsArr.length > global.TOTAL_ALLOWED) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
+    const slotTotalCurrScheduled = await Appt.count({ where: { timeSlotHour: slot.hour, timeSlotDate: slot.date } });
+    const config = await Config.findOne();
+    if (slotTotalCurrScheduled + detailsArr.length > config.totalAllowedApptsPerHour) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
 
-    const moveCountByBlockMap = detailsArr.reduce((map, { typeDetails }) => {
+    const moveCountByBlock = detailsArr.reduce((obj, { typeDetails }) => {
       const block = typeDetails && typeDetails.block;
-      if (block) map.has(block) ? map.set(block, map.get(block) + 1) : map.set(block, 1);
-      return map;
-    }, new Map());
+      if (block) obj[block] ? obj[block]++ : obj[block] = 1;
+      return obj;
+    }, {});
 
-    moveCountByBlockMap.forEach((count, block) => {
-      const blockCurrAllowed = blocks.by('id', block).currAllowedApptsPerHour;
-      const slotBlockCurrScheduled = appts.count({ 'timeSlot.hour': slot.hour, 'timeSlot.date': slot.date, block });
+    // check availability for each import full block
+    for (const [block, count] of Object.entries(moveCountByBlock)) {
+      const blockCurrAllowed = await Block.findById(block).then(block => block && block.currAllowedApptsPerHour);
+      console.log(blockCurrAllowed);
+      const slotBlockCurrScheduled = await Appt.count({ where: { timeSlotHour: slot.hour, timeSlotDate: slot.date, block } });
+      console.log('slotBlockCurrScheduled ' + slotBlockCurrScheduled);
       if (slotBlockCurrScheduled + count > blockCurrAllowed) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
-    });
-  });
+    }
+  }
 };
 
 module.exports.isCorrectPasswordCheck = async (password, userInDb) => {
@@ -147,22 +153,25 @@ module.exports.isUserSelfCheck = (email, user) => {
 };
 
 // returns total TFU
-module.exports.isValidNumContainersCheck = (numContainers, containerSizes) => {
+module.exports.isValidNumContainersCheck = async (numContainers, containerSizes, Config) => {
+  const config = await Config.findOne();
+  const maxTFUPerAppt = config.maxTFUPerAppt;
+
   if (numContainers !== containerSizes.length) throw new Errors.InvalidNumContainersError();
 
   const totalTFU = containerSizes.reduce((acc, size) => acc + containerSizeToInt(size));
-  if (totalTFU > global.MAX_TFU) throw new Errors.InvalidNumContainersError();
+  if (totalTFU > maxTFUPerAppt) throw new Errors.InvalidNumContainersError();
 
   return totalTFU;
 };
 
 // check if reset token is valid (using user's current password as secret key)
-// returns target user
-module.exports.resetTokenCheck = (resetToken, users) => {
+// returns user email from decoded token
+module.exports.resetTokenCheck = async (resetToken, User) => {
   try {
-    const targetUser = users.by('email', jwt.decode(resetToken).userEmail);
+    const targetUser = await User.findById(jwt.decode(resetToken).userEmail);
     jwt.verify(resetToken, targetUser.password); // current password hash is secret key
-    return targetUser;
+    return targetUser.email;
   } catch (err) {
     throw new Errors.InvalidOrExpiredLinkError();
   }
@@ -170,9 +179,9 @@ module.exports.resetTokenCheck = (resetToken, users) => {
 
 // check if verify token is valid
 // returns target user
-module.exports.verifyTokenCheck = (verifyToken, users) => {
+module.exports.verifyTokenCheck = async (verifyToken, User) => {
   try {
-    const targetUser = users.by('email', jwt.decode(verifyToken).userEmail);
+    const targetUser = await User.findById(jwt.decode(verifyToken).userEmail);
     jwt.verify(verifyToken, process.env.VERIFY_EMAIL_SECRET, { ignoreExpiration: true });
     return targetUser;
   } catch (err) {

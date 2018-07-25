@@ -121,12 +121,38 @@ module.exports = (sequelize) => {
     getterMethods: {
       timeSlot: function() {
         return { hour: this.timeSlotHour, date: this.timeSlotDate };
+      },
+      typeDetails: function() {
+        return {
+          containerId: this.conatinerId,
+          containerSize: this.containerSize,
+          containerWeight: this.containerWeight,
+          formNumber705: this.formNumber705,
+          emptyForCityFormNum: this.emptyForCityFormNum,
+          bookingNum: this.bookingNum,
+          vesselName: this.vesselName,
+          vesselETA: this.vesselETA,
+          destinationPort: this.destinationPort,
+          firstPortOfDischarge: this.firstPortOfDischarge
+        };
       }
     },
     setterMethods: {
       timeSlot: function(slot) {
         this.setDataValue('timeSlotHour', slot.hour);
         this.setDataValue('timeSlotDate', slot.date);
+      },
+      typeDetails: function(details) {
+        details.containerId && this.setDataValue('containerId', details.containerId);
+        details.containerSize && this.setDataValue('containerSize', details.containerSize);
+        details.containerWeight && this.setDataValue('containerWeight', details.containerWeight);
+        details.formNumber705 && this.setDataValue('formNumber705', details.formNumber705);
+        details.emptyForCityFormNum && this.setDataValue('emptyForCityFormNum', details.emptyForCityFormNum);
+        details.bookingNum && this.setDataValue('bookingNum', details.bookingNum);
+        details.vesselName && this.setDataValue('vesselName', details.vesselName);
+        details.vesselETA && this.setDataValue('vesselETA', details.vesselETA);
+        details.destinationPort && this.setDataValue('destinationPort', details.destinationPort);
+        details.firstPortOfDischarge && this.setDataValue('firstPortOfDischarge', details.firstPortOfDischarge);
       }
     },
     underscored: true

@@ -4,14 +4,15 @@ const { isOpOrAdmin } = require('../helpers');
 
 // deleteAppt(id: ID!): String
 const deleteAppt = isAuthenticatedResolver.createResolver(
-  (_, { id }, { appts, user }) => {
-    const targetAppt = doesApptExistCheck(id, appts);
+  async (_, { id }, { user, Appt }) => {
+    const targetAppt = await doesApptExistCheck(id, Appt);
 
     if (!isOpOrAdmin(user)) {
       isOwnApptCheck(targetAppt, user);
     }
 
-    appts.remove(targetAppt);
+    await Appt.destroy({ where: { id: id }});
+    
     return 'Appointment deleted successfully';
   }
 );

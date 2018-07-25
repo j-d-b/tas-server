@@ -7,8 +7,8 @@ const { MailSendError } = require('../errors');
 
 // sendResetPassLink(email: String!): String
 const sendResetPassLink = notLoggedInResolver.createResolver(
-  async (_, { email }, { users }) => {
-    const targetUser = doesUserExistCheck(email, users);
+  async (_, { email }, { User }) => {
+    const targetUser = await doesUserExistCheck(email, User);
 
     const resetToken = jwt.sign({
       userEmail: targetUser.email

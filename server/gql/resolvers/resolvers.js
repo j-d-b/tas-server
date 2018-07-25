@@ -41,11 +41,10 @@ const Resolvers = {
   Hour: hour,
   ISODate: isoDate,
   User: {
-    appts: (user, args, { appts }) => appts.find({ userEmail: user.email })
+    appts: async (user, args, { Appt }) => Appt.findAll({ where: { userEmail: user.email } })
   },
   Appt: { //
-    id: appt => appt.$loki, // uses $loki for id <- TODO assess this choice
-    user: (appt, args, { users }) => users.by('email', appt.userEmail)
+    user: async (appt, args, { User }) => User.findById(appt.userEmail)
   },
   TypeDetails: {
     __resolveType(obj) {

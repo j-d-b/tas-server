@@ -3,18 +3,17 @@ const { doesBlockExistCheck, isAllowedApptsPerHourValsCheck } = require('../chec
 
 // updateBlockMaxAllowed(blockId: String!, newVal: Int!): Block
 const updateBlockMaxAllowed = isAdminResolver.createResolver(
-  (_, { blockId, newVal }, { blocks }) => {
-    const targetBlock = doesBlockExistCheck(blockId, blocks);
+  async (_, { blockId, newVal }, { Block }) => {
+    const targetBlock = await doesBlockExistCheck(blockId, Block);
 
     isAllowedApptsPerHourValsCheck({
       maxAllowedApptsPerHour: newVal,
       currAllowedApptsPerHour: targetBlock.currAllowedApptsPerHour
     });
 
-    targetBlock.maxAllowedApptsPerHour = newVal;
-    blocks.update(targetBlock);
+    await Block.update({ maxAllowedApptsPerHour: newVal }, { where: { id: blockId }});
 
-    return targetBlock;
+    return Block.findById(blockId);
   }
 );
 

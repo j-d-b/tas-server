@@ -4,28 +4,22 @@ const { doesUserExistCheck, doesContainerIdExistCheck, hasTypeDetailsCheck, isUs
 
 // addAppts (input: [AddApptInput!]!): [Appt]
 const addAppts = isAuthenticatedResolver.createResolver(
-  (_, { input }, { appts, users, blocks, user }) => {
-    const toInsert = input.map((details) => {
-      const apptUserEmail = details.userEmail;
-      doesUserExistCheck(apptUserEmail, users);
+  async (_, { input }, { user, Appt, Block, User, Config }) => {
+    const newAppts = await Promise.all(input.map(async ({ timeSlot, userEmail, type, ...typeSpecific }) => {
+      await doesUserExistCheck(userEmail, User);
 
-      let typeDetails = hasTypeDetailsCheck(details); // schema doesn't verify this
-      if (details.type === 'IMPORTFULL') typeDetails = { ...typeDetails, ...doesContainerIdExistCheck(typeDetails.container) };
+      let typeDetails = hasTypeDetailsCheck({ type, ...typeSpecific }); // schema doesn't verify this
+      if (type === 'IMPORTFULL') typeDetails = { ...typeDetails, ...doesContainerIdExistCheck(typeDetails.containerId) };
 
-      if (!isOpOrAdmin(user)) isUserSelfCheck(apptUserEmail, user);
+      if (!isOpOrAdmin(user)) isUserSelfCheck(userEmail, user);
 
-      return {
-        timeSlot: details.timeSlot,
-        userEmail: apptUserEmail,
-        type: details.type,
-        typeDetails: typeDetails
-      };
-    });
+      return { timeSlot, userEmail, type, typeDetails };
+    }));
 
-    isAvailableCheck(toInsert, appts, blocks); // appt scheduling logic
+    await isAvailableCheck(newAppts, Appt, Block, Config); // appt scheduling logic
+    await Appt.bulkCreate(newAppts);
 
-    const insertedAppts = appts.insert(toInsert);
-    return Array.isArray(insertedAppts) ? insertedAppts : [insertedAppts];
+    return newAppts;
   }
 );
 

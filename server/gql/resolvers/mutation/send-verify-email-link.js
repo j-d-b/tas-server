@@ -6,8 +6,8 @@ const { MailSendError } = require('../errors');
 
 // sendVerifyEmailLink(email: String!): String
 const sendVerifyEmailLink = isAdminResolver.createResolver(
-  async (_, { email }, { users }) => {
-    const targetUser = doesUserExistCheck(email, users);
+  async (_, { email }, { User }) => {
+    const targetUser = await doesUserExistCheck(email, User);
     const verifyLink = getVerifyLink(email);
 
     try {

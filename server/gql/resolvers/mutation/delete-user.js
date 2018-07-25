@@ -6,8 +6,10 @@ const deleteUser = isAdminResolver.createResolver(
   async (_, { email }, { user, User, Appt }) => {
     const targetUser = await doesUserExistCheck(email, User);
     isUserNotSelfCheck(targetUser.email, user);
-    
-    return User.destroy({ where: { email }, limit: 1 }).then(() => `User ${email} deleted successfully`);
+
+    await User.destroy({ where: { email }, limit: 1 });
+
+    return `User ${email} deleted successfully`;
   }
 );
 

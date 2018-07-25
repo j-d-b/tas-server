@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 const mg = require('nodemailer-mailgun-transport');
-const handlebars = require('handlebars');
+//const handlebars = require('handlebars');
 
 const mgTransporter = nodemailer.createTransport(mg({
   auth: {
@@ -9,7 +9,7 @@ const mgTransporter = nodemailer.createTransport(mg({
   }
 }));
 
-const mgSend = async mailOptions => await mgTransporter.sendMail(mailOptions);
+const mgSend = async mailOptions => mgTransporter.sendMail(mailOptions);
 
 const createMailOptionsBuilder = (subject, templateFile) => {
   return (toEmail, data) => ({
@@ -25,8 +25,8 @@ const createMailOptionsBuilder = (subject, templateFile) => {
 };
 
 module.exports = {
-  sendSignupReceivedNotice: async (toEmail, data) => await mgSend(createMailOptionsBuilder('Thank You for Registering', 'signup-received.hbs')(toEmail, data)),
-  sendPassResetLink: async (toEmail, data) => await mgSend(createMailOptionsBuilder('Reset Account Password', 'reset-pass.hbs')(toEmail, data)),
-  sendVerifyEmailLink: async (toEmail, data) => await mgSend(createMailOptionsBuilder('Verify Your Email', 'verify-email.hbs')(toEmail, data)),
-  sendAcctConfirmedNotice: async (toEmail, data) => await mgSend(createMailOptionsBuilder('Account Confirmed - Verify Your Email', 'acct-confirmed.hbs')(toEmail, data))
+  sendSignupReceivedNotice: async (toEmail, data) => mgSend(createMailOptionsBuilder('Thank You for Registering', 'signup-received.hbs')(toEmail, data)),
+  sendPassResetLink: async (toEmail, data) => mgSend(createMailOptionsBuilder('Reset Account Password', 'reset-pass.hbs')(toEmail, data)),
+  sendVerifyEmailLink: async (toEmail, data) => mgSend(createMailOptionsBuilder('Verify Your Email', 'verify-email.hbs')(toEmail, data)),
+  sendAcctConfirmedNotice: async (toEmail, data) => mgSend(createMailOptionsBuilder('Account Confirmed - Verify Your Email', 'acct-confirmed.hbs')(toEmail, data))
 };
