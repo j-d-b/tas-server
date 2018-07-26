@@ -8,9 +8,9 @@ const { getApptTypeDetails, containerSizeToInt, buildSlotId, getTimeSlotFromId }
 // checks if containers in given list of id exists in TOS
 // returns list of obj w/ block and size for each
 // batched version of `doesContainerIdExistCheck` for less db queries
-module.exports.doContainerIdsExistCheck = (containerIDs) => {
+module.exports.doContainerIdsExistCheck = (containerIds) => {
   console.log('This requires a connection to the TOS database and is yet to be implemented!');
-  return containerIDs.map((cid) => {
+  return containerIds.map((cid) => {
     // if (!containers.find(cid)) throw NoContainerError(); <- pseudocode
     return {
       block: 'A',
@@ -83,9 +83,11 @@ module.exports.isAllowedPasswordCheck = (password) => {
   if (password.length < 6) throw new Errors.PasswordCheckError();
 };
 
-// IDEA rewrite with Promise.all for concurrency/speed
+// IDEA rewrite for loops with Promise.all forEachfor concurrency/speed
 // check for availability of new/updated appt(s) (in given array of apptDetails)
 module.exports.isAvailableCheck = async (apptDetailsArr, Appt, Block, Config) => {
+  const config = await Config.findOne();
+
   const detailsBySlot = apptDetailsArr.reduce((obj, { timeSlot }, i) => {
     const slotId = buildSlotId(timeSlot); // for map key
     obj[slotId] ? obj[slotId].push(apptDetailsArr[i]) : obj[slotId] = [apptDetailsArr[i]];
@@ -97,7 +99,6 @@ module.exports.isAvailableCheck = async (apptDetailsArr, Appt, Block, Config) =>
     const slot = getTimeSlotFromId(slotId);
 
     const slotTotalCurrScheduled = await Appt.count({ where: { timeSlotHour: slot.hour, timeSlotDate: slot.date } });
-    const config = await Config.findOne();
     if (slotTotalCurrScheduled + detailsArr.length > config.totalAllowedApptsPerHour) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
 
     const moveCountByBlock = detailsArr.reduce((obj, { typeDetails }) => {

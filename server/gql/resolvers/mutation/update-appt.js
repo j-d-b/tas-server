@@ -4,30 +4,22 @@ const { doesApptExistCheck, isOwnApptCheck, doesUserExistCheck, isUserSelfCheck,
 
 // updateAppt(id: ID!, details: UpdateApptInput!): Appt
 const updateAppt = isAuthenticatedResolver.createResolver(
-  (_, { id, details }, { appts, users, blocks, user }) => {
-    const targetAppt = doesApptExistCheck(id, appts);
+  async (_, { id, details: { userEmail, timeSlot, ...typeDetails } }, { user, Appt, User, Block, Config }) => {
+    const targetAppt = await doesApptExistCheck(id, Appt).then(obj => obj.get({ plain: true }));
 
-    doesUserExistCheck(details.userEmail, users);
+    if (userEmail) await doesUserExistCheck(userEmail, User);
 
     if (!isOpOrAdmin(user)) {
       isOwnApptCheck(targetAppt, user);
-      if (details.userEmail) isUserSelfCheck(details.userEmail, user); // new email must be user's email
+      if (userEmail) isUserSelfCheck(userEmail, user); // new email must be user's email
     }
 
-    // if changing scheduling time/block
-    if (details.timeSlot || details.importFull) {
-      isAvailableCheck([{ ...targetAppt, ...details, importFull: { ...targetAppt.typeDetails, ...details.importFull } }], appts, blocks);
-    }
+    if (timeSlot) await isAvailableCheck([{ ...targetAppt, timeSlot }], Appt, Block, Config);
 
-    const MUTABLE_FIELDS = ['timeSlot', 'userEmail']; // TODO this probably should not be hardcoded, especially not here
-    const fieldsToChange = Object.keys(removeEmpty(details)).filter(key => MUTABLE_FIELDS.includes(key));
-    const newTypeDetails = getApptTypeDetails(details);
+    const newTypeDetails = getApptTypeDetails({ type: targetAppt.type, ...typeDetails });
+    await Appt.update({ userEmail, timeSlot, typeDetails: { ...newTypeDetails }}, { where: { id } });
 
-    fieldsToChange.forEach(field => targetAppt[field] = details[field]);
-    if (newTypeDetails) Object.assign(targetAppt.typeDetails, removeEmpty(newTypeDetails));
-    appts.update(targetAppt);
-
-    return targetAppt;
+    return Appt.findById(id);
   }
 );
 

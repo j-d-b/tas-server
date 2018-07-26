@@ -5,11 +5,11 @@ const { getTimeSlotsInNextWeek } = require('../helpers');
 
 // availableSlots(input: AvailableSlotsInput!): [TimeSlot]
 const availableSlots = isAuthenticatedResolver.createResolver(
-  (_, { input: { numContainers, importFullContainerIDs, knownContainerSizes }}, { appts, blocks }) => {
-    const importFullBlockAndSize = doContainerIdsExistCheck(importFullContainerIDs);
+  async (_, { input: { numContainers, importFullContainerIds, knownContainerSizes }}, { Appt, Block, Config }) => {
+    const importFullBlockAndSize = doContainerIdsExistCheck(importFullContainerIds);
 
     const sizes = knownContainerSizes.concat(importFullBlockAndSize.map(({ containerSize }) => containerSize));
-    isValidNumContainersCheck(numContainers, sizes);
+    await isValidNumContainersCheck(numContainers, sizes, Config);
 
     const uniqueBlocks = new Set(importFullBlockAndSize.map(({ block }) => block));
     const movesByBlock = importFullBlockAndSize.reduce((acc, { block }) => {
@@ -17,14 +17,17 @@ const availableSlots = isAuthenticatedResolver.createResolver(
       return acc;
     }, {});
 
-    return getTimeSlotsInNextWeek().filter((slot) => {
-      const slotTotalCurrScheduled = appts.count({ 'timeSlot.hour': slot.hour, 'timeSlot.date': slot.date });
+    // implicitly wrapped in Promise
+    return getTimeSlotsInNextWeek().filter(async (slot) => {
+      console.log(slot.hour);
+      const slotTotalCurrScheduled = Appt.count({ where: { timeSlotHour: slot.hour, timeSlotDate: slot.date } });
 
-      if (numContainers + slotTotalCurrScheduled > global.TOTAL_ALLOWED) return false;
+      const config = await Config.findOne();
+      if (numContainers + slotTotalCurrScheduled > config.totalAllowedApptsPerHour) return false;
 
       for (const block of uniqueBlocks) {
-        const blockCurrAllowed = blocks.find({ id: block }).currAllowedApptsPerHour;
-        const slotBlockCurrScheduled = appts.count({ 'timeSlot.hour': slot.hour, 'timeSlot.date': slot.date, block }); // yes, this shoud be resultset op from line 21, but we aren't using loki anyways...
+        const blockCurrAllowed = await Block.findById(block).then(blk => blk.currAllowedApptsPerHour);
+        const slotBlockCurrScheduled = await Appt.count({ where: { timeSlotHour: slot.hour, timeSlotDate: slot.date, block } }); // yes, this shoud be resultset op from line 21, but we aren't using loki anyways...
         if (movesByBlock[block] + slotBlockCurrScheduled > blockCurrAllowed) return false;
       }
 
