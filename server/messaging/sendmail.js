@@ -1,6 +1,5 @@
 const nodemailer = require('nodemailer');
 const mg = require('nodemailer-mailgun-transport');
-//const handlebars = require('handlebars');
 
 const mgTransporter = nodemailer.createTransport(mg({
   auth: {
