@@ -21,10 +21,10 @@ VERIFY_EMAIL_SECRET=different-secret-key
 MG_FROM_EMAIL=test@mailgun.org
 MG_API_KEY=my-mailgun-api-key
 MG_DOMAIN=my-mailgun-domain.org
-MARIADB_HOST=127.0.0.1
-MARIADB_USER=root
-MARIADB_PASSWORD=''
-MARIADB_DATABASE=tas
+MYSQL_HOST=127.0.0.1
+MYSQL_USER=root
+MYSQL_PASSWORD=''
+MYSQL_DATABASE=tas
 ```
 
 The backend is an [Express](https://expressjs.com/) web server which provides a `/graphql` endpoint using [Apollo Server](https://www.apollographql.com/docs/apollo-server/). It uses [Sequelize](http://docs.sequelizejs.com/) to connect to, setup, and model a MariaDB database.

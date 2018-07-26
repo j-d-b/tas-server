@@ -6,7 +6,7 @@
   "scripts": {
     "setup": "node src/data/setup/setup-prod",
     "develop": "node src/data/setup/setup-dev && NODE_ENV=development nodemon index",
-    "start": "NODE_ENV=production node index",
+    "start": "NODE_ENV=production node src/index",
     "lint": "eslint index.js data server"
   },
   "repository": "https://j-d-b@bitbucket.org/j-d-b/tas-backend.git",
