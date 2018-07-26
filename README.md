@@ -153,5 +153,5 @@ All project javscript code is in `src/`
 
 ### `src/server/`
 * Contains all code relevant to the express server, including all graphql resolvers, schema, email sending...
-* `server/gql` contains all GraphQL resolvers (helpers, errors...) and schema. There is a **README** here as well.
-* `server/messaging` contains all mail sending code and templates.
+* `gql/` contains all GraphQL resolvers (helpers, errors...) and schema. There is a **README** here as well.
+* `messaging/` contains all mail sending code and templates.
