@@ -10,7 +10,7 @@ const resetPass = notLoggedInResolver.createResolver(
 
     isAllowedPasswordCheck(newPassword);
     const hash = await bcrypt.hash(newPassword, 10);
-    await User.update({ password: hash }, { where: { email }})
+    await User.update({ password: hash }, { where: { email }});
 
     return 'Password updated successfully';
   }

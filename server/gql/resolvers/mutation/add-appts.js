@@ -4,7 +4,7 @@ const { doesUserExistCheck, doesContainerIdExistCheck, hasTypeDetailsCheck, isUs
 
 // addAppts (input: [AddApptInput!]!): [Appt]
 const addAppts = isAuthenticatedResolver.createResolver(
-  async (_, { input }, { user, Appt, Block, User, Config }) => {
+  async (_, { input }, { user, Appt, Block, Config, User }) => {
     const newAppts = await Promise.all(input.map(async ({ timeSlot, userEmail, type, ...typeSpecific }) => {
       await doesUserExistCheck(userEmail, User);
 

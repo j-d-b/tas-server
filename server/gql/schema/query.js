@@ -17,7 +17,7 @@ const Query = `
 
   input AvailableSlotsInput {
     numContainers: Int!
-    importFullContainerIDs: [String]
+    importFullContainerIds: [String]
     knownContainerSizes: [ContainerSize] # exports or import empty
   }
 

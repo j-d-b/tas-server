@@ -1,60 +1,6 @@
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
-  const User = sequelize.define('user', {
-    email: {
-      type: Sequelize.STRING,
-      primaryKey: true
-    },
-    password: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    name: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    role: {
-      type: Sequelize.ENUM,
-      values: ['CUSTOMER', 'OPERATOR', 'ADMIN'],
-      defaultValue: 'CUSTOMER',
-      allowNull: false
-    },
-    confirmed: {
-      type: Sequelize.BOOLEAN,
-      allowNull: false,
-      defaultValue: false
-    },
-    emailVerified: {
-      type: Sequelize.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-      field: 'email_verified'
-    },
-    company: Sequelize.STRING,
-    mobileNumber: {
-      type: Sequelize.STRING,
-      field: 'mobile_number'
-    }
-  }, { underscored: true });
-
-  const Block = sequelize.define('block', {
-    id: {
-      type: Sequelize.STRING,
-      primaryKey: true
-    },
-    maxAllowedApptsPerHour: {
-      type: Sequelize.INTEGER,
-      field: 'max_allowed_appts_per_hour',
-      allowNull: false
-    },
-    currAllowedApptsPerHour: {
-      type: Sequelize.INTEGER,
-      field: 'curr_allowed_appts_per_hour',
-      allowNull: false
-    }
-  });
-
   const Appt = sequelize.define('appt', {
     id: {
       type: Sequelize.INTEGER,
@@ -124,7 +70,7 @@ module.exports = (sequelize) => {
       },
       typeDetails: function() {
         return {
-          containerId: this.conatinerId,
+          containerId: this.containerId,
           containerSize: this.containerSize,
           containerWeight: this.containerWeight,
           formNumber705: this.formNumber705,
@@ -158,6 +104,23 @@ module.exports = (sequelize) => {
     underscored: true
   });
 
+  const Block = sequelize.define('block', {
+    id: {
+      type: Sequelize.STRING,
+      primaryKey: true
+    },
+    maxAllowedApptsPerHour: {
+      type: Sequelize.INTEGER,
+      field: 'max_allowed_appts_per_hour',
+      allowNull: false
+    },
+    currAllowedApptsPerHour: {
+      type: Sequelize.INTEGER,
+      field: 'curr_allowed_appts_per_hour',
+      allowNull: false
+    }
+  });
+
   // single row config table
   const Config = sequelize.define('config', {
     totalAllowedApptsPerHour: {
@@ -171,6 +134,43 @@ module.exports = (sequelize) => {
       allowNull: false
     }
   }, { timestamps: false, freezeTableName: true, underscored: true });
+
+  const User = sequelize.define('user', {
+    email: {
+      type: Sequelize.STRING,
+      primaryKey: true
+    },
+    password: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    name: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    role: {
+      type: Sequelize.ENUM,
+      values: ['CUSTOMER', 'OPERATOR', 'ADMIN'],
+      defaultValue: 'CUSTOMER',
+      allowNull: false
+    },
+    confirmed: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    },
+    emailVerified: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+      field: 'email_verified'
+    },
+    company: Sequelize.STRING,
+    mobileNumber: {
+      type: Sequelize.STRING,
+      field: 'mobile_number'
+    }
+  }, { underscored: true });
 
   // associations
   Block.hasMany(Appt, { foreignKey: 'block' });

@@ -39,7 +39,7 @@ Setup the database with sample data and start the server:
 yarn develop
 ```
 
-Test data is added to the database manually in `setup-scripts/setup-dev.js`. Check it out for a list of possible users.
+Test data is added to the database manually in `data/setup/setup-dev.js`. Check it out for a list of possible users.
 
 In development mode, the server is run with `nodemon`, which restarts the server any time a file is modified.
 
@@ -84,6 +84,12 @@ This should return
 
 Great; you're on your way.
 
+#### Linting
+Uses ESLint linting configuration in .eslintrc.js
+```
+yarn lint
+```
+
 ### For production
 **Note: Production version is not yet actually production ready!**
 
@@ -106,12 +112,6 @@ Authorization : Bearer <JWT>
 ```
 Where `<JWT>` is replaced by the JWT obtained from logging in (the `login` mutation).
 
-### Linting
-Uses ESLint linting configuration in .eslintrc.js
-```
-yarn lint
-```
-
 ## JSON Web Tokens
 Authentication and authorization in the **TAS Backend** uses JWTs.
 
@@ -120,10 +120,10 @@ The JWT is signed by the backend with the `PRIMARY_SECRET` from `.env`.
 The payload of the JWT contains the following information:
 ```
 {
-  "exp": 1528469407,                  // Expiration time
+  "exp": 1528469407, // expiration time
   "userEmail": "jacob@jdbrady.info",
   "userRole": "ADMIN",
-  "iat": 1528383007                   // Token creation time
+  "iat": 1528383007 // time created               
 }
 ```
 
@@ -140,3 +140,14 @@ Certain `queries` and `mutations` can be access without any JWT given:
 * `login` *<- obtain JWT*
 * `sendResetPassLink` *<- if password is forgotten*
 * `resetPassword` *<- from reset link*
+
+## Project Organization
+### `data/`
+* Contains sequelize model definitions for interacting with the database.
+* Contains database connecting code.
+* `setup/` contains database table setup code, run by `yarn setup` and `yarn develop`
+
+### `server/`
+* Contains all code relevant to the express server, including all graphql resolvers, schema, email sending...
+* `server/gql` contains all GraphQL resolvers (helpers, errors...) and schema. There is a **README** here as well.
+* `server/messaging` contains all mail sending code and templates.

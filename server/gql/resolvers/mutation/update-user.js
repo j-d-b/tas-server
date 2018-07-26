@@ -5,7 +5,7 @@ const { doesUserExistCheck, isUserSelfCheck, isRoleOwnRoleCheck } = require('../
 // updateUser(email: String!, details: UpdateUserInput!): User
 const updateUser = isAuthenticatedResolver.createResolver(
   async (_, { email, details }, { user, User }) => {
-    const targetUser = await doesUserExistCheck(email, User);
+    await doesUserExistCheck(email, User);
 
     if (!isAdmin(user)) {
       isUserSelfCheck(email, user);

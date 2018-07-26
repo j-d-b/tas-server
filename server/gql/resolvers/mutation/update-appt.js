@@ -1,10 +1,10 @@
 const { isAuthenticatedResolver } = require('../auth');
-const { removeEmpty, isOpOrAdmin, getApptTypeDetails } = require('../helpers');
+const { isOpOrAdmin, getApptTypeDetails } = require('../helpers');
 const { doesApptExistCheck, isOwnApptCheck, doesUserExistCheck, isUserSelfCheck, isAvailableCheck } = require('../checks');
 
 // updateAppt(id: ID!, details: UpdateApptInput!): Appt
 const updateAppt = isAuthenticatedResolver.createResolver(
-  async (_, { id, details: { userEmail, timeSlot, ...typeDetails } }, { user, Appt, User, Block, Config }) => {
+  async (_, { id, details: { userEmail, timeSlot, ...typeDetails } }, { user, Appt, Block, Config, User }) => {
     const targetAppt = await doesApptExistCheck(id, Appt).then(obj => obj.get({ plain: true }));
 
     if (userEmail) await doesUserExistCheck(userEmail, User);

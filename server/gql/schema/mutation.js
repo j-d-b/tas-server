@@ -14,7 +14,7 @@ const Mutation = `
   }
 
   input AddImportFullInput {
-    containerID: String!
+    containerId: String!
     formNumber705: String!
   }
 
@@ -24,7 +24,7 @@ const Mutation = `
   }
 
   input AddExportFullInput {
-    containerID: String!
+    containerId: String!
     containerSize: ContainerSize!
     containerWeight: Int! # might be float
     bookingNum: Int!
@@ -35,12 +35,11 @@ const Mutation = `
   }
 
   input AddExportEmptyInput {
-    containerID: String!
+    containerId: String!
     containerSize: ContainerSize!
   }
 
   input UpdateImportFullInput {
-    containerID: String
     formNumber705: String
   }
 
@@ -49,7 +48,7 @@ const Mutation = `
   }
 
   input UpdateExportFullInput {
-    containerID: String
+    containerId: String
     containerWeight: Int # might be float
     bookingNum: Int
     vesselName: String
@@ -59,7 +58,7 @@ const Mutation = `
   }
 
   input UpdateExportEmptyInput {
-    containerID: String
+    containerId: String
   }
 
   input TimeSlotInput {

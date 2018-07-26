@@ -2,10 +2,9 @@ require('dotenv').config();
 
 const bcrypt = require('bcrypt');
 const chalk = require('chalk');
-const Sequelize = require('sequelize');
 
-const sequelize = require('../data/sequelize-connection');
-const defineModels = require('../data/define-models');
+const sequelize = require('../sequelize-connection');
+const defineModels = require('../define-models');
 
 const sampleBlocks = [
   {
@@ -188,13 +187,13 @@ const sampleConfig = {
   totalAllowedApptsPerHour: 5
 };
 
-const { User, Appt, Block, Config } = defineModels(sequelize);
+const { Appt, Block, Config, User } = defineModels(sequelize);
 
-const createTables = async () => await sequelize.sync({ force: true });
-const addBlocks = async () => await Promise.all(sampleBlocks.map(async block => await Block.create(block)));
-const addUsers = async () => await Promise.all(sampleUsers.map(async user => await User.create(user)));
-const addAppts = async () => await Promise.all(sampleAppts.map(async ({ typeDetails, ...rest }) => await Appt.create({ ...rest, ...typeDetails })));
-const addConfig = async () => await Config.create(sampleConfig);
+const createTables = async () => sequelize.sync({ force: true });
+const addBlocks = async () => Promise.all(sampleBlocks.map(async block => Block.create(block)));
+const addUsers = async () => Promise.all(sampleUsers.map(async user => User.create(user)));
+const addAppts = async () => Promise.all(sampleAppts.map(async ({ typeDetails, ...rest }) => Appt.create({ ...rest, ...typeDetails })));
+const addConfig = async () => Config.create(sampleConfig);
 
 const setupDev = async () => {
   console.log(chalk.magenta('------- Development Mode -------'));
@@ -204,6 +203,6 @@ const setupDev = async () => {
 
   console.log(chalk.yellow('⚙️  Adding sample data'));
   addBlocks().then(addUsers).then(addAppts).then(addConfig).then(() => console.log(chalk.green('💫  Database setup complete'))).then(() => process.exit(0));
-}
+};
 
 setupDev();

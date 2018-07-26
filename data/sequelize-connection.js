@@ -1,4 +1,3 @@
-const chalk = require('chalk');
 const Sequelize = require('sequelize');
 
 module.exports = new Sequelize({

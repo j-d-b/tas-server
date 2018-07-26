@@ -3,7 +3,7 @@ const { doesUserExistCheck, isUserNotSelfCheck } = require('../checks');
 
 // deleteUser(email: String!): String
 const deleteUser = isAdminResolver.createResolver(
-  async (_, { email }, { user, User, Appt }) => {
+  async (_, { email }, { user, User }) => {
     const targetUser = await doesUserExistCheck(email, User);
     isUserNotSelfCheck(targetUser.email, user);
 

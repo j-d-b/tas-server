@@ -4,10 +4,10 @@
   "description": "Truck appointment system for BCTC: GraphQL API backend",
   "main": "index.js",
   "scripts": {
-    "setup": "node setup-scripts/setup-prod",
-    "develop": "node setup-scripts/setup-dev && NODE_ENV=development nodemon index",
+    "setup": "node data/setup/setup-prod",
+    "develop": "node data/setup/setup-dev && NODE_ENV=development nodemon index",
     "start": "NODE_ENV=production node index",
-    "lint": "eslint index.js setup-scripts server"
+    "lint": "eslint index.js data server"
   },
   "repository": "https://j-d-b@bitbucket.org/j-d-b/tas-backend.git",
   "author": "Jacob Brady <jbrady@kcus.org>",

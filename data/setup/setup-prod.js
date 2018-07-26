@@ -2,10 +2,9 @@ require('dotenv').config();
 
 const chalk = require('chalk');
 const readline = require('readline');
-const Sequelize = require('sequelize');
 
-const sequelize = require('../data/sequelize-connection');
-const defineModels = require('../data/define-models');
+const sequelize = require('../sequelize-connection');
+const defineModels = require('../define-models');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -21,7 +20,7 @@ rl.question(chalk.yellow('Are you sure you wish to continue (Y/n)?\n'), async (i
   }
 
   console.log(chalk.yellow('🛠  Creating tables'));
-  const models = defineModels(sequelize);
+  defineModels(sequelize);
   await sequelize.sync({ force: true });
 
   console.log(chalk.green('💫  Database setup complete'));

@@ -4,7 +4,7 @@ const { doesUserExistCheck, doesContainerIdExistCheck, hasTypeDetailsCheck, isUs
 
 // addAppt(details: AddApptInput!): Appt
 const addAppt = isAuthenticatedResolver.createResolver(
-  async (_, { details: { timeSlot, userEmail, type, ...typeSpecific } }, { user, Appt, User, Block, Config }) => {
+  async (_, { details: { userEmail, timeSlot, type, ...typeSpecific } }, { user, Appt, Block, Config, User }) => {
     await doesUserExistCheck(userEmail, User);
 
     let typeDetails = hasTypeDetailsCheck({ type, ...typeSpecific }); // schema doesn't verify this
@@ -15,7 +15,7 @@ const addAppt = isAuthenticatedResolver.createResolver(
     const newAppt = { timeSlot, userEmail, type, typeDetails };
     await isAvailableCheck([newAppt], Appt, Block, Config); // appt scheduling logic
     await Appt.create(newAppt);
-    
+
     return newAppt;
   }
 );

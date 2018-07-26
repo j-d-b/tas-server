@@ -5,7 +5,7 @@ const { isAllowedPasswordCheck, isCorrectPasswordCheck } = require('../checks');
 
 // changePass(newPassword: String!, currPassword: String!): String
 const changePass = isAuthenticatedResolver.createResolver(
-  async (obj, { currPassword, newPassword }, { user, User }) => {
+  async (obj, { newPassword, currPassword }, { user, User }) => {
     const userInDb = await User.findById(user.userEmail);
     await isCorrectPasswordCheck(currPassword, userInDb);
 
