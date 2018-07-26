@@ -2,10 +2,10 @@
   "name": "tas-backend",
   "version": "0.0.1",
   "description": "Truck appointment system for BCTC: GraphQL API backend",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "setup": "node data/setup/setup-prod",
-    "develop": "node data/setup/setup-dev && NODE_ENV=development nodemon index",
+    "setup": "node src/data/setup/setup-prod",
+    "develop": "node src/data/setup/setup-dev && NODE_ENV=development nodemon index",
     "start": "NODE_ENV=production node index",
     "lint": "eslint index.js data server"
   },

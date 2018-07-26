@@ -4,7 +4,7 @@ This repository contains the API backend service for the BCTC Truck Appointment 
 
 The TAS has web and native mobile interfaces, and thus the backend is implemented as an API in a separate environment as a GraphQL server for use by the web and mobile applications.
 
-The entry point file, `index.js`, starts the server (`server/server.js`).
+The entry point file, `src/index.js`, starts the server (`src/server/server.js`).
 
 The backend connects to a MariaDB database server specified in the `.env` configuration
 
@@ -39,7 +39,7 @@ Setup the database with sample data and start the server:
 yarn develop
 ```
 
-Test data is added to the database manually in `data/setup/setup-dev.js`. Check it out for a list of possible users.
+Test data is added to the database manually in `src/data/setup/setup-dev.js`. Check it out for a list of possible users.
 
 In development mode, the server is run with `nodemon`, which restarts the server any time a file is modified.
 
@@ -142,12 +142,16 @@ Certain `queries` and `mutations` can be access without any JWT given:
 * `resetPassword` *<- from reset link*
 
 ## Project Organization
-### `data/`
+All project javscript code is in `src/`
+
+`src/index.js` is the entry point to run the application/start the server. This is run by `yarn start`.
+
+### `src/data/`
 * Contains sequelize model definitions for interacting with the database.
 * Contains database connecting code.
-* `setup/` contains database table setup code, run by `yarn setup` and `yarn develop`
+* `setup/` contains database table setup code, run by `yarn setup` and `yarn develop`.
 
-### `server/`
+### `src/server/`
 * Contains all code relevant to the express server, including all graphql resolvers, schema, email sending...
 * `server/gql` contains all GraphQL resolvers (helpers, errors...) and schema. There is a **README** here as well.
 * `server/messaging` contains all mail sending code and templates.
