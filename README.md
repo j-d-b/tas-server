@@ -8,7 +8,7 @@ The entry point file, `src/index.js`, starts the server (`src/server/server.js`)
 
 The backend connects to a MariaDB database server specified in the `.env` configuration
 
-## Usage
+## Standard Usage
 Install dependencies
 ```
 yarn
@@ -16,6 +16,7 @@ yarn
 
 An environment variables file (called `.env`) must also be added to the project root directory. It must contain the following definitions (values are given as examples only):
 ```
+PORT=4000
 PRIMARY_SECRET=secret-key
 VERIFY_EMAIL_SECRET=different-secret-key
 MG_FROM_EMAIL=test@mailgun.org
@@ -111,6 +112,11 @@ A signed, non-expired JSON Web Token must be included in the HTTP authorization 
 Authorization : Bearer <JWT>
 ```
 Where `<JWT>` is replaced by the JWT obtained from logging in (the `login` mutation).
+
+## With `docker-compose`
+```
+docker-compose up -d
+```
 
 ## JSON Web Tokens
 Authentication and authorization in the **TAS Backend** uses JWTs.
