@@ -118,6 +118,13 @@ Where `<JWT>` is replaced by the JWT obtained from logging in (the `login` mutat
 docker-compose up -d
 ```
 
+Currently the build is optimized for development. By default, sample data is added with `sql/init-dev.sql`.
+
+Comment out line 14 of `docker-compose.yml` to skip the adding of sample data.
+```
+# - ./sql/init-dev.sql:/docker-entrypoint-initdb.d/init-dev.sql
+```
+
 ## JSON Web Tokens
 Authentication and authorization in the **TAS Backend** uses JWTs.
 
