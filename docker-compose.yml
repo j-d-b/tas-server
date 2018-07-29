@@ -10,8 +10,7 @@ services:
   db:
     image: mariadb
     volumes:
-      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./sql/init-dev.sql:/docker-entrypoint-initdb.d/init-dev.sql
+      - ./sql/init-dev.sql:/docker-entrypoint-initdb.d/init.sql
     env_file:
       - .env
     restart: on-failure

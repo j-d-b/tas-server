@@ -25,5 +25,5 @@ module.exports = () => {
 
   process.env.NODE_ENV === 'development' && app.use('/playground', expressPlayground({ endpoint: '/graphql' }));
 
-  app.listen(process.env.PORT, () => console.log('💫  Server ready' + (process.env.NODE_ENV === 'development' ? ` at http://localhost:${process.env.PORT}` : '')));
+  app.listen(process.env.PORT, () => console.log('💫  Server ready ' + (process.env.NODE_ENV === 'development' ?  `at http://localhost:` : `using port `) + process.env.PORT));
 };

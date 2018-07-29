@@ -115,14 +115,20 @@ Where `<JWT>` is replaced by the JWT obtained from logging in (the `login` mutat
 
 ## With `docker-compose`
 ```
-docker-compose up -d
+docker-compose up
 ```
 
-Currently the build is optimized for development. By default, sample data is added with `sql/init-dev.sql`.
+This defaults to the development build. All existing database tables are dropped and sample data is added with `sql/init-dev.sql`.
 
-Comment out line 14 of `docker-compose.yml` to skip the adding of sample data.
+For a production environment, add the `docker-compose.prod.yml` override file to the `docker-compose` command.
+
 ```
-# - ./sql/init-dev.sql:/docker-entrypoint-initdb.d/init-dev.sql
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```
+
+Note that you must clear existing data manually to truly reset the database.
+```
+docker-compose rm -v
 ```
 
 ## JSON Web Tokens
