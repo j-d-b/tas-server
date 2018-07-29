@@ -126,7 +126,7 @@ For a production environment, add the `docker-compose.prod.yml` override file to
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 ```
 
-Note that you must clear existing data manually to truly reset the database.
+Note that you must clear existing data manually to truly reset the database after stopping before starting with a different configuration.
 ```
 docker-compose rm -v
 ```
