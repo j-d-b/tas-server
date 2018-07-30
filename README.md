@@ -131,6 +131,33 @@ Note that you must clear existing data manually to truly reset the database afte
 docker-compose rm -v
 ```
 
+### Testing
+You can test that everything is working correctly using the online GraphQL Playground, [graphqlbin](https://www.graphqlbin.com/v2/new).
+
+Connect to `http://localhost:4000/graphql` and execute any valid query, for example:
+```
+{
+  allBlocks {
+    currAllowedApptsPerHour
+  }
+}
+```
+
+Since you're not logged in, you should get an error.
+```
+{
+  "data": {
+    "allBlocks": null
+  },
+  "errors": [
+    {
+      "message": "You must be authenticated to perform this action",
+      ...
+    }
+  ]
+}
+```
+
 ## JSON Web Tokens
 Authentication and authorization in the **TAS Backend** uses JWTs.
 
