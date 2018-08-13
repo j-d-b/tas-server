@@ -2,4 +2,3 @@ node_modules
 .git
 src/data/setup
 .eslintrc.js
-sql
