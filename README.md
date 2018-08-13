@@ -1,6 +1,5 @@
-# TAS Backend
-
-This repository contains the API backend service for the BCTC Truck Appointment System (TAS).
+# TAS Server
+This repository contains the API backend server for the BCTC Truck Appointment System (TAS).
 
 The TAS has web and native mobile interfaces, and thus the backend is implemented as an API in a separate environment as a GraphQL server for use by the web and mobile applications.
 
@@ -47,6 +46,8 @@ In development mode, the server is run with `nodemon`, which restarts the server
 For testing GraphQL queries, use GraphQL Playground, available at `http://localhost:4000/playground`. The playground is available in development mode only.
 
 A valid HTTP header must be included to access much of the data, obtain one by logging in or signing up *(login and signup mutations)*
+
+A MariaDB server must be running and able to be connected to using the details specified in `.env`
 
 #### Usage Example (with GraphQL Playground)
 Login using a test user
@@ -112,24 +113,6 @@ A signed, non-expired JSON Web Token must be included in the HTTP authorization 
 Authorization : Bearer <JWT>
 ```
 Where `<JWT>` is replaced by the JWT obtained from logging in (the `login` mutation).
-
-## With `docker-compose`
-```
-docker-compose up
-```
-
-This defaults to the development build. All existing database tables are dropped and sample data is added with `sql/init-dev.sql`.
-
-For a production environment, add the `docker-compose.prod.yml` override file to the `docker-compose` command.
-
-```
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
-```
-
-Note that you must clear existing data manually to truly reset the database after stopping before starting with a different configuration.
-```
-docker-compose rm -v
-```
 
 ### Testing
 You can test that everything is working correctly using the online GraphQL Playground, [graphqlbin](https://www.graphqlbin.com/v2/new).

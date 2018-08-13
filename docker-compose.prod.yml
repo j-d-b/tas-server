@@ -1,6 +1,0 @@
-version: '3'
-
-services:
-  db:
-    volumes:
-      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
