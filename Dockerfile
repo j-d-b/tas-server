@@ -7,8 +7,8 @@ COPY ./yarn.lock /app
 
 RUN yarn install
 
-COPY . .
-
-CMD ["yarn", "start"]
+COPY . /app
 
 USER node
+
+ENTRYPOINT ["yarn", "start"]

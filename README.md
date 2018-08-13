@@ -146,9 +146,7 @@ Connect to `http://localhost:4000/graphql` and execute any valid query, for exam
 Since you're not logged in, you should get an error.
 ```
 {
-  "data": {
-    "allBlocks": null
-  },
+  ...
   "errors": [
     {
       "message": "You must be authenticated to perform this action",
