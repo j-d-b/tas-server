@@ -182,3 +182,14 @@ All project javscript code is in `src/`
 * Contains all code relevant to the express server, including all graphql resolvers, schema, email sending...
 * `gql/` contains all GraphQL resolvers (helpers, errors...) and schema. There is a **README** here as well.
 * `messaging/` contains all mail sending code and templates.
+
+## Docker
+The `tas-server` project can be run with [Docker](https://www.docker.com/).
+
+Set the environment to `production` with `docker run -e NODE_ENV=production`. The default value (set in the Dockerfile) is `development`.
+
+Note that the Dockerized version does not have access to the database setup scripts in `src/data/setup`.
+
+The Dockerized `tas-server` becomes more beneficial when used with [Docker Compose](https://docs.docker.com/compose/) to simultaneously start, setup, and connect to a MariaDB database.
+
+I've done this, a combined database and `tas-server` in the [`tas-backend`](https://bitbucket.org/j-d-b/tas-backend/) project.

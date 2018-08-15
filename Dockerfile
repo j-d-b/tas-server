@@ -1,5 +1,7 @@
 FROM node:10.7.0
 
+ENV NODE_ENV=development
+
 WORKDIR /app
 
 COPY ./package.json /app
@@ -11,4 +13,4 @@ COPY . /app
 
 USER node
 
-ENTRYPOINT ["yarn", "start"]
+ENTRYPOINT ["node", "src/index"]
