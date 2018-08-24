@@ -1,5 +1,4 @@
 const { isAuthenticatedResolver } = require('../auth');
-
 const { isValidNumContainersCheck, doContainerIdsExistCheck } = require('../checks');
 const { getTimeSlotsInNextWeek } = require('../helpers');
 

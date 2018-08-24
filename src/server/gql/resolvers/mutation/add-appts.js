@@ -1,6 +1,6 @@
 const { isAuthenticatedResolver } = require('../auth');
-const { isOpOrAdmin } = require('../helpers');
 const { doesUserExistCheck, doesContainerIdExistCheck, hasTypeDetailsCheck, isUserSelfCheck, isAvailableCheck } = require('../checks');
+const { isOpOrAdmin } = require('../helpers');
 
 // addAppts (input: [AddApptInput!]!): [Appt]
 const addAppts = isAuthenticatedResolver.createResolver(

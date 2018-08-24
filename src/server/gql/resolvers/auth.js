@@ -8,7 +8,12 @@ const { isOpOrAdmin, getUserFromAuthHeader } = require('./helpers');
 // catch all non 'apollo-errors' and mask with unexpected (generic) for client cleanliness
 const baseResolver = createResolver(
   null,
-  (_, args, context, error) => error //isInstance(error) ? error : new UnexpectedError()
+  (_, args, context, error) => {
+    if (process.env.NODE_ENV === 'development') {
+      return error;
+    }
+
+    return isInstance(error) ? error : new UnexpectedError();
 );
 
 // throws error if user already logged in
@@ -20,6 +25,7 @@ const notLoggedInResolver = baseResolver.createResolver(
     } catch (error) {
       // move on to next resolver
     }
+    
     if (user) throw new Errors.AlreadyLoggedInError();
   }
 );

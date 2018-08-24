@@ -1,6 +1,6 @@
 const { isAuthenticatedResolver } = require('../auth');
-const { isAdmin } = require('../helpers');
 const { doesUserExistCheck, isUserSelfCheck, isRoleOwnRoleCheck } = require('../checks');
+const { isAdmin } = require('../helpers');
 
 // updateUser(email: String!, details: UpdateUserInput!): User
 const updateUser = isAuthenticatedResolver.createResolver(

@@ -21,13 +21,14 @@ module.exports = (sequelize) => {
       type: Sequelize.ENUM,
       values: ['IMPORTFULL', 'IMPORTEMPTY', 'EXPORTFULL', 'EXPORTEMPTY'],
       allowNull: false
-    },
+    }, // type specific details below
     containerId: {
       type: Sequelize.STRING,
       field: 'container_id'
     },
     containerSize: {
-      type: Sequelize.STRING,
+      type: Sequelize.ENUM,
+      values: ['TWENTYFOOT', 'FORTYFOOT'],
       field: 'container_size'
     },
     containerWeight: {
@@ -123,7 +124,7 @@ module.exports = (sequelize) => {
 
   // single row config table
   const Config = sequelize.define('config', {
-    totalAllowedApptsPerHour: {
+    totalAllowedApptsPerHour: { // deprecate
       type: Sequelize.INTEGER,
       field: 'total_allowed_appts_per_hour',
       allowNull: false
@@ -165,10 +166,21 @@ module.exports = (sequelize) => {
       defaultValue: false,
       field: 'email_verified'
     },
-    company: Sequelize.STRING,
+    company: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     mobileNumber: {
       type: Sequelize.STRING,
       field: 'mobile_number'
+    },
+    companyType: {
+      type: Sequelize.STRING,
+      field: 'company_type'
+    },
+    companyRegNum: {
+      type: Sequelize.STRING,
+      field: 'company_reg_num'
     }
   }, { underscored: true });
 

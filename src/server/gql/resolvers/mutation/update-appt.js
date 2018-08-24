@@ -1,6 +1,6 @@
 const { isAuthenticatedResolver } = require('../auth');
-const { isOpOrAdmin, getApptTypeDetails } = require('../helpers');
 const { doesApptExistCheck, isOwnApptCheck, doesUserExistCheck, isUserSelfCheck, isAvailableCheck } = require('../checks');
+const { isOpOrAdmin, getApptTypeDetails } = require('../helpers');
 
 // updateAppt(id: ID!, details: UpdateApptInput!): Appt
 const updateAppt = isAuthenticatedResolver.createResolver(
