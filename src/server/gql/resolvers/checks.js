@@ -19,6 +19,31 @@ module.exports.doContainerIdsExistCheck = (containerIds) => {
   });
 };
 
+// check if allowed appts already exists in the database or if there are duplicates
+// entered (in `allowedSets`)
+module.exports.doAllowedApptsSetsExist = async (allowedSets, AllowedAppts) => {
+  for (const [allowedSet, index] of allowedSets.map((set, i) => [set, i])) {
+    const block = allowedSet.block || null; // undefined -> null
+
+    const givenSetsMatches = allowedSets.slice(index + 1).reduce((count, set) => {
+      if (allowedSet.timeSlot.hour === set.timeSlot.hour && allowedSet.timeSlot.date === set.timeSlot.date && block === (set.block || null)) {
+        return count + 1;
+      }
+      return count;
+    }, 0);
+
+    const dbMatches = await AllowedAppts.count({ where: { timeSlotHour: allowedSet.timeSlot.hour, timeSlotDate: allowedSet.timeSlot.date, block } });
+
+    if (dbMatches || givenSetsMatches) throw new Errors.AllowedApptsAlreadyExistsError({ data: { allowedSet }});
+  }
+};
+
+// check if allowed appts `allowedSet` already exists in the database
+module.exports.doesAllowedApptsSetExist = async (allowedSet, AllowedAppts) => {
+  const matches = await AllowedAppts.count({ where: { timeSlotHour: allowedSet.timeSlot.hour, timeSlotDate: allowedSet.timeSlot.date, block: (allowedSet.block || null) } });
+  if (matches) throw new Errors.AllowedApptsAlreadyExistsError({ data: { allowedSet }});
+};
+
 // check if appt (by id) exists in the database
 // returns target appt
 module.exports.doesApptExistCheck = async (apptId, Appt) => {
@@ -89,7 +114,7 @@ module.exports.isAvailableCheck = async (apptDetailsArr, AllowedAppts, Appt, Blo
   for (const [slotId, detailsArr] of Object.entries(detailsBySlot)) {
     const slot = getTimeSlotFromId(slotId);
 
-    let slotTotalAllowed = await AllowedAppts.findOne({ where: { timeSlotHour: slot.hour, timeSlotDate: slot.date, total: true } }).then(alloweds => alloweds && alloweds.allowedAppts);
+    let slotTotalAllowed = await AllowedAppts.findOne({ where: { timeSlotHour: slot.hour, timeSlotDate: slot.date, block: null } }).then(alloweds => alloweds && alloweds.allowedAppts);
     if (!slotTotalAllowed) {
       slotTotalAllowed = await Config.findOne().then(config => config.maxAllowedApptsPerHour);
     }

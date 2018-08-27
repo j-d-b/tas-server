@@ -1,7 +1,10 @@
 const { createError } = require('apollo-errors');
 
 module.exports = {
-  AlreadyLoggedInError:  createError('AlreadyLoggedInError', {
+  AllowedApptsAlreadyExistsError: createError('AllowedApptsAlreadyExistsError', {
+    message: 'One or more of the given allowed appointments values already has a value for the the given time slot'
+  }),
+  AlreadyLoggedInError: createError('AlreadyLoggedInError', {
     message: 'You cannot perform this action as a logged in user'
   }),
   AuthenticationError: createError('AuthenticationError', {

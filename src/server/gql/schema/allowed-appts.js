@@ -1,7 +1,7 @@
 const AllowedAppts = `
   type AllowedAppts {
     timeSlot: TimeSlot!
-    block: String!
+    block: String
     allowedAppts: Int!
   }
 `;

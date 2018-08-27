@@ -34,6 +34,7 @@ const updateAppt = requireMutation('update-appt');
 const deleteAppt = requireMutation('delete-appt');
 const addBlock = requireMutation('add-block');
 const deleteBlock = requireMutation('delete-block');
+const addAllowedAppts = requireMutation('add-allowed-appts');
 const updateBlockMaxAllowed = requireMutation('update-block-max-allowed');
 const updateTotalMaxAllowed = requireMutation('update-total-max-allowed');
 
@@ -86,6 +87,7 @@ const Resolvers = {
     deleteAppt,
     addBlock,
     deleteBlock,
+    addAllowedAppts,
     updateBlockMaxAllowed,
     updateTotalMaxAllowed
   }

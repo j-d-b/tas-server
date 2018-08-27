@@ -91,6 +91,12 @@ const Mutation = `
     maxAllowedApptsPerHour: Int!
   }
 
+  input AddAllowedApptsInput {
+    timeSlot: TimeSlotInput!
+    allowedAppts: Int!
+    block: String
+  }
+
   type Mutation {
     addAppt(details: AddApptInput!): Appt
     addAppts(input: [AddApptInput!]!): [Appt]
@@ -114,6 +120,7 @@ const Mutation = `
     sendResetPassLink(email: String!): String
     sendVerifyEmailLink(email: String!): String
 
+    addAllowedAppts(input: [AddAllowedApptsInput!]!): [AllowedAppts!]
     updateTotalMaxAllowed(newVal: Int!): Int
   }
 `;

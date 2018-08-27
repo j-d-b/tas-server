@@ -17,15 +17,12 @@ module.exports = (sequelize) => {
       field: 'time_slot_date',
       allowNull: false
     },
-    block: {
-      type: Sequelize.STRING
-    },
     allowedAppts: {
       type: Sequelize.INTEGER,
       field: 'allowed_appts',
       allowNull: false
     },
-    total: Sequelize.BOOLEAN // is it block/hr or total/hr
+    block: Sequelize.STRING // if null, is total/hr
   },
   {
     getterMethods: {

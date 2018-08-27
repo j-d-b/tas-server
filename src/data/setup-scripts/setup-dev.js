@@ -194,15 +194,14 @@ const sampleAllowedAppts = [
       date: new Date().toISOString().split('T')[0]
     },
     block: 'A',
-    allowedAppts: 1,
+    allowedAppts: 1
   },
   {
     timeSlot: {
       hour: 10,
       date: new Date().toISOString().split('T')[0]
     },
-    allowedAppts: 1,
-    total: true
+    allowedAppts: 1
   }
 ]
 
