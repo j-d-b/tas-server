@@ -14,6 +14,7 @@ const baseResolver = createResolver(
     }
 
     return isInstance(error) ? error : new UnexpectedError();
+  }
 );
 
 // throws error if user already logged in
@@ -25,7 +26,7 @@ const notLoggedInResolver = baseResolver.createResolver(
     } catch (error) {
       // move on to next resolver
     }
-    
+
     if (user) throw new Errors.AlreadyLoggedInError();
   }
 );

@@ -11,6 +11,8 @@ const schema = require('./gql/schema');
 module.exports = () => {
   const app = express();
 
+  if (process.env.NODE_ENV === 'development') app.use('/playground', expressPlayground({ endpoint: '/graphql' }));
+
   app.use(cors()); // TODO is this needed?
 
   app.use('/graphql', bodyParser.json(), graphqlExpress((req) => {
@@ -22,8 +24,6 @@ module.exports = () => {
       }
     };
   }));
-
-  process.env.NODE_ENV === 'development' && app.use('/playground', expressPlayground({ endpoint: '/graphql' }));
 
   app.listen(process.env.PORT, () => console.log('💫  Server ready ' + (process.env.NODE_ENV === 'development' ?  `at http://localhost:` : 'using port ') + process.env.PORT));
 };

@@ -13,7 +13,8 @@ const appt = requireQuery('appt');
 const appts = requireQuery('appts');
 const allBlocks = requireQuery('all-blocks');
 const block = requireQuery('block');
-const totalAllowedApptsPerHour = requireQuery('total-allowed-appts-per-hour');
+const maxAllowedApptsPerHour = requireQuery('max-allowed-appts-per-hour');
+const allowedAppts = requireQuery('allowed-appts');
 const availableSlots = requireQuery('available-slots');
 
 const login = requireMutation('login');
@@ -34,8 +35,7 @@ const deleteAppt = requireMutation('delete-appt');
 const addBlock = requireMutation('add-block');
 const deleteBlock = requireMutation('delete-block');
 const updateBlockMaxAllowed = requireMutation('update-block-max-allowed');
-const updateBlockCurrAllowed = requireMutation('update-block-curr-allowed');
-const updateTotalAllowed = requireMutation('update-total-allowed');
+const updateTotalMaxAllowed = requireMutation('update-total-max-allowed');
 
 const Resolvers = {
   Hour: hour,
@@ -64,8 +64,9 @@ const Resolvers = {
     appts,
     allBlocks,
     block,
-    totalAllowedApptsPerHour,
-    availableSlots
+    maxAllowedApptsPerHour,
+    allowedAppts,
+    availableSlots,
   },
   Mutation: {
     login,
@@ -86,8 +87,7 @@ const Resolvers = {
     addBlock,
     deleteBlock,
     updateBlockMaxAllowed,
-    updateBlockCurrAllowed,
-    updateTotalAllowed
+    updateTotalMaxAllowed
   }
 };
 

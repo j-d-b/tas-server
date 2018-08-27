@@ -104,7 +104,6 @@ const Mutation = `
     addBlock(details: AddBlockInput!): Block
     deleteBlock(id: String!): String
     updateBlockMaxAllowed(blockId: String!, newVal: Int!): Block
-    updateBlockCurrAllowed(blockId: String!, newVal: Int!): Block
 
     login(email: String!, password: String!): String
     verifyEmail(verifyToken: String!): String
@@ -115,7 +114,7 @@ const Mutation = `
     sendResetPassLink(email: String!): String
     sendVerifyEmailLink(email: String!): String
 
-    updateTotalAllowed(newVal: Int!): Int
+    updateTotalMaxAllowed(newVal: Int!): Int
   }
 `;
 

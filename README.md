@@ -39,7 +39,7 @@ Setup the database with sample data and start the server:
 yarn develop
 ```
 
-Test data is added to the database manually in `src/data/setup/setup-dev.js`. Check it out for a list of possible users.
+Test data is added to the database manually in `src/data/setup-scripts/setup-dev.js`. Check it out for a list of possible users.
 
 In development mode, the server is run with `nodemon`, which restarts the server any time a file is modified.
 
@@ -176,7 +176,7 @@ All project javscript code is in `src/`
 ### `src/data/`
 * Contains sequelize model definitions for interacting with the database.
 * Contains database connecting code.
-* `setup/` contains database table setup code, run by `yarn setup` and `yarn develop`.
+* `setup-scripts/` contains database table setup code, run by `yarn setup` and `yarn develop`.
 
 ### `src/server/`
 * Contains all code relevant to the express server, including all graphql resolvers, schema, email sending...

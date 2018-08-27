@@ -1,7 +1,7 @@
 const ContainerSize = `
   enum ContainerSize {
     TWENTYFOOT
-    FOURTYFOOT
+    FORTYFOOT
   }
 `;
 

@@ -18,7 +18,6 @@ const availableSlots = isAuthenticatedResolver.createResolver(
 
     // implicitly wrapped in Promise
     return getTimeSlotsInNextWeek().filter(async (slot) => {
-      console.log(slot.hour);
       const slotTotalCurrScheduled = Appt.count({ where: { timeSlotHour: slot.hour, timeSlotDate: slot.date } });
 
       const config = await Config.findOne();

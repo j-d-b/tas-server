@@ -4,7 +4,7 @@ const { isOpOrAdmin } = require('../helpers');
 
 // addAppts (input: [AddApptInput!]!): [Appt]
 const addAppts = isAuthenticatedResolver.createResolver(
-  async (_, { input }, { user, Appt, Block, Config, User }) => {
+  async (_, { input }, { user, AllowedAppts, Appt, Block, Config, User }) => {
     const newAppts = await Promise.all(input.map(async ({ timeSlot, userEmail, type, ...typeSpecific }) => {
       await doesUserExistCheck(userEmail, User);
 
@@ -16,7 +16,7 @@ const addAppts = isAuthenticatedResolver.createResolver(
       return { timeSlot, userEmail, type, typeDetails };
     }));
 
-    await isAvailableCheck(newAppts, Appt, Block, Config); // appt scheduling logic
+    await isAvailableCheck(newAppts, AllowedAppts, Appt, Block, Config); // appt scheduling logic
     await Appt.bulkCreate(newAppts);
 
     return newAppts;

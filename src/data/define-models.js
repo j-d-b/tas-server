@@ -1,6 +1,48 @@
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
+  const AllowedAppts = sequelize.define('allowed_appts', {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    timeSlotHour: {
+      type: Sequelize.INTEGER,
+      field: 'time_slot_hour',
+      allowNull: false
+    },
+    timeSlotDate: {
+      type: Sequelize.DATEONLY,
+      field: 'time_slot_date',
+      allowNull: false
+    },
+    block: {
+      type: Sequelize.STRING
+    },
+    allowedAppts: {
+      type: Sequelize.INTEGER,
+      field: 'allowed_appts',
+      allowNull: false
+    },
+    total: Sequelize.BOOLEAN // is it block/hr or total/hr
+  },
+  {
+    getterMethods: {
+      timeSlot: function() {
+        return { hour: this.timeSlotHour, date: this.timeSlotDate };
+      }
+    },
+    setterMethods: {
+      timeSlot: function(slot) {
+        this.setDataValue('timeSlotHour', slot.hour);
+        this.setDataValue('timeSlotDate', slot.date);
+      },
+    },
+    underscored: true,
+    freezeTableName: true
+  });
+
   const Appt = sequelize.define('appt', {
     id: {
       type: Sequelize.INTEGER,
@@ -35,6 +77,7 @@ module.exports = (sequelize) => {
       type: Sequelize.INTEGER,
       field: 'container_weight'
     },
+    block: Sequelize.STRING,
     formNumber705: {
       type: Sequelize.STRING,
       field: 'form_num_705'
@@ -74,6 +117,7 @@ module.exports = (sequelize) => {
           containerId: this.containerId,
           containerSize: this.containerSize,
           containerWeight: this.containerWeight,
+          block: this.block,
           formNumber705: this.formNumber705,
           emptyForCityFormNum: this.emptyForCityFormNum,
           bookingNum: this.bookingNum,
@@ -93,6 +137,7 @@ module.exports = (sequelize) => {
         details.containerId && this.setDataValue('containerId', details.containerId);
         details.containerSize && this.setDataValue('containerSize', details.containerSize);
         details.containerWeight && this.setDataValue('containerWeight', details.containerWeight);
+        details.block && this.setDataValue('block', details.block);
         details.formNumber705 && this.setDataValue('formNumber705', details.formNumber705);
         details.emptyForCityFormNum && this.setDataValue('emptyForCityFormNum', details.emptyForCityFormNum);
         details.bookingNum && this.setDataValue('bookingNum', details.bookingNum);
@@ -114,19 +159,14 @@ module.exports = (sequelize) => {
       type: Sequelize.INTEGER,
       field: 'max_allowed_appts_per_hour',
       allowNull: false
-    },
-    currAllowedApptsPerHour: {
-      type: Sequelize.INTEGER,
-      field: 'curr_allowed_appts_per_hour',
-      allowNull: false
     }
   });
 
   // single row config table
   const Config = sequelize.define('config', {
-    totalAllowedApptsPerHour: { // deprecate
+    maxAllowedApptsPerHour: {
       type: Sequelize.INTEGER,
-      field: 'total_allowed_appts_per_hour',
+      field: 'max_allowed_appts_per_hour',
       allowNull: false
     },
     maxTFUPerAppt: {
@@ -135,6 +175,42 @@ module.exports = (sequelize) => {
       allowNull: false
     }
   }, { timestamps: false, freezeTableName: true, underscored: true });
+
+  const ContainerMap = sequelize.define('container_map', {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    targetBlock: {
+      type: Sequelize.STRING,
+      field: 'target_block',
+      allowNull: false
+    },
+    apptType: {
+      type: Sequelize.ENUM,
+      values: ['EXPORTEMPTY', 'EXPORTFULL'],
+      field: 'appt_type',
+      allowNull: false
+    },
+    containerSize: {
+      type: Sequelize.ENUM,
+      values: ['TWENTYFOOT', 'FORTYFOOT'],
+      field: 'container_size'
+    },
+    containerType: {
+      type: Sequelize.STRING,
+      field: 'container_type'
+    },
+    shippingLine: {
+      type: Sequelize.STRING,
+      field: 'shipping_line'
+    },
+    vesselName: {
+      type: Sequelize.STRING,
+      field: 'vessel_name',
+    }
+  }, { underscored: true });
 
   const User = sequelize.define('user', {
     email: {
@@ -186,7 +262,15 @@ module.exports = (sequelize) => {
 
   // associations
   Block.hasMany(Appt, { foreignKey: 'block' });
+  Block.hasMany(AllowedAppts, { foreignKey: 'block' });
   User.hasMany(Appt, { foreignKey: 'userEmail' });
 
-  return { User, Appt, Block, Config };
+  return {
+    AllowedAppts,
+    Appt,
+    Block,
+    Config,
+    ContainerMap,
+    User
+  };
 };

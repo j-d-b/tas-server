@@ -71,35 +71,34 @@ module.exports.hasTypeDetailsCheck = (apptDetails) => {
   return typeDetails;
 };
 
-// ensure allowed appts per hour (curr and max) is >= 0 and max >= curr
-module.exports.isAllowedApptsPerHourValsCheck = (newBlockDetails) => {
-  const curr = newBlockDetails.currAllowedApptsPerHour;
-  const max = newBlockDetails.maxAllowedApptsPerHour;
-  if (curr < 0 || max < 0 || curr > max) throw new Errors.InvalidAllowedApptsPerHourError();
-};
-
 // check if password satisfies the strength criteria
 module.exports.isAllowedPasswordCheck = (password) => {
   if (password.length < 6) throw new Errors.PasswordCheckError();
 };
 
-// IDEA rewrite for loops with Promise.all forEachfor concurrency/speed
+// IDEA rewrite for loops with Promise.all forEach for concurrency/speed
 // check for availability of new/updated appt(s) (in given array of apptDetails)
-module.exports.isAvailableCheck = async (apptDetailsArr, Appt, Block, Config) => {
-  const config = await Config.findOne();
-
+module.exports.isAvailableCheck = async (apptDetailsArr, AllowedAppts, Appt, Block, Config) => {
   const detailsBySlot = apptDetailsArr.reduce((obj, { timeSlot }, i) => {
     const slotId = buildSlotId(timeSlot); // for map key
     obj[slotId] ? obj[slotId].push(apptDetailsArr[i]) : obj[slotId] = [apptDetailsArr[i]];
     return obj;
   }, {});
 
-  // check overall availability per timeSlot
+  // check availability per timeSlot
   for (const [slotId, detailsArr] of Object.entries(detailsBySlot)) {
     const slot = getTimeSlotFromId(slotId);
 
+    let slotTotalAllowed = await AllowedAppts.findOne({ where: { timeSlotHour: slot.hour, timeSlotDate: slot.date, total: true } }).then(alloweds => alloweds && alloweds.allowedAppts);
+    if (!slotTotalAllowed) {
+      slotTotalAllowed = await Config.findOne().then(config => config.maxAllowedApptsPerHour);
+    }
+    console.log("slotTotalAllowed: " + slotTotalAllowed);
+
     const slotTotalCurrScheduled = await Appt.count({ where: { timeSlotHour: slot.hour, timeSlotDate: slot.date } });
-    if (slotTotalCurrScheduled + detailsArr.length > config.totalAllowedApptsPerHour) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
+    console.log("slotTotalCurrScheduled: " + slotTotalCurrScheduled);
+
+    if (slotTotalCurrScheduled + detailsArr.length > slotTotalAllowed) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
 
     const moveCountByBlock = detailsArr.reduce((obj, { typeDetails }) => {
       const block = typeDetails && typeDetails.block;
@@ -107,13 +106,19 @@ module.exports.isAvailableCheck = async (apptDetailsArr, Appt, Block, Config) =>
       return obj;
     }, {});
 
-    // check availability for each import full block
+    // check availability for each relevant block
     for (const [block, count] of Object.entries(moveCountByBlock)) {
-      const blockCurrAllowed = await Block.findById(block).then(block => block && block.currAllowedApptsPerHour);
-      console.log(blockCurrAllowed);
+      console.log(block);
+      let slotBlockCurrAllowed = await AllowedAppts.findOne({ where: { block, timeSlotHour: slot.hour, timeSlotDate: slot.date } }).then(alloweds => alloweds && alloweds.allowedAppts);
+      if (!slotBlockCurrAllowed) {
+        slotBlockCurrAllowed = await Block.findById(block).then(block => block && block.maxAllowedApptsPerHour);
+      }
+      console.log('slotBlockCurrAllowed: ' + slotBlockCurrAllowed);
+
       const slotBlockCurrScheduled = await Appt.count({ where: { timeSlotHour: slot.hour, timeSlotDate: slot.date, block } });
-      console.log('slotBlockCurrScheduled ' + slotBlockCurrScheduled);
-      if (slotBlockCurrScheduled + count > blockCurrAllowed) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
+      console.log('slotBlockCurrScheduled: ' + slotBlockCurrScheduled);
+
+      if (slotBlockCurrScheduled + count > slotBlockCurrAllowed) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
     }
   }
 };

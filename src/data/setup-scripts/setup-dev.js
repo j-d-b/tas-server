@@ -9,18 +9,15 @@ const defineModels = require('../define-models');
 const sampleBlocks = [
   {
     id: 'A',
-    maxAllowedApptsPerHour: 3,
-    currAllowedApptsPerHour: 1
+    maxAllowedApptsPerHour: 3
   },
   {
     id: 'B',
-    maxAllowedApptsPerHour: 2,
-    currAllowedApptsPerHour: 2
+    maxAllowedApptsPerHour: 2
   },
   {
     id: 'C',
-    maxAllowedApptsPerHour: 5,
-    currAllowedApptsPerHour: 5
+    maxAllowedApptsPerHour: 5
   }
 ];
 
@@ -109,7 +106,7 @@ const sampleAppts = [
     type: 'EXPORTEMPTY',
     typeDetails: {
       containerId: '9hsdf923',
-      containerSize: 'FOURTYFOOT'
+      containerSize: 'FORTYFOOT'
     }
   },
   {
@@ -182,14 +179,42 @@ const sampleAppts = [
   },
 ];
 
+const sampleAllowedAppts = [
+  {
+    timeSlot: {
+      hour: 23,
+      date: new Date().toISOString().split('T')[0]
+    },
+    block: 'A',
+    allowedAppts: 2,
+  },
+  {
+    timeSlot: {
+      hour: 20,
+      date: new Date().toISOString().split('T')[0]
+    },
+    block: 'A',
+    allowedAppts: 1,
+  },
+  {
+    timeSlot: {
+      hour: 10,
+      date: new Date().toISOString().split('T')[0]
+    },
+    allowedAppts: 1,
+    total: true
+  }
+]
+
 const sampleConfig = {
   maxTFUPerAppt: 40,
-  totalAllowedApptsPerHour: 5
+  maxAllowedApptsPerHour: 5
 };
 
-const { Appt, Block, Config, User } = defineModels(sequelize);
+const { AllowedAppts, Appt, Block, Config, User } = defineModels(sequelize);
 
 const createTables = async () => sequelize.sync({ force: true });
+const addAllowedAppts = async () => Promise.all(sampleAllowedAppts.map(async allowedAppts => AllowedAppts.create(allowedAppts)));
 const addBlocks = async () => Promise.all(sampleBlocks.map(async block => Block.create(block)));
 const addUsers = async () => Promise.all(sampleUsers.map(async user => User.create(user)));
 const addAppts = async () => Promise.all(sampleAppts.map(async ({ typeDetails, ...rest }) => Appt.create({ ...rest, ...typeDetails })));
@@ -202,7 +227,7 @@ const setupDev = async () => {
   await createTables();
 
   console.log(chalk.yellow('⚙️  Adding sample data'));
-  addBlocks().then(addUsers).then(addAppts).then(addConfig).then(() => console.log(chalk.green('💫  Database setup complete'))).then(() => process.exit(0));
+  addBlocks().then(addAllowedAppts).then(addUsers).then(addAppts).then(addConfig).then(() => console.log(chalk.green('💫  Database setup complete'))).then(() => process.exit(0));
 };
 
 setupDev();

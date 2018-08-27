@@ -7,6 +7,7 @@ const UserRole = require('./schema/user-role');
 const ContainerSize = require('./schema/container-size');
 const TypeDetails = require('./schema/type-details');
 const TimeSlot = require('./schema/time-slot');
+const AllowedAppts = require('./schema/allowed-appts');
 const Appt = require('./schema/appt');
 const User = require('./schema/user');
 const Block = require('./schema/block');
@@ -24,6 +25,7 @@ module.exports = makeExecutableSchema({
     ContainerSize,
     TypeDetails,
     TimeSlot,
+    AllowedAppts,
     Appt,
     User,
     Block,

@@ -21,6 +21,12 @@ const Query = `
     knownContainerSizes: [ContainerSize] # exports or import empty
   }
 
+  input AllowedApptsInput {
+    timeSlotHours: [Hour!]
+    timeSlotDates: [ISODate!]
+    blocks: [String!]
+  }
+
   type Query {
     myAppts: [Appt]
     appt(id: ID!): Appt
@@ -34,7 +40,8 @@ const Query = `
     block(id: String!): Block
 
     availableSlots(input: AvailableSlotsInput!): [TimeSlot]
-    totalAllowedApptsPerHour: Int
+    allowedAppts(input: AllowedApptsInput!): [AllowedAppts]
+    maxAllowedApptsPerHour: Int
   }
 `;
 

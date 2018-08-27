@@ -4,8 +4,8 @@
   "description": "Truck appointment system for BCTC: GraphQL API backend",
   "main": "src/index.js",
   "scripts": {
-    "setup": "node src/data/setup/setup-prod",
-    "develop": "node src/data/setup/setup-dev && NODE_ENV=development nodemon index",
+    "setup": "node src/data/setup-scripts/setup-prod",
+    "develop": "node src/data/setup-scripts/setup-dev && NODE_ENV=development nodemon index",
     "start": "NODE_ENV=production node src/index",
     "lint": "eslint index.js data server"
   },
