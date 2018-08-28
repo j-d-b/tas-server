@@ -5,7 +5,7 @@ The TAS has web and native mobile interfaces, and thus the backend is implemente
 
 The entry point file, `src/index.js`, starts the server (`src/server/server.js`).
 
-The backend connects to a MariaDB database server specified in the `.env` configuration
+The backend connects to a MariaDB database server specified in the `.env` configuration.
 
 ## Standard Usage
 Install dependencies
@@ -192,4 +192,4 @@ Note that the Dockerized version does not have access to the database setup scri
 
 The Dockerized `tas-server` becomes more beneficial when used with [Docker Compose](https://docs.docker.com/compose/) to simultaneously start, setup, and connect to a MariaDB database.
 
-I've done this, a combined database and `tas-server` in the [`tas-backend`](https://bitbucket.org/j-d-b/tas-backend/) project.
+I've done this, a combined `tas-server`, database, and notification spawning cron process in the [`tas-backend`](https://bitbucket.org/j-d-b/tas-backend/) project.
