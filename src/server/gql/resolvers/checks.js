@@ -38,10 +38,10 @@ module.exports.doAllowedApptsSetsExist = async (allowedSets, AllowedAppts) => {
   }
 };
 
-// check if allowed appts `allowedSet` already exists in the database
-module.exports.doesAllowedApptsSetExist = async (allowedSet, AllowedAppts) => {
-  const matches = await AllowedAppts.count({ where: { timeSlotHour: allowedSet.timeSlot.hour, timeSlotDate: allowedSet.timeSlot.date, block: (allowedSet.block || null) } });
-  if (matches) throw new Errors.AllowedApptsAlreadyExistsError({ data: { allowedSet }});
+// check if allowed appts `allowedSet` exists in the database
+module.exports.doesRestrictionExist = async (restriction, AllowedAppts) => {
+  const matches = await AllowedAppts.count({ where: { timeSlotHour: restriction.timeSlot.hour, timeSlotDate: restriction.timeSlot.date, block: (restriction.block || null) } });
+  if (!matches) throw new Errors.NoRestrictionError({ data: { restriction }});
 };
 
 // check if appt (by id) exists in the database

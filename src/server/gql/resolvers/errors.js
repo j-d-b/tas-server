@@ -61,6 +61,9 @@ module.exports = {
   NotOwnUserError: createError('NotOwnUserError', {
     message: 'The entered user email must not be different than your own'
   }),
+  NoRestrictionError: createError('NoRestrictionError', {
+    message: 'No restriction matching the given criteria exists'
+  }),
   NoUserError: createError('NoUserError', {
     message: 'No user with that email exists'
   }),

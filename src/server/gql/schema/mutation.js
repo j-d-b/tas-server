@@ -91,9 +91,14 @@ const Mutation = `
     maxAllowedApptsPerHour: Int!
   }
 
-  input AddAllowedApptsInput {
+  input AddRestrictionInput {
     timeSlot: TimeSlotInput!
     allowedAppts: Int!
+    block: String
+  }
+
+  input DeleteRestrictionInput {
+    timeSlot: TimeSlotInput!
     block: String
   }
 
@@ -120,7 +125,8 @@ const Mutation = `
     sendResetPassLink(email: String!): String
     sendVerifyEmailLink(email: String!): String
 
-    addAllowedAppts(input: [AddAllowedApptsInput!]!): [AllowedAppts!]
+    addAllowedAppts(input: [AddRestrictionInput!]!): [AllowedAppts!]
+    deleteRestriction(input: DeleteRestrictionInput!): String
     updateTotalMaxAllowed(newVal: Int!): Int
   }
 `;
