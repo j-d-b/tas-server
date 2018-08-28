@@ -4,7 +4,7 @@ const cors = require('cors');
 const { graphqlExpress } = require('apollo-server-express');
 const expressPlayground = require('graphql-playground-middleware-express').default;
 
-const sequelize = require('../data/sequelize-connection');
+const sequelize = require('../data/sequelize-config');
 const defineModels = require('../data/define-models');
 const schema = require('./gql/schema');
 

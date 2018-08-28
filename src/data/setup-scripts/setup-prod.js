@@ -3,7 +3,7 @@ require('dotenv').config();
 const chalk = require('chalk');
 const readline = require('readline');
 
-const sequelize = require('../sequelize-connection');
+const sequelize = require('../sequelize-config');
 const defineModels = require('../define-models');
 
 const rl = readline.createInterface({

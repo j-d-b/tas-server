@@ -3,7 +3,7 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const chalk = require('chalk');
 
-const sequelize = require('../sequelize-connection');
+const sequelize = require('../sequelize-config');
 const defineModels = require('../define-models');
 
 const sampleBlocks = [
