@@ -128,9 +128,8 @@ module.exports.isAvailableCheck = async (apptDetailsArr, Restriction, Appt, Bloc
 
     // check availability for each relevant block
     for (const [block, count] of Object.entries(moveCountByBlock)) {
-      console.log(block);
       let slotBlockCurrAllowed = await Restriction.findOne({ where: { block, timeSlotHour: slot.hour, timeSlotDate: slot.date } }).then(alloweds => alloweds && alloweds.allowedAppts);
-      if (!slotBlockCurrAllowed) {
+      if (!slotBlockCurrAllowed && slotBlockCurrAllowed !== 0) {
         slotBlockCurrAllowed = await Block.findById(block).then(block => block && block.maxAllowedApptsPerHour);
       }
       console.log('slotBlockCurrAllowed: ' + slotBlockCurrAllowed);
