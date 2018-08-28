@@ -4,6 +4,20 @@ const jwt = require('jsonwebtoken');
 const Errors = require('./errors');
 const { getApptTypeDetails, containerSizeToInt, buildSlotId, getTimeSlotFromId } = require('./helpers');
 
+
+// checks if the given restriction values are <= the max for the block or global total
+module.exports.areRestrictionValuesValidCheck = async (restrictions, Block, Config, Restriction) => {
+  const totalMaxPerHour = await Config.findOne().then(config => config.maxAllowedApptsPerHour);
+  for (const restriction of restrictions) {
+    if (restriction.block) {
+      const blockMaxPerHour = await Block.findById(restriction.block).then(block => block && block.maxAllowedApptsPerHour);
+      if (restriction.allowedAppts > blockMaxPerHour) throw new Errors.InvalidRestrictionValueError();
+    }
+
+    if (restriction.allowedAppts > totalMaxPerHour) throw new Errors.InvalidRestrictionValueError();
+  }
+};
+
 // TODO
 // checks if containers in given list of id exists in TOS
 // returns list of obj w/ block and size for each
@@ -19,28 +33,9 @@ module.exports.doContainerIdsExistCheck = (containerIds) => {
   });
 };
 
-// check if allowed appts already exists in the database or if there are duplicates
-// entered (in `allowedSets`)
-module.exports.doAllowedApptsSetsExist = async (allowedSets, AllowedAppts) => {
-  for (const [allowedSet, index] of allowedSets.map((set, i) => [set, i])) {
-    const block = allowedSet.block || null; // undefined -> null
-
-    const givenSetsMatches = allowedSets.slice(index + 1).reduce((count, set) => {
-      if (allowedSet.timeSlot.hour === set.timeSlot.hour && allowedSet.timeSlot.date === set.timeSlot.date && block === (set.block || null)) {
-        return count + 1;
-      }
-      return count;
-    }, 0);
-
-    const dbMatches = await AllowedAppts.count({ where: { timeSlotHour: allowedSet.timeSlot.hour, timeSlotDate: allowedSet.timeSlot.date, block } });
-
-    if (dbMatches || givenSetsMatches) throw new Errors.AllowedApptsAlreadyExistsError({ data: { allowedSet }});
-  }
-};
-
 // check if allowed appts `allowedSet` exists in the database
-module.exports.doesRestrictionExist = async (restriction, AllowedAppts) => {
-  const matches = await AllowedAppts.count({ where: { timeSlotHour: restriction.timeSlot.hour, timeSlotDate: restriction.timeSlot.date, block: (restriction.block || null) } });
+module.exports.doesRestrictionExistCheck = async (restriction, Restriction) => {
+  const matches = await Restriction.count({ where: { timeSlotHour: restriction.timeSlot.hour, timeSlotDate: restriction.timeSlot.date, block: (restriction.block || null) } });
   if (!matches) throw new Errors.NoRestrictionError({ data: { restriction }});
 };
 
@@ -103,7 +98,7 @@ module.exports.isAllowedPasswordCheck = (password) => {
 
 // IDEA rewrite for loops with Promise.all forEach for concurrency/speed
 // check for availability of new/updated appt(s) (in given array of apptDetails)
-module.exports.isAvailableCheck = async (apptDetailsArr, AllowedAppts, Appt, Block, Config) => {
+module.exports.isAvailableCheck = async (apptDetailsArr, Restriction, Appt, Block, Config) => {
   const detailsBySlot = apptDetailsArr.reduce((obj, { timeSlot }, i) => {
     const slotId = buildSlotId(timeSlot); // for map key
     obj[slotId] ? obj[slotId].push(apptDetailsArr[i]) : obj[slotId] = [apptDetailsArr[i]];
@@ -114,7 +109,7 @@ module.exports.isAvailableCheck = async (apptDetailsArr, AllowedAppts, Appt, Blo
   for (const [slotId, detailsArr] of Object.entries(detailsBySlot)) {
     const slot = getTimeSlotFromId(slotId);
 
-    let slotTotalAllowed = await AllowedAppts.findOne({ where: { timeSlotHour: slot.hour, timeSlotDate: slot.date, block: null } }).then(alloweds => alloweds && alloweds.allowedAppts);
+    let slotTotalAllowed = await Restriction.findOne({ where: { timeSlotHour: slot.hour, timeSlotDate: slot.date, block: null } }).then(alloweds => alloweds && alloweds.allowedAppts);
     if (!slotTotalAllowed) {
       slotTotalAllowed = await Config.findOne().then(config => config.maxAllowedApptsPerHour);
     }
@@ -134,7 +129,7 @@ module.exports.isAvailableCheck = async (apptDetailsArr, AllowedAppts, Appt, Blo
     // check availability for each relevant block
     for (const [block, count] of Object.entries(moveCountByBlock)) {
       console.log(block);
-      let slotBlockCurrAllowed = await AllowedAppts.findOne({ where: { block, timeSlotHour: slot.hour, timeSlotDate: slot.date } }).then(alloweds => alloweds && alloweds.allowedAppts);
+      let slotBlockCurrAllowed = await Restriction.findOne({ where: { block, timeSlotHour: slot.hour, timeSlotDate: slot.date } }).then(alloweds => alloweds && alloweds.allowedAppts);
       if (!slotBlockCurrAllowed) {
         slotBlockCurrAllowed = await Block.findById(block).then(block => block && block.maxAllowedApptsPerHour);
       }
@@ -194,6 +189,19 @@ module.exports.isValidNumContainersCheck = async (numContainers, containerSizes,
   if (totalTFU > maxTFUPerAppt) throw new Errors.InvalidNumContainersError();
 
   return totalTFU;
+};
+
+// checks if the input list of restrictions to ensure no duplicates
+module.exports.noDuplicateRestrictionsCheck = (restrictions) => {
+  for (const [restriction, index] of restrictions.map((res, i) => [res, i])) {
+    const block = restriction.block || null; // undefined -> null
+
+    restrictions.slice(index + 1).forEach((res) => {
+      if (restriction.timeSlot.hour === res.timeSlot.hour && restriction.timeSlot.date === res.timeSlot.date && block === (res.block || null)) {
+        throw new Errors.DuplicateRestrictionError();
+      }
+    });
+  }
 };
 
 // check if reset token is valid (using user's current password as secret key)

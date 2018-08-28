@@ -1,13 +1,20 @@
 const { makeExecutableSchema } = require('graphql-tools');
 
+// scalar
 const Hour = require('./schema/hour');
 const ISODate = require('./schema/iso-date');
+
+// enum
 const ApptType = require('./schema/appt-type');
-const UserRole = require('./schema/user-role');
 const ContainerSize = require('./schema/container-size');
+const UserRole = require('./schema/user-role');
+
+// union
 const TypeDetails = require('./schema/type-details');
+
+// type
 const TimeSlot = require('./schema/time-slot');
-const AllowedAppts = require('./schema/allowed-appts');
+const Restriction = require('./schema/restriction');
 const Appt = require('./schema/appt');
 const User = require('./schema/user');
 const Block = require('./schema/block');
@@ -21,11 +28,11 @@ module.exports = makeExecutableSchema({
     Hour,
     ISODate,
     ApptType,
-    UserRole,
     ContainerSize,
+    UserRole,
     TypeDetails,
     TimeSlot,
-    AllowedAppts,
+    Restriction,
     Appt,
     User,
     Block,

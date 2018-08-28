@@ -21,7 +21,7 @@ const Query = `
     knownContainerSizes: [ContainerSize] # exports or import empty
   }
 
-  input AllowedApptsInput {
+  input RestrictionsInput {
     timeSlotHours: [Hour!]
     timeSlotDates: [ISODate!]
     blocks: [String!]
@@ -40,7 +40,7 @@ const Query = `
     block(id: String!): Block
 
     availableSlots(input: AvailableSlotsInput!): [TimeSlot]
-    allowedAppts(input: AllowedApptsInput!): [AllowedAppts]
+    restrictions(input: RestrictionsInput!): [Restriction]
     maxAllowedApptsPerHour: Int
   }
 `;

@@ -13,6 +13,9 @@ module.exports = {
   BlockAlreadyExistsError: createError('BlockAlreadyExistsError', {
     message: 'A block with that id already exists'
   }),
+  DuplicateRestrictionError: createError('DuplicateRestrictionError', {
+    message: 'Given restrictions must not apply to same timeslot and block'
+  }),
   IncorrectPasswordError: createError('IncorrectPasswordError', {
     message: 'Incorrect password'
   }),
@@ -27,6 +30,9 @@ module.exports = {
   }),
   InvalidOrExpiredLinkError: createError('InvalidOrExpiredLinkError', {
     message: 'This link is invalid or expired'
+  }),
+  InvalidRestrictionValueError: createError('InvalidRestrictionValueError', {
+    message: 'The given allowedAppts value cannot be greater than the set max for that block, or total for that hour'
   }),
   InvalidSlotHourValueError: createError('InvalidSlotHourValueError', {
     message: 'The time slot hour must be between 0 and 23'

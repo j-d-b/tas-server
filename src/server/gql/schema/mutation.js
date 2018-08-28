@@ -125,7 +125,7 @@ const Mutation = `
     sendResetPassLink(email: String!): String
     sendVerifyEmailLink(email: String!): String
 
-    addAllowedAppts(input: [AddRestrictionInput!]!): [AllowedAppts!]
+    addRestrictions(input: [AddRestrictionInput!]!): [Restriction!]
     deleteRestriction(input: DeleteRestrictionInput!): String
     updateTotalMaxAllowed(newVal: Int!): Int
   }

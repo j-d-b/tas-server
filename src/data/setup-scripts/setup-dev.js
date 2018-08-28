@@ -179,7 +179,7 @@ const sampleAppts = [
   },
 ];
 
-const sampleAllowedAppts = [
+const sampleRestrictions = [
   {
     timeSlot: {
       hour: 23,
@@ -210,13 +210,13 @@ const sampleConfig = {
   maxAllowedApptsPerHour: 5
 };
 
-const { AllowedAppts, Appt, Block, Config, User } = defineModels(sequelize);
+const { Appt, Block, Config, Restriction, User } = defineModels(sequelize);
 
 const createTables = async () => sequelize.sync({ force: true });
-const addAllowedAppts = async () => Promise.all(sampleAllowedAppts.map(async allowedAppts => AllowedAppts.create(allowedAppts)));
 const addBlocks = async () => Promise.all(sampleBlocks.map(async block => Block.create(block)));
 const addUsers = async () => Promise.all(sampleUsers.map(async user => User.create(user)));
 const addAppts = async () => Promise.all(sampleAppts.map(async ({ typeDetails, ...rest }) => Appt.create({ ...rest, ...typeDetails })));
+const addRestrictions = async () => Promise.all(sampleRestrictions.map(async restriction => Restriction.create(restriction)));
 const addConfig = async () => Config.create(sampleConfig);
 
 const setupDev = async () => {
@@ -226,7 +226,7 @@ const setupDev = async () => {
   await createTables();
 
   console.log(chalk.yellow('⚙️  Adding sample data'));
-  addBlocks().then(addAllowedAppts).then(addUsers).then(addAppts).then(addConfig).then(() => console.log(chalk.green('💫  Database setup complete'))).then(() => process.exit(0));
+  addBlocks().then(addUsers).then(addAppts).then(addRestrictions).then(addConfig).then(() => console.log(chalk.green('💫  Database setup complete'))).then(() => process.exit(0));
 };
 
 setupDev();

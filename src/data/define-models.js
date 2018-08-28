@@ -1,45 +1,6 @@
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
-  const AllowedAppts = sequelize.define('allowed_appts', {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    timeSlotHour: {
-      type: Sequelize.INTEGER,
-      field: 'time_slot_hour',
-      allowNull: false
-    },
-    timeSlotDate: {
-      type: Sequelize.DATEONLY,
-      field: 'time_slot_date',
-      allowNull: false
-    },
-    allowedAppts: {
-      type: Sequelize.INTEGER,
-      field: 'allowed_appts',
-      allowNull: false
-    },
-    block: Sequelize.STRING // if null, is total/hr
-  },
-  {
-    getterMethods: {
-      timeSlot: function() {
-        return { hour: this.timeSlotHour, date: this.timeSlotDate };
-      }
-    },
-    setterMethods: {
-      timeSlot: function(slot) {
-        this.setDataValue('timeSlotHour', slot.hour);
-        this.setDataValue('timeSlotDate', slot.date);
-      },
-    },
-    underscored: true,
-    freezeTableName: true
-  });
-
   const Appt = sequelize.define('appt', {
     id: {
       type: Sequelize.INTEGER,
@@ -143,6 +104,44 @@ module.exports = (sequelize) => {
         details.destinationPort && this.setDataValue('destinationPort', details.destinationPort);
         details.firstPortOfDischarge && this.setDataValue('firstPortOfDischarge', details.firstPortOfDischarge);
       }
+    },
+    underscored: true
+  });
+
+  const Restriction = sequelize.define('restriction', {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    timeSlotHour: {
+      type: Sequelize.INTEGER,
+      field: 'time_slot_hour',
+      allowNull: false
+    },
+    timeSlotDate: {
+      type: Sequelize.DATEONLY,
+      field: 'time_slot_date',
+      allowNull: false
+    },
+    allowedAppts: {
+      type: Sequelize.INTEGER,
+      field: 'allowed_appts',
+      allowNull: false
+    },
+    block: Sequelize.STRING // if null, is total/hr
+  },
+  {
+    getterMethods: {
+      timeSlot: function() {
+        return { hour: this.timeSlotHour, date: this.timeSlotDate };
+      }
+    },
+    setterMethods: {
+      timeSlot: function(slot) {
+        this.setDataValue('timeSlotHour', slot.hour);
+        this.setDataValue('timeSlotDate', slot.date);
+      },
     },
     underscored: true
   });
@@ -259,12 +258,12 @@ module.exports = (sequelize) => {
 
   // associations
   Block.hasMany(Appt, { foreignKey: 'block' });
-  Block.hasMany(AllowedAppts, { foreignKey: 'block' });
+  Block.hasMany(Restriction, { foreignKey: 'block' });
   User.hasMany(Appt, { foreignKey: 'userEmail' });
 
   return {
-    AllowedAppts,
     Appt,
+    Restriction,
     Block,
     Config,
     ContainerMap,
