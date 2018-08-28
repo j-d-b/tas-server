@@ -32,7 +32,7 @@ module.exports = {
     message: 'This link is invalid or expired'
   }),
   InvalidRestrictionValueError: createError('InvalidRestrictionValueError', {
-    message: 'The given allowedAppts value cannot be greater than the set max for that block, or total for that hour'
+    message: 'The given allowedAppts value cannot be greater than the set max for that block or total for that hour'
   }),
   InvalidSlotHourValueError: createError('InvalidSlotHourValueError', {
     message: 'The time slot hour must be between 0 and 23'
