@@ -172,42 +172,6 @@ module.exports = (sequelize) => {
     }
   }, { timestamps: false, freezeTableName: true, underscored: true });
 
-  const ContainerMap = sequelize.define('container_map', {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    targetBlock: {
-      type: Sequelize.STRING,
-      field: 'target_block',
-      allowNull: false
-    },
-    apptType: {
-      type: Sequelize.ENUM,
-      values: ['EXPORTEMPTY', 'EXPORTFULL'],
-      field: 'appt_type',
-      allowNull: false
-    },
-    containerSize: {
-      type: Sequelize.ENUM,
-      values: ['TWENTYFOOT', 'FORTYFOOT'],
-      field: 'container_size'
-    },
-    containerType: {
-      type: Sequelize.STRING,
-      field: 'container_type'
-    },
-    shippingLine: {
-      type: Sequelize.STRING,
-      field: 'shipping_line'
-    },
-    vesselName: {
-      type: Sequelize.STRING,
-      field: 'vessel_name',
-    }
-  }, { underscored: true });
-
   const User = sequelize.define('user', {
     email: {
       type: Sequelize.STRING,
@@ -266,7 +230,6 @@ module.exports = (sequelize) => {
     Restriction,
     Block,
     Config,
-    ContainerMap,
     User
   };
 };
