@@ -1,75 +1,10 @@
 const Mutation = `
-  input AddUserInput {
-    email: String!
-    name: String!
-    company: String!
-    mobileNumber: String
-  }
-
-  input UpdateUserInput {
-    name: String
-    role: UserRole
-    company: String
-    mobileNumber: String
-  }
-
-  input AddImportFullInput {
-    containerId: String!
-    formNumber705: String!
-  }
-
-  input AddImportEmptyInput {
-    containerSize: ContainerSize!
-    emptyForCityFormNum: String!
-  }
-
-  input AddExportFullInput {
-    containerId: String!
-    containerSize: ContainerSize!
-    containerWeight: Int! # might be float
-    bookingNum: Int!
-    vesselName: String!
-    vesselETA: String!
-    destinationPort: String!
-    firstPortOfDischarge: String!
-  }
-
-  input AddExportEmptyInput {
-    containerId: String!
-    containerSize: ContainerSize!
-  }
-
-  input UpdateImportFullInput {
-    formNumber705: String
-  }
-
-  input UpdateImportEmptyInput {
-    emptyForCityFormNum: String
-  }
-
-  input UpdateExportFullInput {
-    containerId: String
-    containerWeight: Int # might be float
-    bookingNum: Int
-    vesselName: String
-    vesselETA: String
-    destinationPort: String
-    firstPortOfDischarge: String
-  }
-
-  input UpdateExportEmptyInput {
-    containerId: String
-  }
-
-  input TimeSlotInput {
-    hour: Hour!
-    date: ISODate!
-  }
-
   input AddApptInput {
     timeSlot: TimeSlotInput!
     userEmail: String!
     type: ApptType!
+    licensePlateNumber: String
+    notifyMobileNumber: String
     importFull: AddImportFullInput
     importEmpty: AddImportEmptyInput
     exportFull: AddExportFullInput
@@ -85,9 +20,76 @@ const Mutation = `
     exportEmpty: UpdateExportEmptyInput
   }
 
+  input AddImportFullInput {
+    containerId: String!
+    formNum705: String!
+  }
+
+  input UpdateImportFullInput {
+    formNum705: String
+  }
+
+  input AddImportEmptyInput {
+    containerSize: ContainerSize!
+    containerType: String!
+    shippingLine: String!
+    emptyForCityFormNum: String!
+  }
+
+  input UpdateImportEmptyInput {
+    emptyForCityFormNum: String
+    shippingLine: String
+  }
+
+  input AddExportFullInput {
+    containerId: String!
+    containerSize: ContainerSize!
+    containerWeight: Int! # might be float
+    containerType: String!
+    shippingLine: String!
+    bookingNum: Int!
+    vesselName: String!
+    vesselETA: String!
+  }
+
+  input UpdateExportFullInput {
+    bookingNum: Int
+    vesselName: String
+    vesselETA: String
+    shippingLine: String
+  }
+
+  input AddExportEmptyInput {
+    containerId: String!
+    containerSize: ContainerSize!
+    containerType: String!
+    shippingLine: String!
+  }
+
+  input UpdateExportEmptyInput {
+    shippingLine: String
+  }
+
+  input AddUserInput {
+    email: String!
+    name: String!
+    company: String!
+    mobileNumber: String
+    companyType: String
+    companyRegNum: String
+  }
+
+  input UpdateUserInput {
+    name: String
+    role: UserRole
+    company: String
+    mobileNumber: String
+    companyType: String
+    companyRegNum: String
+  }
+
   input AddBlockInput {
     blockId: String!
-    currAllowedApptsPerHour: Int!
     maxAllowedApptsPerHour: Int!
   }
 

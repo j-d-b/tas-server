@@ -1,7 +1,12 @@
 const Query = `
+  input TimeSlotInput {
+    hour: Hour!
+    date: ISODate!
+  }
+
   input ApptsWhere {
     userEmail: String
-    timeSlot: String
+    timeSlot: TimeSlotInput
     block: String
     type: ApptType
   }
@@ -11,6 +16,8 @@ const Query = `
     name: String
     role: UserRole
     company: String
+    companyType: String
+    companyRegNum: String
     confirmed: Boolean
     emailVerified: Boolean
   }
@@ -40,6 +47,7 @@ const Query = `
     block(id: String!): Block
 
     availableSlots(input: AvailableSlotsInput!): [TimeSlot]
+
     restrictions(input: RestrictionsInput!): [Restriction]
     maxAllowedApptsPerHour: Int
   }

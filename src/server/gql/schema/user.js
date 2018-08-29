@@ -6,7 +6,9 @@ const User = `
     company: String!
     confirmed: Boolean!
     emailVerified: Boolean!
+    companyType: String
     mobileNumber: String
+    companyRegNum: String
     appts: [Appt]
   }
 `;

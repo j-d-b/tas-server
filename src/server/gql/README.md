@@ -4,7 +4,7 @@ The `gql/` directory contains the GraphQL resolvers and schema, exported as an A
 The schema is broken into the files in `schema/`, which are imported into `schema.js`.
 
 The files in `schema/` generally contain a single exported type definition, with two exceptions:
-* Input types, however, are included within the `schema/query.js` and `schema/mutation.js` files which use them.
+* Input types, however, are included within the `schema/query.js` and `schema/mutation.js` files which use them. `TimeSlotInput` is used by both queries and mutations but is only defined in `schema/query.js`
 * Secondly, `TypeDetails` is a union type, so `type-details.js` also contains its composing types.
 
 `schema.js` exports an executable schema for use by the Apollo Server express middleware.

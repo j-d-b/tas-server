@@ -21,6 +21,14 @@ module.exports = (sequelize) => {
       type: Sequelize.ENUM,
       values: ['IMPORTFULL', 'IMPORTEMPTY', 'EXPORTFULL', 'EXPORTEMPTY'],
       allowNull: false
+    },
+    notifyMobileNumber: {
+      type: Sequelize.STRING,
+      field: 'notify_mobile_number'
+    },
+    licensePlateNumber: {
+      type: Sequelize.STRING,
+      field: 'license_plate_number'
     }, // type specific details below
     containerId: {
       type: Sequelize.STRING,
@@ -35,8 +43,12 @@ module.exports = (sequelize) => {
       type: Sequelize.INTEGER,
       field: 'container_weight'
     },
+    containerType: {
+      type: Sequelize.STRING,
+      field: 'container_type'
+    },
     block: Sequelize.STRING,
-    formNumber705: {
+    formNum705: {
       type: Sequelize.STRING,
       field: 'form_num_705'
     },
@@ -56,13 +68,9 @@ module.exports = (sequelize) => {
       type: Sequelize.DATE,
       field: 'vessel_eta'
     },
-    destinationPort: {
+    shippingLine: {
       type: Sequelize.STRING,
-      field: 'desintation_port'
-    },
-    firstPortOfDischarge: {
-      type: Sequelize.STRING,
-      field: 'first_port_of_discharge'
+      field: 'shipping_line'
     }
   },
   {
@@ -75,14 +83,14 @@ module.exports = (sequelize) => {
           containerId: this.containerId,
           containerSize: this.containerSize,
           containerWeight: this.containerWeight,
+          containerType: this.containerType,
           block: this.block,
-          formNumber705: this.formNumber705,
+          formNum705: this.formNum705,
           emptyForCityFormNum: this.emptyForCityFormNum,
           bookingNum: this.bookingNum,
           vesselName: this.vesselName,
           vesselETA: this.vesselETA,
-          destinationPort: this.destinationPort,
-          firstPortOfDischarge: this.firstPortOfDischarge
+          shippingLine: this.shippingLine
         };
       }
     },
@@ -95,14 +103,14 @@ module.exports = (sequelize) => {
         details.containerId && this.setDataValue('containerId', details.containerId);
         details.containerSize && this.setDataValue('containerSize', details.containerSize);
         details.containerWeight && this.setDataValue('containerWeight', details.containerWeight);
+        details.containerType && this.setDataValue('containerType', details.containerType);
         details.block && this.setDataValue('block', details.block);
-        details.formNumber705 && this.setDataValue('formNumber705', details.formNumber705);
+        details.formNum705 && this.setDataValue('formNumber705', details.formNum705);
         details.emptyForCityFormNum && this.setDataValue('emptyForCityFormNum', details.emptyForCityFormNum);
         details.bookingNum && this.setDataValue('bookingNum', details.bookingNum);
         details.vesselName && this.setDataValue('vesselName', details.vesselName);
         details.vesselETA && this.setDataValue('vesselETA', details.vesselETA);
-        details.destinationPort && this.setDataValue('destinationPort', details.destinationPort);
-        details.firstPortOfDischarge && this.setDataValue('firstPortOfDischarge', details.firstPortOfDischarge);
+        details.shippingLine && this.setDataValue('shippingLine', details.shippingLine);
       }
     },
     underscored: true

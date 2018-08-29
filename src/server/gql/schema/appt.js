@@ -4,6 +4,8 @@ const Appt = `
     timeSlot: TimeSlot!
     user: User!
     type: ApptType!
+    licensePlateNumber: String!
+    notifyMobileNumber: String!
     typeDetails: TypeDetails!
   }
 `;
