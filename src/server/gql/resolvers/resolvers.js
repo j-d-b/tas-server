@@ -5,39 +5,39 @@ const requireMutation = file => require(`./mutation/${file}`);
 const hour = requireScalar('hour');
 const isoDate = requireScalar('iso-date');
 
-const me = requireQuery('me');
-const user = requireQuery('user');
-const users = requireQuery('users');
-const myAppts = requireQuery('my-appts');
+const allBlocks = requireQuery('all-blocks');
 const appt = requireQuery('appt');
 const appts = requireQuery('appts');
-const allBlocks = requireQuery('all-blocks');
+const availableSlots = requireQuery('available-slots');
 const block = requireQuery('block');
 const maxAllowedApptsPerHour = requireQuery('max-allowed-appts-per-hour');
+const me = requireQuery('me');
+const myAppts = requireQuery('my-appts');
 const restrictions = requireQuery('restrictions');
-const availableSlots = requireQuery('available-slots');
+const user = requireQuery('user');
+const users = requireQuery('users');
 
+const addAppt = requireMutation('add-appt');
+const addAppts = requireMutation('add-appts');
+const addBlock = requireMutation('add-block');
+const addRestrictions = requireMutation('add-restrictions');
+const addUser = requireMutation('add-user');
+const changeEmail = requireMutation('change-email');
+const changePass = requireMutation('change-pass');
+const confirmUser = requireMutation('confirm-user');
+const deleteAppt = requireMutation('delete-appt');
+const deleteBlock = requireMutation('delete-block');
+const deleteRestriction = requireMutation('delete-restriction');
+const deleteUser = requireMutation('delete-user');
 const login = requireMutation('login');
 const resetPass = requireMutation('reset-pass');
 const sendResetPassLink = requireMutation('send-reset-pass-link');
-const verifyEmail = requireMutation('verify-email');
 const sendVerifyEmailLink = requireMutation('send-verify-email-link');
-const changeEmail = requireMutation('change-email');
-const changePass = requireMutation('change-pass');
-const addUser = requireMutation('add-user');
-const updateUser = requireMutation('update-user');
-const deleteUser = requireMutation('delete-user');
-const confirmUser = requireMutation('confirm-user');
-const addAppt = requireMutation('add-appt');
-const addAppts = requireMutation('add-appts');
 const updateAppt = requireMutation('update-appt');
-const deleteAppt = requireMutation('delete-appt');
-const addBlock = requireMutation('add-block');
-const deleteBlock = requireMutation('delete-block');
-const addRestrictions = requireMutation('add-restrictions');
-const deleteRestriction = requireMutation('delete-restriction');
 const updateBlockMaxAllowed = requireMutation('update-block-max-allowed');
 const updateTotalMaxAllowed = requireMutation('update-total-max-allowed');
+const updateUser = requireMutation('update-user');
+const verifyEmail = requireMutation('verify-email');
 
 const Resolvers = {
   Hour: hour,
@@ -58,40 +58,40 @@ const Resolvers = {
     }
   },
   Query: {
-    me,
-    user,
-    users,
-    myAppts,
+    allBlocks,
     appt,
     appts,
-    allBlocks,
+    availableSlots,
     block,
     maxAllowedApptsPerHour,
+    me,
+    myAppts,
     restrictions,
-    availableSlots,
+    user,
+    users
   },
   Mutation: {
+    addAppt,
+    addAppts,
+    addBlock,
+    addRestrictions,
+    addUser,
+    changeEmail,
+    changePass,
+    confirmUser,
+    deleteAppt,
+    deleteBlock,
+    deleteRestriction,
+    deleteUser,
     login,
     resetPass,
     sendResetPassLink,
     sendVerifyEmailLink,
-    verifyEmail,
-    changeEmail,
-    changePass,
-    addUser,
-    updateUser,
-    deleteUser,
-    confirmUser,
-    addAppt,
-    addAppts,
     updateAppt,
-    deleteAppt,
-    addBlock,
-    deleteBlock,
-    addRestrictions,
-    deleteRestriction,
     updateBlockMaxAllowed,
-    updateTotalMaxAllowed
+    updateTotalMaxAllowed,
+    updateUser,
+    verifyEmail
   }
 };
 
