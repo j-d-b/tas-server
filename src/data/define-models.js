@@ -210,6 +210,12 @@ module.exports = (sequelize) => {
       defaultValue: false,
       field: 'email_verified'
     },
+    reminderSetting: {
+      type: Sequelize.ENUM,
+      values: ['NONE', 'EMAIL', 'SMS', 'BOTH'],
+      allowNull: false,
+      field: 'reminder_setting'
+    },
     company: {
       type: Sequelize.STRING,
       allowNull: false
@@ -231,7 +237,8 @@ module.exports = (sequelize) => {
   // associations
   Block.hasMany(Appt, { foreignKey: 'block' });
   Block.hasMany(Restriction, { foreignKey: 'block' });
-  User.hasMany(Appt, { foreignKey: 'userEmail' });
+  User.hasMany(Appt, { foreignKey: 'userEmail', as: 'Appts' });
+  Appt.belongsTo(User, { foreignKey: 'userEmail', as: 'User' });
 
   return {
     Appt,

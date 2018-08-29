@@ -31,6 +31,7 @@ const deleteRestriction = requireMutation('delete-restriction');
 const deleteUser = requireMutation('delete-user');
 const login = requireMutation('login');
 const resetPass = requireMutation('reset-pass');
+const sendApptReminders = requireMutation('send-appt-reminders');
 const sendResetPassLink = requireMutation('send-reset-pass-link');
 const sendVerifyEmailLink = requireMutation('send-verify-email-link');
 const updateAppt = requireMutation('update-appt');
@@ -88,6 +89,7 @@ const Resolvers = {
     deleteUser,
     login,
     resetPass,
+    sendApptReminders,
     sendResetPassLink,
     sendVerifyEmailLink,
     updateAppt,

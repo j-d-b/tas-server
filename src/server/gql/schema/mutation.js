@@ -86,6 +86,7 @@ const Mutation = `
     mobileNumber: String
     companyType: String
     companyRegNum: String
+    reminderSetting: ReminderSetting
   }
 
   input AddBlockInput {
@@ -126,6 +127,7 @@ const Mutation = `
     resetPass(resetToken: String!, newPassword: String!): String
     sendResetPassLink(email: String!): String
     sendVerifyEmailLink(email: String!): String
+    sendApptReminders: String
 
     addRestrictions(input: [AddRestrictionInput!]!): [Restriction!]
     deleteRestriction(input: DeleteRestrictionInput!): String

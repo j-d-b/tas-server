@@ -16,7 +16,7 @@ const createMailOptionsBuilder = (subject, templateFile) => {
     to: toEmail,
     subject: subject,
     template: {
-      name: `server/messaging/email/templates/${templateFile}`,
+      name: `src/messaging/email/templates/${templateFile}`,
       engine: 'handlebars',
       context: data
     }
@@ -27,5 +27,6 @@ module.exports = {
   sendSignupReceivedNotice: async (toEmail, data) => mgSend(createMailOptionsBuilder('Thank You for Registering', 'signup-received.hbs')(toEmail, data)),
   sendPassResetLink: async (toEmail, data) => mgSend(createMailOptionsBuilder('Reset Account Password', 'reset-pass.hbs')(toEmail, data)),
   sendVerifyEmailLink: async (toEmail, data) => mgSend(createMailOptionsBuilder('Verify Your Email', 'verify-email.hbs')(toEmail, data)),
-  sendAcctConfirmedNotice: async (toEmail, data) => mgSend(createMailOptionsBuilder('Account Confirmed - Verify Your Email', 'acct-confirmed.hbs')(toEmail, data))
+  sendAcctConfirmedNotice: async (toEmail, data) => mgSend(createMailOptionsBuilder('Account Confirmed - Verify Your Email', 'acct-confirmed.hbs')(toEmail, data)),
+  sendApptReminder: async (toEmail, data) => mgSend(createMailOptionsBuilder('Appointment Reminder', 'appt-reminder.hbs')(toEmail, data))
 };

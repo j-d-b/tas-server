@@ -29,7 +29,8 @@ const sampleUsers = [
     company: 'Wingworks',
     name: 'Robert Frost',
     confirmed: true,
-    emailVerified: true
+    emailVerified: true,
+    reminderSetting: 'EMAIL'
   },
   {
     email: 'william@hotmail.com',
@@ -38,7 +39,8 @@ const sampleUsers = [
     company: 'Wingworks',
     name: 'William Wood',
     confirmed: true,
-    emailVerified: true
+    emailVerified: true,
+    reminderSetting: 'EMAIL'
   },
   {
     email: 'sam@trees.net',
@@ -47,7 +49,8 @@ const sampleUsers = [
     company: 'TerminalTrue',
     name: 'Samuel Gardner',
     confirmed: true,
-    emailVerified: true
+    emailVerified: true,
+    reminderSetting: 'EMAIL'
   },
   {
     email: 'cory@mmt.net',
@@ -56,7 +59,8 @@ const sampleUsers = [
     company: 'Corigate Group',
     name: 'Cory Roberts',
     confirmed: true,
-    emailVerified: true
+    emailVerified: true,
+    reminderSetting: 'EMAIL'
   },
   {
     email: 'jacob@jdbrady.info',
@@ -65,7 +69,8 @@ const sampleUsers = [
     company: 'KCUS',
     name: 'Jacob Brady',
     confirmed: true,
-    emailVerified: true
+    emailVerified: true,
+    reminderSetting: 'EMAIL'
   },
   {
     email: 'jbrady@kcus.org',
@@ -74,7 +79,8 @@ const sampleUsers = [
     company: 'KCUS',
     name: 'Jacob Brady',
     confirmed: false,
-    emailVerified: false
+    emailVerified: false,
+    reminderSetting: 'BOTH'
   }
 ];
 
@@ -175,6 +181,23 @@ const sampleAppts = [
       containerId: 'udfhd7f7d',
       formNumber705: 'FORMio2h38hf',
       block: 'A'
+    }
+  },
+  {
+    userEmail: 'jbrady@kcus.org',
+    timeSlot: {
+      hour: 10,
+      date: (() => {
+        const tomorrow = new Date();
+        tomorrow.setTime(tomorrow.getTime() + (24 * 60 * 60 * 1000));
+        return tomorrow.toISOString().split('T')[0];
+      })()
+    },
+    type: 'IMPORTFULL',
+    typeDetails: {
+      containerId: 'c234234',
+      formNumber705: 'test',
+      block: 'B'
     }
   },
 ];

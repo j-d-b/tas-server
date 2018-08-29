@@ -6,6 +6,7 @@ const User = `
     company: String!
     confirmed: Boolean!
     emailVerified: Boolean!
+    reminderSetting: ReminderSetting!
     companyType: String
     mobileNumber: String
     companyRegNum: String

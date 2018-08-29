@@ -7,6 +7,7 @@ const ISODate = require('./schema/iso-date');
 // enum
 const ApptType = require('./schema/appt-type');
 const ContainerSize = require('./schema/container-size');
+const ReminderSetting = require('./schema/reminder-setting');
 const UserRole = require('./schema/user-role');
 
 // union
@@ -29,6 +30,7 @@ module.exports = makeExecutableSchema({
     ISODate,
     ApptType,
     ContainerSize,
+    ReminderSetting,
     UserRole,
     TypeDetails,
     TimeSlot,
