@@ -4,7 +4,7 @@ const { isOpOrAdmin } = require('../helpers');
 
 // addAppt(details: AddApptInput!): Appt
 const addAppt = isAuthenticatedResolver.createResolver(
-  async (_, { details: { userEmail, timeSlot, type, ...typeSpecific } }, { user, Restriction, Appt, Block, Config, User }) => {
+  async (_, { details: { userEmail, timeSlot, type, ...typeSpecific } }, { user, Appt, Block, Config, Restriction, User }) => {
     await doesUserExistCheck(userEmail, User);
 
     let typeDetails = hasTypeDetailsCheck({ type, ...typeSpecific }); // schema doesn't verify this
@@ -13,7 +13,7 @@ const addAppt = isAuthenticatedResolver.createResolver(
     if (!isOpOrAdmin(user)) isUserSelfCheck(userEmail, user);
 
     const newAppt = { timeSlot, userEmail, type, typeDetails };
-    await isAvailableCheck([newAppt], Restriction, Appt, Block, Config); // appt scheduling logic
+    await isAvailableCheck([newAppt], Appt, Block, Config, Restriction); // appt scheduling logic
     await Appt.create(newAppt);
 
     return newAppt;

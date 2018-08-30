@@ -54,11 +54,10 @@ const Resolvers = {
   },
   TypeDetails: {
     __resolveType(obj) {
-      if (obj.formNumber705) return 'ImportFull';
+      if (obj.formNum705) return 'ImportFull';
       if (obj.emptyForCityFormNum) return 'ImportEmpty';
       if (obj.bookingNum) return 'ExportFull';
-      if (obj.containerId && obj.containerSize && Object.keys(obj).length === 2) return 'ExportEmpty';
-      return null;
+      return 'ExportEmpty'; // TODO 
     }
   },
   Query: {

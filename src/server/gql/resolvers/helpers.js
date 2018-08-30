@@ -64,8 +64,6 @@ module.exports.signJwt = targetUser => (
   }, process.env.PRIMARY_SECRET, { expiresIn: '12h' })
 );
 
-// ----------- Appt Scheduling Logic -----------
-
 // moveCountByBlock expected as an object where fields and blocks and values
 // are number of appts for that block
 module.exports.slotBlockAvailability = async (timeSlot, moveCountByBlock, Appt, Block, Restriction) => {
@@ -79,7 +77,7 @@ module.exports.slotBlockAvailability = async (timeSlot, moveCountByBlock, Appt, 
 
     if (slotBlockCurrScheduled + count > slotBlockTotalAllowed) return false;
   }
-  
+
   return true;
 };
 
