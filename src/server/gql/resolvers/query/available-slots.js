@@ -1,36 +1,34 @@
 const { isAuthenticatedResolver } = require('../auth');
 const { isValidNumContainersCheck, doContainerIdsExistCheck } = require('../checks');
-const { getTimeSlotsInNextWeek } = require('../helpers');
+const { getTimeSlotsInNextWeek, slotTotalAvailability, slotBlockAvailability } = require('../helpers');
 
 // availableSlots(input: AvailableSlotsInput!): [TimeSlot]
 const availableSlots = isAuthenticatedResolver.createResolver(
-  async (_, { input: { numContainers, importFullContainerIds, knownContainerSizes }}, { Appt, Block, Config }) => {
+  async (_, { input: { importFullContainerIds, knownContainerSizes }}, { Appt, Block, Config, Restriction }) => {
     const importFullBlockAndSize = doContainerIdsExistCheck(importFullContainerIds);
 
-    const sizes = knownContainerSizes.concat(importFullBlockAndSize.map(({ containerSize }) => containerSize));
-    await isValidNumContainersCheck(numContainers, sizes, Config);
+    const containerSizes = knownContainerSizes.concat(importFullBlockAndSize.map(({ containerSize }) => containerSize));
+    await isValidNumContainersCheck(containerSizes, Config);
 
-    const uniqueBlocks = new Set(importFullBlockAndSize.map(({ block }) => block));
-    const movesByBlock = importFullBlockAndSize.reduce((acc, { block }) => {
+    const moveCountByBlock = importFullBlockAndSize.reduce((acc, { block }) => {
       acc[block] ? acc[block]++ : acc[block] = 1;
       return acc;
     }, {});
 
-    // implicitly wrapped in Promise
-    return getTimeSlotsInNextWeek().filter(async (slot) => {
-      const slotTotalCurrScheduled = Appt.count({ where: { timeSlotHour: slot.hour, timeSlotDate: slot.date } });
+    const availableSlotInNextWeek = [];
 
-      const config = await Config.findOne();
-      if (numContainers + slotTotalCurrScheduled > config.totalAllowedApptsPerHour) return false;
+    // TODO is this faster than a `for` because it's in parallel
+    await Promise.all(getTimeSlotsInNextWeek().map(async (slot) => {
+      const isSlotAvailable = await slotTotalAvailability(slot, containerSizes.length, Appt, Config, Restriction);
+      if (!isSlotAvailable) return;
 
-      for (const block of uniqueBlocks) {
-        const blockCurrAllowed = await Block.findById(block).then(blk => blk.currAllowedApptsPerHour);
-        const slotBlockCurrScheduled = await Appt.count({ where: { timeSlotHour: slot.hour, timeSlotDate: slot.date, block } }); // yes, this shoud be resultset op from line 21, but we aren't using loki anyways...
-        if (movesByBlock[block] + slotBlockCurrScheduled > blockCurrAllowed) return false;
-      }
+      const isSlotBlockAvailable = await slotBlockAvailability(slot, moveCountByBlock, Appt, Block, Restriction);
+      if (!isSlotBlockAvailable) return;
 
-      return true;
-    });
+      availableSlotInNextWeek.push(slot);
+    }));
+
+    return availableSlotInNextWeek;
   }
 );
 

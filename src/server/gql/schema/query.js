@@ -23,9 +23,8 @@ const Query = `
   }
 
   input AvailableSlotsInput {
-    numContainers: Int!
-    importFullContainerIds: [String]
-    knownContainerSizes: [ContainerSize] # exports or import empty
+    importFullContainerIds: [String]!
+    knownContainerSizes: [ContainerSize]! # exports or import empty
   }
 
   input RestrictionsInput {

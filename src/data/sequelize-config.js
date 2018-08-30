@@ -6,5 +6,6 @@ module.exports = new Sequelize({
   username: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
   dialect: 'mysql',
-  operatorsAliases: false
+  operatorsAliases: false,
+  logging: false
 });

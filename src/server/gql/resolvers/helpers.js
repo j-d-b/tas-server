@@ -63,3 +63,33 @@ module.exports.signJwt = targetUser => (
     userRole: targetUser.role
   }, process.env.PRIMARY_SECRET, { expiresIn: '12h' })
 );
+
+// ----------- Appt Scheduling Logic -----------
+
+// moveCountByBlock expected as an object where fields and blocks and values
+// are number of appts for that block
+module.exports.slotBlockAvailability = async (timeSlot, moveCountByBlock, Appt, Block, Restriction) => {
+  for (const [block, count] of Object.entries(moveCountByBlock)) {
+    let slotBlockTotalAllowed = await Restriction.findOne({ where: { block, timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date } }).then(alloweds => alloweds && alloweds.allowedAppts);
+    if (!slotBlockTotalAllowed && slotBlockTotalAllowed !== 0) {
+      slotBlockTotalAllowed = await Block.findById(block).then(blk => blk && blk.maxAllowedApptsPerHour);
+    }
+
+    const slotBlockCurrScheduled = await Appt.count({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date, block } });
+
+    if (slotBlockCurrScheduled + count > slotBlockTotalAllowed) return false;
+  }
+  
+  return true;
+};
+
+module.exports.slotTotalAvailability = async (timeSlot, numAppts, Appt, Config, Restriction) => {
+  let slotTotalAllowed = await Restriction.findOne({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date, block: null } }).then(alloweds => alloweds && alloweds.allowedAppts);
+  if (!slotTotalAllowed && slotTotalAllowed !== 0) {
+    slotTotalAllowed = await Config.findOne().then(config => config.maxAllowedApptsPerHour);
+  }
+
+  const slotTotalCurrScheduled = await Appt.count({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date } });
+
+  return numAppts + slotTotalCurrScheduled <= slotTotalAllowed;
+};

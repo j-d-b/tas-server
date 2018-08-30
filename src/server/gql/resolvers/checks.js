@@ -2,8 +2,14 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const Errors = require('./errors');
-const { getApptTypeDetails, containerSizeToInt, buildSlotId, getTimeSlotFromId } = require('./helpers');
-
+const {
+  getApptTypeDetails,
+  containerSizeToInt,
+  buildSlotId,
+  getTimeSlotFromId,
+  slotTotalAvailability,
+  slotBlockAvailability
+} = require('./helpers');
 
 // checks if the given restriction values are <= the max for the block or global total
 module.exports.areRestrictionValuesValidCheck = async (restrictions, Block, Config, Restriction) => {
@@ -98,27 +104,19 @@ module.exports.isAllowedPasswordCheck = (password) => {
 
 // IDEA rewrite for loops with Promise.all forEach for concurrency/speed
 // check for availability of new/updated appt(s) (in given array of apptDetails)
-module.exports.isAvailableCheck = async (apptDetailsArr, Restriction, Appt, Block, Config) => {
+module.exports.isAvailableCheck = async (apptDetailsArr, Appt, Block, Config, Restriction) => {
   const detailsBySlot = apptDetailsArr.reduce((obj, { timeSlot }, i) => {
     const slotId = buildSlotId(timeSlot); // for map key
     obj[slotId] ? obj[slotId].push(apptDetailsArr[i]) : obj[slotId] = [apptDetailsArr[i]];
     return obj;
   }, {});
 
-  // check availability per timeSlot
   for (const [slotId, detailsArr] of Object.entries(detailsBySlot)) {
     const slot = getTimeSlotFromId(slotId);
 
-    let slotTotalAllowed = await Restriction.findOne({ where: { timeSlotHour: slot.hour, timeSlotDate: slot.date, block: null } }).then(alloweds => alloweds && alloweds.allowedAppts);
-    if (!slotTotalAllowed) {
-      slotTotalAllowed = await Config.findOne().then(config => config.maxAllowedApptsPerHour);
-    }
-    console.log("slotTotalAllowed: " + slotTotalAllowed);
-
-    const slotTotalCurrScheduled = await Appt.count({ where: { timeSlotHour: slot.hour, timeSlotDate: slot.date } });
-    console.log("slotTotalCurrScheduled: " + slotTotalCurrScheduled);
-
-    if (slotTotalCurrScheduled + detailsArr.length > slotTotalAllowed) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
+    // check availability per timeSlot
+    const isSlotAvailable = await slotTotalAvailability(slot, detailsArr.length, Appt, Config, Restriction);
+    if (!isSlotAvailable) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
 
     const moveCountByBlock = detailsArr.reduce((obj, { typeDetails }) => {
       const block = typeDetails && typeDetails.block;
@@ -127,18 +125,8 @@ module.exports.isAvailableCheck = async (apptDetailsArr, Restriction, Appt, Bloc
     }, {});
 
     // check availability for each relevant block
-    for (const [block, count] of Object.entries(moveCountByBlock)) {
-      let slotBlockCurrAllowed = await Restriction.findOne({ where: { block, timeSlotHour: slot.hour, timeSlotDate: slot.date } }).then(alloweds => alloweds && alloweds.allowedAppts);
-      if (!slotBlockCurrAllowed && slotBlockCurrAllowed !== 0) {
-        slotBlockCurrAllowed = await Block.findById(block).then(block => block && block.maxAllowedApptsPerHour);
-      }
-      console.log('slotBlockCurrAllowed: ' + slotBlockCurrAllowed);
-
-      const slotBlockCurrScheduled = await Appt.count({ where: { timeSlotHour: slot.hour, timeSlotDate: slot.date, block } });
-      console.log('slotBlockCurrScheduled: ' + slotBlockCurrScheduled);
-
-      if (slotBlockCurrScheduled + count > slotBlockCurrAllowed) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
-    }
+    const isSlotBlockAvailable = await slotBlockAvailability(slot, moveCountByBlock, Appt, Block, Restriction);
+    if (!isSlotBlockAvailable) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
   }
 };
 
@@ -177,17 +165,12 @@ module.exports.isUserSelfCheck = (email, user) => {
   if (email !== user.userEmail) throw new Errors.NotOwnUserError();
 };
 
-// returns total TFU
-module.exports.isValidNumContainersCheck = async (numContainers, containerSizes, Config) => {
-  const config = await Config.findOne();
-  const maxTFUPerAppt = config.maxTFUPerAppt;
+// check if number of TFU of requested containers is under the max
+module.exports.isValidNumContainersCheck = async (containerSizes, Config) => {
+  const maxTFUPerAppt = await Config.findOne().then(config => config.maxTFUPerAppt);
 
-  if (numContainers !== containerSizes.length) throw new Errors.InvalidNumContainersError();
-
-  const totalTFU = containerSizes.reduce((acc, size) => acc + containerSizeToInt(size));
+  const totalTFU = containerSizes.reduce((acc, size) => acc + containerSizeToInt(size), 0);
   if (totalTFU > maxTFUPerAppt) throw new Errors.InvalidNumContainersError();
-
-  return totalTFU;
 };
 
 // checks if the input list of restrictions to ensure no duplicates
