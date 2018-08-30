@@ -57,7 +57,7 @@ const Resolvers = {
       if (obj.formNum705) return 'ImportFull';
       if (obj.emptyForCityFormNum) return 'ImportEmpty';
       if (obj.bookingNum) return 'ExportFull';
-      return 'ExportEmpty'; // TODO 
+      return 'ExportEmpty'; // TODO
     }
   },
   Query: {
