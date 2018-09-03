@@ -15,7 +15,7 @@ yarn
 
 An environment variables file (called `.env`) must also be added to the project root directory. It must contain the following definitions (values are given as examples only):
 ```
-PORT=4000
+SERVER_PORT=4000
 PRIMARY_SECRET=secret-key
 VERIFY_EMAIL_SECRET=different-secret-key
 MG_FROM_EMAIL=test@mailgun.org
