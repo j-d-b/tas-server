@@ -1,23 +1,23 @@
 const Sequelize = require('sequelize');
 
-const defineAppt = require('./models/appt');
-const defineBlock = require('./models/block');
-const defineConfig = require('./models/config');
-const defineRestriction = require('./models/restriction');
-const defineUser = require('./models/user');
+const appt = require('./models/appt');
+const block = require('./models/block');
+const config = require('./models/config');
+const restriction = require('./models/restriction');
+const user = require('./models/user');
 
 module.exports = (sequelize) => {
-  const Appt = defineAppt(sequelize);
-  const Block = defineBlock(sequelize);
-  const Config = defineConfig(sequelize);
-  const Restriction = defineRestriction(sequelize);
-  const User = defineUser(sequelize);
+  const Appt = appt(sequelize);
+  const Block = block(sequelize);
+  const Config = config(sequelize);
+  const Restriction = restriction(sequelize);
+  const User = user(sequelize);
 
   // associations
-  Block.hasMany(Appt, { as: 'Appts', foreignKey: 'block' });
-  Block.hasMany(Restriction, { foreignKey: 'block' });
-  User.hasMany(Appt, { as: 'Appts', foreignKey: 'userEmail' });
-  Appt.belongsTo(User, { foreignKey: 'userEmail', as: 'User' });
+  Block.hasMany(Appt, { as: 'appts', foreignKey: 'block' });
+  Block.hasMany(Restriction, { as: 'restrictions', foreignKey: 'block' });
+  User.hasMany(Appt, { as: 'appts', foreignKey: 'userEmail' });
+  Appt.belongsTo(User, { as: 'user', foreignKey: 'userEmail' });
 
   return {
     Appt,
