@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = sequelize.define('appt', {
+module.exports = (sequelize) => (sequelize.define('appt', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -113,4 +113,4 @@ module.exports = sequelize.define('appt', {
     }
   },
   underscored: true
-});
+}));

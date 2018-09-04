@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = sequelize.define('restriction', {
+module.exports = (sequelize) => (sequelize.define('restriction', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -36,4 +36,4 @@ module.exports = sequelize.define('restriction', {
     },
   },
   underscored: true
-});
+}));

@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = sequelize.define('user', {
+module.exports = (sequelize) => (sequelize.define('user', {
   email: {
     type: Sequelize.STRING,
     primaryKey: true
@@ -52,4 +52,4 @@ module.exports = sequelize.define('user', {
     type: Sequelize.STRING,
     field: 'company_reg_num'
   }
-}, { underscored: true });
+}, { underscored: true }));

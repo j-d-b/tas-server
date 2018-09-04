@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = sequelize.define('block', {
+module.exports = (sequelize) => (sequelize.define('block', {
   id: {
     type: Sequelize.STRING,
     primaryKey: true
@@ -10,4 +10,4 @@ module.exports = sequelize.define('block', {
     field: 'max_allowed_appts_per_hour',
     allowNull: false
   }
-});
+}));
