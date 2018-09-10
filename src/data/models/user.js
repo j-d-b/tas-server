@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = (sequelize) => (sequelize.define('user', {
+module.exports = sequelize => (sequelize.define('user', {
   email: {
     type: Sequelize.STRING,
     primaryKey: true
@@ -34,6 +34,7 @@ module.exports = (sequelize) => (sequelize.define('user', {
     type: Sequelize.ENUM,
     values: ['NONE', 'EMAIL', 'SMS', 'BOTH'],
     allowNull: false,
+    defautlValue: 'NONE',
     field: 'reminder_setting'
   },
   company: {
