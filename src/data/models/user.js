@@ -34,7 +34,7 @@ module.exports = sequelize => (sequelize.define('user', {
     type: Sequelize.ENUM,
     values: ['NONE', 'EMAIL', 'SMS', 'BOTH'],
     allowNull: false,
-    defautlValue: 'NONE',
+    defaultValue: 'NONE',
     field: 'reminder_setting'
   },
   company: {
