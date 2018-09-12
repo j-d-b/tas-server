@@ -1,7 +1,9 @@
 const ReminderSetting = `
   enum ReminderSetting {
-    TWENTYFOOT
-    FORTYFOOT
+    EMAIL
+    SMS
+    BOTH
+    NONE
   }
 `;
 
