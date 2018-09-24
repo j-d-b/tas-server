@@ -169,12 +169,12 @@ Certain `queries` and `mutations` can be access without any JWT given:
 * `resetPassword` *<- from reset link*
 
 ## Project Organization
-All project javscript code is in `src/`
+All project code is in `src/`
 
 `src/index.js` is the entry point to run the application/start the server. This is run by `yarn start`.
 
 ### `src/data/`
-* Contains sequelize model definitions for interacting with the database.
+* Contains Sequelize model definitions for interacting with the database.
 * Contains database connecting code.
 * `setup-scripts/` contains database table setup code, run by `yarn setup` and `yarn develop`.
 
@@ -193,3 +193,8 @@ Note that the Dockerized version does not have access to the database setup scri
 The Dockerized `tas-server` becomes more beneficial when used with [Docker Compose](https://docs.docker.com/compose/) to simultaneously start, setup, and connect to a MariaDB database.
 
 I've done this, a combined `tas-server`, database, and notification spawning cron process in the [`tas-backend`](https://bitbucket.org/j-d-b/tas-backend/) project.
+
+## Todo
+This project is pretty close to production-capable (aside from any written tests 😮). From the perspective of the frontend, everything is there. However, there are a few areas which need work:
+* Auth refresh tokens (important!)
+* Logging (with winston)

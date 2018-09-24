@@ -4,7 +4,7 @@ const { MailSendError } = require('../errors');
 
 // sendApptReminders: String
 const sendApptReminders = isAdminResolver.createResolver(
-  async (_, args, { Appt, User }) => {
+  async (_, args, { Appt }) => {
     const tomorrowISO = (() => {
       const tomorrow = new Date();
       tomorrow.setTime(tomorrow.getTime() + (24 * 60 * 60 * 1000));
@@ -32,7 +32,7 @@ const sendApptReminders = isAdminResolver.createResolver(
           break;
         case 'SMS':
           numSMS++;
-          console.log('SMS is not yet supported');
+          console.log('SMS is not yet supported'); // TODO
           break;
         case 'BOTH':
           numSMS++;
@@ -43,7 +43,7 @@ const sendApptReminders = isAdminResolver.createResolver(
             throw new MailSendError();
           }
           numSentEmail++;
-          console.log('SMS is not yet supported');
+          console.log('SMS is not yet supported'); // TODO
       }
     }
 
