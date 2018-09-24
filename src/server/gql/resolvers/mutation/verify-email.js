@@ -1,5 +1,6 @@
 const { notLoggedInResolver } = require('../auth');
 const { verifyTokenCheck } = require('../checks');
+const { signJwt } = require('../helpers');
 
 // verifyEmail(verifyToken: String!): String
 const verifyEmail = notLoggedInResolver.createResolver(
@@ -8,7 +9,7 @@ const verifyEmail = notLoggedInResolver.createResolver(
 
     await User.update({ emailVerified: true }, { where: { email: targetUser.email }});
 
-    return 'Your email address has been successfully verified';
+    return signJwt(targetUser);
   }
 );
 

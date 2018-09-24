@@ -27,5 +27,5 @@ module.exports = () => {
     };
   }));
 
-  app.listen(SERVER_PORT, () => console.log('💫  Server ready' + (NODE_ENV === 'development' ?  ` at http://localhost:` : '; Exposing port ') + SERVER_PORT));
+  app.listen(SERVER_PORT, () => console.log('💫  Server ready' + (NODE_ENV === 'development' ?  ' at http://localhost:' : '; exposing port ') + SERVER_PORT));
 };
