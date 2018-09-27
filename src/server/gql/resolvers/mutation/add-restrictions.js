@@ -1,18 +1,19 @@
 const { isOpOrAdminResolver } = require('../auth');
-const { noDuplicateRestrictionsCheck, areRestrictionValuesValidCheck } = require('../checks');
+const { noDuplicateRestrictionsCheck, validRestrictionInputCheck } = require('../checks');
 
 // addRestrictions(input: [addRestrictionInput!]!): [Restriction!]
 const addRestrictions = isOpOrAdminResolver.createResolver(
-  async (_, { input }, { Block, Config, Restriction }) => {
+  async (_, { input }, { Restriction }) => {
     noDuplicateRestrictionsCheck(input);
-    await areRestrictionValuesValidCheck(input, Block, Config, Restriction);
+    validRestrictionInputCheck(input);
 
-    // it's actually `upsert`
+    // it's actually 'upsert'
     for (const restriction of input) {
       const res = await Restriction.findOne({ where: {
         timeSlotHour: restriction.timeSlot.hour,
         timeSlotDate: restriction.timeSlot.date,
-        block: restriction.block || null
+        type: restriction.type,
+        block: restriction.type === 'PLANNED_ACTIVITIES' && restriction.block || null
       }});
 
       res ? await res.update(restriction) : Restriction.create(restriction);

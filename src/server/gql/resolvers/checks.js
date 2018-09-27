@@ -11,19 +11,6 @@ const {
   slotBlockAvailability
 } = require('./helpers');
 
-// checks if the given restriction values are <= the max for the block or global total
-module.exports.areRestrictionValuesValidCheck = async (restrictions, Block, Config, Restriction) => {
-  const totalMaxPerHour = await Config.findOne().then(config => config.maxAllowedApptsPerHour);
-  for (const restriction of restrictions) {
-    if (restriction.block) {
-      const blockMaxPerHour = await Block.findById(restriction.block).then(block => block && block.maxAllowedApptsPerHour);
-      if (restriction.allowedAppts > blockMaxPerHour) throw new Errors.InvalidRestrictionValueError();
-    }
-
-    if (restriction.allowedAppts > totalMaxPerHour) throw new Errors.InvalidRestrictionValueError();
-  }
-};
-
 // TODO
 // checks if containers in given list of id exists in TOS
 // returns list of obj w/ block and size for each
@@ -176,11 +163,10 @@ module.exports.isValidNumContainersCheck = async (containerSizes, Config) => {
 // checks if the input list of restrictions to ensure no duplicates
 module.exports.noDuplicateRestrictionsCheck = (restrictions) => {
   for (const [restriction, index] of restrictions.map((res, i) => [res, i])) {
-    const block = restriction.block || null; // undefined -> null
-
     restrictions.slice(index + 1).forEach((res) => {
-      if (restriction.timeSlot.hour === res.timeSlot.hour && restriction.timeSlot.date === res.timeSlot.date && block === (res.block || null)) {
-        throw new Errors.DuplicateRestrictionError();
+      if (restriction.timeSlot.hour === res.timeSlot.hour && restriction.timeSlot.date === res.timeSlot.date) {
+        if (restriction.type === 'GATE_CAPACITY') throw new Errors.DuplicateRestrictionError();
+        else if (restriction.block === res.block) throw new Errors.DuplicateRestrictionError();
       }
     });
   }
@@ -196,6 +182,18 @@ module.exports.resetTokenCheck = async (resetToken, User) => {
   } catch (err) {
     throw new Errors.InvalidOrExpiredLinkError();
   }
+};
+
+
+module.exports.validRestrictionInputCheck = (restrictions) => {
+  restrictions.forEach((restriction) => {
+    if (restriction.type === 'GATE_CAPACITY') {
+      if (!restriction.gateCapacity) throw new Errors.InvalidRestrictionInputError();
+    } else {
+      if (!restriction.block) throw new Errors.InvalidRestrictionInputError();
+      if (!restriction.plannedActivities) throw new Errors.InvalidRestrictionInputError();
+    }
+  });
 };
 
 // check if verify token is valid
