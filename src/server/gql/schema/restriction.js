@@ -1,8 +1,10 @@
 const Restriction = `
   type Restriction {
     timeSlot: TimeSlot!
+    type: RestrictionType!
     block: String
-    allowedAppts: Int!
+    plannedActivities: Int
+    gateCapacity: Int
   }
 `;
 

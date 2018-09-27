@@ -96,12 +96,16 @@ const Mutation = `
 
   input AddRestrictionInput {
     timeSlot: TimeSlotInput!
-    allowedAppts: Int!
+    RestrictionType: RestrictionType!
     block: String
+    gateCapacity: Int
+    plannedActivities: Int
   }
 
+  # TODO consider deleting by ID only
   input DeleteRestrictionInput {
     timeSlot: TimeSlotInput!
+    RestrictionType: RestrictionType!
     block: String
   }
 
@@ -131,7 +135,7 @@ const Mutation = `
 
     addRestrictions(input: [AddRestrictionInput!]!): [Restriction!]
     deleteRestriction(input: DeleteRestrictionInput!): String
-    updateTotalMaxAllowed(newVal: Int!): Int
+    updateDefaultAllowed(newVal: Int!): Int
   }
 `;
 

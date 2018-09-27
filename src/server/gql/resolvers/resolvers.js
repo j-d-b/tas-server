@@ -10,7 +10,7 @@ const appt = requireQuery('appt');
 const appts = requireQuery('appts');
 const availableSlots = requireQuery('available-slots');
 const block = requireQuery('block');
-const maxAllowedApptsPerHour = requireQuery('max-allowed-appts-per-hour');
+const defaultAllowedApptsPerHour = requireQuery('default-allowed-appts-per-hour');
 const me = requireQuery('me');
 const myAppts = requireQuery('my-appts');
 const restrictions = requireQuery('restrictions');
@@ -36,7 +36,7 @@ const sendResetPassLink = requireMutation('send-reset-pass-link');
 const sendVerifyEmailLink = requireMutation('send-verify-email-link');
 const updateAppt = requireMutation('update-appt');
 const updateBlockMaxAllowed = requireMutation('update-block-max-allowed');
-const updateTotalMaxAllowed = requireMutation('update-total-max-allowed');
+const updateDefaultAllowed = requireMutation('update-default-allowed');
 const updateUser = requireMutation('update-user');
 const verifyEmail = requireMutation('verify-email');
 
@@ -66,7 +66,7 @@ const Resolvers = {
     appts,
     availableSlots,
     block,
-    maxAllowedApptsPerHour,
+    defaultAllowedApptsPerHour,
     me,
     myAppts,
     restrictions,
@@ -93,7 +93,7 @@ const Resolvers = {
     sendVerifyEmailLink,
     updateAppt,
     updateBlockMaxAllowed,
-    updateTotalMaxAllowed,
+    updateDefaultAllowed,
     updateUser,
     verifyEmail
   }

@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = (sequelize) => (sequelize.define('restriction', {
+module.exports = sequelize => (sequelize.define('restriction', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -16,12 +16,20 @@ module.exports = (sequelize) => (sequelize.define('restriction', {
     field: 'time_slot_date',
     allowNull: false
   },
-  allowedAppts: {
-    type: Sequelize.INTEGER,
-    field: 'allowed_appts',
+  type: {
+    type: Sequelize.ENUM,
+    values: ['GATE_CAPACITY', 'PLANNED_ACTIVITIES'],
     allowNull: false
   },
-  block: Sequelize.STRING // if null, is total/hr
+  block: Sequelize.STRING,
+  gateCapacity: {
+    type: Sequelize.INTEGER,
+    field: 'gate_capacity'
+  },
+  plannedActivities: {
+    type: Sequelize.INTEGER,
+    field: 'planned_activities'
+  }
 },
 {
   getterMethods: {

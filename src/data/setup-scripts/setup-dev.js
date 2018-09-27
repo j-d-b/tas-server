@@ -17,7 +17,7 @@ const sampleBlocks = [
   },
   {
     id: 'C',
-    maxAllowedApptsPerHour: 5
+    maxAllowedApptsPerHour: 1
   }
 ];
 
@@ -101,18 +101,6 @@ const sampleAppts = [
       vesselETA: '10-10-2018',
       destinationPort: 'String!',
       firstPortOfDischarge: 'String!'
-    }
-  },
-  {
-    userEmail: 'robert@gmail.com',
-    timeSlot: {
-      hour: 20,
-      date: new Date().toISOString().split('T')[0]
-    },
-    type: 'EXPORTEMPTY',
-    typeDetails: {
-      containerId: '9hsdf923',
-      containerSize: 'FORTYFOOT'
     }
   },
   {
@@ -208,29 +196,44 @@ const sampleRestrictions = [
       hour: 23,
       date: new Date().toISOString().split('T')[0]
     },
+    type: 'PLANNED_ACTIVITIES',
     block: 'A',
-    allowedAppts: 2,
+    plannedActivities: 5
   },
   {
     timeSlot: {
       hour: 20,
       date: new Date().toISOString().split('T')[0]
     },
+    type: 'PLANNED_ACTIVITIES',
     block: 'A',
-    allowedAppts: 1
+    plannedActivities: 2
+  },
+  {
+    timeSlot: {
+      hour: 22,
+      date: new Date().toISOString().split('T')[0]
+    },
+    type: 'GATE_CAPACITY',
+    gateCapacity: 0
   },
   {
     timeSlot: {
       hour: 10,
-      date: new Date().toISOString().split('T')[0]
+      date: (() => {
+        const tomorrow = new Date();
+        tomorrow.setTime(tomorrow.getTime() + (24 * 60 * 60 * 1000));
+        return tomorrow.toISOString().split('T')[0];
+      })()
     },
-    allowedAppts: 1
+    type: 'GATE_CAPACITY',
+    gateCapacity: 2
   }
-]
+];
 
 const sampleConfig = {
   maxTFUPerAppt: 40,
-  maxAllowedApptsPerHour: 5
+  defaultAllowedApptsPerHour: 10
 };
 
 const { Appt, Block, Config, Restriction, User } = defineModels(sequelize);

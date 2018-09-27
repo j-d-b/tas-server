@@ -68,11 +68,10 @@ module.exports.signJwt = targetUser => (
 // are number of appts for that block
 module.exports.slotBlockAvailability = async (timeSlot, moveCountByBlock, Appt, Block, Restriction) => {
   for (const [block, count] of Object.entries(moveCountByBlock)) {
-    let slotBlockTotalAllowed = await Restriction.findOne({ where: { block, timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date } }).then(alloweds => alloweds && alloweds.allowedAppts);
-    if (!slotBlockTotalAllowed && slotBlockTotalAllowed !== 0) {
-      slotBlockTotalAllowed = await Block.findById(block).then(blk => blk && blk.maxAllowedApptsPerHour);
-    }
+    const blockMaxAllowed = await Block.findById(block).then(blk => blk && blk.maxAllowedApptsPerHour);
+    const slotBlockPlannedActivities = await Restriction.findOne({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date, type: 'PLANNED_ACTIVITIES', block } }).then(restriction => restriction ? restriction.plannedActivities : 0);
 
+    const slotBlockTotalAllowed = blockMaxAllowed - slotBlockPlannedActivities;
     const slotBlockCurrScheduled = await Appt.count({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date, block } });
 
     if (slotBlockCurrScheduled + count > slotBlockTotalAllowed) return false;
@@ -82,9 +81,9 @@ module.exports.slotBlockAvailability = async (timeSlot, moveCountByBlock, Appt, 
 };
 
 module.exports.slotTotalAvailability = async (timeSlot, numAppts, Appt, Config, Restriction) => {
-  let slotTotalAllowed = await Restriction.findOne({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date, block: null } }).then(alloweds => alloweds && alloweds.allowedAppts);
+  let slotTotalAllowed = await Restriction.findOne({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date, type: 'GATE_CAPACITY' } }).then(restriction => restriction && restriction.gateCapacity);
   if (!slotTotalAllowed && slotTotalAllowed !== 0) {
-    slotTotalAllowed = await Config.findOne().then(config => config.maxAllowedApptsPerHour);
+    slotTotalAllowed = await Config.findOne().then(config => config.defaultAllowedApptsPerHour);
   }
 
   const slotTotalCurrScheduled = await Appt.count({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date } });

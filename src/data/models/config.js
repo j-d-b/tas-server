@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 
-module.exports = (sequelize) => (sequelize.define('config', {
-  maxAllowedApptsPerHour: {
+module.exports = sequelize => (sequelize.define('config', {
+  defaultAllowedApptsPerHour: {
     type: Sequelize.INTEGER,
-    field: 'max_allowed_appts_per_hour',
+    field: 'default_allowed_appts_per_hour',
     allowNull: false
   },
   maxTFUPerAppt: {

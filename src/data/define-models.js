@@ -1,5 +1,3 @@
-const Sequelize = require('sequelize');
-
 const appt = require('./models/appt');
 const block = require('./models/block');
 const config = require('./models/config');

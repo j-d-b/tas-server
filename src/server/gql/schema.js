@@ -9,6 +9,7 @@ const ApptType = require('./schema/appt-type');
 const ContainerSize = require('./schema/container-size');
 const ReminderSetting = require('./schema/reminder-setting');
 const UserRole = require('./schema/user-role');
+const RestrictionType = require('./schema/restriction-type');
 
 // union
 const TypeDetails = require('./schema/type-details');
@@ -32,6 +33,7 @@ module.exports = makeExecutableSchema({
     ContainerSize,
     ReminderSetting,
     UserRole,
+    RestrictionType,
     TypeDetails,
     TimeSlot,
     Restriction,

@@ -30,6 +30,7 @@ const Query = `
   input RestrictionsInput {
     timeSlotHours: [Hour!]
     timeSlotDates: [ISODate!]
+    type: RestrictionType # null for 'both'
     blocks: [String!]
   }
 
@@ -48,7 +49,7 @@ const Query = `
     availableSlots(input: AvailableSlotsInput!): [TimeSlot]
 
     restrictions(input: RestrictionsInput!): [Restriction]
-    maxAllowedApptsPerHour: Int
+    defaultAllowedApptsPerHour: Int
   }
 `;
 
