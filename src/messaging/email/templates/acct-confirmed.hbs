@@ -1,6 +1,16 @@
-<div style="text-align: center;">
-  <h1>Account Confirmed - Verify Your Email</h1>
-  <p>Congrats, {{name}}, your account has been confirmed by an administrator!</p>
-  <p>You're now ready to log in and use the BCTC TAS. Please verify your email and log in using the link below.</p>
-  <a href="{{verifyLink}}">Verify & Log In</a>
+<div style="text-align: center; font-family: sans-serif; background-color: limegreen; height: 100%;">
+  <img style="height: 2rem; margin: 2rem 0 1rem 0;" src="cid:simple-logo" />
+
+  <div style="background-color: #fff; border-radius: 5px; max-width: 400px; margin: 0 auto; padding: 1rem 1rem 2rem 1rem;">
+    <h1>Account Confirmed - Verify Your Email</h1>
+    <p>Congrats {{name}}, your account has been confirmed by an administrator! You're now ready use the BCTC TAS.</p>
+    <p style="margin-bottom: 1.5rem;">Please verify your email and log in using the link below.</p>
+    <a href="{{verifyLink}}" style="width: 100%; border-radius: 3px; text-decoration: none; padding: 0.5rem; height: 45px; cursor: pointer; color: #fff; background-color: tomato;">
+      Verify & Log In
+    </a>
+  </div>
+
+  <div style="padding: 1.5rem; font-size: 0.7rem; color: #fff; max-width: 400px; margin: 0 auto;">
+    Button not working? Copy and paste this URL into your browser: <a href={{verifyLink}} style="font-size: 0.5rem;">{{verifyLink}}</a>
+  </div>
 </div>

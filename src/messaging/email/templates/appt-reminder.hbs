@@ -1,7 +1,14 @@
-<div style="text-align: center;">
-  <h1>Upcoming Appointment Reminder</h1>
-  <p>Hello, you have an upcoming appointment for <strong>{{timeSlot.date}}</strong> at <strong>{{timeSlot.hour}}</strong></p>
-  <p>The appointment details are listed below:</p>
-  <p>Type: {{type}}</p>
-  <p>...etc. TODO</p>
+<div style="text-align: center; font-family: sans-serif; background-color: limegreen; height: 100%;">
+  <img style="height: 2rem; margin: 2rem 0 1rem 0;" src="cid:simple-logo" />
+
+  <div style="background-color: #fff; border-radius: 5px; max-width: 400px; margin: 0 auto; padding: 1rem;">
+    <h1>Upcoming Appointment Reminder</h1>
+    <p>Hello {{name}}, you have an upcoming appointment for tomorrow</p>
+    <p><strong style="font-size: 1.2rem;">{{timeSlot.date}}</strong> at <strong style="font-size: 1.2rem;">{{timeSlot.hour}}</strong></p>
+    <p>The appointment details are listed below:</p>
+    <div style="text-align: left; border: 1px solid #aaa; padding: 0 1rem; border-radius: 3px;">
+      <p>Type: {{type}}</p>
+    </div>
+    <p>See you then!</p>
+  </div>
 </div>

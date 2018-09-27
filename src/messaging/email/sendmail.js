@@ -19,7 +19,14 @@ const createMailOptionsBuilder = (subject, templateFile) => {
       name: `src/messaging/email/templates/${templateFile}`,
       engine: 'handlebars',
       context: data
-    }
+    },
+    attachments: [
+      {
+        filename: 'simple-logo.png',
+        path: 'src/messaging/email/simple-logo.png',
+        cid: 'simple-logo'
+      }
+    ]
   });
 };
 
