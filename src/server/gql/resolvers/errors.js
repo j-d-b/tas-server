@@ -37,6 +37,9 @@ module.exports = {
   InvalidSlotHourValueError: createError('InvalidSlotHourValueError', {
     message: 'The time slot hour must be between 0 and 23'
   }),
+  InvalidWindowLengthValueError: createError('InvalidWindowLengthValueError', {
+    message: 'The window length value must be 5, 10, 15, 30, or 60 (minutes)'
+  }),
   MailSendError: createError('MailSendError', {
     message: 'The requested email could not be sent'
   }),

@@ -50,6 +50,7 @@ const Query = `
 
     restrictions(input: RestrictionsInput!): [Restriction]
     defaultAllowedApptsPerHour: Int
+    arrivalWindowLength: Int
   }
 `;
 

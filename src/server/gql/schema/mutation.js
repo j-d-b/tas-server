@@ -136,6 +136,7 @@ const Mutation = `
     addRestrictions(input: [AddRestrictionInput!]!): [Restriction!]
     deleteRestriction(input: DeleteRestrictionInput!): String
     updateDefaultAllowed(newVal: Int!): Int
+    updateArrivalWindowLength(newVal: Int!): Int
   }
 `;
 

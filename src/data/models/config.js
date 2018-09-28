@@ -10,5 +10,10 @@ module.exports = sequelize => (sequelize.define('config', {
     type: Sequelize.INTEGER,
     field: 'max_tfu_per_appt',
     allowNull: false
+  },
+  arrivalWindowLength: {
+    type: Sequelize.INTEGER,
+    field: 'appt_window_length',
+    allowNull: false
   }
 }, { timestamps: false, freezeTableName: true, underscored: true }));

@@ -17,12 +17,18 @@ const {
 // batched version of `doesContainerIdExistCheck` for less db queries
 module.exports.doContainerIdsExistCheck = (containerIds) => {
   console.log('This requires a connection to the TOS database and is yet to be implemented!');
+  console.log('Returning a random block/size...');
   return containerIds.map((cid) => {
     // if (!containers.find(cid)) throw NoContainerError(); <- pseudocode
-    return {
-      block: 'A',
-      containerSize: 'TWENTYFOOT'
-    };
+    const rand = Math.random();
+
+    let block = 'A';
+    if (rand < 0.2) block = 'B';
+    else if (rand > 0.75) block = 'C';
+
+    const containerSize = Math.random() < 0.7 ? 'TWENTYFOOT' : 'FORTYFOOT';
+
+    return { block, containerSize };
   });
 };
 
@@ -150,6 +156,12 @@ module.exports.isUserNotSelfCheck = (email, user) => {
 // check that given email matches the user's (user) email
 module.exports.isUserSelfCheck = (email, user) => {
   if (email !== user.userEmail) throw new Errors.NotOwnUserError();
+};
+
+// IDEA we ideally want to move this kind of check to the gql schema
+module.exports.isWindowLengthValidCheck = (val) => {
+  const allowedVals = [5, 10, 15, 30, 60];
+  if (!allowedVals.includes(val)) throw new Errors.InvalidWindowLengthValueError();
 };
 
 // check if number of TFU of requested containers is under the max

@@ -11,6 +11,7 @@ const appts = requireQuery('appts');
 const availableSlots = requireQuery('available-slots');
 const block = requireQuery('block');
 const defaultAllowedApptsPerHour = requireQuery('default-allowed-appts-per-hour');
+const arrivalWindowLength = requireQuery('arrival-window-length');
 const me = requireQuery('me');
 const myAppts = requireQuery('my-appts');
 const restrictions = requireQuery('restrictions');
@@ -37,6 +38,7 @@ const sendVerifyEmailLink = requireMutation('send-verify-email-link');
 const updateAppt = requireMutation('update-appt');
 const updateBlockMaxAllowed = requireMutation('update-block-max-allowed');
 const updateDefaultAllowed = requireMutation('update-default-allowed');
+const updateArrivalWindowLength = requireMutation('update-arrival-window-length');
 const updateUser = requireMutation('update-user');
 const verifyEmail = requireMutation('verify-email');
 
@@ -67,6 +69,7 @@ const Resolvers = {
     availableSlots,
     block,
     defaultAllowedApptsPerHour,
+    arrivalWindowLength,
     me,
     myAppts,
     restrictions,
@@ -94,6 +97,7 @@ const Resolvers = {
     updateAppt,
     updateBlockMaxAllowed,
     updateDefaultAllowed,
+    updateArrivalWindowLength,
     updateUser,
     verifyEmail
   }

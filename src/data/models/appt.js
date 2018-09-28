@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = (sequelize) => (sequelize.define('appt', {
+module.exports = sequelize => (sequelize.define('appt', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -19,6 +19,11 @@ module.exports = (sequelize) => (sequelize.define('appt', {
   type: {
     type: Sequelize.ENUM,
     values: ['IMPORTFULL', 'IMPORTEMPTY', 'EXPORTFULL', 'EXPORTEMPTY'],
+    allowNull: false
+  },
+  arrivalWindow: {
+    type: Sequelize.INTEGER, // 0 to (60 / arrivalWindowLength)
+    field: 'arrival_window',
     allowNull: false
   },
   notifyMobileNumber: {
