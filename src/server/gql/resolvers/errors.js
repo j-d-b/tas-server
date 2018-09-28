@@ -32,7 +32,7 @@ module.exports = {
     message: 'This link is invalid or expired'
   }),
   InvalidRestrictionInputError: createError('InvalidRestrictionInputError', {
-    message: 'Ensure you are providing gateCapacity (for GATE_CAPACITY) or block and plannedActivities (for PLANNED_ACTIVITIES)'
+    message: 'Invalid Input. Ensure you are providing gateCapacity (for GATE_CAPACITY) or block and plannedActivities (for PLANNED_ACTIVITIES)'
   }),
   InvalidSlotHourValueError: createError('InvalidSlotHourValueError', {
     message: 'The time slot hour must be between 0 and 23'
