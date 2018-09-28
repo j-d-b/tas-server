@@ -62,10 +62,18 @@ module.exports.doesBlockNotExistCheck = async (blockId, Block) => {
 
 // TODO
 module.exports.doesContainerIdExistCheck = (containerId) => {
-  return {
-    block: 'A',
-    containerSize: 'TWENTYFOOT'
-  };
+  console.log('This requires a connection to the TOS database and is yet to be implemented!');
+  console.log('Returning a random block/size...');
+  // if (!containers.find(cid)) throw NoContainerError(); <- pseudocode
+  const rand = Math.random();
+
+  let block = 'A';
+  if (rand < 0.2) block = 'B';
+  else if (rand > 0.75) block = 'C';
+
+  const containerSize = Math.random() < 0.7 ? 'TWENTYFOOT' : 'FORTYFOOT';
+
+  return { block, containerSize };
 };
 
 // check if user (by email) exists in the database (using User model)
@@ -195,7 +203,6 @@ module.exports.resetTokenCheck = async (resetToken, User) => {
     throw new Errors.InvalidOrExpiredLinkError();
   }
 };
-
 
 module.exports.validRestrictionInputCheck = (restrictions) => {
   restrictions.forEach((restriction) => {

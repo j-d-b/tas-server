@@ -13,6 +13,42 @@ module.exports.getApptTypeDetails = (apptDetails) => {
   }
 };
 
+// NOTE this is duplicate code to getter in src/data/models/appt.js
+module.exports.getArrivalWindowString = (timeSlot, arrivalWindowSlot, arrivalWindowLength) => {
+  const startHour = timeSlot.hour < 10 ? `0${timeSlot.hour}` : timeSlot.hour;
+  let endHour = startHour;
+
+  let startMinutes = arrivalWindowSlot * arrivalWindowLength;
+  if (startMinutes < 10) startMinutes = '0' + startMinutes;
+
+  let endMinutes = (arrivalWindowSlot + 1) * arrivalWindowLength;
+  if (endMinutes < 10) endMinutes = '0' + endMinutes;
+  else if (endMinutes === 60) {
+    endMinutes = '00';
+    endHour = new Date(Date.parse(`${timeSlot.date}T${startHour}:00:00Z`));
+    endHour.setTime(endHour.getTime() + (60 * 60 * 1000));
+    endHour = endHour.toISOString().split('T')[1].substring(0, 2);
+  }
+
+  return `${startHour}:${startMinutes} - ${endHour}:${endMinutes}`;
+};
+
+module.exports.getNewApptArrivalWindow = async (timeSlot, Appt, Config) => {
+  const slotScheduledAppts = await Appt.findAll({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date } });
+  const currWindowLength = await Config.findOne().then(config => config.arrivalWindowLength);
+
+  const apptCountByWindowSlot = slotScheduledAppts.reduce((arr, { arrivalWindowSlot, arrivalWindowLength }) => {
+    // convert appt slot to its equivalent in the current config.arrivalWindowLength
+    const equivalentSlot = Math.round(arrivalWindowSlot * (arrivalWindowLength / currWindowLength));
+    arr[equivalentSlot]++;
+    return arr;
+  }, new Array(60 / currWindowLength).fill(0));
+
+  const arrivalWindowSlot = apptCountByWindowSlot.reduce((mostFreeSlot, slotCount, i) => slotCount < apptCountByWindowSlot[mostFreeSlot] ? i : mostFreeSlot);
+
+  return { arrivalWindowSlot, arrivalWindowLength: currWindowLength };
+};
+
 module.exports.getTimeSlotFromId = (slotId) => {
   const slotHourDate = slotId.split(':');
   return { hour: slotHourDate[0], date: slotHourDate[1] };

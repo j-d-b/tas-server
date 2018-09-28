@@ -13,7 +13,7 @@ module.exports = sequelize => (sequelize.define('config', {
   },
   arrivalWindowLength: {
     type: Sequelize.INTEGER,
-    field: 'appt_window_length',
+    field: 'arrival_window_length',
     allowNull: false
   }
 }, { timestamps: false, freezeTableName: true, underscored: true }));

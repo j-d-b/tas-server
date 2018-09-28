@@ -21,9 +21,14 @@ module.exports = sequelize => (sequelize.define('appt', {
     values: ['IMPORTFULL', 'IMPORTEMPTY', 'EXPORTFULL', 'EXPORTEMPTY'],
     allowNull: false
   },
-  arrivalWindow: {
+  arrivalWindowSlot: {
     type: Sequelize.INTEGER, // 0 to (60 / arrivalWindowLength)
     field: 'arrival_window',
+    allowNull: false
+  },
+  arrivalWindowLength: {
+    type: Sequelize.INTEGER, // when the appt was booked
+    field: 'arrival_window_length',
     allowNull: false
   },
   notifyMobileNumber: {
@@ -81,6 +86,24 @@ module.exports = sequelize => (sequelize.define('appt', {
   getterMethods: {
     timeSlot: function() {
       return { hour: this.timeSlotHour, date: this.timeSlotDate };
+    },
+    arrivalWindow: function() {
+      const startHour = this.timeSlotHour < 10 ? `0${this.timeSlotHour}` : this.timeSlotHour;
+      let endHour = startHour;
+
+      let startMinutes = this.arrivalWindowSlot * this.arrivalWindowLength;
+      if (startMinutes < 10) startMinutes = '0' + startMinutes;
+
+      let endMinutes = (this.arrivalWindowSlot + 1) * this.arrivalWindowLength;
+      if (endMinutes < 10) endMinutes = '0' + endMinutes;
+      else if (endMinutes === 60) {
+        endMinutes = '00';
+        endHour = new Date(Date.parse(`${this.timeSlotDate}T${startHour}:00:00Z`));
+        endHour.setTime(endHour.getTime() + (60 * 60 * 1000));
+        endHour = endHour.toISOString().split('T')[1].substring(0, 2);
+      }
+
+      return `${startHour}:${startMinutes} - ${endHour}:${endMinutes}`;
     },
     typeDetails: function() {
       return {

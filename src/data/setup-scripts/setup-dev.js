@@ -92,7 +92,8 @@ const sampleAppts = [
       date: new Date().toISOString().split('T')[0]
     },
     type: 'EXPORTFULL',
-    arrivalWindow: 0,
+    arrivalWindowSlot: 0,
+    arrivalWindowLength: 15,
     typeDetails: {
       containerId: '192fh1h2f',
       containerSize: 'TWENTYFOOT',
@@ -111,7 +112,8 @@ const sampleAppts = [
       date: new Date().toISOString().split('T')[0]
     },
     type: 'IMPORTFULL',
-    arrivalWindow: 1,
+    arrivalWindowSlot: 1,
+    arrivalWindowLength: 15,
     typeDetails: {
       containerId: '9f9h239fhsd',
       formNumber705: 'FORM239r0j23',
@@ -125,7 +127,8 @@ const sampleAppts = [
       date: new Date().toISOString().split('T')[0]
     },
     type: 'EXPORTEMPTY',
-    arrivalWindow: 2,
+    arrivalWindowSlot: 2,
+    arrivalWindowLength: 15,
     typeDetails: {
       containerId: 'jf21j1f3f2',
       containerSize: 'TWENTYFOOT'
@@ -138,7 +141,8 @@ const sampleAppts = [
       date: new Date().toISOString().split('T')[0]
     },
     type: 'IMPORTEMPTY',
-    arrivalWindow: 3,
+    arrivalWindowSlot: 3,
+    arrivalWindowLength: 15,
     typeDetails: {
       containerSize: 'TWENTYFOOT',
       emptyForCityFormNum: 'form2i38r923r'
@@ -151,7 +155,8 @@ const sampleAppts = [
       date: new Date().toISOString().split('T')[0]
     },
     type: 'EXPORTFULL',
-    arrivalWindow: 3,
+    arrivalWindowSlot: 3,
+    arrivalWindowLength: 15,
     typeDetails: {
       containerId: '2883hf8ttt',
       containerSize: 'TWENTYFOOT',
@@ -170,7 +175,8 @@ const sampleAppts = [
       date: new Date().toISOString().split('T')[0]
     },
     type: 'IMPORTFULL',
-    arrivalWindow: 1,
+    arrivalWindowSlot: 1,
+    arrivalWindowLength: 15,
     typeDetails: {
       containerId: 'udfhd7f7d',
       formNumber705: 'FORMio2h38hf',
@@ -188,7 +194,8 @@ const sampleAppts = [
       })()
     },
     type: 'IMPORTFULL',
-    arrivalWindow: 3,
+    arrivalWindowSlot: 3,
+    arrivalWindowLength: 15,
     typeDetails: {
       containerId: 'c234234',
       formNumber705: 'test',

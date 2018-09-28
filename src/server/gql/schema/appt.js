@@ -4,6 +4,7 @@ const Appt = `
     timeSlot: TimeSlot!
     user: User!
     type: ApptType!
+    arrivalWindow: String!
     licensePlateNumber: String!
     notifyMobileNumber: String!
     typeDetails: TypeDetails!
