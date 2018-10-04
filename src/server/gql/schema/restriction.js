@@ -2,7 +2,7 @@ const Restriction = `
   type Restriction {
     timeSlot: TimeSlot!
     type: RestrictionType!
-    block: String
+    block: Block
     plannedActivities: Int
     gateCapacity: Int
   }

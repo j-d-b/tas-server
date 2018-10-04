@@ -4,7 +4,6 @@ const TypeDetails = `
     formNumber705: String!
     containerSize: String!
     containerType: String!
-    block: String!
   }
 
   type ImportEmpty {

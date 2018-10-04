@@ -49,10 +49,14 @@ const Resolvers = {
     appts: async (user, args, { Appt }) => Appt.findAll({ where: { userEmail: user.email } })
   },
   Appt: {
-    user: async (appt, args, { User }) => User.findById(appt.userEmail)
+    user: async (appt, args, { User }) => User.findById(appt.userEmail),
+    block: async (appt, args, { Block }) => Block.findById(appt.block)
   },
   Block: {
     restrictions: async (block, args, { Restriction }) => Restriction.findAll({ where: { block: block.id } })
+  },
+  Restriction: {
+    block: async (restriction, args, { Block }) => Block.findOne({ where: restriction.block })
   },
   TypeDetails: {
     __resolveType(obj) {

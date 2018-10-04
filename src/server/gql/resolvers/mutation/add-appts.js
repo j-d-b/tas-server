@@ -1,6 +1,6 @@
 const { isAuthenticatedResolver } = require('../auth');
-const { doesUserExistCheck, doesContainerIdExistCheck, hasTypeDetailsCheck, isUserSelfCheck, isAvailableCheck } = require('../checks');
-const { isOpOrAdmin, getNewApptArrivalWindow, getArrivalWindowString } = require('../helpers');
+const { doesUserExistCheck, hasTypeDetailsCheck, isUserSelfCheck, isAvailableCheck } = require('../checks');
+const { isOpOrAdmin, getContainerSize, getContainerBlock, getNewApptArrivalWindow, getArrivalWindowString } = require('../helpers');
 
 // addAppts (input: [AddApptInput!]!): [Appt]
 const addAppts = isAuthenticatedResolver.createResolver(
@@ -11,12 +11,13 @@ const addAppts = isAuthenticatedResolver.createResolver(
     const newAppts = await Promise.all(input.map(async ({ timeSlot, userEmail, type, ...typeSpecific }) => {
       await doesUserExistCheck(userEmail, User);
 
-      let typeDetails = hasTypeDetailsCheck({ type, ...typeSpecific }); // schema doesn't verify this
-      if (type === 'IMPORTFULL') typeDetails = { ...typeDetails, ...doesContainerIdExistCheck(typeDetails.containerId) };
+      const typeDetails = hasTypeDetailsCheck({ type, ...typeSpecific }); // schema doesn't verify this
+      if (type === 'IMPORTFULL') typeDetails.containerSize = getContainerSize(typeDetails.containerId);
 
       if (!isOpOrAdmin(user)) isUserSelfCheck(userEmail, user);
 
-      return { timeSlot, userEmail, arrivalWindowSlot, arrivalWindowLength, type, typeDetails };
+      const block = getContainerBlock(type, typeDetails);
+      return { timeSlot, userEmail, arrivalWindowSlot, block, arrivalWindowLength, type, typeDetails };
     }));
 
     await isAvailableCheck(newAppts, Appt, Block, Config, Restriction); // appt scheduling logic

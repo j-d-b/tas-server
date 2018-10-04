@@ -1,5 +1,5 @@
 # TAS Server
-This repository contains the API backend server for the BCTC Truck Appointment System (TAS).
+This repository contains the GraphQL API server of the BCTC Truck Appointment System (TAS) backend.
 
 The TAS has web and native mobile interfaces, and thus the backend is implemented as an API in a separate environment as a GraphQL server for use by the web and mobile applications.
 
@@ -198,3 +198,10 @@ I've done this, a combined `tas-server`, database, and notification spawning cro
 This project is pretty close to production-capable (aside from any written tests 😮). From the perspective of the frontend, everything is there. However, there are a few areas which need work:
 * Auth refresh tokens (important!)
 * Logging (with winston)
+* What appt details can be updated?
+* Add arrivalWindow to appt
+* Appt details in reminder email
+* SMS
+* Add block to all appts
+* Gate capacity and planned activities templates
+* clarify block vs blockID in data storage

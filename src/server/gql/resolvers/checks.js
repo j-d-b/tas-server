@@ -11,27 +11,6 @@ const {
   slotBlockAvailability
 } = require('./helpers');
 
-// TODO
-// checks if containers in given list of id exists in TOS
-// returns list of obj w/ block and size for each
-// batched version of `doesContainerIdExistCheck` for less db queries
-module.exports.doContainerIdsExistCheck = (containerIds) => {
-  console.log('This requires a connection to the TOS database and is yet to be implemented!');
-  console.log('Returning a random block/size...');
-  return containerIds.map((cid) => {
-    // if (!containers.find(cid)) throw NoContainerError(); <- pseudocode
-    const rand = Math.random();
-
-    let block = 'A';
-    if (rand < 0.2) block = 'B';
-    else if (rand > 0.75) block = 'C';
-
-    const containerSize = Math.random() < 0.7 ? 'TWENTYFOOT' : 'FORTYFOOT';
-
-    return { block, containerSize };
-  });
-};
-
 // check if allowed appts `allowedSet` exists in the database
 module.exports.doesRestrictionExistCheck = async (restriction, Restriction) => {
   const matches = await Restriction.count({ where: { timeSlotHour: restriction.timeSlot.hour, timeSlotDate: restriction.timeSlot.date, block: (restriction.block || null) } });
@@ -58,22 +37,6 @@ module.exports.doesBlockExistCheck = async (blockId, Block) => {
 module.exports.doesBlockNotExistCheck = async (blockId, Block) => {
   const block = await Block.findById(blockId);
   if (block) throw new Errors.BlockAlreadyExistsError({ data: { targetBlock: blockId }});
-};
-
-// TODO
-module.exports.doesContainerIdExistCheck = (containerId) => {
-  console.log('This requires a connection to the TOS database and is yet to be implemented!');
-  console.log('Returning a random block/size...');
-  // if (!containers.find(cid)) throw NoContainerError(); <- pseudocode
-  const rand = Math.random();
-
-  let block = 'A';
-  if (rand < 0.2) block = 'B';
-  else if (rand > 0.75) block = 'C';
-
-  const containerSize = Math.random() < 0.7 ? 'TWENTYFOOT' : 'FORTYFOOT';
-
-  return { block, containerSize };
 };
 
 // check if user (by email) exists in the database (using User model)
@@ -119,8 +82,7 @@ module.exports.isAvailableCheck = async (apptDetailsArr, Appt, Block, Config, Re
     const isSlotAvailable = await slotTotalAvailability(slot, detailsArr.length, Appt, Config, Restriction);
     if (!isSlotAvailable) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
 
-    const moveCountByBlock = detailsArr.reduce((obj, { typeDetails }) => {
-      const block = typeDetails && typeDetails.block;
+    const moveCountByBlock = detailsArr.reduce((obj, { block }) => {
       if (block) obj[block] ? obj[block]++ : obj[block] = 1;
       return obj;
     }, {});

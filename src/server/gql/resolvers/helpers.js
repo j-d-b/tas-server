@@ -33,6 +33,12 @@ module.exports.getArrivalWindowString = (timeSlot, arrivalWindowSlot, arrivalWin
   return `${startHour}:${startMinutes} - ${endHour}:${endMinutes}`;
 };
 
+// TODO connection to CLDS
+module.exports.getContainerBlock = (apptType, typeDetails) => Math.random() < 0.5 ? 'A' : 'B';
+
+// TODO connection to CLDS
+module.exports.getContainerSize = (apptType, typeDetails) => Math.random() < 0.9 ? 'TWENTYFOOT' : 'FORTYFOOT';
+
 module.exports.getNewApptArrivalWindow = async (timeSlot, Appt, Config) => {
   const slotScheduledAppts = await Appt.findAll({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date } });
   const currWindowLength = await Config.findOne().then(config => config.arrivalWindowLength);

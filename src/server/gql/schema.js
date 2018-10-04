@@ -36,10 +36,10 @@ module.exports = makeExecutableSchema({
     RestrictionType,
     TypeDetails,
     TimeSlot,
+    Block,
     Restriction,
     Appt,
     User,
-    Block,
     Query,
     Mutation
   ],

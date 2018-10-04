@@ -21,6 +21,7 @@ module.exports = sequelize => (sequelize.define('appt', {
     values: ['IMPORTFULL', 'IMPORTEMPTY', 'EXPORTFULL', 'EXPORTEMPTY'],
     allowNull: false
   },
+  block: Sequelize.STRING,
   arrivalWindowSlot: {
     type: Sequelize.INTEGER, // 0 to (60 / arrivalWindowLength)
     field: 'arrival_window',
@@ -56,7 +57,6 @@ module.exports = sequelize => (sequelize.define('appt', {
     type: Sequelize.STRING,
     field: 'container_type'
   },
-  block: Sequelize.STRING,
   formNum705: {
     type: Sequelize.STRING,
     field: 'form_num_705'
@@ -111,7 +111,6 @@ module.exports = sequelize => (sequelize.define('appt', {
         containerSize: this.containerSize,
         containerWeight: this.containerWeight,
         containerType: this.containerType,
-        block: this.block,
         formNum705: this.formNum705,
         emptyForCityFormNum: this.emptyForCityFormNum,
         bookingNum: this.bookingNum,
@@ -131,7 +130,6 @@ module.exports = sequelize => (sequelize.define('appt', {
       details.containerSize && this.setDataValue('containerSize', details.containerSize);
       details.containerWeight && this.setDataValue('containerWeight', details.containerWeight);
       details.containerType && this.setDataValue('containerType', details.containerType);
-      details.block && this.setDataValue('block', details.block);
       details.formNum705 && this.setDataValue('formNumber705', details.formNum705);
       details.emptyForCityFormNum && this.setDataValue('emptyForCityFormNum', details.emptyForCityFormNum);
       details.bookingNum && this.setDataValue('bookingNum', details.bookingNum);
