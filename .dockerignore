@@ -1,4 +1,5 @@
 node_modules
 .git
-src/data/setup
+.gitignore
+src/data/setup-scripts
 .eslintrc.js
