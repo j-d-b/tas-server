@@ -9,7 +9,7 @@
     "start": "NODE_ENV=production node src/index",
     "lint": "eslint src/index.js src"
   },
-  "repository": "https://j-d-b@bitbucket.org/j-d-b/tas-backend.git",
+  "repository": "https://github.com/j-d-b/tas-server.git",
   "author": "Jacob Brady <jbrady@kcus.org>",
   "license": "GPL-3.0",
   "private": true,
