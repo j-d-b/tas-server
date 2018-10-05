@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = (sequelize) => (sequelize.define('block', {
+module.exports = sequelize => (sequelize.define('block', {
   id: {
     type: Sequelize.STRING,
     primaryKey: true

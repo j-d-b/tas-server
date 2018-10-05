@@ -114,10 +114,10 @@ const sampleAppts = [
     type: 'IMPORTFULL',
     arrivalWindowSlot: 1,
     arrivalWindowLength: 15,
+    block: 'A',
     typeDetails: {
       containerId: '9f9h239fhsd',
-      formNumber705: 'FORM239r0j23',
-      block: 'A'
+      formNumber705: 'FORM239r0j23'
     }
   },
   {
@@ -177,10 +177,10 @@ const sampleAppts = [
     type: 'IMPORTFULL',
     arrivalWindowSlot: 1,
     arrivalWindowLength: 15,
+    block: 'A',
     typeDetails: {
       containerId: 'udfhd7f7d',
-      formNumber705: 'FORMio2h38hf',
-      block: 'A'
+      formNumber705: 'FORMio2h38hf'
     }
   },
   {
@@ -196,10 +196,10 @@ const sampleAppts = [
     type: 'IMPORTFULL',
     arrivalWindowSlot: 3,
     arrivalWindowLength: 15,
+    block: 'B',
     typeDetails: {
       containerId: 'c234234',
-      formNumber705: 'test',
-      block: 'B'
+      formNumber705: 'test'
     }
   },
 ];
@@ -267,7 +267,13 @@ const setupDev = async () => {
   await createTables();
 
   console.log(chalk.yellow('⚙️  Adding sample data'));
-  addBlocks().then(addUsers).then(addAppts).then(addRestrictions).then(addConfig).then(() => console.log(chalk.green('💫  Database setup complete'))).then(() => process.exit(0));
+  addBlocks()
+    .then(addUsers)
+    .then(addAppts)
+    .then(addRestrictions)
+    .then(addConfig)
+    .then(() => console.log(chalk.green('💫  Database setup complete')))
+    .then(() => process.exit(0));
 };
 
 setupDev();
