@@ -1,6 +1,7 @@
 const { sendApptReminder } = require.main.require('./messaging/email/send-email');
 const { isAdminResolver } = require('../auth');
 const { MailSendError } = require('../errors');
+const { getHourString } = require('../helpers');
 
 // sendApptReminders: String
 const sendApptReminders = isAdminResolver.createResolver(
@@ -19,12 +20,18 @@ const sendApptReminders = isAdminResolver.createResolver(
     let numSentSMS = 0;
     for (const appt of apptsTomorrow) {
       const user = await appt.getUser({ attributes: ['reminderSetting', 'email'] });
+      const apptDetails = {
+        ...appt.toJSON(), // IDEA yes, we're giving more than we need to...
+        date: new Date(Date.parse(appt.timeSlotDate)).toUTCString().substring(0, 16),
+        hour: getHourString(appt.timeSlotHour),
+        ...appt.typeDetails
+      };
 
       switch (user.reminderSetting) {
         case 'EMAIL':
           numEmail++;
           try {
-            await sendApptReminder(user.email, { type: appt.type, timeSlot: appt.timeSlot });
+            await sendApptReminder(user.email, apptDetails);
           } catch (err) {
             throw new MailSendError();
           }
@@ -38,7 +45,7 @@ const sendApptReminders = isAdminResolver.createResolver(
           numSMS++;
           numEmail++;
           try {
-            await sendApptReminder(user.email, { type: appt.type, timeSlot: appt.timeSlot });
+            await sendApptReminder(user.email, apptDetails);
           } catch (err) {
             throw new MailSendError();
           }

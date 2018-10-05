@@ -39,6 +39,9 @@ module.exports.getContainerBlockId = (apptType, typeDetails) => Math.random() < 
 // TODO connection to CLDS
 module.exports.getContainerSize = (apptType, typeDetails) => Math.random() < 0.9 ? 'TWENTYFOOT' : 'FORTYFOOT';
 
+// takes in 0 to 23
+module.exports.getHourString = hourVal => hourVal < 10 ? `0${hourVal}:00` : `${hourVal}:00`;
+
 module.exports.getNewApptArrivalWindow = async (timeSlot, Appt, Config) => {
   const slotScheduledAppts = await Appt.findAll({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date } });
   const currWindowLength = await Config.findOne().then(config => config.arrivalWindowLength);

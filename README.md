@@ -174,14 +174,18 @@ All project code is in `src/`
 `src/index.js` is the entry point to run the application/start the server. This is run by `yarn start`.
 
 ### `src/data/`
-* Contains Sequelize model definitions for interacting with the database.
-* Contains database connecting code.
+* Contains Sequelize models and model definitions for interacting with the database.
+* Contains database connection configuration.
 * `setup-scripts/` contains database table setup code, run by `yarn setup` and `yarn develop`.
 
+### `src/logging` TODO
+
+### `src/messaging`
+* Contains all email and SMS sending code and templates.
+
 ### `src/server/`
-* Contains all code relevant to the express server, including all graphql resolvers, schema, email sending...
-* `gql/` contains all GraphQL resolvers (helpers, errors...) and schema. There is a **README** here as well.
-* `messaging/` contains all mail sending code and templates.
+* Contains all code relevant to the express server, including all graphql schema, resolvers, and auth.
+* `gql/` contains all GraphQL resolvers (helpers, input checking, errors...) and schema. There is a **README** here as well.
 
 ## Docker
 The `tas-server` project can be run with [Docker](https://www.docker.com/).
@@ -202,4 +206,6 @@ This project is pretty close to production-capable (aside from any written tests
 * Appointment reminder email template
 * SMS sending
 * Gate capacity and planned activities templates
-* Database snapshots
+* Database snapshots/backup
+* Standardize mutation inputs (single `input` object)
+* update `src/server/gql/README.md`
