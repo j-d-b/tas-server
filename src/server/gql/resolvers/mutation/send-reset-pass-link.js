@@ -12,7 +12,7 @@ const sendResetPassLink = notLoggedInResolver.createResolver(
 
     const resetToken = jwt.sign({
       userEmail: targetUser.email
-    }, targetUser.password, { expiresIn: '30m' }); // use current password hash as secret; single use JWT
+    }, targetUser.password, { expiresIn: '24h' }); // use current password hash as secret; single use JWT
 
     const resetLink = `http://localhost:3000/new-password/${resetToken}`; // TODO for production
 

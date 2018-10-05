@@ -182,6 +182,7 @@ All project code is in `src/`
 
 ### `src/messaging`
 * Contains all email and SMS sending code and templates.
+* Email is sent with **Mailgun**, using configuration from `.env`
 * If you're updating the frontend colors/logo, you'll have to change these templates too.
 
 ### `src/server/`
@@ -210,3 +211,4 @@ This project is pretty close to production-capable (aside from any written tests
 * Database snapshots/backup
 * Standardize mutation inputs (single `input` object)
 * Update `src/server/gql/README.md`
+* Consider DataLoader
