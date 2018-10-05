@@ -11,6 +11,7 @@
   },
   "repository": "https://j-d-b@bitbucket.org/j-d-b/tas-backend.git",
   "author": "Jacob Brady <jbrady@kcus.org>",
+  "license": "GPL-3.0",
   "private": true,
   "dependencies": {
     "apollo-errors": "^1.9.0",
