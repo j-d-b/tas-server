@@ -1,4 +1,4 @@
-const send = require.main.require('./messaging/email/sendmail');
+const send = require.main.require('./messaging/email/send-email');
 const { isAdminResolver } = require('../auth');
 const { doesUserExistCheck } = require('../checks');
 const { getVerifyLink } = require('../helpers');

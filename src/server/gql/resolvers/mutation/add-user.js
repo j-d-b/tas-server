@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-const { sendSignupReceivedNotice } = require.main.require('./messaging/email/sendmail');
+const { sendSignupReceivedNotice } = require.main.require('./messaging/email/send-email');
 const { baseResolver } = require('../auth');
 const { isAllowedPasswordCheck, doesUserNotExistCheck } = require('../checks');
 const { MailSendError } = require('../errors');

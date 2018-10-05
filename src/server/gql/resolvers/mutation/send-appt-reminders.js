@@ -1,4 +1,4 @@
-const { sendApptReminder } = require.main.require('./messaging/email/sendmail');
+const { sendApptReminder } = require.main.require('./messaging/email/send-email');
 const { isAdminResolver } = require('../auth');
 const { MailSendError } = require('../errors');
 

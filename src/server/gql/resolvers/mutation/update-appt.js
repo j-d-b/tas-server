@@ -9,7 +9,7 @@ const updateAppt = isAuthenticatedResolver.createResolver(
 
     if (userEmail) await doesUserExistCheck(userEmail, User);
 
-    if (!isOpOrAdmin(user)) {
+    if (!isOpOrAdmin(user)) { // IDEA if op/admin, email user if appt was changed
       isOwnApptCheck(targetAppt, user);
       if (userEmail) isUserSelfCheck(userEmail, user); // new email must be user's email
     }

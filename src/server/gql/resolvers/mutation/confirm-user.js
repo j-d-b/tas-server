@@ -1,4 +1,4 @@
-const { sendAcctConfirmedNotice } = require.main.require('./messaging/email/sendmail');
+const { sendAcctConfirmedNotice } = require.main.require('./messaging/email/send-email');
 const { isAdminResolver } = require('../auth');
 const { doesUserExistCheck } = require('../checks');
 const { getVerifyLink } = require('../helpers');

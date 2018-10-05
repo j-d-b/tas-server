@@ -37,3 +37,4 @@ The following mutations send transactional emails to a given user:
 * confirmUser
 * sendResetPassLink
 * sendVerifyEmailLink
+* sendApptReminders

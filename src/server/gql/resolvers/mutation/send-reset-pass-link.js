@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const { sendPassResetLink } = require.main.require('./messaging/email/sendmail');
+const { sendPassResetLink } = require.main.require('./messaging/email/send-email');
 const { notLoggedInResolver } = require('../auth');
 const { doesUserExistCheck } = require('../checks');
 const { MailSendError } = require('../errors');
