@@ -10,7 +10,7 @@ The backend connects to a MariaDB database server specified in the `.env` config
 ## Standard Usage
 Install dependencies
 ```
-yarn
+yarn install
 ```
 
 An environment variables file (called `.env`) must also be added to the project root directory. It must contain the following definitions (values are given as examples only):
@@ -182,6 +182,7 @@ All project code is in `src/`
 
 ### `src/messaging`
 * Contains all email and SMS sending code and templates.
+* If you're updating the frontend colors/logo, you'll have to change these templates too.
 
 ### `src/server/`
 * Contains all code relevant to the express server, including all graphql schema, resolvers, and auth.
@@ -199,13 +200,13 @@ The Dockerized `tas-server` becomes more beneficial when used with [Docker Compo
 I've done this, a combined `tas-server`, database, and notification spawning cron process in the [`tas-backend`](https://bitbucket.org/j-d-b/tas-backend/) project.
 
 ## Todo
-This project is pretty close to production-capable (aside from any written tests 😮). From the perspective of the frontend, everything is there. However, there are a few areas which need work:
+This project is pretty close to production-capable (aside from any written tests 😮). From the perspective of the frontend, everything is there. However, there are a few areas which need attention.
+**TODO**
 * Auth refresh tokens (important!)
-* Logging (with winston)
+* Implement logging (with winston)
 * Solidify what appt details can be updated (on `updateAppt` mutation)
-* Appointment reminder email template
-* SMS sending
-* Gate capacity and planned activities templates
+* Implement SMS sending
+* Implement Gate capacity and planned activities templates
 * Database snapshots/backup
 * Standardize mutation inputs (single `input` object)
-* update `src/server/gql/README.md`
+* Update `src/server/gql/README.md`

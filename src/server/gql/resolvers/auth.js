@@ -13,7 +13,7 @@ const baseResolver = createResolver(
       return error;
     }
 
-    return isInstance(error) ? error : new UnexpectedError();
+    return isInstance(error) ? error : new Errors.UnexpectedError();
   }
 );
 
