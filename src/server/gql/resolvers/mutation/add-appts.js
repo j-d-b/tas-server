@@ -1,6 +1,6 @@
 const { isAuthenticatedResolver } = require('../auth');
 const { doesUserExistCheck, hasTypeDetailsCheck, isUserSelfCheck, isAvailableCheck } = require('../checks');
-const { isOpOrAdmin, getContainerSize, getContainerBlock, getNewApptArrivalWindow, getArrivalWindowString } = require('../helpers');
+const { isOpOrAdmin, getContainerSize, getContainerBlockId, getNewApptArrivalWindow, getArrivalWindowString } = require('../helpers');
 
 // addAppts (input: [AddApptInput!]!): [Appt]
 const addAppts = isAuthenticatedResolver.createResolver(
@@ -16,8 +16,8 @@ const addAppts = isAuthenticatedResolver.createResolver(
 
       if (!isOpOrAdmin(user)) isUserSelfCheck(userEmail, user);
 
-      const block = getContainerBlock(type, typeDetails);
-      return { timeSlot, userEmail, arrivalWindowSlot, block, arrivalWindowLength, type, typeDetails };
+      const blockId = getContainerBlockId(type, typeDetails);
+      return { timeSlot, userEmail, arrivalWindowSlot, blockId, arrivalWindowLength, type, typeDetails };
     }));
 
     await isAvailableCheck(newAppts, Appt, Block, Config, Restriction); // appt scheduling logic

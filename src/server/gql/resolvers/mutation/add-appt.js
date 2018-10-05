@@ -1,6 +1,6 @@
 const { isAuthenticatedResolver } = require('../auth');
 const { doesUserExistCheck, hasTypeDetailsCheck, isUserSelfCheck, isAvailableCheck } = require('../checks');
-const { isOpOrAdmin, getContainerBlock, getContainerSize, getNewApptArrivalWindow, getArrivalWindowString } = require('../helpers');
+const { isOpOrAdmin, getContainerBlockId, getContainerSize, getNewApptArrivalWindow, getArrivalWindowString } = require('../helpers');
 
 // addAppt(details: AddApptInput!): Appt
 const addAppt = isAuthenticatedResolver.createResolver(
@@ -14,8 +14,8 @@ const addAppt = isAuthenticatedResolver.createResolver(
 
     const { arrivalWindowSlot, arrivalWindowLength } = await getNewApptArrivalWindow(timeSlot, Appt, Config);
 
-    const block = getContainerBlock(type, typeDetails);
-    const newAppt = { timeSlot, userEmail, block, arrivalWindowSlot, arrivalWindowLength, type, typeDetails }; // TODO standardize these inputs
+    const blockId = getContainerBlockId(type, typeDetails);
+    const newAppt = { timeSlot, userEmail, blockId, arrivalWindowSlot, arrivalWindowLength, type, typeDetails }; // TODO standardize these inputs
     await isAvailableCheck([newAppt], Appt, Block, Config, Restriction); // appt scheduling logic
     await Appt.create(newAppt);
 

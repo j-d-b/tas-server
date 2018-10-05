@@ -7,7 +7,7 @@ const Query = `
   input ApptsWhere {
     userEmail: String
     timeSlot: TimeSlotInput
-    block: String
+    blockId: String
     type: ApptType
   }
 

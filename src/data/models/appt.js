@@ -21,7 +21,10 @@ module.exports = sequelize => (sequelize.define('appt', {
     values: ['IMPORTFULL', 'IMPORTEMPTY', 'EXPORTFULL', 'EXPORTEMPTY'],
     allowNull: false
   },
-  block: Sequelize.STRING,
+  blockId: {
+    type: Sequelize.STRING,
+    field: 'block_id'
+  },
   arrivalWindowSlot: {
     type: Sequelize.INTEGER, // 0 to (60 / arrivalWindowLength)
     field: 'arrival_window',

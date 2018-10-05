@@ -97,7 +97,7 @@ const Mutation = `
   input AddRestrictionInput {
     timeSlot: TimeSlotInput!
     type: RestrictionType!
-    block: String
+    blockId: String
     gateCapacity: Int
     plannedActivities: Int
   }
@@ -106,7 +106,7 @@ const Mutation = `
   input DeleteRestrictionInput {
     timeSlot: TimeSlotInput!
     type: RestrictionType!
-    block: String
+    blockId: String
   }
 
   type Mutation {

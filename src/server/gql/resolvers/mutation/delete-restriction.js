@@ -5,7 +5,14 @@ const { doesRestrictionExistCheck } = require('../checks');
 const deleteRestriction = isOpOrAdminResolver.createResolver(
   async (_, { input }, { Restriction }) => {
     await doesRestrictionExistCheck(input, Restriction);
-    await Restriction.destroy({ where: { timeSlotHour: input.timeSlot.hour, timeSlotDate: input.timeSlot.date, type: input.type, block: (input.block || null) } });
+    await Restriction.destroy({
+      where: {
+        timeSlotHour: input.timeSlot.hour,
+        timeSlotDate: input.timeSlot.date,
+        type: input.type,
+        blockId: (input.blockId || null)
+      }
+    });
     return 'Restriction successfully deleted';
   }
 );

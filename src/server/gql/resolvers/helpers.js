@@ -34,7 +34,7 @@ module.exports.getArrivalWindowString = (timeSlot, arrivalWindowSlot, arrivalWin
 };
 
 // TODO connection to CLDS
-module.exports.getContainerBlock = (apptType, typeDetails) => Math.random() < 0.5 ? 'A' : 'B';
+module.exports.getContainerBlockId = (apptType, typeDetails) => Math.random() < 0.5 ? 'A' : 'B';
 
 // TODO connection to CLDS
 module.exports.getContainerSize = (apptType, typeDetails) => Math.random() < 0.9 ? 'TWENTYFOOT' : 'FORTYFOOT';
@@ -106,7 +106,7 @@ module.exports.signJwt = targetUser => (
   }, process.env.PRIMARY_SECRET, { expiresIn: '12h' })
 );
 
-// moveCountByBlock expected as an object where fields and blocks and values
+// moveCountByBlock expected as an object where fields are blocks and values
 // are number of appts for that block
 module.exports.slotBlockAvailability = async (timeSlot, moveCountByBlock, Appt, Block, Restriction) => {
   for (const [block, count] of Object.entries(moveCountByBlock)) {

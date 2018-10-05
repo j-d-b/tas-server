@@ -198,10 +198,8 @@ I've done this, a combined `tas-server`, database, and notification spawning cro
 This project is pretty close to production-capable (aside from any written tests 😮). From the perspective of the frontend, everything is there. However, there are a few areas which need work:
 * Auth refresh tokens (important!)
 * Logging (with winston)
-* What appt details can be updated?
-* Add arrivalWindow to appt
-* Appt details in reminder email
-* SMS
-* Add block to all appts
+* Solidify what appt details can be updated (on `updateAppt` mutation)
+* Appointment reminder email template
+* SMS sending
 * Gate capacity and planned activities templates
-* clarify block vs blockID in data storage
+* Database snapshots
