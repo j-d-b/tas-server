@@ -203,7 +203,7 @@ I've done this, a combined `tas-server`, database, and notification spawning cro
 ## Todo
 This project is pretty close to production-capable (aside from any written tests 😮). From the perspective of the frontend, everything is there. However, there are a few areas which need attention.
 **TODO**
-* Auth refresh tokens (important!)
+* Refresh tokens or some sense of a session, rather than a hard-expiry access token
 * Implement logging (with winston)
 * Solidify what appt details can be updated (on `updateAppt` mutation)
 * Implement SMS sending

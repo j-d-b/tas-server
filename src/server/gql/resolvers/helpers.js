@@ -106,7 +106,7 @@ module.exports.signJwt = targetUser => (
   jwt.sign({
     userEmail: targetUser.email,
     userRole: targetUser.role
-  }, process.env.PRIMARY_SECRET, { expiresIn: '12h' })
+  }, process.env.PRIMARY_SECRET, { expiresIn: '12h' }) // NOTE when this expires, forces logout; inelegant
 );
 
 // moveCountByBlock expected as an object where fields are blocks and values
