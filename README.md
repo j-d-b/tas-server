@@ -198,7 +198,7 @@ Note that the Dockerized version does not have access to the database setup scri
 
 The Dockerized `tas-server` becomes more beneficial when used with [Docker Compose](https://docs.docker.com/compose/) to simultaneously start, setup, and connect to a MariaDB database.
 
-I've done this, a combined `tas-server`, database, and notification spawning cron process in the [`tas-backend`](https://bitbucket.org/j-d-b/tas-backend/) project.
+I've done this, a combined `tas-server`, database, and notification spawning cron process in the larger [`tas-backend`](https://bitbucket.org/j-d-b/tas-backend/) project.
 
 ## Todo
 This project is pretty close to production-capable (aside from any written tests 😮). From the perspective of the frontend, everything is there. However, there are a few areas which need attention.
