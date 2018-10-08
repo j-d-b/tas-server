@@ -33,6 +33,9 @@ To use the backend, the database and tables must be setup and the server started
 
 The server can run in two modes: `development` and `production`.
 
+**Environment variables are using in the following files:**
+TODO
+
 ### For development and testing
 Setup the database with sample data and start the server:
 ```
