@@ -218,7 +218,6 @@ There are a still few areas which need attention.
 * Solidify what appt details can be updated (on `updateAppt` mutation)
 * Implement Gate capacity and planned activities templates
 * Standardize mutation inputs (single `input` object)
-* Update `src/server/gql/README.md`
 * Connect to BCTC container details server
 
 ---
