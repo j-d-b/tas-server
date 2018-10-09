@@ -1,6 +1,6 @@
 /*
 Truck appointment system (TAS) GraphQL API
-Copyright (C) 2018 Jacob Brady
+Copyright (C) 2018 Jacob Brady (KCUS, Inc.)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
