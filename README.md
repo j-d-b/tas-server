@@ -91,7 +91,7 @@ Certain `queries` and `mutations` can be access without any JWT given:
 * `resetPassword` *- from reset link*
 
 ### An Example (with GraphQL Playground)
-Login using a test user
+Log in using a sample user
 ```
 mutation {
   login(email: "jacob@jdbrady.info", password: "dragonspark")
@@ -146,9 +146,9 @@ The `tas-server` project can be run with [Docker](https://www.docker.com/).
 
 Set the environment to `production` with `docker run -e NODE_ENV=production`. The default value (set in the Dockerfile) is `development`.
 
-Note that the Dockerized version does not have access to the database setup scripts in `src/data/setup`.
+The Dockerized version does not have access to the database setup scripts in `src/data/setup`.
 
-The Dockerized `tas-server` is more beneficial when used with [Docker Compose](https://docs.docker.com/compose/) to simultaneously start, setup, and connect to a MariaDB database.
+The Dockerized `tas-server` is more beneficial when used with [Docker Compose](https://docs.docker.com/compose/) to simultaneously start, setup, and connect to a MariaDB database in a single command.
 
 I've done this, a combined `tas-server`, database, and notification spawning cron process in the [`tas-backend`](https://bitbucket.org/j-d-b/tas-backend/) project.
 
