@@ -82,6 +82,9 @@ module.exports = {
   PasswordCheckError: createError('PasswordCheckError', {
     message: 'Password must be at least 6 characters'
   }),
+  SMSSendError: createError('SMSSendError', {
+    message: 'The requested SMS could not be sent'
+  }),
   UnconfirmedUserError: createError('UnconfirmedUserError', {
     message: 'Your account must be confirmed by an admin before you can log in'
   }),

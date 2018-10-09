@@ -1,6 +1,7 @@
 const { sendApptReminder } = require.main.require('./messaging/email/send-email');
+const { sendApptReminderSMS } = require.main.require('./messaging/sms/send-sms');
 const { isAdminResolver } = require('../auth');
-const { MailSendError } = require('../errors');
+const { MailSendError, SMSSendError } = require('../errors');
 const { getHourString } = require('../helpers');
 
 // sendApptReminders: String
@@ -19,9 +20,10 @@ const sendApptReminders = isAdminResolver.createResolver(
     let numSentEmail = 0;
     let numSentSMS = 0;
     for (const appt of apptsTomorrow) {
-      const user = await appt.getUser({ attributes: ['reminderSetting', 'email'] });
+      const user = await appt.getUser({ attributes: ['name', 'reminderSetting', 'email', 'mobileNumber'] });
       const apptDetails = {
-        ...appt.toJSON(), // IDEA yes, we're giving more than we need to...
+        name: user.name.split(' ')[0],
+        ...appt.toJSON(), // NOTE yes, we're giving more than we need to...
         date: new Date(Date.parse(appt.timeSlotDate)).toUTCString().substring(0, 16),
         hour: getHourString(appt.timeSlotHour),
         ...appt.typeDetails
@@ -39,7 +41,12 @@ const sendApptReminders = isAdminResolver.createResolver(
           break;
         case 'SMS':
           numSMS++;
-          console.log('SMS is not yet supported'); // TODO
+          try {
+            await sendApptReminderSMS(user.mobileNumber, apptDetails);
+          } catch (err) {
+            throw new SMSSendError();
+          }
+          numSentSMS++;
           break;
         case 'BOTH':
           numSMS++;
@@ -50,7 +57,12 @@ const sendApptReminders = isAdminResolver.createResolver(
             throw new MailSendError();
           }
           numSentEmail++;
-          console.log('SMS is not yet supported'); // TODO
+          try {
+            await sendApptReminderSMS(user.mobileNumber, apptDetails);
+          } catch (err) {
+            throw new SMSSendError();
+          }
+          numSentSMS++;
       }
     }
 

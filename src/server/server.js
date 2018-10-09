@@ -8,7 +8,7 @@ const sequelize = require('../data/sequelize-config');
 const defineModels = require('../data/define-models');
 const schema = require('./gql/schema');
 
-const { NODE_ENV, SERVER_PORT } = process.env;
+const { NODE_ENV, PORT } = process.env;
 
 module.exports = () => {
   const app = express();
@@ -27,5 +27,5 @@ module.exports = () => {
     };
   }));
 
-  app.listen(SERVER_PORT, () => console.log('💫  Server ready' + (NODE_ENV === 'development' ?  ' at http://localhost:' : '; exposing port ') + SERVER_PORT));
+  app.listen(PORT, () => console.log('💫  Server ready' + (NODE_ENV === 'development' ?  ' at http://localhost:' : '; exposing port ') + PORT));
 };

@@ -17,13 +17,16 @@ A `.env` environment variables file must also be added to the project root direc
 PORT=4000
 PRIMARY_SECRET=secret-key
 VERIFY_EMAIL_SECRET=different-secret-key
+MYSQL_HOST=127.0.0.1
+MYSQL_USER=root
+MYSQL_PASSWORD=testpass
+MYSQL_DATABASE=tas
 MG_FROM_EMAIL=test@mailgun.org
 MG_API_KEY=my-mailgun-api-key
 MG_DOMAIN=my-mailgun-domain.org
-MYSQL_HOST=127.0.0.1
-MYSQL_USER=root
-MYSQL_PASSWORD=''
-MYSQL_DATABASE=tas
+PLIVO_AUTH_ID=SAMPLEAUTHID
+PLIVO_AUTH_TOKEN=SAMPLEAUTHTOKEN
+PLIVO_SRC_NUM=11231231234
 ```
 
 ### Installation
@@ -201,7 +204,6 @@ There are a still few areas which need attention.
 * Implement logging (with winston)
 * Write at least *some* tests
 * Solidify what appt details can be updated (on `updateAppt` mutation)
-* Implement SMS sending
 * Implement Gate capacity and planned activities templates
 * Database snapshots/backup
 * Standardize mutation inputs (single `input` object)
