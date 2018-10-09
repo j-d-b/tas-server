@@ -191,12 +191,8 @@ This project relies on the following technologies, most included as `npm` packag
 
 See `LICENSE.md` for details.
 
-<<<<<<< HEAD
 ## Contributing
 I don't have an official contribution guideline, but welcome pull requests and any form of comments; feel free to get in touch with me.
-=======
-I've done this, a combined `tas-server`, database, and notification spawning cron process in the larger [`tas-backend`](https://bitbucket.org/j-d-b/tas-backend/) project.
->>>>>>> 60e67c1ee8ae997537e2cf2c1e1e729a370278c1
 
 ## Todo
 There are a still few areas which need attention.
