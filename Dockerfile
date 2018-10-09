@@ -11,6 +11,4 @@ RUN yarn install
 
 COPY . /app
 
-USER node
-
 ENTRYPOINT ["node", "src/index"]
