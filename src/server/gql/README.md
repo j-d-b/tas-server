@@ -1,35 +1,29 @@
-# TAS Backend - GraphQL
-The `gql/` directory contains the GraphQL resolvers and schema, exported as an Apollo Executable Schema from `schema.js`.
+# TAS Server - GraphQL
+This directory contains the GraphQL resolvers and schema, exported as an Apollo Executable Schema from `schema.js`.
 
+## Schema
 The schema is broken into the files in `schema/`, which are imported into `schema.js`.
 
-The files in `schema/` generally contain a single exported type definition, with two exceptions:
-* Input types, however, are included within the `schema/query.js` and `schema/mutation.js` files which use them. `TimeSlotInput` is used by both queries and mutations but is only defined in `schema/query.js`
+The files in `schema/` generally contain a single type definition, with two exceptions:
+* Input types, however, are included within the `schema/query.js` and `schema/mutation.js` files which use them. `TimeSlotInput` is used by both queries and mutations but is only defined in `schema/query.js`.
 * Secondly, `TypeDetails` is a union type, so `type-details.js` also contains its composing types.
 
-`schema.js` exports an executable schema for use by the Apollo Server express middleware.
+All files in `schema/` have a single export.
 
-
-## Database Related Notes
-### Appointments
-Each appointment in the `appts` database collection contains a `userEmail` field, which is used to fetch corresponding user details from the `users` collection.
-
-Each appointment entry also contains a `typeDetails` field, which contains an object with a variable number of fields depending on the appointment `type` field. See `./schema/type-details` for examples of what this field can contain.
-
-Additionally, the queryable `id` field on the `Appt` type (see `./schema/appt.js`) uses the automatically generated `$loki` identifier.
-
-All other fields map directly to the `Appt` schema fields and resolvers are trivial.
-
-### Users
-Unlike appointments, each user in the `users` collection contains the same fields of type `User` as the GraphQL schema (`./schema/user.js`). Thus resolving the user object to the GraphQL return is trivial.
-
+`schema.js` exports an executable schema for use by the [Apollo Server express](https://github.com/apollographql/apollo-server/tree/master/packages/apollo-server-express) middleware.
 
 ## Resolvers
-`auth.js` holds and exports resolvers/resolver chains which throw apollo errors. Resolvers in this file only check and modify the `context` parameter of the resolver. This includes checking jwts and verifying identity. Checks in `auth.js` do not assume anything in the resolver `arg` parameter.
+`resolvers/auth.js` holds and exports resolvers/resolver chains which throw [Apollo Errors](https://github.com/thebigredgeek/apollo-errors). Resolvers in this file only check and modify the `context` parameter of the resolver. This includes checking JWTs for validity and limiting access by user role. Checks in `resolvers/auth.js` do not assume anything in the resolver `arg` parameter.
 
-Each root resolver has an associated `.js` file of the same name (though dash-deliminated rather than camelCase). Each file exports (as default) the resolver to perform the root resolver request. No error throwing should occur in these files (sending mail is an exception); *only* checks from `checks.js` (which throw errors) followed by the requested action, usually a database query or insertion.
+Each root resolver has an associated `.js` file of the same name (though dash-delimited rather than camelCase), in `resolvers/mutation`, `resolvers/query`, and `resolvers/scalar`. Each file exports (as default) the resolver to perform the root resolver request. No error throwing should occur in these files (sending mail with `try/catch` is the only exception); *only* checks from `resolvers/checks.js` (which throw errors) followed by the requested action, usually a database query or insertion.
 
-`checks.js` exports checks for use in resolvers. All checks will throw semantic errors if the check fails, halting further execution of the resolver. Some checks return objects to avoid duplicate database queries. For example, `doesUserExistCheck` returns the user object from the database.
+`resolvers/checks.js` exports checks for use in resolvers. All checks will throw semantic errors if the check fails, halting further execution of the resolver. Some checks return objects to avoid duplicate database queries. For example, `doesUserExistCheck` returns the user object from the database.
+
+`resolvers/errors.js` exports all the possible GraphQL errors that can be thrown by `tas-server`.
+
+`resolvers/helpers.js` exports helping functions used by many of the resolvers.
+
+`resolvers/resolvers.js` imports all the individual root resolvers from `resolvers/`, defines resolvers on each type, and exports the full resolvers object used to create the executable schema.
 
 ### Sending mail
 The following mutations send transactional emails to a given user:

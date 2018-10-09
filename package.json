@@ -5,8 +5,9 @@
   "main": "src/index.js",
   "scripts": {
     "setup": "node src/data/setup-scripts/setup-prod",
-    "develop": "node src/data/setup-scripts/setup-dev && NODE_ENV=development nodemon index",
+    "start:dev": "NODE_ENV=production nodemon src/index",
     "start": "NODE_ENV=production node src/index",
+    "develop": "node src/data/setup-scripts/setup-dev && NODE_ENV=development nodemon index",
     "lint": "eslint src/index.js src"
   },
   "repository": "https://github.com/j-d-b/tas-server.git",
