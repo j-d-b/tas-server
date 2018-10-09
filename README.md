@@ -81,14 +81,14 @@ Where `<JWT>` is replaced by the JWT obtained from logging in (the `login` mutat
 
 Verification of the JWT (that it has been signed with the correct `PRIMARY_SECRET`) allows access to all of the queries (`authentication`), though the `userRole` field in the token is also checked to ensure the query can be performed by that given user (`authorization`).
 
-**Example implementation:** The **TAS Web Application** stores the JWT given on login in `window.localStorage` and includes it with every request to the backend API. *'Logging out'* of the application removes the JWT from storage.
+**Example implementation:** The **TAS Web Application** stores the JWT given on login in `window.localStorage` and includes it with every request to the `tas-server` API. *'Logging out'* of the application removes the JWT from storage.
 
 ### Public Queries
 Certain `queries` and `mutations` can be access without any JWT given:
-* `addUser` *<- for registration*
-* `login` *<- obtain JWT*
-* `sendResetPassLink` *<- if password is forgotten*
-* `resetPassword` *<- from reset link*
+* `addUser` *- for registration*
+* `login` *- obtain JWT*
+* `sendResetPassLink` *- if password is forgotten*
+* `resetPassword` *- from reset link*
 
 ### An Example (with GraphQL Playground)
 Login using a test user
