@@ -222,4 +222,4 @@ There are a still few areas which need attention.
 
 ---
 
-<p style="text-align:center;">Copyright (C) 2018 [KCUS, Inc.](https://kcus.org/home)</p>
+<p align="center">Copyright (C) 2018 <a href="https://kcus.org/home">KCUS, Inc.</a></p>
