@@ -1,6 +1,8 @@
+const getContainerBlockId = require.main.require('./terminal-connection/get-container-block-id');
+const getContainerSize = require.main.require('./terminal-connection/get-container-size');
 const { isAuthenticatedResolver } = require('../auth');
 const { doesUserExistCheck, hasTypeDetailsCheck, isUserSelfCheck, isAvailableCheck } = require('../checks');
-const { isOpOrAdmin, getContainerSize, getContainerBlockId, getNewApptArrivalWindow, getArrivalWindowString } = require('../helpers');
+const { isOpOrAdmin, getNewApptArrivalWindow, getArrivalWindowString } = require('../helpers');
 
 // addAppts (input: [AddApptInput!]!): [Appt]
 const addAppts = isAuthenticatedResolver.createResolver(

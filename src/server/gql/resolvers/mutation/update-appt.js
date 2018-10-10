@@ -1,6 +1,7 @@
+const getContainerBlockId = require.main.require('./terminal-connection/get-container-block-id');
 const { isAuthenticatedResolver } = require('../auth');
 const { doesApptExistCheck, isOwnApptCheck, doesUserExistCheck, isUserSelfCheck, isAvailableCheck } = require('../checks');
-const { isOpOrAdmin, getContainerBlockId, getApptTypeDetails, getNewApptArrivalWindow } = require('../helpers');
+const { isOpOrAdmin, getApptTypeDetails, getNewApptArrivalWindow } = require('../helpers');
 
 // updateAppt(id: ID!, details: UpdateApptInput!): Appt
 const updateAppt = isAuthenticatedResolver.createResolver(

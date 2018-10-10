@@ -189,6 +189,11 @@ TODO
 * Contains all code relevant to the express server, including all GraphQL schema, resolvers, and auth.
 * `gql/` contains all GraphQL resolvers (helpers, input checking, errors...) and schema. There is a **README** here as well.
 
+### src/terminal-connection
+* Contains all code related to fetching data from the container terminal. Specifically:
+  * Getting container block location
+  * Getting container size (for `IMPORTFULL` appointments)
+
 ## Built With
 This project relies on the following technologies, most included as `npm` packages.
 * [Express](https://expressjs.com/) - Web server exposing the GraphQL API endpoint
@@ -215,10 +220,10 @@ There are a still few areas which need attention.
 * Add refresh tokens or some sense of a session, rather than just a hard-expiry access token
 * Implement logging (with winston)
 * Write at least *some* tests
-* Consider not allowing updateAppt to change appt timeslot/block
+* Consider not allowing updateAppt mutation to change appt timeslot/block
 * Implement Gate capacity and planned activities templates
 * Standardize mutation inputs (single `input` object)
-* Connect to BCTC container details server
+* **Production** Connect to BCTC container details server
 
 ---
 
