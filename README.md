@@ -177,10 +177,10 @@ All JavaScript is located in `src/`
 * Contains database connection configuration.
 * `setup-scripts/` contains database table setup code, run by `yarn setup` and `yarn develop`.
 
-### src/logging
+### src/logging/
 TODO
 
-### src/messaging
+### src/messaging/
 * Contains all email and SMS sending code and templates (If you're updating the frontend colors/logo, you'll have to change these templates too.)
 * Email is sent using [Mailgun](https://www.mailgun.com/)
 * SMS is sent using [Plivo](https://www.plivo.com/sms/)
