@@ -21,7 +21,7 @@ module.exports = sequelize => (sequelize.define('restriction', {
     values: ['GATE_CAPACITY', 'PLANNED_ACTIVITIES'],
     allowNull: false
   },
-  block: Sequelize.STRING,
+  blockId: Sequelize.STRING,
   gateCapacity: {
     type: Sequelize.INTEGER,
     field: 'gate_capacity'

@@ -78,6 +78,7 @@ const sampleUsers = [
     role: 'OPERATOR',
     company: 'KCUS',
     name: 'Jacob Brady',
+    mobileNumber: '12074007898',
     confirmed: false,
     emailVerified: false,
     reminderSetting: 'BOTH'
@@ -211,7 +212,7 @@ const sampleRestrictions = [
       date: new Date().toISOString().split('T')[0]
     },
     type: 'PLANNED_ACTIVITIES',
-    block: 'A',
+    blockId: 'A',
     plannedActivities: 5
   },
   {
@@ -220,7 +221,7 @@ const sampleRestrictions = [
       date: new Date().toISOString().split('T')[0]
     },
     type: 'PLANNED_ACTIVITIES',
-    block: 'A',
+    blockId: 'A',
     plannedActivities: 2
   },
   {

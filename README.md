@@ -215,7 +215,7 @@ There are a still few areas which need attention.
 * Add refresh tokens or some sense of a session, rather than just a hard-expiry access token
 * Implement logging (with winston)
 * Write at least *some* tests
-* Solidify what appt details can be updated (on `updateAppt` mutation)
+* Consider not allowing updateAppt to change appt timeslot/block
 * Implement Gate capacity and planned activities templates
 * Standardize mutation inputs (single `input` object)
 * Connect to BCTC container details server

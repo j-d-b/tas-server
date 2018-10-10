@@ -112,12 +112,12 @@ module.exports.signJwt = targetUser => (
 // moveCountByBlock expected as an object where fields are blocks and values
 // are number of appts for that block
 module.exports.slotBlockAvailability = async (timeSlot, moveCountByBlock, Appt, Block, Restriction) => {
-  for (const [block, count] of Object.entries(moveCountByBlock)) {
-    const blockMaxAllowed = await Block.findById(block).then(blk => blk && blk.maxAllowedApptsPerHour);
-    const slotBlockPlannedActivities = await Restriction.findOne({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date, type: 'PLANNED_ACTIVITIES', block } }).then(restriction => restriction ? restriction.plannedActivities : 0);
+  for (const [blockId, count] of Object.entries(moveCountByBlock)) {
+    const blockMaxAllowed = await Block.findById(blockId).then(blk => blk && blk.maxAllowedApptsPerHour);
+    const slotBlockPlannedActivities = await Restriction.findOne({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date, type: 'PLANNED_ACTIVITIES', blockId } }).then(restriction => restriction ? restriction.plannedActivities : 0);
 
     const slotBlockTotalAllowed = blockMaxAllowed - slotBlockPlannedActivities;
-    const slotBlockCurrScheduled = await Appt.count({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date, block } });
+    const slotBlockCurrScheduled = await Appt.count({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date, blockId } });
 
     if (slotBlockCurrScheduled + count > slotBlockTotalAllowed) return false;
   }

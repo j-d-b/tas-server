@@ -13,7 +13,7 @@ const {
 
 // check if allowed appts `allowedSet` exists in the database
 module.exports.doesRestrictionExistCheck = async (restriction, Restriction) => {
-  const matches = await Restriction.count({ where: { timeSlotHour: restriction.timeSlot.hour, timeSlotDate: restriction.timeSlot.date, block: (restriction.block || null) } });
+  const matches = await Restriction.count({ where: { timeSlotHour: restriction.timeSlot.hour, timeSlotDate: restriction.timeSlot.date, blockId: (restriction.blockId || null) } });
   if (!matches) throw new Errors.NoRestrictionError({ data: { restriction }});
 };
 
@@ -82,8 +82,8 @@ module.exports.isAvailableCheck = async (apptDetailsArr, Appt, Block, Config, Re
     const isSlotAvailable = await slotTotalAvailability(slot, detailsArr.length, Appt, Config, Restriction);
     if (!isSlotAvailable) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
 
-    const moveCountByBlock = detailsArr.reduce((obj, { block }) => {
-      if (block) obj[block] ? obj[block]++ : obj[block] = 1;
+    const moveCountByBlock = detailsArr.reduce((obj, { blockId }) => {
+      if (blockId) obj[blockId] ? obj[blockId]++ : obj[blockId] = 1;
       return obj;
     }, {});
 
@@ -148,7 +148,7 @@ module.exports.noDuplicateRestrictionsCheck = (restrictions) => {
     restrictions.slice(index + 1).forEach((res) => {
       if (restriction.timeSlot.hour === res.timeSlot.hour && restriction.timeSlot.date === res.timeSlot.date) {
         if (restriction.type === 'GATE_CAPACITY') throw new Errors.DuplicateRestrictionError();
-        else if (restriction.block === res.block) throw new Errors.DuplicateRestrictionError();
+        else if (restriction.blockId === res.blockId) throw new Errors.DuplicateRestrictionError();
       }
     });
   }
@@ -171,7 +171,7 @@ module.exports.validRestrictionInputCheck = (restrictions) => {
     if (restriction.type === 'GATE_CAPACITY') {
       if (!restriction.gateCapacity) throw new Errors.InvalidRestrictionInputError();
     } else {
-      if (!restriction.block) throw new Errors.InvalidRestrictionInputError();
+      if (!restriction.blockId) throw new Errors.InvalidRestrictionInputError();
       if (!restriction.plannedActivities) throw new Errors.InvalidRestrictionInputError();
     }
   });
