@@ -8,8 +8,8 @@ The `tas-server` connects to a MariaDB (or MySQL) database specified in the `.en
 ## Getting Started
 ### Prerequisites
 You must have the following installed:
-* [Node.js](https://nodejs.org/en/)
-* [Yarn](https://yarnpkg.com/en/) package manager
+* [Node.js](https://nodejs.org/en/) (>=10.7.0)
+* [Yarn](https://yarnpkg.com/en/)
 
 ### Environment Variables
 A `.env` environment variables file must also be added to the project root directory. It must contain the following definitions (values are given as examples only):

@@ -3,6 +3,13 @@
   "version": "0.0.1",
   "description": "Truck appointment system for BCTC: GraphQL API backend",
   "main": "src/index.js",
+  "repository": "https://github.com/j-d-b/tas-server.git",
+  "author": "Jacob Brady <jacob@jdbrady.info>",
+  "license": "GPL-3.0",
+  "private": true,
+  "engines": {
+    "node": ">=10.7.0"
+  },
   "scripts": {
     "setup": "node src/data/setup-scripts/setup-prod",
     "start:dev": "NODE_ENV=production nodemon src/index",
@@ -10,10 +17,6 @@
     "develop": "node src/data/setup-scripts/setup-dev && NODE_ENV=development nodemon index",
     "lint": "eslint src/index.js src"
   },
-  "repository": "https://github.com/j-d-b/tas-server.git",
-  "author": "Jacob Brady <jbrady@kcus.org>",
-  "license": "GPL-3.0",
-  "private": true,
   "dependencies": {
     "apollo-errors": "^1.9.0",
     "apollo-resolvers": "^1.3.1",
