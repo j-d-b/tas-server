@@ -17,10 +17,7 @@ A `.env` environment variables file must also be added to the project root direc
 PORT=4000
 PRIMARY_SECRET=secret-key
 VERIFY_EMAIL_SECRET=different-secret-key
-MYSQL_HOST=127.0.0.1
-MYSQL_USER=root
-MYSQL_PASSWORD=testpass
-MYSQL_DATABASE=tas
+DB_CONNECTION_STRING=mysql://iaojsdif.xyz
 MG_FROM_EMAIL=test@mailgun.org
 MG_API_KEY=my-mailgun-api-key
 MG_DOMAIN=my-mailgun-domain.org
