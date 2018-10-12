@@ -1,5 +1,5 @@
 {
-  "name": "tas-backend",
+  "name": "tas-server",
   "version": "0.0.1",
   "description": "Truck appointment system for BCTC: GraphQL API backend",
   "main": "src/index.js",
