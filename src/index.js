@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
 */
 require('dotenv').config();
-const startServer = require('./server/server');
+const startServer = require('./server');
 
 console.log('🌻  Starting the TAS backend server');
 
