@@ -16,10 +16,10 @@ const Mutation = `
     login(input: LoginInput!): String
     verifyEmail(input: VerifyEmailInput!): String
     confirmUser(input: ConfirmUserInput!): String
-    changePass(input: ChangePasswordInput!): String
+    changePassword(input: ChangePasswordInput!): String
     changeEmail(input: ChangeEmailInput!): String
-    resetPass(input: ResetPasswordInput!): String
-    sendResetPassLink(input: SendResetPassLinkInput!): String
+    resetPassword(input: ResetPasswordInput!): String
+    sendResetPasswordLink(input: SendResetPasswordLinkInput!): String
     sendVerifyEmailLink(input: SendVerifyEmailLinkInput!): String
     sendApptReminders(input: SendApptRemindersInput!): String
 

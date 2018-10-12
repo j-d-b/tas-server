@@ -17,7 +17,7 @@ const DeleteUserInput = require('./delete-user-input');
 const LoginInput = require('./login-input');
 const ResetPasswordInput = require('./reset-password-input');
 const SendApptRemindersInput = require('./send-appt-reminders-input');
-const SendResetPassLinkInput = require('./send-reset-pass-link-input');
+const SendResetPasswordLinkInput = require('./send-reset-password-link-input');
 const SendVerifyEmailLinkInput = require('./send-verify-email-link-input');
 const UpdateApptInput = require('./update-appt-input');
 const UpdateArrivalWindowLengthInput = require('./update-arrival-window-length-input');
@@ -49,7 +49,7 @@ module.exports = [
   LoginInput,
   ResetPasswordInput,
   SendApptRemindersInput,
-  SendResetPassLinkInput,
+  SendResetPasswordLinkInput,
   SendVerifyEmailLinkInput,
   TimeSlotInput,
   UpdateApptInput,

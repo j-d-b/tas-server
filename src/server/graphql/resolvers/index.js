@@ -24,16 +24,16 @@ const addBlock = requireMutation('add-block');
 const addRestrictions = requireMutation('add-restrictions');
 const addUser = requireMutation('add-user');
 const changeEmail = requireMutation('change-email');
-const changePass = requireMutation('change-pass');
+const changePassword = requireMutation('change-password');
 const confirmUser = requireMutation('confirm-user');
 const deleteAppt = requireMutation('delete-appt');
 const deleteBlock = requireMutation('delete-block');
 const deleteRestriction = requireMutation('delete-restriction');
 const deleteUser = requireMutation('delete-user');
 const login = requireMutation('login');
-const resetPass = requireMutation('reset-pass');
+const resetPassword = requireMutation('reset-password');
 const sendApptReminders = requireMutation('send-appt-reminders');
-const sendResetPassLink = requireMutation('send-reset-pass-link');
+const sendResetPasswordLink = requireMutation('send-reset-password-link');
 const sendVerifyEmailLink = requireMutation('send-verify-email-link');
 const updateAppt = requireMutation('update-appt');
 const updateBlockMaxAllowed = requireMutation('update-block-max-allowed');
@@ -87,16 +87,16 @@ const Resolvers = {
     addRestrictions,
     addUser,
     changeEmail,
-    changePass,
+    changePassword,
     confirmUser,
     deleteAppt,
     deleteBlock,
     deleteRestriction,
     deleteUser,
     login,
-    resetPass,
+    resetPassword,
     sendApptReminders,
-    sendResetPassLink,
+    sendResetPasswordLink,
     sendVerifyEmailLink,
     updateAppt,
     updateBlockMaxAllowed,

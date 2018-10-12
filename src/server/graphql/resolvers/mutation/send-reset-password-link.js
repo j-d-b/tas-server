@@ -5,8 +5,8 @@ const { notLoggedInResolver } = require('../auth');
 const { doesUserExistCheck } = require('../checks');
 const { MailSendError } = require('../errors');
 
-// sendResetPassLink(input: SendResetPassLinkInput!): String
-const sendResetPassLink = notLoggedInResolver.createResolver(
+// sendResetPasswordLink(input: SendResetPasswordLinkInput!): String
+const sendResetPasswordLink = notLoggedInResolver.createResolver(
   async (_, { input: { email } }, { User }) => {
     const targetUser = await doesUserExistCheck(email, User);
 
@@ -26,4 +26,4 @@ const sendResetPassLink = notLoggedInResolver.createResolver(
   }
 );
 
-module.exports = sendResetPassLink;
+module.exports = sendResetPasswordLink;

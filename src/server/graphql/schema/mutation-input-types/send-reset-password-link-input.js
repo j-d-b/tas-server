@@ -1,5 +1,5 @@
 module.exports = `
-  input SendResetPassLinkInput {
+  input SendResetPasswordLinkInput {
     email: String!
   }
 `;

@@ -3,8 +3,8 @@ const bcrypt = require('bcrypt');
 const { isAuthenticatedResolver } = require('../auth');
 const { isAllowedPasswordCheck, isCorrectPasswordCheck } = require('../checks');
 
-// changePass(input: ChangePasswordInput!): String
-const changePass = isAuthenticatedResolver.createResolver(
+// changePassword(input: ChangePasswordInput!): String
+const changePassword = isAuthenticatedResolver.createResolver(
   async (obj, { input: { newPassword, currPassword } }, { user, User }) => {
     const userInDb = await User.findById(user.userEmail);
     await isCorrectPasswordCheck(currPassword, userInDb);
@@ -18,4 +18,4 @@ const changePass = isAuthenticatedResolver.createResolver(
   }
 );
 
-module.exports = changePass;
+module.exports = changePassword;

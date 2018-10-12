@@ -3,8 +3,8 @@ const bcrypt = require('bcrypt');
 const { notLoggedInResolver } = require('../auth');
 const { isAllowedPasswordCheck, resetTokenCheck } = require('../checks');
 
-// resetPass(input: ResetPasswordInput!): String
-const resetPass = notLoggedInResolver.createResolver(
+// resetPassword(input: ResetPasswordInput!): String
+const resetPassword = notLoggedInResolver.createResolver(
   async (_, { input: { resetToken, newPassword } }, { User }) => {
     const email = await resetTokenCheck(resetToken, User);
 
@@ -16,4 +16,4 @@ const resetPass = notLoggedInResolver.createResolver(
   }
 );
 
-module.exports = resetPass;
+module.exports = resetPassword;
