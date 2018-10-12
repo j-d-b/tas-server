@@ -216,17 +216,17 @@ See `LICENSE.md`(https://github.com/j-d-b/tas-server/blob/master/LICENSE.md) for
 I don't have an official contribution guide, but welcome pull requests and any form of comments; feel free to get in touch.
 
 ## Todo
-There are a still few areas which need attention.
+There are a still few areas that need attention.
 
-### Necessary
+### Core
 * Add refresh tokens or some sense of a session, rather than just a hard-expiry access token
-* Implement logging (with winston)
-* Write at least *some* tests
-* Consider not allowing `updateAppt` mutation to change appt timeslot/block
-
-### Later Functionality
-* Implement Gate capacity and planned activities templates
+* Implement logging (with [`winston`](https://github.com/winstonjs/winston))
+* Written tests
+* Consider `updateAppt` rescheduling behavior
 * **Production** Connect to BCTC container details server
+
+### Enhancement
+* Gate capacity and planned activities templates
 
 ---
 
