@@ -1,7 +1,7 @@
 {
   "name": "tas-server",
   "version": "0.0.1",
-  "description": "Truck appointment system for BCTC: GraphQL API backend",
+  "description": "Backend for the Truck Appointment System (TAS) 🚚 - a web server implementing a GraphQL API.",
   "main": "src/index.js",
   "repository": "https://github.com/j-d-b/tas-server.git",
   "author": "Jacob Brady <jacob@jdbrady.info>",
