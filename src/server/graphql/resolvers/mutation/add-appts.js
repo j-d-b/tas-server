@@ -14,7 +14,7 @@ const addAppts = isAuthenticatedResolver.createResolver(
       await doesUserExistCheck(userEmail, User);
 
       const typeDetails = hasTypeDetailsCheck({ type, ...typeSpecific }); // schema doesn't verify this
-      if (type === 'IMPORTFULL') typeDetails.containerSize = getContainerSize(typeDetails.containerId);
+      if (type === 'IMPORTFULL') typeDetails.containerSize = getContainerSize(typeDetails.containerID);
 
       if (!isOpOrAdmin(user)) isUserSelfCheck(userEmail, user);
 

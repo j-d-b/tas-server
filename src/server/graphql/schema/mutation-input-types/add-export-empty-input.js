@@ -1,6 +1,6 @@
 module.exports = `
   input AddExportEmptyInput {
-    containerId: String!
+    containerID: String!
     containerSize: ContainerSize!
     containerType: String!
     shippingLine: String!

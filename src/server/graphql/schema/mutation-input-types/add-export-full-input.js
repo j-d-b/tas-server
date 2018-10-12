@@ -1,6 +1,6 @@
 module.exports = `
   input AddExportFullInput {
-    containerId: String!
+    containerID: String!
     containerSize: ContainerSize!
     containerWeight: Int! # might be float
     containerType: String!

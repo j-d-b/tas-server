@@ -96,7 +96,7 @@ const sampleAppts = [
     arrivalWindowSlot: 0,
     arrivalWindowLength: 15,
     typeDetails: {
-      containerId: '192fh1h2f',
+      containerID: '192fh1h2f',
       containerSize: 'TWENTYFOOT',
       containerWeight: 4000,
       bookingNumber: 1924192,
@@ -117,7 +117,7 @@ const sampleAppts = [
     arrivalWindowLength: 15,
     blockID: 'A',
     typeDetails: {
-      containerId: '9f9h239fhsd',
+      containerID: '9f9h239fhsd',
       formNumber705: 'FORM239r0j23'
     }
   },
@@ -131,7 +131,7 @@ const sampleAppts = [
     arrivalWindowSlot: 2,
     arrivalWindowLength: 15,
     typeDetails: {
-      containerId: 'jf21j1f3f2',
+      containerID: 'jf21j1f3f2',
       containerSize: 'TWENTYFOOT'
     }
   },
@@ -159,7 +159,7 @@ const sampleAppts = [
     arrivalWindowSlot: 3,
     arrivalWindowLength: 15,
     typeDetails: {
-      containerId: '2883hf8ttt',
+      containerID: '2883hf8ttt',
       containerSize: 'TWENTYFOOT',
       containerWeight: 1222,
       bookingNumber: 293923,
@@ -180,7 +180,7 @@ const sampleAppts = [
     arrivalWindowLength: 15,
     blockID: 'A',
     typeDetails: {
-      containerId: 'udfhd7f7d',
+      containerID: 'udfhd7f7d',
       formNumber705: 'FORMio2h38hf'
     }
   },
@@ -199,7 +199,7 @@ const sampleAppts = [
     arrivalWindowLength: 15,
     blockID: 'B',
     typeDetails: {
-      containerId: 'c234234',
+      containerID: 'c234234',
       formNumber705: 'test'
     }
   },
