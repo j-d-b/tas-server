@@ -4,7 +4,7 @@ const { signJwt } = require('../helpers');
 
 // login(input: LoginInput!): String
 const login = notLoggedInResolver.createResolver(
-  async (_, { intput: { email, password } }, { User }) => {
+  async (_, { input: { email, password } }, { User }) => {
     const targetUser = await doesUserExistCheck(email, User);
 
     isUserConfirmedCheck(targetUser);
