@@ -6,6 +6,6 @@ module.exports = `
     company: String!
     mobileNumber: String
     companyType: String
-    companyRegNum: String
+    companyRegNumber: String
   }
 `;

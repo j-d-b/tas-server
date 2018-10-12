@@ -10,7 +10,7 @@ const TypeDetails = `
     containerSize: ContainerSize!
     containerType: String!
     shippingLine: String!
-    emptyForCityFormNum: String!
+    emptyForCityFormNumber: String!
   }
 
   type ExportFull {
@@ -19,7 +19,7 @@ const TypeDetails = `
     containerWeight: Int! # might be float
     containerType: String!
     shippingLine: String!
-    bookingNum: Int!
+    bookingNumber: Int!
     vesselName: String!
     vesselETA: String!
   }

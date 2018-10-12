@@ -49,8 +49,8 @@ module.exports = sequelize => (sequelize.define('user', {
     type: Sequelize.STRING,
     field: 'company_type'
   },
-  companyRegNum: {
+  companyRegNumber: {
     type: Sequelize.STRING,
-    field: 'company_reg_num'
+    field: 'company_reg_number'
   }
 }, { underscored: true }));

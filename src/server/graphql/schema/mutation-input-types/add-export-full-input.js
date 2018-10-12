@@ -5,7 +5,7 @@ module.exports = `
     containerWeight: Int! # might be float
     containerType: String!
     shippingLine: String!
-    bookingNum: Int!
+    bookingNumber: Int!
     vesselName: String!
     vesselETA: String!
   }

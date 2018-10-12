@@ -12,7 +12,7 @@ const Query = `
     role: UserRole
     company: String
     companyType: String
-    companyRegNum: String
+    companyRegNumber: String
     confirmed: Boolean
     emailVerified: Boolean
   }

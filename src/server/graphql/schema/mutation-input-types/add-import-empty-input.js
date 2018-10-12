@@ -3,6 +3,6 @@ module.exports = `
     containerSize: ContainerSize!
     containerType: String!
     shippingLine: String!
-    emptyForCityFormNum: String!
+    emptyForCityFormNumber: String!
   }
 `;

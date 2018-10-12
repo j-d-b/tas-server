@@ -9,7 +9,7 @@ const User = `
     reminderSetting: ReminderSetting!
     companyType: String
     mobileNumber: String
-    companyRegNum: String
+    companyRegNumber: String
     appts: [Appt]
   }
 `;

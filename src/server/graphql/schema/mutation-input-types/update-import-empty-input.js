@@ -1,6 +1,6 @@
 module.exports = `
   input UpdateImportEmptyInput {
-    emptyForCityFormNum: String
+    emptyForCityFormNumber: String
     shippingLine: String
   }
 `;

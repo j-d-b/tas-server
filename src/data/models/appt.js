@@ -60,17 +60,17 @@ module.exports = sequelize => (sequelize.define('appt', {
     type: Sequelize.STRING,
     field: 'container_type'
   },
-  formNum705: {
+  formNumber705: {
     type: Sequelize.STRING,
-    field: 'form_num_705'
+    field: 'form_number_705'
   },
-  emptyForCityFormNum: {
+  emptyForCityFormNumber: {
     type: Sequelize.STRING,
-    field: 'empty_for_city_form_num'
+    field: 'empty_for_city_form_number'
   },
-  bookingNum: {
+  bookingNumber: {
     type: Sequelize.STRING,
-    field: 'booking_num'
+    field: 'booking_number'
   },
   vesselName: {
     type: Sequelize.STRING,
@@ -114,9 +114,9 @@ module.exports = sequelize => (sequelize.define('appt', {
         containerSize: this.containerSize,
         containerWeight: this.containerWeight,
         containerType: this.containerType,
-        formNum705: this.formNum705,
-        emptyForCityFormNum: this.emptyForCityFormNum,
-        bookingNum: this.bookingNum,
+        formNumber705: this.formNumber705,
+        emptyForCityFormNumber: this.emptyForCityFormNumber,
+        bookingNumber: this.bookingNumber,
         vesselName: this.vesselName,
         vesselETA: this.vesselETA,
         shippingLine: this.shippingLine
@@ -133,9 +133,9 @@ module.exports = sequelize => (sequelize.define('appt', {
       details.containerSize && this.setDataValue('containerSize', details.containerSize);
       details.containerWeight && this.setDataValue('containerWeight', details.containerWeight);
       details.containerType && this.setDataValue('containerType', details.containerType);
-      details.formNum705 && this.setDataValue('formNumber705', details.formNum705);
-      details.emptyForCityFormNum && this.setDataValue('emptyForCityFormNum', details.emptyForCityFormNum);
-      details.bookingNum && this.setDataValue('bookingNum', details.bookingNum);
+      details.formNumber705 && this.setDataValue('formNumber705', details.formNumber705);
+      details.emptyForCityFormNumber && this.setDataValue('emptyForCityFormNumber', details.emptyForCityFormNumber);
+      details.bookingNumber && this.setDataValue('bookingNumber', details.bookingNumber);
       details.vesselName && this.setDataValue('vesselName', details.vesselName);
       details.vesselETA && this.setDataValue('vesselETA', details.vesselETA);
       details.shippingLine && this.setDataValue('shippingLine', details.shippingLine);

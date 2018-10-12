@@ -60,10 +60,11 @@ const Resolvers = {
   },
   TypeDetails: {
     __resolveType(obj) {
-      if (obj.formNum705) return 'ImportFull';
-      if (obj.emptyForCityFormNum) return 'ImportEmpty';
-      if (obj.bookingNum) return 'ExportFull';
-      return 'ExportEmpty'; // TODO is this fine as a default?
+      if (obj.type === 'IMPORTFULL') return 'ImportFull';
+      else if (obj.type === 'IMPORTEMPTY') return 'ImportEmpty';
+      else if (obj.type === 'EXPORTFULL') return 'ExportFull';
+      else if (obj.type === 'EXPORTEMPTY') return 'ExportEmpty';
+      throw new Error('Appointment type must be defined.'); // TODO graphql error?
     }
   },
   Query: {

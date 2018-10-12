@@ -99,7 +99,7 @@ const sampleAppts = [
       containerId: '192fh1h2f',
       containerSize: 'TWENTYFOOT',
       containerWeight: 4000,
-      bookingNum: 1924192,
+      bookingNumber: 1924192,
       vesselName: 'Blueberry',
       vesselETA: '10-10-2018',
       destinationPort: 'String!',
@@ -146,7 +146,7 @@ const sampleAppts = [
     arrivalWindowLength: 15,
     typeDetails: {
       containerSize: 'TWENTYFOOT',
-      emptyForCityFormNum: 'form2i38r923r'
+      emptyForCityFormNumber: 'form2i38r923r'
     }
   },
   {
@@ -162,7 +162,7 @@ const sampleAppts = [
       containerId: '2883hf8ttt',
       containerSize: 'TWENTYFOOT',
       containerWeight: 1222,
-      bookingNum: 293923,
+      bookingNumber: 293923,
       vesselName: 'String',
       vesselETA: '10-10-2018',
       destinationPort: 'String',

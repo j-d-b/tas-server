@@ -1,6 +1,6 @@
 module.exports = `
   input AddImportFullInput {
     containerId: String!
-    formNum705: String!
+    formNumber705: String!
   }
 `;

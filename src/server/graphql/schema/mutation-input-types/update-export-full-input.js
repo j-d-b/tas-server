@@ -1,6 +1,6 @@
 module.exports = `
   input UpdateExportFullInput {
-    bookingNum: Int
+    bookingNumber: Int
     vesselName: String
     vesselETA: String
     shippingLine: String

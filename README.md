@@ -218,12 +218,14 @@ I don't have an official contribution guide, but welcome pull requests and any f
 ## Todo
 There are a still few areas which need attention.
 
+### Necessary
 * Add refresh tokens or some sense of a session, rather than just a hard-expiry access token
 * Implement logging (with winston)
 * Write at least *some* tests
 * Consider not allowing `updateAppt` mutation to change appt timeslot/block
+
+### Later Functionality
 * Implement Gate capacity and planned activities templates
-* Standardize 'pass' vs 'password', 'num' vs 'number' in GraphQL queries and object keys
 * **Production** Connect to BCTC container details server
 
 ---
