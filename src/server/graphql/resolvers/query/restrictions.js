@@ -8,7 +8,7 @@ const restrictions = isOpOrAdminResolver.createResolver(
     const filters = {};
     if (timeSlotHours) filters.timeSlotHour = { [Op.or]: timeSlotHours };
     if (timeSlotDates) filters.timeSlotDate = { [Op.or]: timeSlotDates };
-    if (blocks) filters.blockId = { [Op.or]: blocks };
+    if (blocks) filters.blockID = { [Op.or]: blocks };
 
     return Restriction.findAll({ where: { ...filters } });
   }

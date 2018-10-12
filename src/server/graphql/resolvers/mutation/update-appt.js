@@ -13,22 +13,22 @@ const updateAppt = isAuthenticatedResolver.createResolver(
     if (!isOpOrAdmin(user)) isOwnApptCheck(targetAppt, user);
 
     const { vesselName, vesselETA, bookingNum, shippingLine } = newTypeDetails;
-    let blockId;
+    let blockID;
 
     let arrivalWindowSlot = targetAppt.arrivalWindowSlot;
     let arrivalWindowLength = targetAppt.arrivalWindowLength;
     if (timeSlot || vesselName || vesselETA || bookingNum || shippingLine) { // fields with potential to change appt slot
       if (vesselName || vesselETA || bookingNum || shippingLine) { // potential block change
-        blockId = getContainerBlockId(targetAppt.type, { ...targetAppt.typeDetails, ...newTypeDetails });
+        blockID = getContainerBlockId(targetAppt.type, { ...targetAppt.typeDetails, ...newTypeDetails });
       }
-      await isAvailableCheck([{ ...targetAppt, ...(blockId && { blockId }), timeSlot }], Appt, Block, Config, Restriction);
+      await isAvailableCheck([{ ...targetAppt, ...(blockID && { blockID }), timeSlot }], Appt, Block, Config, Restriction);
 
       const newArrivalWindow = await getNewApptArrivalWindow(timeSlot, Appt, Config);
       arrivalWindowSlot = newArrivalWindow.arrivalWindowSlot;
       arrivalWindowLength = newArrivalWindow.arrivalWindowLength;
     }
 
-    await Appt.update({ timeSlot, ...(blockId && { blockId }), arrivalWindowSlot, arrivalWindowLength, typeDetails: { ...targetAppt.typeDetails, ...newTypeDetails }}, { where: { id } });
+    await Appt.update({ timeSlot, ...(blockID && { blockID }), arrivalWindowSlot, arrivalWindowLength, typeDetails: { ...targetAppt.typeDetails, ...newTypeDetails }}, { where: { id } });
 
     return Appt.findById(id);
   }

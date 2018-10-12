@@ -21,7 +21,7 @@ module.exports = sequelize => (sequelize.define('appt', {
     values: ['IMPORTFULL', 'IMPORTEMPTY', 'EXPORTFULL', 'EXPORTEMPTY'],
     allowNull: false
   },
-  blockId: {
+  blockID: {
     type: Sequelize.STRING,
     field: 'block_id'
   },

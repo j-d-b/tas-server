@@ -18,8 +18,8 @@ const addAppts = isAuthenticatedResolver.createResolver(
 
       if (!isOpOrAdmin(user)) isUserSelfCheck(userEmail, user);
 
-      const blockId = getContainerBlockId(type, typeDetails);
-      return { timeSlot, userEmail, arrivalWindowSlot, blockId, arrivalWindowLength, type, typeDetails };
+      const blockID = getContainerBlockId(type, typeDetails);
+      return { timeSlot, userEmail, arrivalWindowSlot, blockID, arrivalWindowLength, type, typeDetails };
     }));
 
     await isAvailableCheck(newAppts, Appt, Block, Config, Restriction); // appt scheduling logic

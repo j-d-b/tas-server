@@ -10,7 +10,7 @@ const deleteRestriction = isOpOrAdminResolver.createResolver(
         timeSlotHour: input.timeSlot.hour,
         timeSlotDate: input.timeSlot.date,
         type: input.type,
-        blockId: (input.blockId || null)
+        blockID: (input.blockID || null)
       }
     });
     return 'Restriction successfully deleted';

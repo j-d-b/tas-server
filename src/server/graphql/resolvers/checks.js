@@ -13,7 +13,7 @@ const {
 
 // check if allowed appts `allowedSet` exists in the database
 module.exports.doesRestrictionExistCheck = async (restriction, Restriction) => {
-  const matches = await Restriction.count({ where: { timeSlotHour: restriction.timeSlot.hour, timeSlotDate: restriction.timeSlot.date, blockId: (restriction.blockId || null) } });
+  const matches = await Restriction.count({ where: { timeSlotHour: restriction.timeSlot.hour, timeSlotDate: restriction.timeSlot.date, blockID: (restriction.blockID || null) } });
   if (!matches) throw new Errors.NoRestrictionError({ data: { restriction }});
 };
 
@@ -27,16 +27,16 @@ module.exports.doesApptExistCheck = async (apptId, Appt) => {
 
 // check if the given block (by id) exists in the database (usin Block model)
 // returns the target block
-module.exports.doesBlockExistCheck = async (blockId, Block) => {
-  const targetBlock = await Block.findById(blockId);
-  if (!targetBlock) throw new Errors.NoBlockError({ data: { targetBlock: blockId }});
+module.exports.doesBlockExistCheck = async (blockID, Block) => {
+  const targetBlock = await Block.findById(blockID);
+  if (!targetBlock) throw new Errors.NoBlockError({ data: { targetBlock: blockID }});
   return targetBlock;
 };
 
 // ensure block (by id) does not already exist in the database (using Block model)
-module.exports.doesBlockNotExistCheck = async (blockId, Block) => {
-  const block = await Block.findById(blockId);
-  if (block) throw new Errors.BlockAlreadyExistsError({ data: { targetBlock: blockId }});
+module.exports.doesBlockNotExistCheck = async (blockID, Block) => {
+  const block = await Block.findById(blockID);
+  if (block) throw new Errors.BlockAlreadyExistsError({ data: { targetBlock: blockID }});
 };
 
 // check if user (by email) exists in the database (using User model)
@@ -82,8 +82,8 @@ module.exports.isAvailableCheck = async (apptDetailsArr, Appt, Block, Config, Re
     const isSlotAvailable = await slotTotalAvailability(slot, detailsArr.length, Appt, Config, Restriction);
     if (!isSlotAvailable) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
 
-    const moveCountByBlock = detailsArr.reduce((obj, { blockId }) => {
-      if (blockId) obj[blockId] ? obj[blockId]++ : obj[blockId] = 1;
+    const moveCountByBlock = detailsArr.reduce((obj, { blockID }) => {
+      if (blockID) obj[blockID] ? obj[blockID]++ : obj[blockID] = 1;
       return obj;
     }, {});
 
@@ -148,7 +148,7 @@ module.exports.noDuplicateRestrictionsCheck = (restrictions) => {
     restrictions.slice(index + 1).forEach((res) => {
       if (restriction.timeSlot.hour === res.timeSlot.hour && restriction.timeSlot.date === res.timeSlot.date) {
         if (restriction.type === 'GATE_CAPACITY') throw new Errors.DuplicateRestrictionError();
-        else if (restriction.blockId === res.blockId) throw new Errors.DuplicateRestrictionError();
+        else if (restriction.blockID === res.blockID) throw new Errors.DuplicateRestrictionError();
       }
     });
   }
@@ -171,7 +171,7 @@ module.exports.validRestrictionInputCheck = (restrictions) => {
     if (restriction.type === 'GATE_CAPACITY') {
       if (!restriction.gateCapacity) throw new Errors.InvalidRestrictionInputError();
     } else {
-      if (!restriction.blockId) throw new Errors.InvalidRestrictionInputError();
+      if (!restriction.blockID) throw new Errors.InvalidRestrictionInputError();
       if (!restriction.plannedActivities) throw new Errors.InvalidRestrictionInputError();
     }
   });

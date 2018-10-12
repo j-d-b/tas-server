@@ -13,7 +13,7 @@ const addRestrictions = isOpOrAdminResolver.createResolver(
         timeSlotHour: restriction.timeSlot.hour,
         timeSlotDate: restriction.timeSlot.date,
         type: restriction.type,
-        blockId: restriction.type === 'PLANNED_ACTIVITIES' && restriction.blockId || null
+        blockID: restriction.type === 'PLANNED_ACTIVITIES' && restriction.blockID || null
       }});
 
       res ? await res.update(restriction) : Restriction.create(restriction);

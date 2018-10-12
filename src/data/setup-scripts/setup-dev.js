@@ -115,7 +115,7 @@ const sampleAppts = [
     type: 'IMPORTFULL',
     arrivalWindowSlot: 1,
     arrivalWindowLength: 15,
-    blockId: 'A',
+    blockID: 'A',
     typeDetails: {
       containerId: '9f9h239fhsd',
       formNumber705: 'FORM239r0j23'
@@ -178,7 +178,7 @@ const sampleAppts = [
     type: 'IMPORTFULL',
     arrivalWindowSlot: 1,
     arrivalWindowLength: 15,
-    blockId: 'A',
+    blockID: 'A',
     typeDetails: {
       containerId: 'udfhd7f7d',
       formNumber705: 'FORMio2h38hf'
@@ -197,7 +197,7 @@ const sampleAppts = [
     type: 'IMPORTFULL',
     arrivalWindowSlot: 3,
     arrivalWindowLength: 15,
-    blockId: 'B',
+    blockID: 'B',
     typeDetails: {
       containerId: 'c234234',
       formNumber705: 'test'
@@ -212,7 +212,7 @@ const sampleRestrictions = [
       date: new Date().toISOString().split('T')[0]
     },
     type: 'PLANNED_ACTIVITIES',
-    blockId: 'A',
+    blockID: 'A',
     plannedActivities: 5
   },
   {
@@ -221,7 +221,7 @@ const sampleRestrictions = [
       date: new Date().toISOString().split('T')[0]
     },
     type: 'PLANNED_ACTIVITIES',
-    blockId: 'A',
+    blockID: 'A',
     plannedActivities: 2
   },
   {

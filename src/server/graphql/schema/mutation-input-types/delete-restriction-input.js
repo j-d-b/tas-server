@@ -3,6 +3,6 @@ module.exports = `
   input DeleteRestrictionInput {
     timeSlot: TimeSlotInput!
     type: RestrictionType!
-    blockId: String
+    blockID: String
   }
 `;
