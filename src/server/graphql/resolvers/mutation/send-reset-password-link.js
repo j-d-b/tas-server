@@ -14,7 +14,7 @@ const sendResetPasswordLink = notLoggedInResolver.createResolver(
       userEmail: targetUser.email
     }, targetUser.password, { expiresIn: '24h' }); // use current password hash as secret; single use JWT
 
-    const resetLink = `http://localhost:3000/new-password/${resetToken}`; // TODO for production
+    const resetLink = `${process.env.WEB_APP_URL}/new-password/${resetToken}`; // TODO for production
 
     try {
       await sendPassResetLink(email, { name: targetUser.name.split(' ')[0], resetLink }); // IDEA could log this return value

@@ -15,6 +15,7 @@ You must have the following installed:
 A `.env` environment variables file must also be added to the project root directory. It must contain the following definitions (values are given as examples only):
 ```
 PORT=4000
+WEB_APP_URL=https://tas-app.netlify.com
 PRIMARY_SECRET=secret-key
 VERIFY_EMAIL_SECRET=different-secret-key
 DB_CONNECTION_STRING=mysql://iaojsdif.xyz

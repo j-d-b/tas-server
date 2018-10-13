@@ -80,7 +80,7 @@ module.exports.getUserFromAuthHeader = (authHeader) => {
 
 module.exports.getVerifyLink = (email) => {
   const verifyToken = jwt.sign({ userEmail: email }, process.env.VERIFY_EMAIL_SECRET); // NOTE never expires
-  return `http://localhost:3000/verify-email/${verifyToken}`; // TODO production link
+  return `${process.env.WEB_APP_URL}/verify-email/${verifyToken}`;
 };
 
 module.exports.isAdmin = user => user.userRole === 'ADMIN';
