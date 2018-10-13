@@ -31,7 +31,7 @@ const createMailOptionsBuilder = (subject, templateFile) => {
 };
 
 module.exports = {
-  sendSignupReceivedNotice: async (toEmail, data) => mgSend(createMailOptionsBuilder('Thank You for Registering', 'signup-received.hbs')(toEmail, data)),
+  sendSignupReceivedNotice: async (toEmail, data) => mgSend(createMailOptionsBuilder('Thank You for Registering', 'registration-received.hbs')(toEmail, data)),
   sendPassResetLink: async (toEmail, data) => mgSend(createMailOptionsBuilder('Reset Account Password', 'reset-pass.hbs')(toEmail, data)),
   sendVerifyEmailLink: async (toEmail, data) => mgSend(createMailOptionsBuilder('Verify Your Email', 'verify-email.hbs')(toEmail, data)),
   sendAcctConfirmedNotice: async (toEmail, data) => mgSend(createMailOptionsBuilder('Account Confirmed - Verify Your Email', 'acct-confirmed.hbs')(toEmail, data)),
