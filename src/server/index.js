@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const { graphqlExpress } = require('apollo-server-express');
 const expressPlayground = require('graphql-playground-middleware-express').default;
 
@@ -15,17 +14,20 @@ module.exports = () => {
 
   if (NODE_ENV === 'development') app.use('/playground', expressPlayground({ endpoint: '/graphql' }));
 
-  app.use(cors()); // TODO is this needed?
-
-  app.use('/graphql', bodyParser.json(), graphqlExpress((req) => {
-    return {
+  app.use('/graphql', bodyParser.json(), graphqlExpress(req => (
+    {
       schema: schema,
       context: {
         ...defineModels(sequelize),
         authHeader: req.headers.authorization
       }
-    };
-  }));
+    }
+  )));
 
-  app.listen(PORT, () => console.log('💫  Server ready' + (NODE_ENV === 'development' ?  ' at http://localhost:' : '; exposing port ') + PORT));
+  app.listen(PORT, () => {
+    console.log('💫  Server ready'
+      + (NODE_ENV === 'development' ? ' at http://localhost:' : '; exposing port ')
+      + PORT
+    );
+  });
 };
