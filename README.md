@@ -168,7 +168,7 @@ I've done this, a combined `tas-server`, database, and notification spawning cro
 ## Project Organization
 All JavaScript is located in `src/`
 
-`src/index.js` is the entry point to run the application/start the server. This is run by `yarn start`.
+`src/index.js` is the entry point to run the application. It will start the server express server and expose the GraphQL endpoint. This is run by `yarn start`.
 
 ### src/data/
 * Contains Sequelize models and model definitions for interacting with the database.
@@ -183,12 +183,10 @@ TODO
 * Email is sent using [Mailgun](https://www.mailgun.com/)
 * SMS is sent using [Plivo](https://www.plivo.com/sms/)
 
-### src/server/
-* Contains all code relevant to the express server, including all GraphQL schema, resolvers, and auth.
-* `index.js` starts the server and exposes the GraphQL endpoint.
-* `graphql/` contains all GraphQL resolvers (helpers, input checking, errors...) and schema. There is a **README** here as well.
+### src/graphql/
+* Contains all GraphQL resolvers (helpers, input checking, errors...) and schema. There is a **README** here as well.
 
-### src/terminal-connection
+### src/terminal-connection/
 * Contains all code related to fetching data from the container terminal. Specifically:
   * Getting container block location
   * Getting container size (for `IMPORTFULL` appointments)
