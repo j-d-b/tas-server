@@ -1,5 +1,6 @@
 const Restriction = `
   type Restriction {
+    id: ID!
     timeSlot: TimeSlot!
     type: RestrictionType!
     block: Block
