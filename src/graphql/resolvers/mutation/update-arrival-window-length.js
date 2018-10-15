@@ -6,8 +6,7 @@ const updateArrivalWindowLength = isAdminResolver.createResolver(
   async (_, { input: { windowLength } }, { Config }) => {
     isWindowLengthValidCheck(windowLength);
     const config = await Config.findOne();
-    await config.update({ arrivalWindowLength: windowLength });
-    return windowLength;
+    return config.update({ arrivalWindowLength: windowLength });
   }
 );
 

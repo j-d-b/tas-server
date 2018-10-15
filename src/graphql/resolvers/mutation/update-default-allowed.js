@@ -4,8 +4,7 @@ const { isAdminResolver } = require('../auth');
 const updateDefaultAllowed = isAdminResolver.createResolver(
   async (_, { input: { defaultAllowed } }, { Config }) => {
     const config = await Config.findOne();
-    await config.update({ defaultAllowedApptsPerHour: defaultAllowed });
-    return defaultAllowed;
+    return config.update({ defaultAllowedApptsPerHour: defaultAllowed });
   }
 );
 

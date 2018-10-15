@@ -1,20 +1,20 @@
-const getContainerBlockId = require.main.require('./terminal-connection/get-container-block-id');
+const { getContainerBlockId } = require('../../../terminal-connection');
 const { isAuthenticatedResolver } = require('../auth');
 const { doesApptExistCheck, isOwnApptCheck, isAvailableCheck } = require('../checks');
 const { isOpOrAdmin, getApptTypeDetails, getNewApptArrivalWindow } = require('../helpers');
 
-// updateAppt(id: ID!, input: UpdateApptInput!): Appt
+// updateAppt(input: UpdateApptInput!): Appt
 const updateAppt = isAuthenticatedResolver.createResolver(
   async (_, { input: { id, timeSlot, ...typeDetails } }, { user, Appt, Block, Config, Restriction }) => {
-    const targetAppt = await doesApptExistCheck(id, Appt).then(obj => obj.get({ plain: true }));
+    const targetAppt = await doesApptExistCheck(id, Appt);
     const newTypeDetails = getApptTypeDetails({ type: targetAppt.type, ...typeDetails });
 
     // IDEA: if op/admin, email user if appt was changed
     if (!isOpOrAdmin(user)) isOwnApptCheck(targetAppt, user);
 
     const { vesselName, vesselETA, bookingNum, shippingLine } = newTypeDetails;
-    let blockID;
 
+    let blockID;
     let arrivalWindowSlot = targetAppt.arrivalWindowSlot;
     let arrivalWindowLength = targetAppt.arrivalWindowLength;
     if (timeSlot || vesselName || vesselETA || bookingNum || shippingLine) { // fields with potential to change appt slot
@@ -28,9 +28,13 @@ const updateAppt = isAuthenticatedResolver.createResolver(
       arrivalWindowLength = newArrivalWindow.arrivalWindowLength;
     }
 
-    await Appt.update({ timeSlot, ...(blockID && { blockID }), arrivalWindowSlot, arrivalWindowLength, typeDetails: { ...targetAppt.typeDetails, ...newTypeDetails }}, { where: { id } });
-
-    return Appt.findById(id);
+    return targetAppt.update({
+      timeSlot,
+      ...(blockID && { blockID }),
+      arrivalWindowSlot,
+      arrivalWindowLength,
+      typeDetails: { ...targetAppt.typeDetails, ...newTypeDetails }
+    });
   }
 );
 

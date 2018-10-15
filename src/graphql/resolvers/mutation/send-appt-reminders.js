@@ -1,5 +1,5 @@
-const { sendApptReminder } = require.main.require('./messaging/email/send-email');
-const { sendApptReminderSMS } = require.main.require('./messaging/sms/send-sms');
+const { sendApptReminder } = require('../../../messaging/email/send-email');
+const { sendApptReminderSMS } = require('../../../messaging/sms/send-sms');
 const { isAdminResolver } = require('../auth');
 const { MailSendError, SMSSendError } = require('../errors');
 const { getHourString } = require('../helpers');

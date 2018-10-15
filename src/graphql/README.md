@@ -17,6 +17,8 @@ All files in `schema/` have a single export.
 `schema.js` exports an executable schema for use by the [Apollo Server express](https://github.com/apollographql/apollo-server/tree/master/packages/apollo-server-express) middleware.
 
 ## Resolvers
+All of the core TAS functionality is contained in the `resolvers/` directory.
+
 `resolvers/auth.js` holds and exports resolvers/resolver chains which throw [Apollo Errors](https://github.com/thebigredgeek/apollo-errors). Resolvers in this file only check and modify the `context` parameter of the resolver. This includes checking JWTs for validity and limiting access by user role. Checks in `resolvers/auth.js` do not assume anything in the resolver `arg` parameter.
 
 Each root resolver has an associated `.js` file of the same name (though dash-delimited rather than camelCase), in `resolvers/mutation`, `resolvers/query`, and `resolvers/scalar`. Each file exports (as default) the resolver to perform the root resolver request. No error throwing should occur in these files (sending mail with `try/catch` is the only exception); *only* checks from `resolvers/checks.js` (which throw errors) followed by the requested action, usually a database query or insertion.

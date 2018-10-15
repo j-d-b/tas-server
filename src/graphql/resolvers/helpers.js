@@ -4,12 +4,12 @@ module.exports.buildSlotId = timeSlot => timeSlot.hour + ':' + timeSlot.date;
 
 module.exports.containerSizeToInt = size => size === 'TWENTYFOOT' ? 20 : 40;
 
-module.exports.getApptTypeDetails = (apptDetails) => {
-  switch (apptDetails.type) {
-    case 'IMPORTFULL': return apptDetails.importFull;
-    case 'IMPORTEMPTY': return apptDetails.importEmpty;
-    case 'EXPORTFULL': return apptDetails.exportFull;
-    case 'EXPORTEMPTY': return apptDetails.exportEmpty;
+module.exports.getApptTypeDetails = (appt) => {
+  switch (appt.type) {
+    case 'IMPORTFULL': return appt.importFull;
+    case 'IMPORTEMPTY': return appt.importEmpty;
+    case 'EXPORTFULL': return appt.exportFull;
+    case 'EXPORTEMPTY': return appt.exportEmpty;
   }
 };
 

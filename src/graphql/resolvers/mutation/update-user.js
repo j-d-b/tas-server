@@ -12,9 +12,7 @@ const updateUser = isAuthenticatedResolver.createResolver(
       isRoleOwnRoleCheck(details.role, user);
     }
 
-    await targetUser.update(details);
-
-    return targetUser;
+    return targetUser.update(details);
   }
 );
 

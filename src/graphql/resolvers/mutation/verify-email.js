@@ -7,7 +7,7 @@ const verifyEmail = notLoggedInResolver.createResolver(
   async (_, { input: { verifyToken } }, { User }) => {
     const targetUser = await verifyTokenCheck(verifyToken, User);
 
-    await User.update({ emailVerified: true }, { where: { email: targetUser.email }});
+    await targetUser.update({ emailVerified: true });
 
     return signJwt(targetUser);
   }

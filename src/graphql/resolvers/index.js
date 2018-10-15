@@ -23,7 +23,7 @@ const addAppts = requireMutation('add-appts');
 const addBlock = requireMutation('add-block');
 const addRestrictions = requireMutation('add-restrictions');
 const addUser = requireMutation('add-user');
-const changeEmail = requireMutation('change-email');
+const changeUserEmail = requireMutation('change-user-email');
 const changePassword = requireMutation('change-password');
 const confirmUser = requireMutation('confirm-user');
 const deleteAppt = requireMutation('delete-appt');
@@ -87,7 +87,7 @@ const Resolvers = {
     addBlock,
     addRestrictions,
     addUser,
-    changeEmail,
+    changeUserEmail,
     changePassword,
     confirmUser,
     deleteAppt,

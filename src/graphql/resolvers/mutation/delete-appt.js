@@ -8,9 +8,7 @@ const deleteAppt = isAuthenticatedResolver.createResolver(
     const targetAppt = await doesApptExistCheck(id, Appt);
 
     // IDEA: if op/admin, email user if appt was changed
-    if (!isOpOrAdmin(user)) {
-      isOwnApptCheck(targetAppt, user);
-    }
+    if (!isOpOrAdmin(user)) isOwnApptCheck(targetAppt, user);
 
     await Appt.destroy({ where: { id: id }});
 

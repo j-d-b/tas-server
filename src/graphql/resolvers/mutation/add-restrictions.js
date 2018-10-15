@@ -7,19 +7,16 @@ const addRestrictions = isOpOrAdminResolver.createResolver(
     noDuplicateRestrictionsCheck(input);
     validRestrictionInputCheck(input);
 
-    // it's actually 'upsert'
-    for (const restriction of input) {
+    return Promise.all(input.map(async (restriction) => {
       const res = await Restriction.findOne({ where: {
         timeSlotHour: restriction.timeSlot.hour,
         timeSlotDate: restriction.timeSlot.date,
         type: restriction.type,
-        blockID: restriction.type === 'PLANNED_ACTIVITIES' && restriction.blockID || null
+        ...(restriction.type === 'PLANNED_ACTIVITIES' && { blockID: restriction.blockID })
       }});
 
-      res ? await res.update(restriction) : Restriction.create(restriction);
-    }
-
-    return input;
+      return res ? res.update(restriction) : Restriction.create(restriction);
+    }));
   }
 );
 

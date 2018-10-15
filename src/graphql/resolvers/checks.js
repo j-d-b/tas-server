@@ -34,7 +34,7 @@ module.exports.doesBlockExistCheck = async (blockID, Block) => {
 };
 
 // ensure block (by id) does not already exist in the database (using Block model)
-module.exports.doesBlockNotExistCheck = async (blockID, Block) => {
+module.exports.blockDoesntExistCheck = async (blockID, Block) => {
   const block = await Block.findById(blockID);
   if (block) throw new Errors.BlockAlreadyExistsError({ data: { targetBlock: blockID }});
 };
@@ -48,7 +48,7 @@ module.exports.doesUserExistCheck = async (userEmail, User) => {
 };
 
 // ensure user (by email) does not already exist in the database (using User model)
-module.exports.doesUserNotExistCheck = async (userEmail, User) => {
+module.exports.userDoesntExistCheck = async (userEmail, User) => {
   const targetUser = await User.findById(userEmail);
   if (targetUser) throw new Errors.UserAlreadyExistsError({ data: { targetUser: userEmail }});
 };
@@ -144,14 +144,15 @@ module.exports.isValidNumContainersCheck = async (containerSizes, Config) => {
 
 // checks if the input list of restrictions to ensure no duplicates
 module.exports.noDuplicateRestrictionsCheck = (restrictions) => {
-  for (const [restriction, index] of restrictions.map((res, i) => [res, i])) {
+  restrictions.forEach((restriction, index) => {
     restrictions.slice(index + 1).forEach((res) => {
       if (restriction.timeSlot.hour === res.timeSlot.hour && restriction.timeSlot.date === res.timeSlot.date) {
-        if (restriction.type === 'GATE_CAPACITY') throw new Errors.DuplicateRestrictionError();
-        else if (restriction.blockID === res.blockID) throw new Errors.DuplicateRestrictionError();
+        if (restriction.type === 'GATE_CAPACITY') {
+          if (restriction.type === res.type) throw new Errors.DuplicateRestrictionError();
+        } else if (restriction.blockID === res.blockID) throw new Errors.DuplicateRestrictionError();
       }
     });
-  }
+  });
 };
 
 // check if reset token is valid (using user's current password as secret key)
