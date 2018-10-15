@@ -1,5 +1,5 @@
 module.exports = `
-  input ChangeEmailInput {
+  input ChangeUserEmailInput {
     currEmail: String!
     newEmail: String!
   }

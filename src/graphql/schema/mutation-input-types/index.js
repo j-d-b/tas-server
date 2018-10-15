@@ -7,7 +7,7 @@ const AddImportEmptyInput = require('./add-import-empty-input');
 const AddImportFullInput = require('./add-import-full-input');
 const AddRestrictionInput = require('./add-restriction-input');
 const AddUserInput = require('./add-user-input');
-const ChangeEmailInput = require('./change-email-input');
+const ChangeUserEmailInput = require('./change-user-email-input');
 const ChangePasswordInput = require('./change-password-input');
 const ConfirmUserInput = require('./confirm-user-input');
 const DeleteApptInput = require('./delete-appt-input');
@@ -39,7 +39,7 @@ module.exports = [
   AddImportFullInput,
   AddRestrictionInput,
   AddUserInput,
-  ChangeEmailInput,
+  ChangeUserEmailInput,
   ChangePasswordInput,
   ConfirmUserInput,
   DeleteApptInput,

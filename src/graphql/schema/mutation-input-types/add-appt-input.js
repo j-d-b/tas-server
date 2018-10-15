@@ -1,7 +1,6 @@
 module.exports = `
   input AddApptInput {
     timeSlot: TimeSlotInput!
-    userEmail: String!
     type: ApptType!
     licensePlateNumber: String
     notifyMobileNumber: String

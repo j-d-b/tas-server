@@ -17,7 +17,7 @@ const Mutation = `
     verifyEmail(input: VerifyEmailInput!): String
     confirmUser(input: ConfirmUserInput!): String
     changePassword(input: ChangePasswordInput!): String
-    changeEmail(input: ChangeEmailInput!): String
+    changeUserEmail(input: ChangeUserEmailInput!): String
     resetPassword(input: ResetPasswordInput!): String
     sendResetPasswordLink(input: SendResetPasswordLinkInput!): String
     sendVerifyEmailLink(input: SendVerifyEmailLinkInput!): String
