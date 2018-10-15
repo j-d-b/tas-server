@@ -2,7 +2,7 @@ const getContainerBlockId = require.main.require('./terminal-connection/get-cont
 const getContainerSize = require.main.require('./terminal-connection/get-container-size');
 const { isAuthenticatedResolver } = require('../auth');
 const { doesUserExistCheck, hasTypeDetailsCheck, isUserSelfCheck, isAvailableCheck } = require('../checks');
-const { isOpOrAdmin, getNewApptArrivalWindow, getArrivalWindowString } = require('../helpers');
+const { isOpOrAdmin, getNewApptArrivalWindow } = require('../helpers');
 
 // addAppts (input: [AddApptInput!]!): [Appt]
 const addAppts = isAuthenticatedResolver.createResolver(
@@ -23,12 +23,8 @@ const addAppts = isAuthenticatedResolver.createResolver(
     }));
 
     await isAvailableCheck(newAppts, Appt, Block, Config, Restriction); // appt scheduling logic
-    await Appt.bulkCreate(newAppts);
 
-    return newAppts.map(appt => ({
-      ...appt,
-      arrivalWindow: getArrivalWindowString(appt.timeSlot, appt.arrivalWindowSlot, appt.arrivalWindowLength)
-    }));
+    return Appt.bulkCreate(newAppts);
   }
 );
 

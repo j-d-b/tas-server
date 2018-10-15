@@ -19,12 +19,8 @@ const addAppt = isAuthenticatedResolver.createResolver(
     const blockID = getContainerBlockId(type, typeDetails);
     const newAppt = { timeSlot, userEmail, blockID, arrivalWindowSlot, arrivalWindowLength, type, typeDetails };
     await isAvailableCheck([newAppt], Appt, Block, Config, Restriction); // appt scheduling logic
-    await Appt.create(newAppt);
 
-    return {
-      ...newAppt,
-      arrivalWindow: getArrivalWindowString(timeSlot, arrivalWindowSlot, arrivalWindowLength)
-    };
+    return Appt.create(newAppt);
   }
 );
 
