@@ -56,7 +56,7 @@ const Resolvers = {
     restrictions: async (block, args, { Restriction }) => Restriction.findAll({ where: { block: block.id } })
   },
   Restriction: {
-    block: async (restriction, args, { Block }) => Block.findOne({ where: restriction.blockID })
+    block: async (restriction, args, { Block }) => Block.findOne({ where: { id: restriction.blockID } })
   },
   TypeDetails: {
     __resolveType(obj) {
