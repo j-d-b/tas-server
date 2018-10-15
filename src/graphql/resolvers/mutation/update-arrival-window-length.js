@@ -1,13 +1,12 @@
 const { isAdminResolver } = require('../auth');
 const { isWindowLengthValidCheck } = require('../checks');
 
-// updateArrivalWindowLength(input: UpdateArrivalWindowLengthInput): Block
+// updateArrivalWindowLength(input: UpdateArrivalWindowLengthInput): Int
 const updateArrivalWindowLength = isAdminResolver.createResolver(
   async (_, { input: { windowLength } }, { Config }) => {
     isWindowLengthValidCheck(windowLength);
-
-    await Config.update({ arrivalWindowLength: windowLength }, { where: {}}); // TODO do I even need where?
-
+    const config = await Config.findOne();
+    await config.update({ arrivalWindowLength: windowLength });
     return windowLength;
   }
 );
