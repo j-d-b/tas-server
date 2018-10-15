@@ -23,7 +23,7 @@ const sendApptReminders = isAdminResolver.createResolver(
       const user = await appt.getUser({ attributes: ['name', 'reminderSetting', 'email', 'mobileNumber'] });
       const apptDetails = {
         name: user.name.split(' ')[0],
-        ...appt.toJSON(), // NOTE yes, we're giving more than we need to...
+        ...appt.toJSON(), // NOTE: yes, we're giving more than we need to...
         date: new Date(Date.parse(appt.timeSlotDate)).toUTCString().substring(0, 16),
         hour: getHourString(appt.timeSlotHour),
         ...appt.typeDetails

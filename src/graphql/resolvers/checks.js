@@ -66,7 +66,6 @@ module.exports.isAllowedPasswordCheck = (password) => {
   if (password.length < 6) throw new Errors.PasswordCheckError();
 };
 
-// IDEA rewrite for loops with Promise.all forEach for concurrency/speed
 // check for availability of new/updated appt(s) (in given array of apptDetails)
 module.exports.isAvailableCheck = async (apptDetailsArr, Appt, Block, Config, Restriction) => {
   const detailsBySlot = apptDetailsArr.reduce((obj, { timeSlot }, i) => {
@@ -75,6 +74,7 @@ module.exports.isAvailableCheck = async (apptDetailsArr, Appt, Block, Config, Re
     return obj;
   }, {});
 
+  // IDEA: rewrite `for` loop with Promise.all `forEach` for concurrency/speed
   for (const [slotId, detailsArr] of Object.entries(detailsBySlot)) {
     const slot = getTimeSlotFromId(slotId);
 
@@ -128,7 +128,7 @@ module.exports.isUserSelfCheck = (email, user) => {
   if (email !== user.userEmail) throw new Errors.NotOwnUserError();
 };
 
-// IDEA we ideally want to move this kind of check to the gql schema
+// IDEA: ideally want to move this kind of check to the gql schema
 module.exports.isWindowLengthValidCheck = (val) => {
   const allowedVals = [5, 10, 15, 30, 60];
   if (!allowedVals.includes(val)) throw new Errors.InvalidWindowLengthValueError();

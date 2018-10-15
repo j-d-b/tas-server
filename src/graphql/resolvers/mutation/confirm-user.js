@@ -10,7 +10,6 @@ const confirmUser = isAdminResolver.createResolver(
     const targetUser = await doesUserExistCheck(email, User);
     const verifyLink = getVerifyLink(email);
 
-    // IDEA mail sending and updating the user could be concurrent, with Promise.all
     try {
       await sendAcctConfirmedNotice(email, { name: targetUser.name.split(' ')[0], verifyLink });
     } catch (err) {

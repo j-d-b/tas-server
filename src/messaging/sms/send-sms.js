@@ -10,7 +10,7 @@ const sendSMS = async (destNum, message) => {
     message
   );
 
-  console.log(created); // TODO logging
+  console.log(created); // TODO: logging
 };
 
 const createApptReminderMessage = data => `Hello, ${data.name}.\nYou have an appointment scheduled for tomorrow, ${data.date}.\nPlease arrive between ${data.arrivalWindow}.\nBCTC TAS 🚚`;

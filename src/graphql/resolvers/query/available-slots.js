@@ -17,7 +17,6 @@ const availableSlots = isAuthenticatedResolver.createResolver(
 
     const availableSlotInNextWeek = [];
 
-    // TODO is this faster than a `for` because it's in parallel?
     await Promise.all(getTimeSlotsInNextWeek().map(async (slot) => {
       const isSlotAvailable = await slotTotalAvailability(slot, containerSizes.length, Appt, Config, Restriction);
       if (!isSlotAvailable) return;

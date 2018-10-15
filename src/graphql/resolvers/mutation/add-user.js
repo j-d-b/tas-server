@@ -11,7 +11,6 @@ const addUser = baseResolver.createResolver(
     isAllowedPasswordCheck(input.password);
     await doesUserNotExistCheck(input.email, User);
 
-    // IDEA mail sending and creating the user could be concurrent, with Promise.all
     try {
       await sendSignupReceivedNotice(input.email, { name: input.name.split(' ')[0] });
     } catch (err) {

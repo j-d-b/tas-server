@@ -64,7 +64,7 @@ const Resolvers = {
       else if (obj.type === 'IMPORTEMPTY') return 'ImportEmpty';
       else if (obj.type === 'EXPORTFULL') return 'ExportFull';
       else if (obj.type === 'EXPORTEMPTY') return 'ExportEmpty';
-      throw new Error('Appointment type must be defined.'); // TODO graphql error?
+      throw new Error('Appointment type must be defined.'); // TODO: log this
     }
   },
   Query: {

@@ -13,7 +13,7 @@ module.exports.getApptTypeDetails = (apptDetails) => {
   }
 };
 
-// NOTE this is duplicate code to getter in src/data/models/appt.js
+// NOTE: this is duplicate code to getter in src/data/models/appt.js
 module.exports.getArrivalWindowString = (timeSlot, arrivalWindowSlot, arrivalWindowLength) => {
   const startHour = timeSlot.hour < 10 ? `0${timeSlot.hour}` : timeSlot.hour;
   let endHour = startHour;
@@ -79,7 +79,7 @@ module.exports.getUserFromAuthHeader = (authHeader) => {
 };
 
 module.exports.getVerifyLink = (email) => {
-  const verifyToken = jwt.sign({ userEmail: email }, process.env.VERIFY_EMAIL_SECRET); // NOTE never expires
+  const verifyToken = jwt.sign({ userEmail: email }, process.env.VERIFY_EMAIL_SECRET); // NOTE: never expires
   return `${process.env.WEB_APP_URL}/verify-email/${verifyToken}`;
 };
 
@@ -100,7 +100,7 @@ module.exports.signJwt = targetUser => (
   jwt.sign({
     userEmail: targetUser.email,
     userRole: targetUser.role
-  }, process.env.PRIMARY_SECRET, { expiresIn: '12h' }) // NOTE when this expires, forces logout; inelegant
+  }, process.env.PRIMARY_SECRET, { expiresIn: '12h' }) // NOTE: when this expires, forces logout; inelegant
 );
 
 // moveCountByBlock expected as an object where fields are blocks and values

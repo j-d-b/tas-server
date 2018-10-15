@@ -9,7 +9,7 @@ const updateAppt = isAuthenticatedResolver.createResolver(
     const targetAppt = await doesApptExistCheck(id, Appt).then(obj => obj.get({ plain: true }));
     const newTypeDetails = getApptTypeDetails({ type: targetAppt.type, ...typeDetails });
 
-    // IDEA if op/admin, email user if appt was changed
+    // IDEA: if op/admin, email user if appt was changed
     if (!isOpOrAdmin(user)) isOwnApptCheck(targetAppt, user);
 
     const { vesselName, vesselETA, bookingNum, shippingLine } = newTypeDetails;
