@@ -31,11 +31,12 @@ const deleteBlock = requireMutation('delete-block');
 const deleteRestriction = requireMutation('delete-restriction');
 const deleteUser = requireMutation('delete-user');
 const login = requireMutation('login');
+const rescheduleAppt = requireMutation('reschedule-appt');
 const resetPassword = requireMutation('reset-password');
 const sendApptReminders = requireMutation('send-appt-reminders');
 const sendResetPasswordLink = requireMutation('send-reset-password-link');
 const sendVerifyEmailLink = requireMutation('send-verify-email-link');
-const updateAppt = requireMutation('update-appt');
+const updateApptDetails = requireMutation('update-appt-details');
 const updateBlockMaxAllowed = requireMutation('update-block-max-allowed');
 const updateDefaultAllowed = requireMutation('update-default-allowed');
 const updateArrivalWindowLength = requireMutation('update-arrival-window-length');
@@ -60,11 +61,10 @@ const Resolvers = {
   },
   TypeDetails: {
     __resolveType(obj) {
-      if (obj.type === 'IMPORTFULL') return 'ImportFull';
-      else if (obj.type === 'IMPORTEMPTY') return 'ImportEmpty';
-      else if (obj.type === 'EXPORTFULL') return 'ExportFull';
-      else if (obj.type === 'EXPORTEMPTY') return 'ExportEmpty';
-      throw new Error('Appointment type must be defined.'); // TODO: log this
+      if (obj.formNumber705) return 'ImportFull';
+      else if (obj.emptyForCityFormNumber) return 'ImportEmpty';
+      else if (obj.containerWeight) return 'ExportFull';
+      return 'ExportEmpty'; // NOTE: is it ok for this to be the default
     }
   },
   Query: {
@@ -95,11 +95,12 @@ const Resolvers = {
     deleteRestriction,
     deleteUser,
     login,
+    rescheduleAppt,
     resetPassword,
     sendApptReminders,
     sendResetPasswordLink,
     sendVerifyEmailLink,
-    updateAppt,
+    updateApptDetails,
     updateBlockMaxAllowed,
     updateDefaultAllowed,
     updateArrivalWindowLength,

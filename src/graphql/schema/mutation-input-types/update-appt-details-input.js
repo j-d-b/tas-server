@@ -1,7 +1,6 @@
 module.exports = `
-  input UpdateApptInput {
+  input UpdateApptDetailsInput {
     id: ID!
-    timeSlot: TimeSlotInput
     importFull: UpdateImportFullInput
     importEmpty: UpdateImportEmptyInput
     exportFull: UpdateExportFullInput

@@ -1,8 +1,8 @@
 module.exports = `
   input UpdateExportFullInput {
+    containerID: String
+    containerWeight: String
     bookingNumber: Int
-    vesselName: String
-    vesselETA: String
     shippingLine: String
   }
 `;

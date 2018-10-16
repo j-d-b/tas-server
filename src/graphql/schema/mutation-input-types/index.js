@@ -15,11 +15,12 @@ const DeleteBlockInput = require('./delete-block-input');
 const DeleteRestrictionInput = require('./delete-restriction-input');
 const DeleteUserInput = require('./delete-user-input');
 const LoginInput = require('./login-input');
+const RescheduleApptInput = require('./reschedule-appt-input');
 const ResetPasswordInput = require('./reset-password-input');
 const SendApptRemindersInput = require('./send-appt-reminders-input');
 const SendResetPasswordLinkInput = require('./send-reset-password-link-input');
 const SendVerifyEmailLinkInput = require('./send-verify-email-link-input');
-const UpdateApptInput = require('./update-appt-input');
+const UpdateApptDetailsInput = require('./update-appt-details-input');
 const UpdateArrivalWindowLengthInput = require('./update-arrival-window-length-input');
 const UpdateBlockMaxAllowedInput = require('./update-block-max-allowed-input');
 const UpdateDefaultAllowedInput = require('./update-default-allowed-input');
@@ -47,12 +48,13 @@ module.exports = [
   DeleteRestrictionInput,
   DeleteUserInput,
   LoginInput,
+  RescheduleApptInput,
   ResetPasswordInput,
   SendApptRemindersInput,
   SendResetPasswordLinkInput,
   SendVerifyEmailLinkInput,
   TimeSlotInput,
-  UpdateApptInput,
+  UpdateApptDetailsInput,
   UpdateArrivalWindowLengthInput,
   UpdateBlockMaxAllowedInput,
   UpdateDefaultAllowedInput,

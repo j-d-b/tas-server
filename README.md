@@ -197,6 +197,8 @@ TODO
   * Getting container size (for `IMPORTFULL` appointments)
 
 ## Built With
+Node 10.7.0, using ECMAScript 2018 features (lot's of `async` (ES2017) and Rest/Spread (ES2018)).
+
 This project relies on the following technologies, most included as `npm` packages.
 * [Express](https://expressjs.com/) - Web server exposing the GraphQL API endpoint
 * [Mailgun](https://www.mailgun.com/) - Email sending service
@@ -223,7 +225,7 @@ There are a still few areas that need attention.
 * Add refresh tokens or some sense of a session, rather than just a hard-expiry access token
 * Implement logging (with [`winston`](https://github.com/winstonjs/winston))
 * Written tests
-* Consider `updateAppt` rescheduling behavior
+* Add concept of **linked appts**
 * **Production** Connect to BCTC container details server
 
 ### Enhancement
