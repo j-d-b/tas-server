@@ -8,9 +8,10 @@
   "license": "GPL-3.0",
   "private": true,
   "engines": {
-    "node": ">=10.7.0"
+    "node": "^10.7.0"
   },
   "scripts": {
+    "setup:dev": "node src/data/setup-scripts/setup-dev",
     "setup": "node src/data/setup-scripts/setup-prod",
     "start:dev": "NODE_ENV=production nodemon src/index",
     "start": "NODE_ENV=production node src/index",
