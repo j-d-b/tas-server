@@ -148,8 +148,6 @@ yarn lint
 ```
 
 ## Deployment
-I've deployed an example `tas-server` using Heroku with the database as an add-on, available [here](TODO)**TODO**
-
 The production TAS will be deployed using [Docker](https://www.docker.com/). `tas-server` is one part of the of the three-piece TAS backend, along with a notification cron and the database.
 
 The full TAS backend with `tas-server` as a submodule is exists as the [`tas-backend`](TODO)**TODO** project. The entire backend is deployed with Docker Compose.
@@ -224,9 +222,9 @@ There are a still few areas that need attention.
 ### Core
 * Add refresh tokens or some sense of a session, rather than just a hard-expiry access token
 * Implement logging (with [`winston`](https://github.com/winstonjs/winston))
-* Written tests
 * Add concept of **linked appts**
-* **Production** Connect to BCTC container details server
+* Written tests
+* **Production:** Connect to BCTC container details server
 
 ### Enhancement
 * Gate capacity and planned activities templates

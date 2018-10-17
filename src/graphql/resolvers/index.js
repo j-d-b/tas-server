@@ -1,3 +1,5 @@
+const { Op } = require('sequelize');
+
 const requireScalar = file => require(`./scalar/${file}`);
 const requireQuery = file => require(`./query/${file}`);
 const requireMutation = file => require(`./mutation/${file}`);
@@ -51,7 +53,18 @@ const Resolvers = {
   },
   Appt: {
     user: async (appt, args, { User }) => User.findById(appt.userEmail),
-    block: async (appt, args, { Block }) => Block.findById(appt.blockID)
+    block: async (appt, args, { Block }) => Block.findById(appt.blockID),
+    linkedAppts: async (appt, args, { Appt }) => {
+      const { timeSlotHour, timeSlotDate, userEmail, id } = appt;
+      return Appt.findAll({ where: {
+        id: {
+          [Op.ne]: id
+        },
+        userEmail,
+        timeSlotDate,
+        timeSlotHour
+      }});
+    }
   },
   Block: {
     restrictions: async (block, args, { Restriction }) => Restriction.findAll({ where: { block: block.id } })

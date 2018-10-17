@@ -5,6 +5,7 @@ const Appt = `
     user: User!
     type: ApptType!
     block: Block
+    linkedAppts: [Appt]!
     arrivalWindow: String!
     licensePlateNumber: String!
     notifyMobileNumber: String!
