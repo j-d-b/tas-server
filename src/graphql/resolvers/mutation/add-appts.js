@@ -3,7 +3,7 @@ const { isAuthenticatedResolver } = require('../auth');
 const { hasTypeDetailsCheck, isAvailableCheck } = require('../checks');
 const { getNewApptArrivalWindow } = require('../helpers');
 
-// addAppts (input: [AddApptInput!]!): [Appt]
+// addAppts(input: [AddApptInput!]!): [Appt]
 const addAppts = isAuthenticatedResolver.createResolver(
   async (_, { input }, { user, Appt, Block, Config, Restriction }) => {
     const { userEmail } = user;
