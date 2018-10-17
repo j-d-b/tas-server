@@ -12,11 +12,11 @@
     "yarn": "^1.10.0"
   },
   "scripts": {
-    "setup:dev": "node src/data/setup-scripts/setup-dev",
     "setup": "node src/data/setup-scripts/setup-prod",
-    "start:dev": "NODE_ENV=production nodemon src/index",
     "start": "NODE_ENV=production node src/index",
-    "develop": "node src/data/setup-scripts/setup-dev && NODE_ENV=development nodemon index",
+    "setup:dev": "node src/data/setup-scripts/setup-dev",
+    "start:dev": "NODE_ENV=development nodemon src/index",
+    "develop": "yarn setup:dev && yarn start:dev",
     "lint": "eslint src/index.js src"
   },
   "dependencies": {
