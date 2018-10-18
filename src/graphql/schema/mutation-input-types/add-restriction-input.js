@@ -2,7 +2,7 @@ module.exports = `
   input AddRestrictionInput {
     timeSlot: TimeSlotInput!
     type: RestrictionType!
-    blockID: String
+    blockId: String
     gateCapacity: Int
     plannedActivities: Int
   }

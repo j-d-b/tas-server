@@ -10,13 +10,13 @@ const updateApptDetails = isAuthenticatedResolver.createResolver(
     if (!isOpOrAdmin(user)) isOwnApptCheck(targetAppt, user); // IDEA: if op/admin, email user if appt was changed
 
     const inputTypeDetails = getApptTypeDetails({ type: targetAppt.type, ...typeDetails });
-    const { containerID, bookingNum, shippingLine } = inputTypeDetails;
+    const { containerId, bookingNum, shippingLine } = inputTypeDetails;
     const newTypeDetails = { ...targetAppt.typeDetails, ...inputTypeDetails };
 
     // fields with potential to change block
-    const blockID = (containerID || bookingNum || shippingLine) && getContainerBlockId(targetAppt.type, newTypeDetails);
+    const blockId = (containerId || bookingNum || shippingLine) && getContainerBlockId(targetAppt.type, newTypeDetails);
 
-    return targetAppt.update({ ...(blockID && { blockID }), typeDetails: newTypeDetails });
+    return targetAppt.update({ ...(blockId && { blockId }), typeDetails: newTypeDetails });
   }
 );
 

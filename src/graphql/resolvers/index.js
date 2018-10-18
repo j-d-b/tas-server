@@ -51,14 +51,14 @@ const Resolvers = {
   },
   Appt: {
     user: async ({ userEmail }, args, { User }) => User.findById(userEmail),
-    block: async ({ blockID }, args, { Block }) => Block.findById(blockID),
+    block: async ({ blockId }, args, { Block }) => Block.findById(blockId),
     linkedAppts: async ({ linkedApptId }, args, { Appt }) => [Appt.findById(linkedApptId)]
   },
   Block: {
     restrictions: async (block, args, { Restriction }) => Restriction.findAll({ where: { block: block.id } })
   },
   Restriction: {
-    block: async (restriction, args, { Block }) => Block.findOne({ where: { id: restriction.blockID } })
+    block: async (restriction, args, { Block }) => Block.findOne({ where: { id: restriction.blockId } })
   },
   TypeDetails: {
     __resolveType(obj) {

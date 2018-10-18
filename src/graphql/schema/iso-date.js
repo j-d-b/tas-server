@@ -1,5 +1,5 @@
 const ISODate = `
-  scalar ISODate # from resolvers/scalar/date.js
+  scalar ISODate # defined in resolvers/scalar/date.js
 `;
 
 module.exports = ISODate;

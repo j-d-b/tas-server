@@ -96,7 +96,7 @@ const sampleAppts = [
     arrivalWindowSlot: 0,
     arrivalWindowLength: 15,
     typeDetails: {
-      containerID: '192fh1h2f',
+      containerId: '192fh1h2f',
       containerSize: 'TWENTYFOOT',
       containerWeight: 4000,
       bookingNumber: 1924192,
@@ -115,9 +115,9 @@ const sampleAppts = [
     type: 'IMPORTFULL',
     arrivalWindowSlot: 1,
     arrivalWindowLength: 15,
-    blockID: 'A',
+    blockId: 'A',
     typeDetails: {
-      containerID: '9f9h239fhsd',
+      containerId: '9f9h239fhsd',
       formNumber705: 'FORM239r0j23',
       containerSize: 'TWENTYFOOT'
     }
@@ -132,7 +132,7 @@ const sampleAppts = [
     arrivalWindowSlot: 2,
     arrivalWindowLength: 15,
     typeDetails: {
-      containerID: 'jf21j1f3f2',
+      containerId: 'jf21j1f3f2',
       containerSize: 'TWENTYFOOT',
       containerType: 'Clamtype',
       shippingLine: 'Willow'
@@ -163,9 +163,9 @@ const sampleAppts = [
     type: 'EXPORTFULL',
     arrivalWindowSlot: 3,
     arrivalWindowLength: 15,
-    blockID: 'B',
+    blockId: 'B',
     typeDetails: {
-      containerID: '2883hf8ttt',
+      containerId: '2883hf8ttt',
       containerSize: 'TWENTYFOOT',
       containerWeight: 1222,
       conatainerType: 'Clamtype',
@@ -184,9 +184,9 @@ const sampleAppts = [
     type: 'IMPORTFULL',
     arrivalWindowSlot: 1,
     arrivalWindowLength: 15,
-    blockID: 'A',
+    blockId: 'A',
     typeDetails: {
-      containerID: 'udfhd7f7d',
+      containerId: 'udfhd7f7d',
       formNumber705: 'FORMio2h38hf',
       containerSize: 'TWENTYFOOT'
     },
@@ -201,9 +201,9 @@ const sampleAppts = [
     type: 'IMPORTFULL',
     arrivalWindowSlot: 1,
     arrivalWindowLength: 15,
-    blockID: 'A',
+    blockId: 'A',
     typeDetails: {
-      containerID: 'rb586iwne',
+      containerId: 'rb586iwne',
       formNumber705: 'FORM55555',
       containerSize: 'TWENTYFOOT'
     },
@@ -222,9 +222,9 @@ const sampleAppts = [
     type: 'IMPORTFULL',
     arrivalWindowSlot: 3,
     arrivalWindowLength: 15,
-    blockID: 'B',
+    blockId: 'B',
     typeDetails: {
-      containerID: 'c234234',
+      containerId: 'c234234',
       formNumber705: 'test',
       containerSize: 'TWENTYFOOT'
     }
@@ -238,7 +238,7 @@ const sampleRestrictions = [
       date: new Date().toISOString().split('T')[0]
     },
     type: 'PLANNED_ACTIVITIES',
-    blockID: 'A',
+    blockId: 'A',
     plannedActivities: 5
   },
   {
@@ -247,7 +247,7 @@ const sampleRestrictions = [
       date: new Date().toISOString().split('T')[0]
     },
     type: 'PLANNED_ACTIVITIES',
-    blockID: 'A',
+    blockId: 'A',
     plannedActivities: 2
   },
   {

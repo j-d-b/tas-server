@@ -12,10 +12,10 @@ const addLinkedApptPair = isAuthenticatedResolver.createResolver(
     const newAppts = await Promise.all(bothAppts.map(async ({ timeSlot, type, ...typeSpecific }) => {
       const typeDetails = hasTypeDetailsCheck({ type, ...typeSpecific }); // schema doesn't verify this
 
-      if (type === 'IMPORTFULL') typeDetails.containerSize = await getContainerSize(typeDetails.containerID);
-      const blockID = await getContainerBlockId(type, typeDetails);
+      if (type === 'IMPORTFULL') typeDetails.containerSize = await getContainerSize(typeDetails.containerId);
+      const blockId = await getContainerBlockId(type, typeDetails);
 
-      return { timeSlot, userEmail, arrivalWindowSlot, blockID, arrivalWindowLength, type, typeDetails };
+      return { timeSlot, userEmail, arrivalWindowSlot, blockId, arrivalWindowLength, type, typeDetails };
     }));
 
     areBothTwentyFootCheck(newAppts[0], newAppts[1]);

@@ -1,5 +1,5 @@
 const Hour = `
-  scalar Hour # from resolvers/scalar/hour.js
+  scalar Hour # defined in resolvers/scalar/hour.js
 `;
 
 module.exports = Hour;

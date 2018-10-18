@@ -1,6 +1,6 @@
 const { isAuthenticatedResolver } = require('../auth');
 
-// appt(id: ID!): Appointment
+// appt(id: Id!): Appointment
 const appt = isAuthenticatedResolver.createResolver(
   async (_, { id }, { Appt }) => Appt.findById(id)
 );

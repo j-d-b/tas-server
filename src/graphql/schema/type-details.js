@@ -1,6 +1,6 @@
 const TypeDetails = `
   type ImportFull {
-    containerID: String!
+    containerId: String!
     formNumber705: String!
     containerSize: ContainerSize!
   }
@@ -13,7 +13,7 @@ const TypeDetails = `
   }
 
   type ExportFull {
-    containerID: String!
+    containerId: String!
     containerSize: ContainerSize!
     containerWeight: Int! # might be float
     containerType: String!
@@ -24,7 +24,7 @@ const TypeDetails = `
   }
 
   type ExportEmpty {
-    containerID: String!
+    containerId: String!
     containerSize: ContainerSize!
     containerType: String!
     shippingLine: String!

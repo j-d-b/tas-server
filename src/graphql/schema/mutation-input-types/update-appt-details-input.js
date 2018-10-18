@@ -9,14 +9,14 @@ module.exports = `
   }
 
   input UpdateExportFullInput {
-    containerID: String
+    containerId: String
     containerWeight: String
     bookingNumber: Int
     shippingLine: String
   }
 
   input UpdateExportEmptyInput {
-    containerID: String
+    containerId: String
     shippingLine: String
   }
 

@@ -1,6 +1,6 @@
 module.exports = `
   input AddImportFullInput {
-    containerID: String!
+    containerId: String!
     formNumber705: String!
   }
 
@@ -12,7 +12,7 @@ module.exports = `
   }
 
   input AddExportFullInput {
-    containerID: String!
+    containerId: String!
     containerSize: ContainerSize!
     containerWeight: Int! # might be float
     containerType: String!
@@ -23,7 +23,7 @@ module.exports = `
   }
 
   input AddExportEmptyInput {
-    containerID: String!
+    containerId: String!
     containerSize: ContainerSize!
     containerType: String!
     shippingLine: String!

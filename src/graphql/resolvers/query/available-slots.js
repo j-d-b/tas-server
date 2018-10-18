@@ -10,8 +10,8 @@ const availableSlots = isAuthenticatedResolver.createResolver(
     const containerSizes = knownContainerSizes.concat(importFullBlockAndSize.map(({ containerSize }) => containerSize));
     await isValidNumContainersCheck(containerSizes, Config);
 
-    const moveCountByBlock = importFullBlockAndSize.reduce((acc, { blockID }) => {
-      acc[blockID] ? acc[blockID]++ : acc[blockID] = 1;
+    const moveCountByBlock = importFullBlockAndSize.reduce((acc, { blockId }) => {
+      acc[blockId] ? acc[blockId]++ : acc[blockId] = 1;
       return acc;
     }, {});
 

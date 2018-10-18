@@ -21,7 +21,7 @@ module.exports = sequelize => (sequelize.define('appt', {
     values: ['IMPORTFULL', 'IMPORTEMPTY', 'EXPORTFULL', 'EXPORTEMPTY'],
     allowNull: false
   },
-  blockID: {
+  blockId: {
     type: Sequelize.STRING,
     field: 'block_id'
   },
@@ -47,7 +47,7 @@ module.exports = sequelize => (sequelize.define('appt', {
     type: Sequelize.STRING,
     field: 'license_plate_number'
   }, // type specific details below
-  containerID: {
+  containerId: {
     type: Sequelize.STRING,
     field: 'container_id'
   },
@@ -114,7 +114,7 @@ module.exports = sequelize => (sequelize.define('appt', {
     },
     typeDetails: function() {
       return {
-        containerID: this.containerID,
+        containerId: this.containerId,
         containerSize: this.containerSize,
         containerWeight: this.containerWeight,
         containerType: this.containerType,
@@ -133,7 +133,7 @@ module.exports = sequelize => (sequelize.define('appt', {
       this.setDataValue('timeSlotDate', slot.date);
     },
     typeDetails: function(details) {
-      details.containerID && this.setDataValue('containerID', details.containerID);
+      details.containerId && this.setDataValue('containerId', details.containerId);
       details.containerSize && this.setDataValue('containerSize', details.containerSize);
       details.containerWeight && this.setDataValue('containerWeight', details.containerWeight);
       details.containerType && this.setDataValue('containerType', details.containerType);
