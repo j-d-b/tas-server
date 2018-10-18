@@ -1,7 +1,7 @@
 const Mutation = `
   type Mutation {
     addAppt(input: AddApptInput!): Appt
-    addAppts(input: [AddApptInput!]!): [Appt]
+    addLinkedApptPair(input: AddLinkedApptPairInput!): [Appt]
     updateApptDetails(input: UpdateApptDetailsInput!): Appt
     rescheduleAppt(input: RescheduleApptInput!): Appt
     deleteAppt(input: DeleteApptInput!): String

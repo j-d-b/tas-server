@@ -222,8 +222,8 @@ There are a still few areas that need attention.
 ### Core
 * Add refresh tokens or some sense of a session, rather than just a hard-expiry access token
 * Implement logging (with [`winston`](https://github.com/winstonjs/winston))
-* Add concept of **linked appts**
 * Written tests
+* Standardize `Id` vs `ID` usage
 * **Production:** Connect to BCTC container details server
 
 ### Enhancement

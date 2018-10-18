@@ -25,6 +25,10 @@ module.exports = sequelize => (sequelize.define('appt', {
     type: Sequelize.STRING,
     field: 'block_id'
   },
+  linkedApptId: {
+    type: Sequelize.INTEGER,
+    field: 'linked_appt_id'
+  },
   arrivalWindowSlot: {
     type: Sequelize.INTEGER, // 0 to (60 / arrivalWindowLength)
     field: 'arrival_window',

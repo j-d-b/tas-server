@@ -1,5 +1,3 @@
-const { Op } = require('sequelize');
-
 const requireScalar = file => require(`./scalar/${file}`);
 const requireQuery = file => require(`./query/${file}`);
 const requireMutation = file => require(`./mutation/${file}`);
@@ -21,7 +19,7 @@ const user = requireQuery('user');
 const users = requireQuery('users');
 
 const addAppt = requireMutation('add-appt');
-const addAppts = requireMutation('add-appts');
+const addLinkedApptPair = requireMutation('add-linked-appt-pair');
 const addBlock = requireMutation('add-block');
 const addRestrictions = requireMutation('add-restrictions');
 const addUser = requireMutation('add-user');
@@ -52,16 +50,9 @@ const Resolvers = {
     appts: async (user, args, { Appt }) => Appt.findAll({ where: { userEmail: user.email } })
   },
   Appt: {
-    user: async (appt, args, { User }) => User.findById(appt.userEmail),
-    block: async (appt, args, { Block }) => Block.findById(appt.blockID),
-    linkedAppts: async ({ timeSlotHour, timeSlotDate, userEmail, id }, args, { Appt }) => (
-      Appt.findAll({ where: {
-        id: { [Op.ne]: id },
-        userEmail,
-        timeSlotDate,
-        timeSlotHour
-      }})
-    )
+    user: async ({ userEmail }, args, { User }) => User.findById(userEmail),
+    block: async ({ blockID }, args, { Block }) => Block.findById(blockID),
+    linkedAppts: async ({ linkedApptId }, args, { Appt }) => [Appt.findById(linkedApptId)]
   },
   Block: {
     restrictions: async (block, args, { Restriction }) => Restriction.findAll({ where: { block: block.id } })
@@ -74,7 +65,7 @@ const Resolvers = {
       if (obj.formNumber705) return 'ImportFull';
       else if (obj.emptyForCityFormNumber) return 'ImportEmpty';
       else if (obj.containerWeight) return 'ExportFull';
-      return 'ExportEmpty'; // NOTE: is it ok for this to be the default
+      return 'ExportEmpty'; // is it ok for this to be the default?
     }
   },
   Query: {
@@ -93,7 +84,7 @@ const Resolvers = {
   },
   Mutation: {
     addAppt,
-    addAppts,
+    addLinkedApptPair,
     addBlock,
     addRestrictions,
     addUser,

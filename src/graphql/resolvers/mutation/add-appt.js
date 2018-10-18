@@ -9,9 +9,9 @@ const addAppt = isAuthenticatedResolver.createResolver(
     const { arrivalWindowSlot, arrivalWindowLength } = await getNewApptArrivalWindow(timeSlot, Appt, Config);
 
     const typeDetails = hasTypeDetailsCheck({ type, ...typeSpecific });
-    if (type === 'IMPORTFULL') typeDetails.containerSize = getContainerSize(type, typeDetails);
+    if (type === 'IMPORTFULL') typeDetails.containerSize = await getContainerSize(type, typeDetails);
 
-    const blockID = getContainerBlockId(type, typeDetails);
+    const blockID = await getContainerBlockId(type, typeDetails);
     const newAppt = { timeSlot, userEmail: user.userEmail, blockID, arrivalWindowSlot, arrivalWindowLength, type, typeDetails };
     await isAvailableCheck([newAppt], Appt, Block, Config, Restriction); // appt scheduling logic
 

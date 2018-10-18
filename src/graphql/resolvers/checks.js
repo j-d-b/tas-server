@@ -11,6 +11,12 @@ const {
   slotBlockAvailability
 } = require('./helpers');
 
+module.exports.areBothTwentyFootCheck = (apptOne, apptTwo) => {
+  if (apptOne.typeDetails.containerSize !== 'TWENTYFOOT' || apptTwo.typeDetails.containerSize !== 'TWENTYFOOT') {
+    throw new Errors.ApptPairContainerSizeError();
+  }
+};
+
 // check if allowed appts `allowedSet` exists in the database
 module.exports.doesRestrictionExistCheck = async (restriction, Restriction) => {
   const matches = await Restriction.count({ where: { timeSlotHour: restriction.timeSlot.hour, timeSlotDate: restriction.timeSlot.date, blockID: (restriction.blockID || null) } });

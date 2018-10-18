@@ -7,6 +7,9 @@ module.exports = {
   AlreadyLoggedInError: createError('AlreadyLoggedInError', {
     message: 'You cannot perform this action as a logged in user'
   }),
+  ApptPairContainerSizeError: createError('ApptPairContainerSizeError', {
+    message: 'Appointment pairs must consist of two TWENTYFOOT appointments only'
+  }),
   AuthenticationError: createError('AuthenticationError', {
     message: 'You must be authenticated to perform this action'
   }),

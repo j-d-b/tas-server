@@ -118,7 +118,8 @@ const sampleAppts = [
     blockID: 'A',
     typeDetails: {
       containerID: '9f9h239fhsd',
-      formNumber705: 'FORM239r0j23'
+      formNumber705: 'FORM239r0j23',
+      containerSize: 'TWENTYFOOT'
     }
   },
   {
@@ -132,7 +133,9 @@ const sampleAppts = [
     arrivalWindowLength: 15,
     typeDetails: {
       containerID: 'jf21j1f3f2',
-      containerSize: 'TWENTYFOOT'
+      containerSize: 'TWENTYFOOT',
+      containerType: 'Clamtype',
+      shippingLine: 'Willow'
     }
   },
   {
@@ -146,6 +149,8 @@ const sampleAppts = [
     arrivalWindowLength: 15,
     typeDetails: {
       containerSize: 'TWENTYFOOT',
+      containerType: 'Sealtype',
+      shippingLine: 'Willow',
       emptyForCityFormNumber: 'form2i38r923r'
     }
   },
@@ -158,15 +163,16 @@ const sampleAppts = [
     type: 'EXPORTFULL',
     arrivalWindowSlot: 3,
     arrivalWindowLength: 15,
+    blockID: 'B',
     typeDetails: {
       containerID: '2883hf8ttt',
       containerSize: 'TWENTYFOOT',
       containerWeight: 1222,
+      conatainerType: 'Clamtype',
+      shippingLine: 'Gorden',
       bookingNumber: 293923,
       vesselName: 'String',
-      vesselETA: '10-10-2018',
-      destinationPort: 'String',
-      firstPortOfDischarge: 'String'
+      vesselETA: '10-10-2018'
     }
   },
   {
@@ -181,8 +187,27 @@ const sampleAppts = [
     blockID: 'A',
     typeDetails: {
       containerID: 'udfhd7f7d',
-      formNumber705: 'FORMio2h38hf'
-    }
+      formNumber705: 'FORMio2h38hf',
+      containerSize: 'TWENTYFOOT'
+    },
+    linkedApptId: 7
+  },
+  {
+    userEmail: 'cory@mmt.net',
+    timeSlot: {
+      hour: 18,
+      date: new Date().toISOString().split('T')[0]
+    },
+    type: 'IMPORTFULL',
+    arrivalWindowSlot: 1,
+    arrivalWindowLength: 15,
+    blockID: 'A',
+    typeDetails: {
+      containerID: 'rb586iwne',
+      formNumber705: 'FORM55555',
+      containerSize: 'TWENTYFOOT'
+    },
+    linkedApptId: 6
   },
   {
     userEmail: 'jbrady@kcus.org',
@@ -200,7 +225,8 @@ const sampleAppts = [
     blockID: 'B',
     typeDetails: {
       containerID: 'c234234',
-      formNumber705: 'test'
+      formNumber705: 'test',
+      containerSize: 'TWENTYFOOT'
     }
   },
 ];
