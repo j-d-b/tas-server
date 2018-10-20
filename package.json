@@ -33,12 +33,14 @@
     "graphql-tools": "^3.0.5",
     "handlebars": "^4.0.11",
     "jsonwebtoken": "^8.2.2",
+    "morgan": "^1.9.1",
     "mysql2": "^1.5.3",
     "nodemailer": "^4.6.7",
     "nodemailer-mailgun-transport": "^1.4.0",
     "plivo": "^4.0.3",
     "sequelize": "^4.38.0",
-    "validator": "^10.4.0"
+    "validator": "^10.4.0",
+    "winston": "^3.1.0"
   },
   "devDependencies": {
     "eslint": "^5.1.0",

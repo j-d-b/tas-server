@@ -1,19 +1,24 @@
 const { createResolver } = require('apollo-resolvers');
 const { isInstance } = require('apollo-errors');
 
+const logger = require('../../logging/logger');
 const Errors = require('./errors');
 const { isOpOrAdmin, getUserFromAuthHeader } = require('./helpers');
 
 
 // catch all non 'apollo-errors' and mask with unexpected (generic) for client cleanliness
 const baseResolver = createResolver(
-  null,
+  (_, args, context, info) => {
+    logger.info(`GraphQL Query: ${info.fieldName}`);
+    // return nothing; pass through
+  },
   (_, args, context, error) => {
-    if (process.env.NODE_ENV === 'development') {
+    if (isInstance(error)) {
+      logger.info(`GraphQL Error: ${error}`);
       return error;
     }
-
-    return isInstance(error) ? error : new Errors.UnexpectedError();
+    logger.error(error.stack);
+    return process.env.NODE_ENV === 'development' ? error : new Errors.UnexpectedError();
   }
 );
 
@@ -27,7 +32,10 @@ const notLoggedInResolver = baseResolver.createResolver(
       // move on to next resolver
     }
 
-    if (user) throw new Errors.AlreadyLoggedInError();
+    if (user) {
+      logger.info(`Requesting User: ${user}`);
+      throw new Errors.AlreadyLoggedInError();
+    }
   }
 );
 
@@ -38,6 +46,7 @@ const isAuthenticatedResolver = baseResolver.createResolver(
     try {
       const user = getUserFromAuthHeader(context.authHeader);
       context.user = user; // add user to the context
+      logger.info(`Requesting User: ${user.userEmail}`);
     } catch (err) {
       throw new Errors.AuthenticationError();
     }

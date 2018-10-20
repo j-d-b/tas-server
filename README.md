@@ -14,6 +14,7 @@ You must have the following installed:
 ### Environment Variables
 A `.env` environment variables file must also be added to the project root directory. It must contain the following definitions (values are given as examples only):
 ```
+HOST=http://localhost
 PORT=4000
 WEB_APP_URL=https://tas-app.netlify.com
 PRIMARY_SECRET=secret-key
@@ -221,9 +222,8 @@ There are a still few areas that need attention.
 
 ### Core
 * Add refresh tokens or some sense of a session, rather than just a hard-expiry access token
-* Implement logging (with [`winston`](https://github.com/winstonjs/winston))
 * Written tests
-* Standardize `Id` vs `ID` usage
+* Notify notifyMobileNumber with sendApptReminders and when appt is created
 * **Production:** Connect to BCTC container details server
 
 ### Enhancement
