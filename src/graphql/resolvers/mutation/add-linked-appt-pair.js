@@ -1,5 +1,7 @@
 const { getContainerBlockId, getContainerSize } = require('../../../terminal-connection/');
+const { sendApptCreatedSMS } = require('../../../messaging/sms/send-sms');
 const { isAuthenticatedResolver } = require('../auth');
+const { SMSSendError } = require('../errors');
 const { areBothTwentyFootCheck, hasTypeDetailsCheck, isAvailableCheck } = require('../checks');
 const { getNewApptArrivalWindow } = require('../helpers');
 
@@ -20,6 +22,37 @@ const addLinkedApptPair = isAuthenticatedResolver.createResolver(
 
     areBothTwentyFootCheck(newAppts[0], newAppts[1]);
     await isAvailableCheck(newAppts, Appt, Block, Config, Restriction); // appt scheduling logic
+
+    console.log(newAppts[0]);
+    if (shared.notifyMobileNumber) {
+      const apptDetails = {
+        date: new Date(Date.parse(newAppts[0].timeSlot.date)).toUTCString().substring(0, 16),
+        arrivalWindow: ((appt) => { // NOTE: this is duplicate code to src/data/models/appt.js setter
+          const startHour = appt.timeSlot.hour < 10 ? `0${appt.timeSlot.hour}` : appt.timeSlot.hour;
+          let endHour = startHour;
+
+          let startMinutes = appt.arrivalWindowSlot * appt.arrivalWindowLength;
+          if (startMinutes < 10) startMinutes = '0' + startMinutes;
+
+          let endMinutes = (appt.arrivalWindowSlot + 1) * appt.arrivalWindowLength;
+          if (endMinutes < 10) endMinutes = '0' + endMinutes;
+          else if (endMinutes === 60) {
+            endMinutes = '00';
+            endHour = new Date(Date.parse(`${appt.timeSlot.date}T${startHour}:00:00Z`));
+            endHour.setTime(endHour.getTime() + (60 * 60 * 1000));
+            endHour = endHour.toISOString().split('T')[1].substring(0, 2);
+          }
+
+          return `${startHour}:${startMinutes} - ${endHour}:${endMinutes}`;
+        })(newAppts[0])
+      };
+
+      try {
+        await sendApptCreatedSMS(shared.notifyMobileNumber, apptDetails);
+      } catch (err) {
+        throw new SMSSendError();
+      }
+    }
 
     // NOTE: these arrays will always be a length of 2, but it's general for the future
     const insertedAppts = await Promise.all(newAppts.map(async newAppt => Appt.create(newAppt)));

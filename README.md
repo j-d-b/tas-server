@@ -227,7 +227,8 @@ There are a still few areas that need attention.
 ### Core
 * Add refresh tokens or some sense of a session, rather than just a hard-expiry access token
 * Written tests
-* Notify notifyMobileNumber with sendApptReminders and when appt is created
+* Log all emails and SMS sent
+* Consider when to throw error/exit query if mail/SMS doesn't send
 * **Production:** Connect to BCTC container details server
 
 ### Enhancement

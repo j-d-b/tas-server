@@ -14,5 +14,7 @@ const sendSMS = async (destNum, message) => {
 };
 
 const createApptReminderMessage = data => `Hello, ${data.name}.\nYou have an appointment scheduled for tomorrow, ${data.date}.\nPlease arrive between ${data.arrivalWindow}.\nBCTC TAS 🚚`;
+const createApptCreatedMessage = data => `An appointment has been scheduled for you at ${data.date}, arrival time ${data.arrivalWindow}.\nBCTC TAS 🚚`;
 
 module.exports.sendApptReminderSMS = async (mobileNum, data) => sendSMS(mobileNum, createApptReminderMessage(data));
+module.exports.sendApptCreatedSMS = async (mobileNum, data) => sendSMS(mobileNum, createApptCreatedMessage(data));

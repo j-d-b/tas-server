@@ -29,6 +29,16 @@ const sendApptReminders = isAdminResolver.createResolver(
         ...appt.typeDetails
       };
 
+      if (appt.notifyMobileNumber) {
+        numSMS++;
+        try {
+          await sendApptReminderSMS(appt.notifyMobileNumber, apptDetails);
+        } catch (err) {
+          throw new SMSSendError();
+        }
+        numSentSMS++;
+      }
+
       switch (user.reminderSetting) {
         case 'EMAIL':
           numEmail++;
