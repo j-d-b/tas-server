@@ -227,7 +227,6 @@ There are a still few areas that need attention.
 ### Core
 * Add refresh tokens or some sense of a session, rather than just a hard-expiry access token
 * Write tests
-* Log all emails and SMS sent
 
 ### Production
 * Connect to BCTC container details server
