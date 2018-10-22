@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const bcrypt = require('bcrypt');
 const chalk = require('chalk');
+const readline = require('readline');
 
 const sequelize = require('../sequelize-config');
 const defineModels = require('../define-models');
@@ -303,4 +304,15 @@ const setupDev = async () => {
     .then(() => process.exit(0));
 };
 
-setupDev();
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+console.log(chalk.green('This process will setup TAS database tables with sample data, dropping any existing tables in the ') + chalk.bgGreen('`tas`') + chalk.green(' database'));
+
+rl.question(chalk.yellow('Are you sure you wish to continue (y/N)?\n'), async (input) => {
+  if (input.toLowerCase() === 'y' || input.toLowerCase() === 'yes') return setupDev();
+  console.log(chalk.green('Cancelling...'));
+  process.exit(1);
+});

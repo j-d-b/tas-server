@@ -46,7 +46,7 @@ The entry point file, `src/index.js`, starts the server (`src/server/server.js`)
 The server can run in two modes: `development` and `production`.
 
 ### Development and testing
-Setup the database with sample data (clearing existing data) and start the server:
+Setup the database with sample data (clearing existing data; it will warn you) and start the server:
 ```
 yarn develop
 ```
@@ -58,7 +58,7 @@ You can also start the server without adding/clearing sample data using
 yarn start:dev
 ```
 
-or just restore the database to the sample data with
+or just reset the database to only sample data (it will warn you) with
 ```
 yarn setup:dev
 ```
@@ -68,7 +68,7 @@ Setup the database tables (users, blocks, appts, config) *first time only*
 ```
 yarn setup
 ```
-**Note:** Running `yarn setup` will drop all existing database tables (it will warn you), so *only run if looking for a fresh start.*
+**Note:** Running `yarn setup` will drop all existing database tables (it will warn you and ask for confirmation), so *only run if looking for a fresh start.*
 
 Start the server (with `NODE_ENV` set to `production`)
 ```
@@ -180,7 +180,11 @@ All JavaScript is located in `src/`
 * `setup-scripts/` contains database table setup code, run by `yarn setup` and `yarn develop`.
 
 ### src/logging/
-TODO
+* Logs to `/logs/` directory (will be created if it does not exist).
+* `exceptions.log` contains any uncaught exceptions.
+* `errors.log` contains all server errors.
+* `combined.log` contains all server requests, server error responses, GraphQL queries fired, and errors.
+* `verbose.log` contains everything in `combined.log` with the addition of database queries.
 
 ### src/messaging/
 * Contains all email and SMS sending code and templates (If you're updating the frontend colors/logo, you'll have to change these templates too.)
