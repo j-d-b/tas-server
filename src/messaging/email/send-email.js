@@ -1,6 +1,8 @@
 const nodemailer = require('nodemailer');
 const mg = require('nodemailer-mailgun-transport');
 
+const logger = require('../../logging/logger');
+
 const mgTransporter = nodemailer.createTransport(mg({
   auth: {
     api_key: process.env.MG_API_KEY,
@@ -8,7 +10,14 @@ const mgTransporter = nodemailer.createTransport(mg({
   }
 }));
 
-const mgSend = async mailOptions => mgTransporter.sendMail(mailOptions);
+const mgSend = async (mailOptions) => {
+  await mgTransporter.sendMail(mailOptions)
+    .then(message => logger.info('Email Queued: ' + JSON.stringify(message)))
+    .catch((err) => {
+      logger.error(err);
+      throw err;
+    });
+};
 
 const createMailOptionsBuilder = (subject, templateFile) => {
   return (toEmail, data) => ({

@@ -226,10 +226,11 @@ There are a still few areas that need attention.
 
 ### Core
 * Add refresh tokens or some sense of a session, rather than just a hard-expiry access token
-* Written tests
+* Write tests
 * Log all emails and SMS sent
-* Consider when to throw error/exit query if mail/SMS doesn't send
-* **Production:** Connect to BCTC container details server
+
+### Production
+* Connect to BCTC container details server
 
 ### Enhancement
 * Gate capacity and planned activities templates
