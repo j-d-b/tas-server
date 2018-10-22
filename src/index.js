@@ -22,6 +22,7 @@ const bodyParser = require('body-parser');
 const { graphqlExpress } = require('apollo-server-express');
 const playground = require('graphql-playground-middleware-express').default;
 const morgan = require('morgan');
+const makeDir = require('make-dir');
 const chalk = require('chalk');
 
 const logger = require('./logging/logger');
@@ -34,6 +35,7 @@ const logConsoleAndInfo = (message) => {
   console.log(chalk.green(message));
   logger.info(message);
 };
+makeDir.sync('logs/');
 
 const app = express();
 app.use(bodyParser.json());
