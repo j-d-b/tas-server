@@ -23,7 +23,6 @@ const addLinkedApptPair = isAuthenticatedResolver.createResolver(
     areBothTwentyFootCheck(newAppts[0], newAppts[1]);
     await isAvailableCheck(newAppts, Appt, Block, Config, Restriction); // appt scheduling logic
 
-    console.log(newAppts[0]);
     if (shared.notifyMobileNumber) {
       const apptDetails = {
         date: new Date(Date.parse(newAppts[0].timeSlot.date)).toUTCString().substring(0, 16),
