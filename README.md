@@ -151,7 +151,7 @@ yarn lint
 ## Deployment
 The production TAS will be deployed using [Docker](https://www.docker.com/). `tas-server` is one part of the of the three-piece TAS backend, along with a notification cron and the database.
 
-The full TAS backend with `tas-server` as a submodule is exists as the [`tas-backend`](TODO)**TODO** project. The entire backend is deployed with Docker Compose.
+The full TAS backend with `tas-server` as a submodule is exists as the [`tas-backend`](https://github.com/j-d-b/tas-backend) project. The entire backend is deployed with Docker Compose.
 
 ## Docker
 The `tas-server` project can be run with [Docker](https://www.docker.com/).
@@ -167,7 +167,7 @@ The Dockerized version does not have access to the database setup scripts in `sr
 
 The Dockerized `tas-server` is exciting when used with [Docker Compose](https://docs.docker.com/compose/) to simultaneously start, setup, and connect to a MariaDB database with a single command.
 
-I've done this, a combined `tas-server`, database, and notification spawning cron process in the [`tas-backend`](https://bitbucket.org/j-d-b/tas-backend/) project. **TODO** move to GitHub.
+I've done this, a combined `tas-server`, database, and notification spawning cron process in the [`tas-backend`](https://github.com/j-d-b/tas-backend) project.
 
 ## Project Organization
 All JavaScript is located in `src/`
