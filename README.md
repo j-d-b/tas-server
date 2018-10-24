@@ -226,13 +226,16 @@ There are a still few areas that need attention.
 
 ### Core
 * Add refresh tokens or some sense of a session, rather than just a hard-expiry access token
-* Write tests
 
-### Production
-* Connect to BCTC container details server
+### Cleanup
+* Write tests
+* Move from `linkedAppt` to one appt with two actions **major/breaking**
 
 ### Enhancement
 * Gate capacity and planned activities templates
+
+### Production
+* Connect to BCTC container details server
 
 ---
 
