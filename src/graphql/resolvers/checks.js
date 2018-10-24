@@ -80,7 +80,6 @@ module.exports.isAvailableCheck = async (apptDetailsArr, Appt, Block, Config, Re
     return obj;
   }, {});
 
-  // IDEA: rewrite `for` loop with Promise.all `forEach` for concurrency/speed
   for (const [slotId, detailsArr] of Object.entries(detailsBySlot)) {
     const slot = getTimeSlotFromId(slotId);
 

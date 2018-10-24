@@ -3,7 +3,8 @@ const bcrypt = require('bcrypt');
 const { sendSignupReceivedNotice } = require('../../../messaging/email/send-email');
 const { baseResolver } = require('../auth');
 const { isAllowedPasswordCheck, userDoesntExistCheck } = require('../checks');
-const { MailSendError } = require('../errors');
+const { EmailSendError } = require('../errors');
+const { getFirstName } = require('../helpers');
 
 // addUser(input: AddUserInput!): User
 const addUser = baseResolver.createResolver(
@@ -12,9 +13,9 @@ const addUser = baseResolver.createResolver(
     await userDoesntExistCheck(input.email, User);
 
     try {
-      await sendSignupReceivedNotice(input.email, { name: input.name.split(' ')[0] });
+      await sendSignupReceivedNotice(input.email, { name: getFirstName(input) });
     } catch (err) {
-      throw new MailSendError();
+      throw new EmailSendError();
     }
 
     const hash = await bcrypt.hash(input.password, 10);

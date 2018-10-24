@@ -1,8 +1,8 @@
 const { sendApptReminder } = require('../../../messaging/email/send-email');
 const { sendApptReminderSMS } = require('../../../messaging/sms/send-sms');
 const { isAdminResolver } = require('../auth');
-const { MailSendError, SMSSendError } = require('../errors');
-const { getHourString } = require('../helpers');
+const { EmailSendError, SMSSendError } = require('../errors');
+const { getFirstName, getHourString, getDateString } = require('../helpers');
 
 // sendApptReminders: String
 const sendApptReminders = isAdminResolver.createResolver(
@@ -22,9 +22,9 @@ const sendApptReminders = isAdminResolver.createResolver(
     for (const appt of apptsTomorrow) {
       const user = await appt.getUser({ attributes: ['name', 'reminderSetting', 'email', 'mobileNumber'] });
       const apptDetails = {
-        name: user.name.split(' ')[0],
-        ...appt.toJSON(), // NOTE: yes, we're giving more than we need to...
-        date: new Date(Date.parse(appt.timeSlotDate)).toUTCString().substring(0, 16),
+        name: getFirstName(user),
+        ...appt.toJSON(), // yes, we're giving more than we user
+        date: getDateString(appt.timeSlotDate),
         hour: getHourString(appt.timeSlotHour),
         ...appt.typeDetails
       };
@@ -45,7 +45,7 @@ const sendApptReminders = isAdminResolver.createResolver(
           try {
             await sendApptReminder(user.email, apptDetails);
           } catch (err) {
-            throw new MailSendError();
+            throw new EmailSendError();
           }
           numSentEmail++;
           break;
@@ -64,7 +64,7 @@ const sendApptReminders = isAdminResolver.createResolver(
           try {
             await sendApptReminder(user.email, apptDetails);
           } catch (err) {
-            throw new MailSendError();
+            throw new EmailSendError();
           }
           numSentEmail++;
           try {

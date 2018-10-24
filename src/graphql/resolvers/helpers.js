@@ -13,6 +13,10 @@ module.exports.getApptTypeDetails = (appt) => {
   }
 };
 
+module.exports.getDateString = UTCString => new Date(Date.parse(UTCString)).toUTCString().substring(0, 16);
+
+module.exports.getFirstName = user => user.name.split(' ')[0];
+
 // expects 0 to 23
 module.exports.getHourString = hourVal => hourVal < 10 ? `0${hourVal}:00` : `${hourVal}:00`;
 
@@ -59,7 +63,7 @@ module.exports.getUserFromAuthHeader = (authHeader) => {
 };
 
 module.exports.getVerifyLink = (email) => {
-  const verifyToken = jwt.sign({ userEmail: email }, process.env.VERIFY_EMAIL_SECRET); // NOTE: never expires
+  const verifyToken = jwt.sign({ userEmail: email }, process.env.VERIFY_EMAIL_SECRET); // never expires
   return `${process.env.WEB_APP_URL}/verify-email/${verifyToken}`;
 };
 

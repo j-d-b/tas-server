@@ -43,7 +43,7 @@ module.exports = {
   InvalidWindowLengthValueError: createError('InvalidWindowLengthValueError', {
     message: 'The window length value must be 5, 10, 15, 30, or 60 (minutes)'
   }),
-  MailSendError: createError('MailSendError', {
+  EmailSendError: createError('EmailSendError', {
     message: 'The requested email could not be sent'
   }),
   NotAdminError: createError('NotAdminError', {
@@ -86,7 +86,7 @@ module.exports = {
     message: 'Password must be at least 6 characters'
   }),
   SMSSendError: createError('SMSSendError', {
-    message: 'The requested SMS could not be sent'
+    message: 'SMS message(s) failed to send'
   }),
   UnconfirmedUserError: createError('UnconfirmedUserError', {
     message: 'Your account must be confirmed by an admin before you can log in'

@@ -39,10 +39,20 @@ const createMailOptionsBuilder = (subject, templateFile) => {
   });
 };
 
+const buildSendFunc = (title, templateFile) => (
+  async (toEmail, data) => (
+    mgSend(createMailOptionsBuilder(title, templateFile)(toEmail, data))
+  )
+);
+
 module.exports = {
-  sendSignupReceivedNotice: async (toEmail, data) => mgSend(createMailOptionsBuilder('Thank You for Registering', 'registration-received.hbs')(toEmail, data)),
-  sendPassResetLink: async (toEmail, data) => mgSend(createMailOptionsBuilder('Reset Account Password', 'reset-pass.hbs')(toEmail, data)),
-  sendVerifyEmailLink: async (toEmail, data) => mgSend(createMailOptionsBuilder('Verify Your Email', 'verify-email.hbs')(toEmail, data)),
-  sendAcctConfirmedNotice: async (toEmail, data) => mgSend(createMailOptionsBuilder('Account Confirmed - Verify Your Email', 'acct-confirmed.hbs')(toEmail, data)),
-  sendApptReminder: async (toEmail, data) => mgSend(createMailOptionsBuilder('Appointment Reminder', 'appt-reminder.hbs')(toEmail, data))
+  sendSignupReceivedNotice: buildSendFunc('Thank You for Registering', 'registration-received.hbs'),
+  sendPassResetLink: buildSendFunc('Reset Account Password', 'reset-pass.hbs'),
+  sendVerifyEmailLink: buildSendFunc('Verify Your Email', 'verify-email.hbs'),
+  sendAcctConfirmedNotice: buildSendFunc('Account Confirmed - Verify Your Email', 'acct-confirmed.hbs'),
+  sendApptReminder: buildSendFunc('Appointment Reminder', 'appt-reminder.hbs'),
+  sendApptUpdatedNotice: buildSendFunc('Appointment Updated Notice', 'appt-updated.hbs'),
+  sendApptRescheduledNotice: buildSendFunc('Appointment Rescheduled Notice', 'appt-rescheduled.hbs'),
+  sendApptDeletedNotice: buildSendFunc('Appointment Deleted Notice', 'appt-deleted.hbs'),
+  sendEmailChangedNotice: buildSendFunc('Account Email Changed', 'email-changed.hbs')
 };

@@ -1,0 +1,25 @@
+<div style="text-align: center; font-family: sans-serif; background-color: limegreen; height: 100%; padding: 0 1rem 2rem 1rem;">
+  <img style="height: 2rem; margin: 2rem 0 1rem 0;" src="cid:simple-logo" />
+
+  <div style="background-color: #fff; border-radius: 5px; max-width: 400px; margin: 0 auto; padding: 1rem 1rem 1rem 1rem;">
+    <h1>Appointment Rescheduled Notice</h1>
+    <p>{{name}}, an operator/admin has rescheduled your appointment.</p>
+    <div style="display: inline-block; width: 40%; border: 2px solid red; margin-right: 0.5rem; border-radius: 3px; color: red;">
+      <p style="margin-top: 0.25rem; text-align: left; padding-left: 0.5rem;"><strong style="font-size: 1.2rem;">From:</strong></p>
+      <p>{{oldDate}}</p>
+      <p>{{oldArrivalWindow}}
+    </div>
+    <div style="display: inline-block; width: 40%; border: 2px solid green; margin-left: 0.5rem; text-align: center; border-radius: 3px; color: green;">
+      <p style="margin-top: 0.25rem; text-align: left; padding-left: 0.5rem;"><strong style="font-size: 1.2rem;">To:</strong></p>
+      <p>{{newDate}}</p>
+      <p>{{newArrivalWindow}}</p>
+    </div>
+    <p>Details of the appointment are provided below:</p>
+    <table style="width: 100%; text-align: left; border: 2px solid black; padding: 1rem; border-radius: 3px;">
+      <tr>
+        <td style="font-weight: 600;">Appointment Type</td>
+        <td style="text-align: right;">{{type}}</td>
+      </tr>
+    </table>
+  </div>
+</div>

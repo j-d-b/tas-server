@@ -1,8 +1,8 @@
 const { sendAcctConfirmedNotice } = require('../../../messaging/email/send-email');
 const { isAdminResolver } = require('../auth');
 const { doesUserExistCheck } = require('../checks');
-const { getVerifyLink } = require('../helpers');
-const { MailSendError } = require('../errors');
+const { getVerifyLink, getFirstName } = require('../helpers');
+const { EmailSendError } = require('../errors');
 
 // confirmUser(input: ConfirmUserInput!): User
 const confirmUser = isAdminResolver.createResolver(
@@ -11,9 +11,9 @@ const confirmUser = isAdminResolver.createResolver(
     const verifyLink = getVerifyLink(email);
 
     try {
-      await sendAcctConfirmedNotice(email, { name: targetUser.name.split(' ')[0], verifyLink });
+      await sendAcctConfirmedNotice(email, { name: getFirstName(targetUser), verifyLink });
     } catch (err) {
-      throw new MailSendError();
+      throw new EmailSendError();
     }
 
     await User.update({ confirmed: true }, { where: { email: email }});

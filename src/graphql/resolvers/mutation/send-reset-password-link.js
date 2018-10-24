@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken');
 const { sendPassResetLink } = require('../../../messaging/email/send-email');
 const { notLoggedInResolver } = require('../auth');
 const { doesUserExistCheck } = require('../checks');
-const { MailSendError } = require('../errors');
+const { EmailSendError } = require('../errors');
+const { getFirstName } = require('../helpers');
 
 // sendResetPasswordLink(input: SendResetPasswordLinkInput!): String
 const sendResetPasswordLink = notLoggedInResolver.createResolver(
@@ -17,9 +18,9 @@ const sendResetPasswordLink = notLoggedInResolver.createResolver(
     const resetLink = `${process.env.WEB_APP_URL}/new-password/${resetToken}`;
 
     try {
-      await sendPassResetLink(email, { name: targetUser.name.split(' ')[0], resetLink }); // IDEA: could log this return value
+      await sendPassResetLink(email, { name: getFirstName(targetUser), resetLink });
     } catch (err) {
-      throw new MailSendError();
+      throw new EmailSendError();
     }
 
     return `Reset password link sent to ${email}`;
