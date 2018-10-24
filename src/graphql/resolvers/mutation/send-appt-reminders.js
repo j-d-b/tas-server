@@ -1,7 +1,7 @@
+const logger = require('../../../logging/logger');
 const { sendApptReminder } = require('../../../messaging/email/send-email');
 const { sendApptReminderSMS } = require('../../../messaging/sms/send-sms');
 const { isAdminResolver } = require('../auth');
-const { EmailSendError, SMSSendError } = require('../errors');
 const { getFirstName, getHourString, getDateString } = require('../helpers');
 
 // sendApptReminders: String
@@ -34,7 +34,7 @@ const sendApptReminders = isAdminResolver.createResolver(
         try {
           await sendApptReminderSMS(appt.notifyMobileNumber, apptDetails);
         } catch (err) {
-          throw new SMSSendError();
+          logger.error(`SMS Send Error: ${err.stack}`);
         }
         numSentSMS++;
       }
@@ -45,7 +45,7 @@ const sendApptReminders = isAdminResolver.createResolver(
           try {
             await sendApptReminder(user.email, apptDetails);
           } catch (err) {
-            throw new EmailSendError();
+            logger.error(`Email Send Error: ${err.stack}`);
           }
           numSentEmail++;
           break;
@@ -54,7 +54,7 @@ const sendApptReminders = isAdminResolver.createResolver(
           try {
             await sendApptReminderSMS(user.mobileNumber, apptDetails);
           } catch (err) {
-            throw new SMSSendError();
+            logger.error(`SMS Send Error: ${err.stack}`);
           }
           numSentSMS++;
           break;
@@ -64,13 +64,13 @@ const sendApptReminders = isAdminResolver.createResolver(
           try {
             await sendApptReminder(user.email, apptDetails);
           } catch (err) {
-            throw new EmailSendError();
+            logger.error(`Email Send Error: ${err.stack}`);
           }
           numSentEmail++;
           try {
             await sendApptReminderSMS(user.mobileNumber, apptDetails);
           } catch (err) {
-            throw new SMSSendError();
+            logger.error(`SMS Send Error: ${err.stack}`);
           }
           numSentSMS++;
       }
