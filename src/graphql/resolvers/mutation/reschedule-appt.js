@@ -32,7 +32,8 @@ const rescheduleAppt = isAuthenticatedResolver.createResolver(
           oldArrivalWindow,
           newDate: getDateString(targetAppt.timeSlotDate),
           newArrivalWindow: targetAppt.arrivalWindow,
-          type: targetAppt.type
+          type: targetAppt.type,
+          ...(linkedAppt && { linkedAppt: { type: linkedAppt.type } })
         });
       } catch (err) {
         logger.error(`Reschedule Appt Notice failed to send: ${err.stack}`);

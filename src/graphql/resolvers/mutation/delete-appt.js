@@ -13,8 +13,11 @@ const deleteAppt = isAuthenticatedResolver.createResolver(
 
     if (!isOpOrAdmin(user)) isOwnApptCheck(targetAppt, user);
 
+    const linkedAppt = targetAppt.linkedApptId && await Appt.findById(targetAppt.linkedApptId);
+    const linkedApptType = linkedAppt && linkedAppt.type;
+
     await targetAppt.destroy();
-    if (targetAppt.linkedApptId) await Appt.destroy({ where: { id: targetAppt.linkedApptId } });
+    if (linkedAppt) await linkedAppt.destroy();
 
     if (isOpOrAdmin(user)) {
       try {
@@ -22,7 +25,8 @@ const deleteAppt = isAuthenticatedResolver.createResolver(
           name: getFirstName(apptUser),
           date: getDateString(apptDetails.timeSlot.date),
           type: apptDetails.type,
-          arrivalWindow: apptDetails.arrivalWindow
+          arrivalWindow: apptDetails.arrivalWindow,
+          ...(linkedApptType && { linkedAppt: { type: linkedApptType } })
         });
       } catch (err) {
         logger.error(`Delete Appt Notice Failed to Send: ${err.stack}`);
