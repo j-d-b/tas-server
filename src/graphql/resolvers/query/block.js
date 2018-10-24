@@ -1,8 +1,8 @@
 const { isAuthenticatedResolver } = require('../auth');
 
-// block(id: String!): Block
+// block(input: BlockInput!): Block
 const block = isAuthenticatedResolver.createResolver(
-  async (_, { id }, { Block }) => Block.findById(id)
+  async (_, { input: { id } }, { Block }) => Block.findById(id)
 );
 
 module.exports = block;

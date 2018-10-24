@@ -227,8 +227,7 @@ There are a still few areas that need attention.
 ### Core
 * Add refresh tokens or some sense of a session, rather than just a hard-expiry access token
 * Write tests
-* Add linked appt details to transactional emails
-* `sendApptReminders` "sent stats" (change which throw errors and which only log)
+* Add linked appt details when necessary in transactional emails
 
 ### Production
 * Connect to BCTC container details server

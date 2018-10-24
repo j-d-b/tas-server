@@ -1,8 +1,8 @@
 const { isAuthenticatedResolver } = require('../auth');
 
-// appts(where: ApptsWhere): [Appointment]
+// appts(input: ApptsInput!): [Appointment]
 const appts = isAuthenticatedResolver.createResolver(
-  async (_, { where }, { Appt }) => Appt.findAll({ where })
+  async (_, { input: { where } }, { Appt }) => Appt.findAll({ where })
 );
 
 module.exports = appts;

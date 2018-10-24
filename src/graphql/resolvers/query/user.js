@@ -1,8 +1,8 @@
 const { isAdminResolver } = require('../auth');
 
-// user(email: String!): User
+// user(email: UserInput!): User
 const user = isAdminResolver.createResolver(
-  async (_, args, { User }) => User.findById(args.email)
+  async (_, { input: { email }}, { User }) => User.findById(email)
 );
 
 module.exports = user;

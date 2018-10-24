@@ -6,6 +6,14 @@ const Query = `
     type: ApptType
   }
 
+  input ApptsInput {
+    where: ApptsWhere
+  }
+
+  input ApptInput {
+    id: ID!
+  }
+
   input UsersWhere {
     email: String
     name: String
@@ -15,6 +23,18 @@ const Query = `
     companyRegNumber: String
     confirmed: Boolean
     emailVerified: Boolean
+  }
+
+  input UserInput {
+    email: String!
+  }
+
+  input UsersInput {
+    where: UsersWhere
+  }
+
+  input BlockInput {
+    id: String!
   }
 
   input AvailableSlotsInput {
@@ -31,15 +51,15 @@ const Query = `
 
   type Query {
     myAppts: [Appt]
-    appt(id: ID!): Appt
-    appts(where: ApptsWhere): [Appt]
+    appt(input: ApptInput!): Appt
+    appts(input: ApptsInput!): [Appt]
 
     me: User
-    user(email: String!): User
-    users(where: UsersWhere): [User]
+    user(input: UserInput!): User
+    users(input: UsersInput!): [User]
 
     allBlocks: [Block]
-    block(id: String!): Block
+    block(input: BlockInput!): Block
 
     availableSlots(input: AvailableSlotsInput!): [TimeSlot]
 

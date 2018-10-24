@@ -1,8 +1,8 @@
 const { isAdminResolver } = require('../auth');
 
-// users(where: UsersWhere): [User]
+// users(input: UsersInput!): [User]
 const users = isAdminResolver.createResolver(
-  async (_, { where }, { User }) => User.findAll({ where })
+  async (_, { input: { where } }, { User }) => User.findAll({ where })
 );
 
 module.exports = users;
