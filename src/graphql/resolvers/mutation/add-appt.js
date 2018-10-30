@@ -57,7 +57,7 @@ const addAppt = isAuthenticatedResolver.createResolver(
         throw new SMSSendError();
       }
     }
-    
+
     return Appt.create(newAppt);
   }
 );

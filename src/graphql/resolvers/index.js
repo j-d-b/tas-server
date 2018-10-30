@@ -31,6 +31,7 @@ const deleteBlock = requireMutation('delete-block');
 const deleteRestriction = requireMutation('delete-restriction');
 const deleteUser = requireMutation('delete-user');
 const login = requireMutation('login');
+const logout = requireMutation('logout');
 const rescheduleAppt = requireMutation('reschedule-appt');
 const resetPassword = requireMutation('reset-password');
 const sendApptReminders = requireMutation('send-appt-reminders');
@@ -96,6 +97,7 @@ const Resolvers = {
     deleteRestriction,
     deleteUser,
     login,
+    logout,
     rescheduleAppt,
     resetPassword,
     sendApptReminders,

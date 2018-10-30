@@ -20,7 +20,7 @@ module.exports.areBothTwentyFootCheck = (apptOne, apptTwo) => {
 // check if allowed appts `allowedSet` exists in the database
 module.exports.doesRestrictionExistCheck = async (restriction, Restriction) => {
   const matches = await Restriction.count({ where: { timeSlotHour: restriction.timeSlot.hour, timeSlotDate: restriction.timeSlot.date, blockId: (restriction.blockId || null) } });
-  if (!matches) throw new Errors.NoRestrictionError({ data: { restriction }});
+  if (!matches) throw new Errors.NoRestrictionError({ data: { restriction } });
 };
 
 // check if appt (by id) exists in the database
@@ -35,28 +35,34 @@ module.exports.doesApptExistCheck = async (apptId, Appt) => {
 // returns the target block
 module.exports.doesBlockExistCheck = async (blockId, Block) => {
   const targetBlock = await Block.findById(blockId);
-  if (!targetBlock) throw new Errors.NoBlockError({ data: { targetBlock: blockId }});
+  if (!targetBlock) throw new Errors.NoBlockError({ data: { targetBlock: blockId } });
   return targetBlock;
 };
 
 // ensure block (by id) does not already exist in the database (using Block model)
 module.exports.blockDoesntExistCheck = async (blockId, Block) => {
   const block = await Block.findById(blockId);
-  if (block) throw new Errors.BlockAlreadyExistsError({ data: { targetBlock: blockId }});
+  if (block) throw new Errors.BlockAlreadyExistsError({ data: { targetBlock: blockId } });
 };
 
 // check if user (by email) exists in the database (using User model)
 // returns target user
 module.exports.doesUserExistCheck = async (userEmail, User) => {
   const targetUser = await User.findById(userEmail);
-  if (!targetUser) throw new Errors.NoUserError({ data: { targetUser: userEmail }});
+  if (!targetUser) throw new Errors.NoUserError({ data: { targetUser: userEmail } });
   return targetUser;
 };
 
 // ensure user (by email) does not already exist in the database (using User model)
 module.exports.userDoesntExistCheck = async (userEmail, User) => {
   const targetUser = await User.findById(userEmail);
-  if (targetUser) throw new Errors.UserAlreadyExistsError({ data: { targetUser: userEmail }});
+  if (targetUser) throw new Errors.UserAlreadyExistsError({ data: { targetUser: userEmail } });
+};
+
+module.exports.hasRefreshTokenCheck = (req) => {
+  const token = req.cookies.refreshToken;
+  if (!token) throw new Errors.NoRefreshTokenCookieError();
+  return token;
 };
 
 // check if apptDetails.typeDetails exists for the given details.type
@@ -85,7 +91,7 @@ module.exports.isAvailableCheck = async (apptDetailsArr, Appt, Block, Config, Re
 
     // check availability per timeSlot
     const isSlotAvailable = await slotTotalAvailability(slot, detailsArr.length, Appt, Config, Restriction);
-    if (!isSlotAvailable) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
+    if (!isSlotAvailable) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot } });
 
     const moveCountByBlock = detailsArr.reduce((obj, { blockId }) => {
       if (blockId) obj[blockId] ? obj[blockId]++ : obj[blockId] = 1;
@@ -94,12 +100,12 @@ module.exports.isAvailableCheck = async (apptDetailsArr, Appt, Block, Config, Re
 
     // check availability for each relevant block
     const isSlotBlockAvailable = await slotBlockAvailability(slot, moveCountByBlock, Appt, Block, Restriction);
-    if (!isSlotBlockAvailable) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot }});
+    if (!isSlotBlockAvailable) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot } });
   }
 };
 
-module.exports.isCorrectPasswordCheck = async (password, userInDb) => {
-  const correctPass = await bcrypt.compare(password, userInDb.password);
+module.exports.isCorrectPasswordCheck = async (password, targetUser) => {
+  const correctPass = await bcrypt.compare(password, targetUser.password);
   if (!correctPass) throw new Errors.IncorrectPasswordError();
 };
 
@@ -188,7 +194,7 @@ module.exports.validRestrictionInputCheck = (restrictions) => {
 module.exports.verifyTokenCheck = async (verifyToken, User) => {
   try {
     const targetUser = await User.findById(jwt.decode(verifyToken).userEmail);
-    jwt.verify(verifyToken, process.env.VERIFY_EMAIL_SECRET, { ignoreExpiration: true });
+    jwt.verify(verifyToken, process.env.SECRET_KEY, { ignoreExpiration: true });
     return targetUser;
   } catch (err) {
     throw new Errors.InvalidOrExpiredLinkError();

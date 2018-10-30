@@ -13,7 +13,7 @@ const sendApptReminders = isAdminResolver.createResolver(
       return tomorrow.toISOString().split('T')[0];
     })();
 
-    const apptsTomorrow = await Appt.findAll({ where: { timeSlotDate: tomorrowISO }});
+    const apptsTomorrow = await Appt.findAll({ where: { timeSlotDate: tomorrowISO } });
 
     let numEmail = 0;
     let numSMS = 0;

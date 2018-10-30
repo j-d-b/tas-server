@@ -12,7 +12,7 @@ const changePassword = isAuthenticatedResolver.createResolver(
     isAllowedPasswordCheck(newPassword);
 
     const hash = await bcrypt.hash(newPassword, 10);
-    await User.update({ password: hash }, { where: { email: user.userEmail }});
+    await User.update({ password: hash }, { where: { email: user.userEmail } });
 
     return 'Password updated successfully';
   }

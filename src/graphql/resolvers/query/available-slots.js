@@ -4,7 +4,7 @@ const { getTimeSlotsInNextWeek, slotTotalAvailability, slotBlockAvailability } =
 
 // availableSlots(input: AvailableSlotsInput!): [TimeSlot]
 const availableSlots = isAuthenticatedResolver.createResolver(
-  async (_, { input: { importFullContainerIds, knownContainerSizes }}, { Appt, Block, Config, Restriction }) => {
+  async (_, { input: { importFullContainerIds, knownContainerSizes } }, { Appt, Block, Config, Restriction }) => {
     const importFullBlockAndSize = doContainerIdsExistCheck(importFullContainerIds);
 
     const containerSizes = knownContainerSizes.concat(importFullBlockAndSize.map(({ containerSize }) => containerSize));

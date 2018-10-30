@@ -24,23 +24,31 @@ const playground = require('graphql-playground-middleware-express').default;
 const morgan = require('morgan');
 const makeDir = require('make-dir');
 const chalk = require('chalk');
+const cookieParser = require('cookie-parser');
 
 const logger = require('./logging/logger');
 const sequelize = require('./data/sequelize-config');
 const defineModels = require('./data/define-models');
 const schema = require('./graphql/schema');
+const authToken = require('./rest/auth-token');
 
 const { NODE_ENV, HOST, PORT } = process.env;
+
 const logConsoleAndInfo = (message) => {
   console.log(chalk.green(message));
   logger.info(message);
 };
-makeDir.sync('logs/');
+
+const dataModels = defineModels(sequelize);
 
 const app = express();
-app.use(bodyParser.json());
+
+makeDir.sync('logs/');
 
 logConsoleAndInfo('🌱  Starting the TAS backend GraphQL API server');
+
+app.use(bodyParser.json());
+app.use(cookieParser());
 
 const formatString = ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" ":referrer" ":user-agent" Authorization: :auth';
 morgan.token('auth', req => req.headers.authorization);
@@ -50,15 +58,22 @@ app.use(morgan('Request Received: ' + formatString, {
 }));
 app.use(morgan('Error Response Sent: ' + formatString, {
   skip: (req, res) => res.statusCode < 400,
-  stream: { write: message => logger.info(message.trim()) }
+  stream: { write: message => logger.error(message.trim()) }
 }));
 
 if (NODE_ENV === 'development') app.use('/playground', playground({ endpoint: '/graphql' }));
 
-app.use('/graphql', graphqlExpress(req => ({
+// use this endpoint to get a new auth token using the refreshToken in cookie
+app.use('/auth-token', (req, res, next) => {
+  Promise.resolve(authToken(req, res, dataModels.User)).catch(next);
+});
+
+app.use('/graphql', graphqlExpress((req, res) => ({
   schema: schema,
   context: {
-    ...defineModels(sequelize),
+    req,
+    res,
+    ...dataModels,
     authHeader: req.headers.authorization
   }
 })));

@@ -8,12 +8,14 @@ const addRestrictions = isOpOrAdminResolver.createResolver(
     validRestrictionInputCheck(input);
 
     return Promise.all(input.map(async (restriction) => {
-      const res = await Restriction.findOne({ where: {
-        timeSlotHour: restriction.timeSlot.hour,
-        timeSlotDate: restriction.timeSlot.date,
-        type: restriction.type,
-        ...(restriction.type === 'PLANNED_ACTIVITIES' && { blockId: restriction.blockId })
-      }});
+      const res = await Restriction.findOne({
+        where: {
+          timeSlotHour: restriction.timeSlot.hour,
+          timeSlotDate: restriction.timeSlot.date,
+          type: restriction.type,
+          ...(restriction.type === 'PLANNED_ACTIVITIES' && { blockId: restriction.blockId })
+        }
+      });
 
       return res ? res.update(restriction) : Restriction.create(restriction);
     }));

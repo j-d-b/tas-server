@@ -12,6 +12,7 @@ const DeleteBlockInput = require('./delete-block-input');
 const DeleteRestrictionInput = require('./delete-restriction-input');
 const DeleteUserInput = require('./delete-user-input');
 const LoginInput = require('./login-input');
+const LogoutInput = require('./logout-input');
 const RescheduleApptInput = require('./reschedule-appt-input');
 const ResetPasswordInput = require('./reset-password-input');
 const SendApptRemindersInput = require('./send-appt-reminders-input');
@@ -38,6 +39,7 @@ module.exports = [
   DeleteRestrictionInput,
   DeleteUserInput,
   LoginInput,
+  LogoutInput,
   RescheduleApptInput,
   ResetPasswordInput,
   SendApptRemindersInput,

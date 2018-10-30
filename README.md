@@ -17,8 +17,7 @@ A `.env` environment variables file must also be added to the project root direc
 HOST=http://localhost
 PORT=4000
 WEB_APP_URL=https://tas-app.netlify.com
-PRIMARY_SECRET=secret-key
-VERIFY_EMAIL_SECRET=different-secret-key
+SECRET_KEY=secret-key
 DB_CONNECTION_STRING=mysql://iaojsdif.xyz
 MG_FROM_EMAIL=test@mailgun.org
 MG_API_KEY=my-mailgun-api-key
@@ -194,6 +193,9 @@ All JavaScript is located in `src/`
 ### src/graphql/
 * Contains all GraphQL resolvers (helpers, input checking, errors...) and schema. There is a **README** here as well.
 
+### src/rest/
+* Contains all REST route codes. Currently (and potentially forever), the only REST route is `/auth-token`, which gets an auth token using the `refreshToken` cookie.
+
 ### src/terminal-connection/
 * Contains all code related to fetching data from the container terminal. Specifically:
   * Getting container block location
@@ -225,7 +227,7 @@ I don't have an official contribution guide, but welcome pull requests and any f
 There are a still few areas that need attention.
 
 ### Core
-* Add refresh tokens or some sense of a session, rather than just a hard-expiry access token
+* Assess the need/config for CORS
 
 ### Cleanup
 * Write tests

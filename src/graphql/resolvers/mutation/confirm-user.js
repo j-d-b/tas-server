@@ -16,7 +16,7 @@ const confirmUser = isAdminResolver.createResolver(
       throw new EmailSendError();
     }
 
-    await User.update({ confirmed: true }, { where: { email: email }});
+    await User.update({ confirmed: true }, { where: { email: email } });
 
     return `Account confirmed. Email verification link sent to ${email}`;
   }

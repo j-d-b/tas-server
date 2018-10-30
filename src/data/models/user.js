@@ -52,5 +52,9 @@ module.exports = sequelize => (sequelize.define('user', {
   companyRegNumber: {
     type: Sequelize.STRING,
     field: 'company_reg_number'
+  },
+  refreshToken: {
+    type: Sequelize.STRING,
+    field: 'refresh_token'
   }
 }, { underscored: true }));

@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const nanoid = require('nanoid');
 
 module.exports.buildSlotId = timeSlot => timeSlot.hour + ':' + timeSlot.date;
 
@@ -57,15 +58,14 @@ module.exports.getTimeSlotsInNextWeek = () => {
   });
 };
 
-module.exports.getUserFromAuthHeader = (authHeader) => {
-  const token = authHeader.replace('Bearer ', '');
-  return jwt.verify(token, process.env.PRIMARY_SECRET);
-};
+module.exports.getTokenFromAuthHeader = authHeader => authHeader.replace('Bearer ', '');
 
 module.exports.getVerifyLink = (email) => {
-  const verifyToken = jwt.sign({ userEmail: email }, process.env.VERIFY_EMAIL_SECRET); // never expires
+  const verifyToken = jwt.sign({ userEmail: email }, process.env.SECRET_KEY); // never expires
   return `${process.env.WEB_APP_URL}/verify-email/${verifyToken}`;
 };
+
+module.exports.generateRefreshToken = () => nanoid();
 
 module.exports.isAdmin = user => user.userRole === 'ADMIN';
 
@@ -84,7 +84,7 @@ module.exports.signJwt = targetUser => (
   jwt.sign({
     userEmail: targetUser.email,
     userRole: targetUser.role
-  }, process.env.PRIMARY_SECRET, { expiresIn: '12h' }) // NOTE: when this expires, forces logout; inelegant
+  }, process.env.SECRET_KEY, { expiresIn: '10m' })
 );
 
 // moveCountByBlock expected as an object where fields are blocks and values

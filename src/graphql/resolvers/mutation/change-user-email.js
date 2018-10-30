@@ -11,7 +11,7 @@ const changeUserEmail = isAdminResolver.createResolver(
     await userDoesntExistCheck(newEmail, User);
 
     // can't update email (pk) of targetUser directly; see sequelize github issue #5827
-    await User.update({ email: newEmail}, { where: { email: currEmail }});
+    await User.update({ email: newEmail }, { where: { email: currEmail } });
 
     try {
       await sendEmailChangedNotice(newEmail, { name: getFirstName(targetUser), currEmail, newEmail });

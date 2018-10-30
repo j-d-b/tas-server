@@ -1,10 +1,12 @@
 const { createResolver } = require('apollo-resolvers');
 const { isInstance } = require('apollo-errors');
+const jwt = require('jsonwebtoken');
 
 const logger = require('../../logging/logger');
 const Errors = require('./errors');
-const { isOpOrAdmin, getUserFromAuthHeader } = require('./helpers');
+const { isOpOrAdmin, getTokenFromAuthHeader } = require('./helpers');
 
+const { NODE_ENV, SECRET_KEY } = process.env;
 
 // catch all non 'apollo-errors' and mask with unexpected (generic) for client cleanliness
 const baseResolver = createResolver(
@@ -18,7 +20,7 @@ const baseResolver = createResolver(
       return error;
     }
     logger.error(error.stack);
-    return process.env.NODE_ENV === 'development' ? error : new Errors.UnexpectedError();
+    return NODE_ENV === 'development' ? error : new Errors.UnexpectedError();
   }
 );
 
@@ -27,8 +29,9 @@ const notLoggedInResolver = baseResolver.createResolver(
   (_, args, { authHeader }) => {
     let user;
     try {
-      user = getUserFromAuthHeader(authHeader);
-    } catch (error) {
+      const token = getTokenFromAuthHeader(authHeader);
+      user = jwt.verify(token, SECRET_KEY);
+    } catch (err) {
       // move on to next resolver
     }
 
@@ -44,10 +47,13 @@ const notLoggedInResolver = baseResolver.createResolver(
 const isAuthenticatedResolver = baseResolver.createResolver(
   (_, args, context) => {
     try {
-      const user = getUserFromAuthHeader(context.authHeader);
-      context.user = user; // add user to the context
+      const token = getTokenFromAuthHeader(context.authHeader);
+      const user = jwt.decode(token); // add user to the context
+      context.user = user;
       logger.info(`Requesting User: ${user.userEmail}`);
+      jwt.verify(token, SECRET_KEY);
     } catch (err) {
+      logger.error(err.stack);
       throw new Errors.AuthenticationError();
     }
   }
@@ -67,8 +73,10 @@ const isAdminResolver = isAuthenticatedResolver.createResolver(
   }
 );
 
-module.exports.baseResolver = baseResolver;
-module.exports.notLoggedInResolver = notLoggedInResolver;
-module.exports.isAuthenticatedResolver = isAuthenticatedResolver;
-module.exports.isOpOrAdminResolver = isOpOrAdminResolver;
-module.exports.isAdminResolver = isAdminResolver;
+module.exports = {
+  baseResolver,
+  notLoggedInResolver,
+  isAuthenticatedResolver,
+  isOpOrAdminResolver,
+  isAdminResolver
+};

@@ -15,6 +15,7 @@ const Mutation = `
     updateBlockMaxAllowed(input: UpdateBlockMaxAllowedInput!): Block
 
     login(input: LoginInput!): String
+    logout(input: LogoutInput!): String
     verifyEmail(input: VerifyEmailInput!): String
     confirmUser(input: ConfirmUserInput!): String
     changePassword(input: ChangePasswordInput!): String

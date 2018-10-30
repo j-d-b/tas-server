@@ -61,6 +61,9 @@ module.exports = {
   NoBlockError: createError('NoBlockError', {
     message: 'The provided block does not exist'
   }),
+  NoRefreshTokenCookieError: createError('NoRefreshTokenCookieError', {
+    message: 'The HTTP request does not contain a refreshToken cookie'
+  }),
   NotOpOrAdminError: createError('NotOpOrAdminError', {
     message: 'You must be an operator or admin to perform this action'
   }),
