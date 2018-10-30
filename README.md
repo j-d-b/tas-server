@@ -1,4 +1,4 @@
-# TAS Server
+# TAS Server 🚚
 This repository contains the GraphQL API server for the [BCTC](http://www.bctc-lb.com/) Truck Appointment System (TAS) backend.
 
 The TAS end-product is intended to have both web and native mobile interfaces. Following [JAMStack](https://jamstack.org/) principles, the backend exists in a separate environment as a web server exposing a GraphQL API endpoint for use by the web and mobile applications.
