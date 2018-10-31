@@ -14,7 +14,6 @@ You must have the following installed:
 ### Environment Variables
 A `.env` environment variables file must also be added to the project root directory. It must contain the following definitions (values are given as examples only):
 ```
-HOST=http://localhost
 PORT=4000
 WEB_APP_URL=https://tas-app.netlify.com
 SECRET_KEY=secret-key

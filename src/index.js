@@ -32,7 +32,7 @@ const defineModels = require('./data/define-models');
 const schema = require('./graphql/schema');
 const authToken = require('./rest/auth-token');
 
-const { NODE_ENV, HOST, PORT } = process.env;
+const { NODE_ENV, PORT } = process.env;
 
 const logConsoleAndInfo = (message) => {
   console.log(chalk.green(message));
@@ -79,5 +79,5 @@ app.use('/graphql', graphqlExpress((req, res) => ({
 })));
 
 app.listen(PORT, () => {
-  logConsoleAndInfo(`🌻  Server ready${NODE_ENV === 'development' ? ` at ${HOST}:` : '; exposing port '}${PORT}`);
+  logConsoleAndInfo(`🌻  Server ready${NODE_ENV === 'development' ? ` at http://localhost:` : '; exposing port '}${PORT}`);
 });
