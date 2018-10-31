@@ -79,5 +79,5 @@ app.use('/graphql', graphqlExpress((req, res) => ({
 })));
 
 app.listen(PORT, () => {
-  logConsoleAndInfo(`🌻  Server ready${NODE_ENV === 'development' ? ` at http://localhost:` : '; exposing port '}${PORT}`);
+  logConsoleAndInfo(`🌻  Server ready${NODE_ENV === 'development' ? ' at http://localhost:' : '; exposing port '}${PORT}`);
 });
