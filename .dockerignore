@@ -3,3 +3,5 @@
 node_modules
 src/data/setup-scripts
 .eslintrc.js
+README.md
+LICENSE.md
