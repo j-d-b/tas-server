@@ -193,7 +193,7 @@ All JavaScript is located in `src/`
 * Contains all GraphQL resolvers (helpers, input checking, errors...) and schema. There is a **README** here as well.
 
 ### src/rest/
-* Contains all REST route codes. Currently (and potentially forever), the only REST route is `/auth-token`, which gets an auth token using the `refreshToken` cookie.
+* Contains all code for REST routes. Currently (and potentially forever), the only REST route is `/auth-token`, which gets an auth token using the `refreshToken` cookie.
 
 ### src/terminal-connection/
 * Contains all code related to fetching data from the container terminal. Specifically:
