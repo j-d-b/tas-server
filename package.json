@@ -9,7 +9,7 @@
   "private": true,
   "engines": {
     "node": "^10.7.0",
-    "yarn": "^1.10.0"
+    "yarn": "^1.7.0"
   },
   "scripts": {
     "setup": "node src/data/setup-scripts/setup-prod",

@@ -2,13 +2,13 @@ FROM node:10.7.0
 
 ENV NODE_ENV=development
 
-WORKDIR /app
+WORKDIR /tas-server
 
-COPY ./package.json /app
-COPY ./yarn.lock /app
+COPY ./package.json /tas-server
+COPY ./yarn.lock /tas-server
 
 RUN yarn install
 
-COPY . /app
+COPY . /tas-server
 
 ENTRYPOINT ["node", "src/index"]

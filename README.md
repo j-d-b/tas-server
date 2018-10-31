@@ -9,7 +9,7 @@ The `tas-server` connects to a MariaDB (or MySQL) database specified in the `.en
 ### Prerequisites
 You must have the following installed:
 * [Node.js](https://nodejs.org/en/) (^10.7.0)
-* [Yarn](https://yarnpkg.com/en/) (^1.10.1)
+* [Yarn](https://yarnpkg.com/en/) (^1.7.0)
 
 ### Environment Variables
 A `.env` environment variables file must also be added to the project root directory. It must contain the following definitions (values are given as examples only):
@@ -160,7 +160,7 @@ docker build -t tas-server .
 docker run tas-server
 ```
 
-Set the environment to `production` with `docker run -e NODE_ENV=production`. The default value (set in the Dockerfile) is `development`.
+Set the environment to `production` with `docker run -e NODE_ENV=production tas-server`. The default value (set in the Dockerfile) is `development`.
 
 The Dockerized version does not have access to the database setup scripts in `src/data/setup`.
 
