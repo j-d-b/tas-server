@@ -154,26 +154,39 @@ The full TAS backend with `tas-server` as a submodule is exists as the [`tas-bac
 ## Docker
 The `tas-server` project can be run with [Docker](https://www.docker.com/).
 
+Most simply:
 ```
 docker build -t tas-server .
-docker run tas-server
+docker run -p 4000:4000 tas-server
 ```
 
+The default `NODE_ENV` (set in the Dockerfile) is `development`.
+
+### Production
 Set the environment to `production` with
 ```
-docker run -e NODE_ENV=production tas-server
+docker run -e NODE_ENV=production -p 4000:4000 tas-server
 ```
 
-The default value (set in the Dockerfile) is `development`.
-
+### Database Setup
 To set up the database, `docker exec` into the container running `tas-server` and run either `yarn setup` or `yarn setup:dev`.
-
 ```
 docker exec -it tas-server bash
 yarn setup
 exit
 ```
 
+### Persisting Logs
+The dockerized `tas-server` logs to the `/tas-server/logs/` directory within the container. I recommend using volumes to persist this data within the docker area.
+
+For example:
+```
+docker run -v tas-server-logs:/tas-server/logs -p 4000:4000 tas-server
+```
+
+Then, log files can be found at `/var/lib/docker/volumes/tas-server-logs/` on the host machine.
+
+### Docker Compose
 The Dockerized `tas-server` is exciting when used with [Docker Compose](https://docs.docker.com/compose/) to simultaneously start, setup, and connect to a MariaDB database with a single command.
 
 I've done this, a combined `tas-server`, database, and notification spawning cron process in the [`tas-backend`](https://github.com/j-d-b/tas-backend) project.
