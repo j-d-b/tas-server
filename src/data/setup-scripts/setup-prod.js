@@ -20,6 +20,8 @@ rl.question(chalk.yellow('Are you sure you wish to continue (y/N)?\n'), async (i
     await sequelize.sync({ force: true });
 
     console.log(chalk.green('💫  Database setup complete'));
+
+    await sequelize.close();
     process.exit(0);
   }
 

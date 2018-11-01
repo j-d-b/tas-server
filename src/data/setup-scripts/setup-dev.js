@@ -300,7 +300,7 @@ const setupDev = async () => {
     .then(addAppts)
     .then(addRestrictions)
     .then(addConfig)
-    .then(() => console.log(chalk.green('💫  Database setup complete')))
+    .then(() => sequelize.close())
     .then(() => process.exit(0));
 };
 
