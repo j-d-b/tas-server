@@ -159,9 +159,20 @@ docker build -t tas-server .
 docker run tas-server
 ```
 
-Set the environment to `production` with `docker run -e NODE_ENV=production tas-server`. The default value (set in the Dockerfile) is `development`.
+Set the environment to `production` with
+```
+docker run -e NODE_ENV=production tas-server
+```
 
-The Dockerized version does not have access to the database setup scripts in `src/data/setup`.
+The default value (set in the Dockerfile) is `development`.
+
+To set up the database, `docker exec` into the container running `tas-server` and run either `yarn setup` or `yarn setup:dev`.
+
+```
+docker exec -it tas-server bash
+yarn setup
+exit
+```
 
 The Dockerized `tas-server` is exciting when used with [Docker Compose](https://docs.docker.com/compose/) to simultaneously start, setup, and connect to a MariaDB database with a single command.
 
