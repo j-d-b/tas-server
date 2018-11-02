@@ -83,7 +83,7 @@ For testing GraphQL queries, use GraphQL Playground, available at `http://localh
 ### JSON Web Tokens (JWTs)
 Authentication and authorization in the `tas-server` uses [JWT](https://jwt.io/)s in several locations, but primarily as access tokens.
 
-Access token JWTs are signed by the backend with the `PRIMARY_SECRET` from `.env`.
+Access token JWTs are signed by the backend with the `SECRET_KEY` from `.env`.
 
 A signed, non-expired JSON Web Token must be included in the HTTP authorization header to access many of the resources.
 ```
@@ -91,7 +91,7 @@ Authorization : Bearer <JWT>
 ```
 Where `<JWT>` is replaced by the JWT obtained from logging in (the `login` mutation).
 
-Verification of the JWT (that it has been signed with the correct `PRIMARY_SECRET`) allows access to all of the queries (`authentication`), though the `userRole` claim in the token is also checked to ensure the query can be performed by that given user (`authorization`).
+Verification of the JWT (that it has been signed with the correct `SECRET_KEY`) allows access to all of the queries (`authentication`), though the `userRole` claim in the token is also checked to ensure the query can be performed by that given user (`authorization`).
 
 **Example implementation:** The [TAS Web App](https://github.com/j-d-b/tas-spa/) stores the JWT given on login in `window.localStorage` and includes it with every request to the `tas-server` API. *'Logging out'* of the application removes the JWT from storage.
 
@@ -106,7 +106,7 @@ Certain `queries` and `mutations` can be access without any JWT given:
 Log in using a sample user
 ```
 mutation {
-  login(email: "jacob@jdbrady.info", password: "dragonspark")
+  login(input: { email: "jacob@jdbrady.info", password: "dragonspark" })
 }
 ```
 
