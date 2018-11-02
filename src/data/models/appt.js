@@ -46,7 +46,7 @@ module.exports = sequelize => (sequelize.define('appt', {
   licensePlateNumber: {
     type: Sequelize.STRING,
     field: 'license_plate_number'
-  }, // type specific details below
+  },
   containerId: {
     type: Sequelize.STRING,
     field: 'container_id'

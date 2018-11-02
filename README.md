@@ -152,9 +152,9 @@ The production TAS will be deployed using [Docker](https://www.docker.com/). `ta
 The full TAS backend with `tas-server` as a submodule is exists as the [`tas-backend`](https://github.com/j-d-b/tas-backend) project. The entire backend is deployed with Docker Compose.
 
 ## Docker
-The `tas-server` project can be run with [Docker](https://www.docker.com/).
+The `tas-server` project can be run with [Docker](https://www.docker.com/). Is is also on [Docker Hub](https://hub.docker.com/r/jbrdy/tas-server/).
 
-Most simply:
+To start `tas-server`, run:
 ```
 docker build -t tas-server .
 docker run -p 4000:4000 tas-server
