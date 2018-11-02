@@ -1,10 +1,11 @@
 const Sequelize = require('sequelize');
+const nanoid = require('nanoid');
 
 module.exports = sequelize => (sequelize.define('appt', {
   id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
+    type: Sequelize.UUID,
+    defaultValue: nanoid,
+    primaryKey: true
   },
   timeSlotHour: {
     type: Sequelize.INTEGER,
