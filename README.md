@@ -254,7 +254,6 @@ There are a still few areas that need attention.
 
 ### Cleanup
 * Write tests
-* Move from `linkedAppt` to one appt with two actions **major/breaking**
 
 ### Enhancement
 * Gate capacity and planned activities templates
