@@ -93,7 +93,7 @@ Where `<JWT>` is replaced by the JWT obtained from logging in (the `login` mutat
 
 Verification of the JWT (that it has been signed with the correct `SECRET_KEY`) allows access to all of the queries (`authentication`), though the `userRole` claim in the token is also checked to ensure the query can be performed by that given user (`authorization`).
 
-**Example implementation:** The [TAS Web App](https://github.com/j-d-b/tas-spa/) stores the JWT given on login in `window.localStorage` and includes it with every request to the `tas-server` API. *'Logging out'* of the application removes the JWT from storage.
+**Example implementation:** The [TAS Web App](https://github.com/j-d-b/tas-app/) stores the JWT given on login in `window.localStorage` and includes it with every request to the `tas-server` API. *'Logging out'* of the application removes the JWT from storage.
 
 ### Public Queries
 Certain `queries` and `mutations` can be access without any JWT given:
