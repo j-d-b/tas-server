@@ -260,6 +260,7 @@ There are a still few areas that need attention.
 
 ### Production
 * Connect to BCTC container details server
+* Switch from Mailgun to BCTC's SMTP server
 
 ---
 
