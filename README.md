@@ -251,6 +251,7 @@ There are a still few areas that need attention.
 
 ### Core
 * Assess the need/config for CORS
+* Re-assess which appt fields can be updated after booking
 
 ### Cleanup
 * Write tests
