@@ -250,7 +250,7 @@ I don't have an official contribution guide, but welcome pull requests and any f
 There are a still few areas that need attention.
 
 ### Core
-* Assess the need/config for CORS
+* Configure CORS
 * Re-assess which appt fields can be updated after booking
 * Add concept of actions (change linkedAppt concept to one appt with multiple actions)
 

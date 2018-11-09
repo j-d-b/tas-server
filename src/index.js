@@ -21,45 +21,35 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { graphqlExpress } = require('apollo-server-express');
 const playground = require('graphql-playground-middleware-express').default;
-const morgan = require('morgan');
 const makeDir = require('make-dir');
 const chalk = require('chalk');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const logger = require('./logging/logger');
+const setupHttpLogging = require('./logging/setup-http-logging');
 const sequelize = require('./data/sequelize-config');
 const defineModels = require('./data/define-models');
 const schema = require('./graphql/schema');
 const authToken = require('./rest/auth-token');
 
 const { NODE_ENV, PORT } = process.env;
+const dataModels = defineModels(sequelize);
 
 const logConsoleAndInfo = (message) => {
   console.log(chalk.green(message));
   logger.info(message);
 };
 
-const dataModels = defineModels(sequelize);
+makeDir.sync('logs/');
+logConsoleAndInfo('🌱  Starting the TAS backend GraphQL API server');
 
 const app = express();
 
-makeDir.sync('logs/');
-
-logConsoleAndInfo('🌱  Starting the TAS backend GraphQL API server');
-
+setupHttpLogging(app);
 app.use(bodyParser.json());
 app.use(cookieParser());
-
-const formatString = ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" ":referrer" ":user-agent" Authorization: :auth';
-morgan.token('auth', req => req.headers.authorization);
-app.use(morgan('Request Received: ' + formatString, {
-  immediate: true,
-  stream: { write: message => logger.info(message.trim()) }
-}));
-app.use(morgan('Error Response Sent: ' + formatString, {
-  skip: (req, res) => res.statusCode < 400,
-  stream: { write: message => logger.error(message.trim()) }
-}));
+app.use(cors());
 
 if (NODE_ENV === 'development') app.use('/playground', playground({ endpoint: '/graphql' }));
 
