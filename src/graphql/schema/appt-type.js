@@ -1,9 +1,9 @@
 const ApptType = `
   enum ApptType {
-    IMPORTFULL
-    IMPORTEMPTY
-    EXPORTFULL
-    EXPORTEMPTY
+    IMPORT_FULL
+    STORAGE_EMPTY
+    EXPORT_FULL
+    EXPORT_EMPTY
   }
 `;
 

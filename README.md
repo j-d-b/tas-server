@@ -222,7 +222,7 @@ All JavaScript is located in `src/`
 ### src/terminal-connection/
 * Contains all code related to fetching data from the container terminal. Specifically:
   * Getting container block location
-  * Getting container size (for `IMPORTFULL` appointments)
+  * Getting container size (for `IMPORT_FULL` appointments)
 
 ## Built With
 Node 10.7.0, using ECMAScript 2018 features (lot's of `async` (ES2017) and Rest/Spread (ES2018)).

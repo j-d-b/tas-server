@@ -3,7 +3,7 @@ module.exports = `
     formNumber705: String
   }
 
-  input UpdateImportEmptyInput {
+  input UpdateStorageEmptyInput {
     shippingLine: String
     emptyForCityFormNumber: String
   }
@@ -23,7 +23,7 @@ module.exports = `
   input UpdateApptDetailsInput {
     id: ID!
     importFull: UpdateImportFullInput
-    importEmpty: UpdateImportEmptyInput
+    storageEmpty: UpdateStorageEmptyInput
     exportFull: UpdateExportFullInput
     exportEmpty: UpdateExportEmptyInput
   }

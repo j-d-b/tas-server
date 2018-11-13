@@ -7,10 +7,10 @@ module.exports.containerSizeToInt = size => size === 'TWENTYFOOT' ? 20 : 40;
 
 module.exports.getApptTypeDetails = (appt) => {
   switch (appt.type) {
-    case 'IMPORTFULL': return appt.importFull;
-    case 'IMPORTEMPTY': return appt.importEmpty;
-    case 'EXPORTFULL': return appt.exportFull;
-    case 'EXPORTEMPTY': return appt.exportEmpty;
+    case 'IMPORT_FULL': return appt.importFull;
+    case 'STORAGE_EMPTY': return appt.storageEmpty;
+    case 'EXPORT_FULL': return appt.exportFull;
+    case 'EXPORT_EMPTY': return appt.exportEmpty;
   }
 };
 

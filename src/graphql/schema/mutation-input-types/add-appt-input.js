@@ -4,7 +4,7 @@ module.exports = `
     formNumber705: String!
   }
 
-  input AddImportEmptyInput {
+  input AddStorageEmptyInput {
     containerSize: ContainerSize!
     containerType: String!
     shippingLine: String!
@@ -35,7 +35,7 @@ module.exports = `
     licensePlateNumber: String
     notifyMobileNumber: String
     importFull: AddImportFullInput
-    importEmpty: AddImportEmptyInput
+    storageEmpty: AddStorageEmptyInput
     exportFull: AddExportFullInput
     exportEmpty: AddExportEmptyInput
   }

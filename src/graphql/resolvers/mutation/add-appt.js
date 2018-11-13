@@ -11,7 +11,7 @@ const addAppt = isAuthenticatedResolver.createResolver(
     const { arrivalWindowSlot, arrivalWindowLength } = await getNewApptArrivalWindow(timeSlot, Appt, Config);
 
     const typeDetails = hasTypeDetailsCheck({ type, ...typeSpecific });
-    if (type === 'IMPORTFULL') typeDetails.containerSize = await getContainerSize(type, typeDetails);
+    if (type === 'IMPORT_FULL') typeDetails.containerSize = await getContainerSize(type, typeDetails);
 
     const blockId = await getContainerBlockId(type, typeDetails);
     const newAppt = {

@@ -64,7 +64,7 @@ const Resolvers = {
   TypeDetails: {
     __resolveType(obj) {
       if (obj.formNumber705) return 'ImportFull';
-      else if (obj.emptyForCityFormNumber) return 'ImportEmpty';
+      else if (obj.emptyForCityFormNumber) return 'StorageEmpty';
       else if (obj.containerWeight) return 'ExportFull';
       return 'ExportEmpty'; // is it ok for this to be the default?
     }

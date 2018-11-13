@@ -93,7 +93,7 @@ const sampleAppts = [
       hour: 20,
       date: new Date().toISOString().split('T')[0]
     },
-    type: 'EXPORTFULL',
+    type: 'EXPORT_FULL',
     arrivalWindowSlot: 0,
     arrivalWindowLength: 15,
     typeDetails: {
@@ -113,7 +113,7 @@ const sampleAppts = [
       hour: 20,
       date: new Date().toISOString().split('T')[0]
     },
-    type: 'IMPORTFULL',
+    type: 'IMPORT_FULL',
     arrivalWindowSlot: 1,
     arrivalWindowLength: 15,
     blockId: 'A',
@@ -129,7 +129,7 @@ const sampleAppts = [
       hour: 23,
       date: new Date().toISOString().split('T')[0]
     },
-    type: 'EXPORTEMPTY',
+    type: 'EXPORT_EMPTY',
     arrivalWindowSlot: 2,
     arrivalWindowLength: 15,
     typeDetails: {
@@ -145,7 +145,7 @@ const sampleAppts = [
       hour: 23,
       date: new Date().toISOString().split('T')[0]
     },
-    type: 'IMPORTEMPTY',
+    type: 'STORAGE_EMPTY',
     arrivalWindowSlot: 3,
     arrivalWindowLength: 15,
     typeDetails: {
@@ -161,7 +161,7 @@ const sampleAppts = [
       hour: 23,
       date: new Date().toISOString().split('T')[0]
     },
-    type: 'EXPORTFULL',
+    type: 'EXPORT_FULL',
     arrivalWindowSlot: 3,
     arrivalWindowLength: 15,
     blockId: 'B',
@@ -182,7 +182,7 @@ const sampleAppts = [
       hour: 18,
       date: new Date().toISOString().split('T')[0]
     },
-    type: 'IMPORTFULL',
+    type: 'IMPORT_FULL',
     arrivalWindowSlot: 1,
     arrivalWindowLength: 15,
     blockId: 'A',
@@ -199,7 +199,7 @@ const sampleAppts = [
       hour: 18,
       date: new Date().toISOString().split('T')[0]
     },
-    type: 'IMPORTFULL',
+    type: 'IMPORT_FULL',
     arrivalWindowSlot: 1,
     arrivalWindowLength: 15,
     blockId: 'A',
@@ -220,7 +220,7 @@ const sampleAppts = [
         return tomorrow.toISOString().split('T')[0];
       })()
     },
-    type: 'IMPORTFULL',
+    type: 'IMPORT_FULL',
     arrivalWindowSlot: 3,
     arrivalWindowLength: 15,
     blockId: 'B',

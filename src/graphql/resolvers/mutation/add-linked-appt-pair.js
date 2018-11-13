@@ -14,7 +14,7 @@ const addLinkedApptPair = isAuthenticatedResolver.createResolver(
     const newAppts = await Promise.all(bothAppts.map(async ({ timeSlot, type, ...typeSpecific }) => {
       const typeDetails = hasTypeDetailsCheck({ type, ...typeSpecific }); // schema doesn't verify this
 
-      if (type === 'IMPORTFULL') typeDetails.containerSize = await getContainerSize(typeDetails.containerId);
+      if (type === 'IMPORT_FULL') typeDetails.containerSize = await getContainerSize(typeDetails.containerId);
       const blockId = await getContainerBlockId(type, typeDetails);
 
       return { timeSlot, userEmail, arrivalWindowSlot, blockId, arrivalWindowLength, type, typeDetails };

@@ -2,7 +2,7 @@ module.exports = `
   input AddLinkedApptPairSingleApptInput {
     type: ApptType!
     importFull: AddImportFullInput
-    importEmpty: AddImportEmptyInput
+    storageEmpty: AddStorageEmptyInput
     exportFull: AddExportFullInput
     exportEmpty: AddExportEmptyInput
   }

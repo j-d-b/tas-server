@@ -19,7 +19,7 @@ module.exports = sequelize => (sequelize.define('appt', {
   },
   type: {
     type: Sequelize.ENUM,
-    values: ['IMPORTFULL', 'IMPORTEMPTY', 'EXPORTFULL', 'EXPORTEMPTY'],
+    values: ['IMPORT_FULL', 'STORAGE_EMPTY', 'EXPORT_FULL', 'EXPORT_EMPTY'],
     allowNull: false
   },
   blockId: {

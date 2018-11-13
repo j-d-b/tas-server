@@ -5,7 +5,7 @@ const TypeDetails = `
     containerSize: ContainerSize!
   }
 
-  type ImportEmpty {
+  type StorageEmpty {
     containerSize: ContainerSize!
     containerType: String!
     shippingLine: String!
@@ -30,7 +30,7 @@ const TypeDetails = `
     shippingLine: String!
   }
 
-  union TypeDetails = ImportFull | ImportEmpty | ExportFull | ExportEmpty
+  union TypeDetails = ImportFull | StorageEmpty | ExportFull | ExportEmpty
 `;
 
 module.exports = TypeDetails;
