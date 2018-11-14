@@ -10,6 +10,7 @@ module.exports = {
   rules: {
     'array-bracket-spacing': ['error', 'never'],
     'arrow-parens': ['error', 'as-needed', { requireForBlockBody: true }],
+    'comma-dangle': ['error', 'never'],
     'eqeqeq': ['error', 'always'],
     'indent': ['error', 2, { SwitchCase: 1 }],
     'linebreak-style': ['error', 'unix'],
