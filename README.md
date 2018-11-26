@@ -12,19 +12,17 @@ You must have the following installed:
 * [Yarn](https://yarnpkg.com/en/) (^1.7.0)
 
 ### Environment Variables
-A `.env` environment variables file must also be added to the project root directory. It must contain the following definitions (values are given as examples only):
-```
-PORT=4000
-WEB_APP_URL=https://tas-app.netlify.com
-SECRET_KEY=secret-key
-DB_CONNECTION_STRING=mysql://iaojsdif.xyz
-MG_FROM_EMAIL=test@mailgun.org
-MG_API_KEY=my-mailgun-api-key
-MG_DOMAIN=my-mailgun-domain.org
-PLIVO_AUTH_ID=SAMPLEAUTHID
-PLIVO_AUTH_TOKEN=SAMPLEAUTHTOKEN
-PLIVO_SRC_NUM=11231231234
-```
+A `.env` environment variables file must also be added to the project root directory. It must contain the following definitions:
+* `PORT`: port to open for TAS API server
+* `WEB_APP_URL`: full URL of TAS web app
+* `SECRET_KEY`: key used to sign API access tokens
+* `DB_CONNECTION_STRING`: URL connection string for the MariaDB database (e.g. mysql://user@bctc-tas.com/tas)
+* `MG_FROM_EMAIL`: Mailgun sender email address (email sending)
+* `MG_API_KEY`: Mailgun API key (email sending)
+* `MG_DOMAIN`: Mailgun domain (email sending)
+* `PLIVO_AUTH_ID`: Plivo auth ID (SMS sending)
+* `PLIVO_AUTH_TOKEN`: Plivo auth (SMS sending)
+* `PLIVO_SRC_NUM`: Plivo sender mobile number (SMS sending)
 
 ### Installation
 Install dependencies
@@ -139,9 +137,14 @@ This should return
 
 Great; you're on your way.
 
+## REST API and Refresh Tokens
+The `tas-server` exposes one REST endpoint, `/auth-token`.
+
+This endpoint will respond with a signed JWT (auth/access token) if the request includes a valid `refreshToken` cookie. This cookie is set by the `login` GraphQL mutation. The refresh token is encrypted and stored on the user.
+
 ## Testing
 ### Linting
-Uses ESLint style-linting configuration defined in [.eslintrc.js](https://github.com/j-d-b/tas-server/blob/master/.eslintrc.js).
+Uses [ESLint](https://eslint.org/); configuration defined in [.eslintrc.js](https://github.com/j-d-b/tas-server/blob/master/.eslintrc.js).
 ```
 yarn lint
 ```
@@ -177,7 +180,7 @@ exit
 ```
 
 ### Persisting Logs
-The dockerized `tas-server` logs to the `/tas-server/logs/` directory within the container. I recommend using volumes to persist this data within the docker area.
+The dockerized `tas-server` logs to the `/tas-server/logs/` directory within the container. I recommend using named volumes to persist this data to the docker area.
 
 For example:
 ```
@@ -245,7 +248,7 @@ The TAS (and thus `tas-server`) was built for [BCTC](http://www.bctc-lb.com/) an
 See `LICENSE.md`(https://github.com/j-d-b/tas-server/blob/master/LICENSE.md) for details.
 
 ## Contributing
-I don't have an official contribution guide, but welcome pull requests and any form of comments; feel free to get in touch.
+I don't have an official contribution guide, but welcome pull requests and any form of comments; if you're interested, please get in touch.
 
 ## Todo
 There are a still few areas that need attention.
@@ -254,7 +257,7 @@ There are a still few areas that need attention.
 * Configure CORS
 * Re-assess which appt fields can be updated after booking
 * CASCADE on DELETE of user or appt
-* Add concept of actions (change linkedAppt concept to one appt with multiple actions)
+* Production-quality transactional emails
 
 ### Cleanup
 * Write tests
