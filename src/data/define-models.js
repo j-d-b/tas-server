@@ -14,14 +14,14 @@ module.exports = (sequelize) => {
   const User = user(sequelize);
 
   // associations
-  Appt.hasMany(Action, { as: 'actions' });
+  Appt.hasMany(Action, { as: 'actions', onDelete: 'CASCADE' });
   Action.belongsTo(Appt);
 
   User.hasMany(Appt, { as: 'appts', foreignKey: 'userEmail' });
   Appt.belongsTo(User, { foreignKey: 'userEmail' });
 
   Block.hasMany(Action, { as: 'actions' });
-  Block.hasMany(Restriction, { as: 'restrictions' });
+  Block.hasMany(Restriction, { as: 'restrictions', onDelete: 'CASCADE' });
 
   return {
     Action,

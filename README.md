@@ -256,7 +256,6 @@ There are a still few areas that need attention.
 ### Core
 * Configure CORS
 * Re-assess which appt fields can be updated after booking
-* CASCADE on DELETE of user or appt
 * Production-quality transactional emails
 
 ### Cleanup
