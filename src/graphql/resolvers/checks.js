@@ -3,10 +3,8 @@ const jwt = require('jsonwebtoken');
 
 const Errors = require('./errors');
 const {
-  getApptTypeDetails,
+  getActionTypeSpecific,
   containerSizeToInt,
-  buildSlotId,
-  getTimeSlotFromId,
   slotTotalAvailability,
   slotBlockAvailability
 } = require('./helpers');
@@ -65,12 +63,17 @@ module.exports.hasRefreshTokenCheck = (req) => {
   return token;
 };
 
-// check if apptDetails.typeDetails exists for the given details.type
-// returns typeDetails
-module.exports.hasTypeDetailsCheck = (apptDetails) => {
-  const typeDetails = getApptTypeDetails(apptDetails);
-  if (!typeDetails) throw new Errors.NoApptTypeDetailsError();
-  return typeDetails;
+// check if the relevant typeSpecific details exist for the given type
+// returns the typeSpecific details
+module.exports.hasTypeSpecificCheck = (action) => {
+  let typeSpecific;
+  try {
+    typeSpecific = getActionTypeSpecific(action);
+  } catch (e) {
+    throw new Errors.NoActionTypeDetailsError();
+  }
+  if (!typeSpecific) throw new Errors.NoActionTypeDetailsError();
+  return typeSpecific;
 };
 
 // check if password satisfies the strength criteria
@@ -78,30 +81,20 @@ module.exports.isAllowedPasswordCheck = (password) => {
   if (password.length < 6) throw new Errors.PasswordCheckError();
 };
 
-// check for availability of new/updated appt(s) (in given array of apptDetails)
-module.exports.isAvailableCheck = async (apptDetailsArr, Appt, Block, Config, Restriction) => {
-  const detailsBySlot = apptDetailsArr.reduce((obj, { timeSlot }, i) => {
-    const slotId = buildSlotId(timeSlot); // for map key
-    obj[slotId] ? obj[slotId].push(apptDetailsArr[i]) : obj[slotId] = [apptDetailsArr[i]];
+// check for availability of new/updated appt
+module.exports.isAvailableCheck = async (appt, actions, Action, Appt, Block, Config, Restriction) => {
+  const { id, timeSlot } = appt;
+
+  const isSlotAvailable = await slotTotalAvailability(timeSlot, Appt, Config, Restriction);
+  if (!isSlotAvailable) throw new Errors.NoAvailabilityError({ data: { timeSlot } });
+
+  const numActionsPerBlock = actions.reduce((obj, { blockId }) => {
+    if (blockId) obj[blockId] ? obj[blockId]++ : obj[blockId] = 1;
     return obj;
   }, {});
 
-  for (const [slotId, detailsArr] of Object.entries(detailsBySlot)) {
-    const slot = getTimeSlotFromId(slotId);
-
-    // check availability per timeSlot
-    const isSlotAvailable = await slotTotalAvailability(slot, detailsArr.length, Appt, Config, Restriction);
-    if (!isSlotAvailable) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot } });
-
-    const moveCountByBlock = detailsArr.reduce((obj, { blockId }) => {
-      if (blockId) obj[blockId] ? obj[blockId]++ : obj[blockId] = 1;
-      return obj;
-    }, {});
-
-    // check availability for each relevant block
-    const isSlotBlockAvailable = await slotBlockAvailability(slot, moveCountByBlock, Appt, Block, Restriction);
-    if (!isSlotBlockAvailable) throw new Errors.NoAvailabilityError({ data: { timeSlot: slot } });
-  }
+  const isSlotBlockAvailable = await slotBlockAvailability(id, timeSlot, numActionsPerBlock, Action, Appt, Block, Restriction);
+  if (!isSlotBlockAvailable) throw new Errors.NoAvailabilityError({ data: { timeSlot } });
 };
 
 module.exports.isCorrectPasswordCheck = async (password, targetUser) => {

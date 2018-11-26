@@ -1,5 +1,5 @@
-const ApptType = `
-  enum ApptType {
+const ActionType = `
+  enum ActionType {
     IMPORT_FULL
     STORAGE_EMPTY
     EXPORT_FULL
@@ -7,4 +7,4 @@ const ApptType = `
   }
 `;
 
-module.exports = ApptType;
+module.exports = ActionType;

@@ -1,7 +1,7 @@
 const Block = `
   type Block {
     id: String!
-    maxAllowedApptsPerHour: Int!
+    maxAllowedActionsPerHour: Int!
     restrictions: [Restriction]
   }
 `;

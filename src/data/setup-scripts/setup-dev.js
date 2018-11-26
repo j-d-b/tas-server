@@ -10,15 +10,15 @@ const defineModels = require('../define-models');
 const sampleBlocks = [
   {
     id: 'A',
-    maxAllowedApptsPerHour: 3
+    maxAllowedActionsPerHour: 3
   },
   {
     id: 'B',
-    maxAllowedApptsPerHour: 2
+    maxAllowedActionsPerHour: 2
   },
   {
     id: 'C',
-    maxAllowedApptsPerHour: 1
+    maxAllowedActionsPerHour: 1
   }
 ];
 
@@ -93,19 +93,8 @@ const sampleAppts = [
       hour: 20,
       date: new Date().toISOString().split('T')[0]
     },
-    type: 'EXPORT_FULL',
     arrivalWindowSlot: 0,
     arrivalWindowLength: 15,
-    typeDetails: {
-      containerId: '192fh1h2f',
-      containerSize: 'TWENTYFOOT',
-      containerWeight: 4000,
-      bookingNumber: 1924192,
-      vesselName: 'Blueberry',
-      vesselETA: '10-10-2018',
-      destinationPort: 'String!',
-      firstPortOfDischarge: 'String!'
-    }
   },
   {
     userEmail: 'william@hotmail.com',
@@ -113,15 +102,8 @@ const sampleAppts = [
       hour: 20,
       date: new Date().toISOString().split('T')[0]
     },
-    type: 'IMPORT_FULL',
     arrivalWindowSlot: 1,
-    arrivalWindowLength: 15,
-    blockId: 'A',
-    typeDetails: {
-      containerId: '9f9h239fhsd',
-      formNumber705: 'FORM239r0j23',
-      containerSize: 'TWENTYFOOT'
-    }
+    arrivalWindowLength: 15
   },
   {
     userEmail: 'william@hotmail.com',
@@ -129,15 +111,8 @@ const sampleAppts = [
       hour: 23,
       date: new Date().toISOString().split('T')[0]
     },
-    type: 'EXPORT_EMPTY',
     arrivalWindowSlot: 2,
-    arrivalWindowLength: 15,
-    typeDetails: {
-      containerId: 'jf21j1f3f2',
-      containerSize: 'TWENTYFOOT',
-      containerType: 'Clamtype',
-      shippingLine: 'Willow'
-    }
+    arrivalWindowLength: 15
   },
   {
     userEmail: 'cory@mmt.net',
@@ -145,15 +120,8 @@ const sampleAppts = [
       hour: 23,
       date: new Date().toISOString().split('T')[0]
     },
-    type: 'STORAGE_EMPTY',
     arrivalWindowSlot: 3,
-    arrivalWindowLength: 15,
-    typeDetails: {
-      containerSize: 'TWENTYFOOT',
-      containerType: 'Sealtype',
-      shippingLine: 'Willow',
-      emptyForCityFormNumber: 'form2i38r923r'
-    }
+    arrivalWindowLength: 15
   },
   {
     userEmail: 'cory@mmt.net',
@@ -161,20 +129,8 @@ const sampleAppts = [
       hour: 23,
       date: new Date().toISOString().split('T')[0]
     },
-    type: 'EXPORT_FULL',
     arrivalWindowSlot: 3,
-    arrivalWindowLength: 15,
-    blockId: 'B',
-    typeDetails: {
-      containerId: '2883hf8ttt',
-      containerSize: 'TWENTYFOOT',
-      containerWeight: 1222,
-      conatainerType: 'Clamtype',
-      shippingLine: 'Gorden',
-      bookingNumber: 293923,
-      vesselName: 'String',
-      vesselETA: '10-10-2018'
-    }
+    arrivalWindowLength: 15
   },
   {
     userEmail: 'cory@mmt.net',
@@ -182,16 +138,8 @@ const sampleAppts = [
       hour: 18,
       date: new Date().toISOString().split('T')[0]
     },
-    type: 'IMPORT_FULL',
     arrivalWindowSlot: 1,
-    arrivalWindowLength: 15,
-    blockId: 'A',
-    typeDetails: {
-      containerId: 'udfhd7f7d',
-      formNumber705: 'FORMio2h38hf',
-      containerSize: 'TWENTYFOOT'
-    },
-    linkedApptId: 7
+    arrivalWindowLength: 15
   },
   {
     userEmail: 'cory@mmt.net',
@@ -199,16 +147,8 @@ const sampleAppts = [
       hour: 18,
       date: new Date().toISOString().split('T')[0]
     },
-    type: 'IMPORT_FULL',
     arrivalWindowSlot: 1,
     arrivalWindowLength: 15,
-    blockId: 'A',
-    typeDetails: {
-      containerId: 'rb586iwne',
-      formNumber705: 'FORM55555',
-      containerSize: 'TWENTYFOOT'
-    },
-    linkedApptId: 6
   },
   {
     userEmail: 'jbrady@kcus.org',
@@ -220,16 +160,77 @@ const sampleAppts = [
         return tomorrow.toISOString().split('T')[0];
       })()
     },
-    type: 'IMPORT_FULL',
     arrivalWindowSlot: 3,
-    arrivalWindowLength: 15,
-    blockId: 'B',
-    typeDetails: {
-      containerId: 'c234234',
-      formNumber705: 'test',
-      containerSize: 'TWENTYFOOT'
-    }
+    arrivalWindowLength: 15
   },
+];
+
+const sampleActions = [
+  {
+    type: 'EXPORT_FULL',
+    containerId: '192fh1h2f',
+    containerSize: 'TWENTYFOOT',
+    containerWeight: 4000,
+    bookingNumber: 1924192,
+    vesselName: 'Blueberry',
+    vesselETA: '10-10-2018',
+    destinationPort: 'String!',
+    firstPortOfDischarge: 'String!'
+  },
+  {
+    type: 'IMPORT_FULL',
+    blockId: 'A',
+    containerId: '9f9h239fhsd',
+    formNumber705: 'FORM239r0j23',
+    containerSize: 'TWENTYFOOT'
+  },
+  {
+    type: 'EXPORT_EMPTY',
+    containerId: 'jf21j1f3f2',
+    containerSize: 'TWENTYFOOT',
+    containerType: 'Clamtype',
+    shippingLine: 'Willow'
+  },
+  {
+    type: 'STORAGE_EMPTY',
+    containerSize: 'TWENTYFOOT',
+    containerType: 'Sealtype',
+    shippingLine: 'Willow',
+    emptyForCityFormNumber: 'form2i38r923r'
+  },
+  {
+    type: 'EXPORT_FULL',
+    blockId: 'B',
+    containerId: '2883hf8ttt',
+    containerSize: 'TWENTYFOOT',
+    containerWeight: 1222,
+    conatainerType: 'Clamtype',
+    shippingLine: 'Gorden',
+    bookingNumber: 293923,
+    vesselName: 'String',
+    vesselETA: '2018-10-10'
+  },
+  {
+    type: 'IMPORT_FULL',
+    blockId: 'A',
+    containerId: 'udfhd7f7d',
+    formNumber705: 'FORMio2h38hf',
+    containerSize: 'TWENTYFOOT'
+  },
+  {
+    type: 'IMPORT_FULL',
+    blockId: 'A',
+    containerId: 'rb586iwne',
+    formNumber705: 'FORM55555',
+    containerSize: 'TWENTYFOOT'
+  },
+  {
+    type: 'IMPORT_FULL',
+    blockId: 'B',
+    containerId: 'c234234',
+    formNumber705: 'test',
+    containerSize: 'TWENTYFOOT'
+  }
 ];
 
 const sampleRestrictions = [
@@ -279,13 +280,21 @@ const sampleConfig = {
   arrivalWindowLength: 5
 };
 
-const { Appt, Block, Config, Restriction, User } = defineModels(sequelize);
+const { Action, Appt, Block, Config, Restriction, User } = defineModels(sequelize);
 
 const createTables = async () => sequelize.sync({ force: true });
-const addBlocks = async () => Promise.all(sampleBlocks.map(async block => Block.create(block)));
-const addUsers = async () => Promise.all(sampleUsers.map(async user => User.create(user)));
-const addAppts = async () => Promise.all(sampleAppts.map(async ({ typeDetails, ...rest }) => Appt.create({ ...rest, ...typeDetails })));
-const addRestrictions = async () => Promise.all(sampleRestrictions.map(async restriction => Restriction.create(restriction)));
+const addBlocks = () => Promise.all(sampleBlocks.map(async block => Block.create(block)));
+const addUsers = () => Promise.all(sampleUsers.map(async user => User.create(user)));
+const addAppts = async () => {
+  const apptIds = [];
+  for (const appt of sampleAppts) {
+    const id = await Appt.create(appt).then(a => a.id);
+    apptIds.push(id);
+  }
+  return apptIds;
+};
+const addActions = apptIds => Promise.all(sampleActions.map(async (action, i) => Action.create({ ...action, apptId: apptIds[i] })));
+const addRestrictions = () => Promise.all(sampleRestrictions.map(async restriction => Restriction.create(restriction)));
 const addConfig = async () => Config.create(sampleConfig);
 
 const setupDev = async () => {
@@ -298,6 +307,7 @@ const setupDev = async () => {
   addBlocks()
     .then(addUsers)
     .then(addAppts)
+    .then(apptIds => addActions(apptIds))
     .then(addRestrictions)
     .then(addConfig)
     .then(() => sequelize.close())

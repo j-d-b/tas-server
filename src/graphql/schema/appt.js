@@ -1,15 +1,13 @@
 const Appt = `
   type Appt {
     id: ID!
-    timeSlot: TimeSlot!
     user: User!
-    type: ApptType!
-    block: Block
-    linkedAppts: [Appt]!
+    timeSlot: TimeSlot!
     arrivalWindow: String!
-    licensePlateNumber: String!
-    notifyMobileNumber: String!
-    typeDetails: TypeDetails!
+    actions: [Action!]!
+    licensePlateNumber: String
+    notifyMobileNumber: String
+    comment: String
   }
 `;
 

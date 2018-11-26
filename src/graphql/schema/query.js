@@ -3,7 +3,7 @@ const Query = `
     userEmail: String
     timeSlot: TimeSlotInput
     blockId: String
-    type: ApptType
+    actionType: ActionType
   }
 
   input ApptsInput {
@@ -42,11 +42,15 @@ const Query = `
     knownContainerSizes: [ContainerSize]! # exports or storage empty
   }
 
-  input RestrictionsInput {
+  input RestrictionsWhere {
     timeSlotHours: [Hour!]
     timeSlotDates: [ISODate!]
-    type: RestrictionType # null for 'both'
+    type: RestrictionType # null for 'any'
     blocks: [String!]
+  }
+
+  input RestrictionsInput {
+    where: RestrictionsWhere
   }
 
   type Query {

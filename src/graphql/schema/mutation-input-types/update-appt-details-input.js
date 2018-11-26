@@ -20,11 +20,17 @@ module.exports = `
     shippingLine: String
   }
 
-  input UpdateApptDetailsInput {
+  input UpdateActionDetailsInput {
     id: ID!
     importFull: UpdateImportFullInput
     storageEmpty: UpdateStorageEmptyInput
     exportFull: UpdateExportFullInput
     exportEmpty: UpdateExportEmptyInput
+  }
+
+  input UpdateApptDetailsInput {
+    id: ID!
+    comment: String
+    actionDetails: [UpdateActionDetailsInput]!
   }
 `;

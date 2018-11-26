@@ -19,7 +19,6 @@ const user = requireQuery('user');
 const users = requireQuery('users');
 
 const addAppt = requireMutation('add-appt');
-const addLinkedApptPair = requireMutation('add-linked-appt-pair');
 const addBlock = requireMutation('add-block');
 const addRestrictions = requireMutation('add-restrictions');
 const addUser = requireMutation('add-user');
@@ -52,16 +51,19 @@ const Resolvers = {
   },
   Appt: {
     user: async ({ userEmail }, args, { User }) => User.findById(userEmail),
-    block: async ({ blockId }, args, { Block }) => Block.findById(blockId),
-    linkedAppts: async ({ linkedApptId }, args, { Appt }) => [Appt.findById(linkedApptId)]
+    actions: async ({ id }, args, { Action }) => Action.findAll({ where: { apptId: id } })
+  },
+  Action: {
+    appt: async ({ apptId }, args, { Appt }) => Appt.findById(apptId),
+    block: async ({ blockId }, args, { Block }) => Block.findById(blockId)
   },
   Block: {
-    restrictions: async (block, args, { Restriction }) => Restriction.findAll({ where: { block: block.id } })
+    restrictions: async ({ id }, args, { Restriction }) => Restriction.findAll({ where: { block: id } })
   },
   Restriction: {
-    block: async (restriction, args, { Block }) => Block.findOne({ where: { id: restriction.blockId } })
+    block: async ({ blockId }, args, { Block }) => Block.findOne({ where: { id: blockId } })
   },
-  TypeDetails: {
+  TypeSpecific: {
     __resolveType(obj) {
       if (obj.formNumber705) return 'ImportFull';
       else if (obj.emptyForCityFormNumber) return 'StorageEmpty';
@@ -85,7 +87,6 @@ const Resolvers = {
   },
   Mutation: {
     addAppt,
-    addLinkedApptPair,
     addBlock,
     addRestrictions,
     addUser,

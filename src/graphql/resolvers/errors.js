@@ -26,7 +26,7 @@ module.exports = {
     message: 'Current allowed appointments per hour must be less than max appointments per hour, and neither can be negative'
   }),
   InvalidDateValueError: createError('InvalidDateValueError', {
-    message: 'The date must be a string in ISO8601 format',
+    message: 'The date must be a string in ISO8601 format'
   }),
   InvalidNumContainersError: createError('InvalidNumContainersError', {
     message: 'Too many containers (using TFU)'
@@ -49,11 +49,14 @@ module.exports = {
   NotAdminError: createError('NotAdminError', {
     message: 'You must be an admin to perform this action'
   }),
+  NoActionError: createError('NoActionError', {
+    message: 'There is no action found for the given id'
+  }),
   NoApptError: createError('NoApptError', {
     message: 'The requested appointment does not exist'
   }),
-  NoApptTypeDetailsError: createError('NoApptTypeDetailsError', {
-    message: 'You must provide type-specific appointment details'
+  NoActionTypeDetailsError: createError('NoActionTypeDetailsError', {
+    message: 'You must provide the required type-specific action details'
   }),
   NoAvailabilityError: createError('NoAvailabilityError', {
     message: 'The appointment(s) cannot be scheduled for this time slot'
@@ -63,6 +66,9 @@ module.exports = {
   }),
   NoRefreshTokenCookieError: createError('NoRefreshTokenCookieError', {
     message: 'The HTTP request does not contain a refreshToken cookie'
+  }),
+  NotChildActionError: createError('NotChildActionError', {
+    message: 'The given action ID does not match a child action of the given appointment'
   }),
   NotOpOrAdminError: createError('NotOpOrAdminError', {
     message: 'You must be an operator or admin to perform this action'

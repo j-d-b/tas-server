@@ -2,31 +2,37 @@ const { getContainerBlockId, getContainerSize } = require('../../../terminal-con
 const { sendApptCreatedSMS } = require('../../../messaging/sms/send-sms');
 const { isAuthenticatedResolver } = require('../auth');
 const { SMSSendError } = require('../errors');
-const { hasTypeDetailsCheck, isAvailableCheck } = require('../checks');
+const { hasTypeSpecificCheck, isAvailableCheck } = require('../checks');
 const { getNewApptArrivalWindow } = require('../helpers');
 
 // addAppt(input: AddApptInput!): Appt
 const addAppt = isAuthenticatedResolver.createResolver(
-  async (_, { input: { timeSlot, type, licensePlateNumber, notifyMobileNumber, ...typeSpecific } }, { user, Appt, Block, Config, Restriction }) => {
-    const { arrivalWindowSlot, arrivalWindowLength } = await getNewApptArrivalWindow(timeSlot, Appt, Config);
+  async (_, { input: { timeSlot, type, licensePlateNumber, notifyMobileNumber, comment, actions } }, { user, Appt, Action, Block, Config, Restriction }) => {
+    const { arrivalWindowSlot, arrivalWindowLength } = await getNewApptArrivalWindow(timeSlot, Appt, Action, Config);
 
-    const typeDetails = hasTypeDetailsCheck({ type, ...typeSpecific });
-    if (type === 'IMPORT_FULL') typeDetails.containerSize = await getContainerSize(type, typeDetails);
+    const newActions = await Promise.all(actions.map(async (action) => {
+      const typeSpecific = hasTypeSpecificCheck(action);
+      const blockId = await getContainerBlockId(type, typeSpecific);
+      if (action.type === 'IMPORT_FULL') typeSpecific.containerSize = await getContainerSize(action.type, typeSpecific);
 
-    const blockId = await getContainerBlockId(type, typeDetails);
+      return {
+        type: action.type,
+        blockId,
+        ...typeSpecific
+      };
+    }));
+
     const newAppt = {
       timeSlot,
       userEmail: user.userEmail,
-      blockId,
       arrivalWindowSlot,
       arrivalWindowLength,
       licensePlateNumber,
       notifyMobileNumber,
-      type,
-      typeDetails
+      comment
     };
 
-    await isAvailableCheck([newAppt], Appt, Block, Config, Restriction); // appt scheduling logic
+    await isAvailableCheck(newAppt, newActions, Action, Appt, Block, Config, Restriction); // appt scheduling logic
 
     if (notifyMobileNumber) {
       const apptDetails = {
@@ -58,7 +64,9 @@ const addAppt = isAuthenticatedResolver.createResolver(
       }
     }
 
-    return Appt.create(newAppt);
+    const createdAppt = await Appt.create(newAppt);
+    await Action.bulkCreate(newActions.map(action => ({ ...action, apptId: createdAppt.id })));
+    return createdAppt;
   }
 );
 

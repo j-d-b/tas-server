@@ -5,7 +5,7 @@ const { doesBlockExistCheck } = require('../checks');
 const updateBlockMaxAllowed = isAdminResolver.createResolver(
   async (_, { input: { id, maxAllowed } }, { Block }) => {
     const block = await doesBlockExistCheck(id, Block);
-    return block.update({ maxAllowedApptsPerHour: maxAllowed });
+    return block.update({ maxAllowedActionsPerHour: maxAllowed });
   }
 );
 

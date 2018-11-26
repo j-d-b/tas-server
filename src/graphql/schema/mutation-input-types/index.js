@@ -1,6 +1,5 @@
 const TimeSlotInput = require('./time-slot-input');
 const AddApptInput = require('./add-appt-input');
-const AddLinkedApptPairInput = require('./add-linked-appt-pair-input');
 const AddBlockInput = require('./add-block-input.js');
 const AddRestrictionInput = require('./add-restriction-input');
 const AddUserInput = require('./add-user-input');
@@ -27,7 +26,6 @@ const VerifyEmailInput = require('./verify-email-input');
 
 module.exports = [
   AddApptInput,
-  AddLinkedApptPairInput,
   AddBlockInput,
   AddRestrictionInput,
   AddUserInput,

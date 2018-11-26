@@ -1,16 +1,19 @@
 const jwt = require('jsonwebtoken');
 const nanoid = require('nanoid');
 
+const logger = require('../../logging/logger');
+
 module.exports.buildSlotId = timeSlot => timeSlot.hour + ':' + timeSlot.date;
 
 module.exports.containerSizeToInt = size => size === 'TWENTYFOOT' ? 20 : 40;
 
-module.exports.getApptTypeDetails = (appt) => {
-  switch (appt.type) {
-    case 'IMPORT_FULL': return appt.importFull;
-    case 'STORAGE_EMPTY': return appt.storageEmpty;
-    case 'EXPORT_FULL': return appt.exportFull;
-    case 'EXPORT_EMPTY': return appt.exportEmpty;
+module.exports.getActionTypeSpecific = (action) => {
+  switch (action.type) {
+    case 'IMPORT_FULL': return action.importFull;
+    case 'STORAGE_EMPTY': return action.storageEmpty;
+    case 'EXPORT_FULL': return action.exportFull;
+    case 'EXPORT_EMPTY': return action.exportEmpty;
+    default: logger.error('Invalid action type');
   }
 };
 
@@ -21,25 +24,21 @@ module.exports.getFirstName = user => user.name.split(' ')[0];
 // expects 0 to 23
 module.exports.getHourString = hourVal => hourVal < 10 ? `0${hourVal}:00` : `${hourVal}:00`;
 
-module.exports.getNewApptArrivalWindow = async (timeSlot, Appt, Config) => {
+module.exports.getNewApptArrivalWindow = async (timeSlot, Appt, Action, Config) => {
   const slotScheduledAppts = await Appt.findAll({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date } });
   const currWindowLength = await Config.findOne().then(config => config.arrivalWindowLength);
 
-  const apptCountByWindowSlot = slotScheduledAppts.reduce((arr, { arrivalWindowSlot, arrivalWindowLength }) => {
-    // convert appt slot to its equivalent in the current config.arrivalWindowLength
+  const actionCountByWindowSlot = new Array(60 / currWindowLength).fill(0);
+  for (const appt of slotScheduledAppts) {
+    const { arrivalWindowSlot, arrivalWindowLength, id } = appt;
+    const numActions = await Action.count({ where: { apptId: id } });
     const equivalentSlot = Math.round(arrivalWindowSlot * (arrivalWindowLength / currWindowLength));
-    arr[equivalentSlot]++;
-    return arr;
-  }, new Array(60 / currWindowLength).fill(0));
+    actionCountByWindowSlot[equivalentSlot] += numActions;
+  }
 
-  const arrivalWindowSlot = apptCountByWindowSlot.reduce((mostFreeSlot, slotCount, i) => slotCount < apptCountByWindowSlot[mostFreeSlot] ? i : mostFreeSlot);
+  const arrivalWindowSlot = actionCountByWindowSlot.reduce((mostFreeSlot, slotCount, i) => slotCount < actionCountByWindowSlot[mostFreeSlot] ? i : mostFreeSlot);
 
   return { arrivalWindowSlot, arrivalWindowLength: currWindowLength };
-};
-
-module.exports.getTimeSlotFromId = (slotId) => {
-  const slotHourDate = slotId.split(':');
-  return { hour: slotHourDate[0], date: slotHourDate[1] };
 };
 
 module.exports.getTimeSlotsInNextWeek = () => {
@@ -87,23 +86,23 @@ module.exports.signJwt = targetUser => (
   }, process.env.SECRET_KEY, { expiresIn: '10m' })
 );
 
-// moveCountByBlock expected as an object where fields are blocks and values
-// are number of appts for that block
-module.exports.slotBlockAvailability = async (timeSlot, moveCountByBlock, Appt, Block, Restriction) => {
-  for (const [blockId, count] of Object.entries(moveCountByBlock)) {
-    const blockMaxAllowed = await Block.findById(blockId).then(blk => blk && blk.maxAllowedApptsPerHour);
+// numActionsPerBlock expected as an object where fields are blocks and values
+// are number of actions for that block
+module.exports.slotBlockAvailability = async (apptId, timeSlot, numActionsPerBlock, Action, Appt, Block, Restriction) => {
+  for (const [blockId, numActions] of Object.entries(numActionsPerBlock)) {
+    const blockMaxAllowed = await Block.findById(blockId).then(blk => blk && blk.maxAllowedActionsPerHour);
     const slotBlockPlannedActivities = await Restriction.findOne({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date, type: 'PLANNED_ACTIVITIES', blockId } }).then(restriction => restriction ? restriction.plannedActivities : 0);
 
     const slotBlockTotalAllowed = blockMaxAllowed - slotBlockPlannedActivities;
-    const slotBlockCurrScheduled = await Appt.count({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date, blockId } });
+    const slotBlockCurrScheduled = await Action.count({ where: { apptId, blockId } });
 
-    if (slotBlockCurrScheduled + count > slotBlockTotalAllowed) return false;
+    if (slotBlockCurrScheduled + numActions > slotBlockTotalAllowed) return false;
   }
 
   return true;
 };
 
-module.exports.slotTotalAvailability = async (timeSlot, numAppts, Appt, Config, Restriction) => {
+module.exports.slotTotalAvailability = async (timeSlot, Appt, Config, Restriction) => {
   let slotTotalAllowed = await Restriction.findOne({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date, type: 'GATE_CAPACITY' } }).then(restriction => restriction && restriction.gateCapacity);
   if (!slotTotalAllowed && slotTotalAllowed !== 0) {
     slotTotalAllowed = await Config.findOne().then(config => config.defaultAllowedApptsPerHour);
@@ -111,5 +110,5 @@ module.exports.slotTotalAvailability = async (timeSlot, numAppts, Appt, Config, 
 
   const slotTotalCurrScheduled = await Appt.count({ where: { timeSlotHour: timeSlot.hour, timeSlotDate: timeSlot.date } });
 
-  return numAppts + slotTotalCurrScheduled <= slotTotalAllowed;
+  return slotTotalCurrScheduled < slotTotalAllowed;
 };

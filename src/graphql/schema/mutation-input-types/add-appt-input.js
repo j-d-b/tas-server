@@ -29,14 +29,19 @@ module.exports = `
     shippingLine: String!
   }
 
-  input AddApptInput {
-    timeSlot: TimeSlotInput!
-    type: ApptType!
-    licensePlateNumber: String
-    notifyMobileNumber: String
+  input ActionInput {
+    type: ActionType!
     importFull: AddImportFullInput
     storageEmpty: AddStorageEmptyInput
     exportFull: AddExportFullInput
     exportEmpty: AddExportEmptyInput
+  }
+
+  input AddApptInput {
+    timeSlot: TimeSlotInput!
+    licensePlateNumber: String
+    notifyMobileNumber: String
+    comment: String
+    actions: [ActionInput!]!
   }
 `;

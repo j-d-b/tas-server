@@ -1,4 +1,4 @@
-const TypeDetails = `
+const TypeSpecific = `
   type ImportFull {
     containerId: String!
     formNumber705: String!
@@ -30,7 +30,7 @@ const TypeDetails = `
     shippingLine: String!
   }
 
-  union TypeDetails = ImportFull | StorageEmpty | ExportFull | ExportEmpty
+  union TypeSpecific = ImportFull | StorageEmpty | ExportFull | ExportEmpty
 `;
 
-module.exports = TypeDetails;
+module.exports = TypeSpecific;

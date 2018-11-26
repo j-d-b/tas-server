@@ -95,7 +95,7 @@ Verification of the JWT (that it has been signed with the correct `SECRET_KEY`) 
 
 **Example implementation:** The [TAS Web App](https://github.com/j-d-b/tas-app/) stores the JWT given on login in `window.localStorage` and includes it with every request to the `tas-server` API. *'Logging out'* of the application removes the JWT from storage.
 
-### Public Queries
+### Unprotected Queries
 Certain `queries` and `mutations` can be access without any JWT given:
 * `addUser` *- for registration*
 * `login` *- obtain JWT*
@@ -221,6 +221,7 @@ All JavaScript is located in `src/`
 
 ### src/terminal-connection/
 * Contains all code related to fetching data from the container terminal. Specifically:
+  * Checking validity of container details.
   * Getting container block location
   * Getting container size (for `IMPORT_FULL` appointments)
 
@@ -252,6 +253,7 @@ There are a still few areas that need attention.
 ### Core
 * Configure CORS
 * Re-assess which appt fields can be updated after booking
+* CASCADE on DELETE of user or appt
 * Add concept of actions (change linkedAppt concept to one appt with multiple actions)
 
 ### Cleanup
