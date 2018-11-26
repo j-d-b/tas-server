@@ -245,7 +245,7 @@ This project relies on the following technologies, most included as `npm` packag
 ## License
 The TAS (and thus `tas-server`) was built for [BCTC](http://www.bctc-lb.com/) and is licensed under the [GNU General Public License, Version 3](https://www.gnu.org/licenses/gpl-3.0.en.html).
 
-See `LICENSE.md`(https://github.com/j-d-b/tas-server/blob/master/LICENSE.md) for details.
+See [`LICENSE.md`](https://github.com/j-d-b/tas-server/blob/master/LICENSE.md) for details.
 
 ## Contributing
 I don't have an official contribution guide, but welcome pull requests and any form of comments; if you're interested, please get in touch.
