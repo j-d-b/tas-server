@@ -17,7 +17,7 @@
     "setup:dev": "node src/data/setup-scripts/setup-dev",
     "start:dev": "NODE_ENV=development nodemon src/index",
     "develop": "yarn setup:dev && yarn start:dev",
-    "lint": "eslint src/index.js src"
+    "lint": "eslint src"
   },
   "dependencies": {
     "apollo-errors": "^1.9.0",

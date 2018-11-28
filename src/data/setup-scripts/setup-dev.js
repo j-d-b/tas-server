@@ -94,7 +94,7 @@ const sampleAppts = [
       date: new Date().toISOString().split('T')[0]
     },
     arrivalWindowSlot: 0,
-    arrivalWindowLength: 15,
+    arrivalWindowLength: 15
   },
   {
     userEmail: 'william@hotmail.com',
@@ -148,7 +148,7 @@ const sampleAppts = [
       date: new Date().toISOString().split('T')[0]
     },
     arrivalWindowSlot: 1,
-    arrivalWindowLength: 15,
+    arrivalWindowLength: 15
   },
   {
     userEmail: 'jbrady@kcus.org',
@@ -162,7 +162,7 @@ const sampleAppts = [
     },
     arrivalWindowSlot: 3,
     arrivalWindowLength: 15
-  },
+  }
 ];
 
 const sampleActions = [

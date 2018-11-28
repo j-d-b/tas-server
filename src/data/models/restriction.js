@@ -33,7 +33,7 @@ module.exports = sequelize => (
       timeSlot: function(slot) {
         this.setDataValue('timeSlotHour', slot.hour);
         this.setDataValue('timeSlotDate', slot.date);
-      },
+      }
     }
   })
 );
