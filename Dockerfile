@@ -11,4 +11,4 @@ RUN yarn install
 
 COPY . /tas-server
 
-ENTRYPOINT ["node", "src/index"]
+ENTRYPOINT ["node", "lib/index"]
