@@ -33,11 +33,11 @@ yarn install
 ## Usage
 To use the `tas-server`, the database must be prepared (with the necessary tables) and the server started. The GraphQL API can then be queried.
 
-The database can be initialized with scripts in `data/data/setup-scripts/` (used in the yarn scripts below)
+The database can be initialized with scripts in `lib/data/setup-scripts/` (used in the yarn scripts below)
 * `setup-prod.js` sets up all the tables, dropping any existing data (it will warn you)
 * `setup-dev.js` sets up the tables and also adds sample data (also dropping existing data, without warning you)
 
-The entry point file, `src/index.js`, starts the server (`src/server/server.js`).
+The entry point file, `lib/index.js`, starts the server (`lib/server/server.js`).
 
 The server can run in two modes: `development` and `production`.
 
@@ -195,34 +195,34 @@ The Dockerized `tas-server` is exciting when used with [Docker Compose](https://
 I've done this, a combined `tas-server`, database, and notification spawning cron process in the [`tas-backend`](https://github.com/j-d-b/tas-backend) project.
 
 ## Project Organization
-All JavaScript is located in `src/`
+All JavaScript is located in `lib/`
 
-`src/index.js` is the entry point to run the application. It will start the server express server and expose the GraphQL endpoint. This is run by `yarn start`.
+`lib/index.js` is the entry point to run the application. It will start the server express server and expose the GraphQL endpoint. This is run by `yarn start`.
 
-### src/data/
+### lib/data/
 * Contains Sequelize models and model definitions for interacting with the database.
 * Contains database connection configuration.
 * `setup-scripts/` contains database table setup code, run by `yarn setup` and `yarn develop`.
 
-### src/logging/
+### lib/logging/
 * Logs to `/logs/` directory (will be created if it does not exist).
 * `exceptions.log` contains any uncaught exceptions.
 * `errors.log` contains all server errors.
 * `combined.log` contains all server requests, server error responses, GraphQL queries fired, and errors.
 * `verbose.log` contains everything in `combined.log` with the addition of database queries.
 
-### src/messaging/
+### lib/messaging/
 * Contains all email and SMS sending code and templates (If you're updating the frontend colors/logo, you'll have to change these templates too.)
 * Email is sent using [Mailgun](https://www.mailgun.com/)
 * SMS is sent using [Plivo](https://www.plivo.com/sms/)
 
-### src/graphql/
+### lib/graphql/
 * Contains all GraphQL resolvers (helpers, input checking, errors...) and schema. There is a **README** here as well.
 
-### src/rest/
+### lib/rest/
 * Contains all code for REST routes. Currently (and potentially forever), the only REST route is `/auth-token`, which gets an auth token using the `refreshToken` cookie.
 
-### src/terminal-connection/
+### lib/terminal-connection/
 * Contains all code related to fetching data from the container terminal. Specifically:
   * Checking validity of container details.
   * Getting container block location
