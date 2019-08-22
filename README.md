@@ -1,7 +1,7 @@
 # TAS Server 🚚
 This repository contains the GraphQL API server originally built for the [BCTC](http://www.bctc-lb.com/) Truck Appointment System (TAS).
 
-The TAS end-product is intended to have both web and native mobile interfaces. The backend web server exists in a separate environemnt (potentially physically) and exposes a GraphQL API endpoint for use by the web and mobile applications.
+The TAS end-product is intended to have both web and native mobile interfaces. The backend web server exists in a separate environment (potentially physically) and exposes a GraphQL API endpoint for use by the web and mobile applications.
 
 The `tas-server` connects to a MariaDB (or MySQL) database specified in the `.env` configuration.
 
