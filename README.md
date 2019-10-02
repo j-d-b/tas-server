@@ -1,7 +1,7 @@
 # TAS Server 🚚
-This repository contains the GraphQL API server for the [BCTC](http://www.bctc-lb.com/) Truck Appointment System (TAS) backend.
+This repository contains the GraphQL API server originally built for the [BCTC](http://www.bctc-lb.com/) Truck Appointment System (TAS).
 
-The TAS end-product is intended to have both web and native mobile interfaces. Following [JAMStack](https://jamstack.org/) principles, the backend exists in a separate environment as a web server exposing a GraphQL API endpoint for use by the web and mobile applications.
+The TAS end-product is intended to have both web and native mobile interfaces. The backend web server exists in a separate environment (potentially physically) and exposes a GraphQL API endpoint for use by the web and mobile applications.
 
 The `tas-server` connects to a MariaDB (or MySQL) database specified in the `.env` configuration.
 
@@ -217,7 +217,7 @@ All JavaScript is located in `lib/`
 * SMS is sent using [Plivo](https://www.plivo.com/sms/)
 
 ### lib/graphql/
-* Contains all GraphQL resolvers (helpers, input checking, errors...) and schema. There is a **README** here as well.
+* Contains all GraphQL resolvers (helpers, input checking, errors...) and schema. There is a [**README**](./lib/graphql/README.md) here as well.
 
 ### lib/rest/
 * Contains all code for REST routes. Currently (and potentially forever), the only REST route is `/auth-token`, which gets an auth token using the `refreshToken` cookie.
@@ -243,12 +243,12 @@ This project relies on the following technologies, most included as `npm` packag
 * [Apollo Errors](https://github.com/thebigredgeek/apollo-errors) and [Apollo Resolvers](https://github.com/thebigredgeek/apollo-resolvers) - Error management/formatting and easy resolver authentication by chaining
 
 ## License
-The TAS (and thus `tas-server`) was built for [BCTC](http://www.bctc-lb.com/) and is licensed under the [GNU General Public License, Version 3](https://www.gnu.org/licenses/gpl-3.0.en.html).
+The TAS (and thus `tas-server`) was originally built for [BCTC](http://www.bctc-lb.com/) and is licensed under the [GNU General Public License, Version 3](https://www.gnu.org/licenses/gpl-3.0.en.html).
 
 See [`LICENSE.md`](https://github.com/j-d-b/tas-server/blob/master/LICENSE.md) for details.
 
 ## Contributing
-I don't have an official contribution guide, but welcome pull requests and any form of comments; if you're interested, please get in touch.
+I don't have an official contribution guide, but welcome pull requests and any form of comments (submit an issue!); if you're interested, please get in touch.
 
 ## Todo
 There are a still few areas that need attention.
@@ -270,4 +270,4 @@ There are a still few areas that need attention.
 
 ---
 
-<p align="center">Copyright (C) 2018 <a href="https://kcus.org/home">KCUS, Inc.</a></p>
+<p align="center">Copyright (C) 2019 <a href="https://kcus.org/home">KCUS, Inc.</a></p>
