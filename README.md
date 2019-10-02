@@ -212,7 +212,7 @@ All JavaScript is located in `lib/`
 * `verbose.log` contains everything in `combined.log` with the addition of database queries.
 
 ### lib/messaging/
-* Contains all email and SMS sending code and templates (If you're updating the frontend colors/logo, you'll have to change these templates too.)
+* Contains all email and SMS sending code and templates (If you're updating the frontend colors or logo, you'll have to change these templates too.)
 * Email is sent using [Mailgun](https://www.mailgun.com/)
 * SMS is sent using [Plivo](https://www.plivo.com/sms/)
 
@@ -247,7 +247,7 @@ The TAS (and thus `tas-server`) was originally built for [BCTC](http://www.bctc-
 See [`LICENSE.md`](https://github.com/j-d-b/tas-server/blob/master/LICENSE.md) for details.
 
 ## Contributing
-I don't have an official contribution guide, but welcome pull requests and any form of comments (submit an issue!); if you're interested, please get in touch.
+I don't have an official contribution guide, but welcome pull requests and any form of comments (submit an issue!); if you're interested in contributing, please get in touch.
 
 ## Todo
 There are a still few areas that need attention.
@@ -261,10 +261,9 @@ There are a still few areas that need attention.
 * Write tests
 
 ### Enhancement
-* Gate capacity and planned activities templates
+* Gate capacity template
 
 ### Production
-* Connect to BCTC container details server
 * Switch from Mailgun to BCTC's SMTP server
 
 ---
