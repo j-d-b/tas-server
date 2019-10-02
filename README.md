@@ -60,7 +60,7 @@ yarn setup:dev
 ```
 
 ### Production
-Setup the database tables (users, blocks, appts, config) *first time only*
+Setup the database tables (users, restrictions, appts, actions, config) *first time only*
 ```
 yarn setup
 ```
@@ -225,7 +225,6 @@ All JavaScript is located in `lib/`
 ### lib/terminal-connection/
 * Contains all code related to fetching data from the container terminal. Specifically:
   * Checking validity of container details.
-  * Getting container block location
   * Getting container size (for `IMPORT_FULL` appointments)
 
 ## Built With
