@@ -14,19 +14,5 @@
         <td style="font-weight: 600;">Arrival Window</td>
         <td style="text-align: right;">{{arrivalWindow}}</td>
       </tr>
-      <tr>
-        <td style="font-weight: 600;">{{#if linkedAppt}}First {{/if}}Appointment Type</td>
-        <td style="text-align: right;">{{type}}</td>
-      </tr>
-      {{#if linkedAppt}}
-        <tr>
-          <td style="font-weight: 600;">Second Appointment Type</td>
-          <td style="text-align: right;">{{linkedAppt.type}}</td>
-        </tr>
-      {{/if}}
-    </table>
-    {{#if linkedAppt}}
-      <p>This appointment was composed of two appointments which were both deleted.</p>
-    {{/if}}
   </div>
 </div>
