@@ -291,10 +291,6 @@ There are a still few areas that need attention.
 * Re-assess which appt fields can be updated after booking
 * Production-quality transactional emails
 
-### Features
-
-* Gate capacity templates
-
 ### Production
 
 * Switch from Mailgun to BCTC's SMTP server
