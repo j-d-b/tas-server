@@ -62,4 +62,52 @@ describe('Login Mutation', () => {
         done();
       });
   });
+
+  test('Unconfirmed user cannot login', async done => {
+    const sampleUserPassword = 'TEST';
+    const sampleUser = {
+      email: 'test@test',
+      password: bcrypt.hashSync(sampleUserPassword, 10),
+      role: 'CUSTOMER',
+      company: 'KCUS',
+      name: 'TEST USER',
+      confirmed: false,
+      emailVerified: true,
+      reminderSetting: 'BOTH'
+    };
+    
+    await User.create(sampleUser);
+    request(server)
+      .post('/graphql')
+      .send({ query: `mutation { login(input: { email: "${sampleUser.email}", password: "${sampleUserPassword}" }) }` })
+      .end((err, res) => {
+        if (err) return done(err);
+        expect(res.body.errors[0].message).toBe('Your account must be confirmed by an admin before you can log in');
+        done();
+      });
+  });
+
+  test('Non-email verified user cannot login', async done => {
+    const sampleUserPassword = 'TEST';
+    const sampleUser = {
+      email: 'test@test2',
+      password: bcrypt.hashSync(sampleUserPassword, 10),
+      role: 'CUSTOMER',
+      company: 'KCUS',
+      name: 'TEST USER',
+      confirmed: true,
+      emailVerified: false,
+      reminderSetting: 'BOTH'
+    };
+    
+    await User.create(sampleUser);
+    request(server)
+      .post('/graphql')
+      .send({ query: `mutation { login(input: { email: "${sampleUser.email}", password: "${sampleUserPassword}" }) }` })
+      .end((err, res) => {
+        if (err) return done(err);
+        expect(res.body.errors[0].message).toBe('You must verify your account email before you can log in');
+        done();
+      });
+  });
 });
