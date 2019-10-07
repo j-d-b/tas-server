@@ -13,9 +13,9 @@
   },
   "scripts": {
     "setup": "node lib/data/setup-scripts/setup-prod",
-    "start": "NODE_ENV=production node lib/server",
+    "start": "NODE_ENV=production node lib/index",
     "setup:dev": "node lib/data/setup-scripts/setup-dev",
-    "start:dev": "NODE_ENV=development nodemon lib/server",
+    "start:dev": "NODE_ENV=development nodemon lib/index",
     "develop": "yarn setup:dev && yarn start:dev",
     "lint": "eslint lib",
     "test": "jest"
@@ -50,6 +50,7 @@
     "eslint": "^5.15.1",
     "graphql-playground-middleware-express": "^1.6.3",
     "jest": "^24.9.0",
-    "nodemon": "^1.17.5"
+    "nodemon": "^1.17.5",
+    "supertest": "^4.0.2"
   }
 }
