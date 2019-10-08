@@ -49,7 +49,7 @@ describe('addUser Mutation', () => {
       });
   });
 
-  test('New user password must note be less than 6 characters', done => {
+  test('New user password must not be less than 6 characters', done => {
     request(server)
       .post('/graphql')
       .send({ query: `mutation { addUser(input: ${addUserInput('')}) { email } }` })
