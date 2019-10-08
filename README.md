@@ -292,7 +292,6 @@ There are a still few areas that need attention.
 
 ### Core
 
-* Write tests
 * Configure CORS
 * Re-assess which appt fields can be updated after booking
 * Production-quality transactional emails

@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const server = require('../../../lib/server');
 const sequelize = require('../../../lib/data/sequelize');
 const { User, Restriction } = require('../../../lib/data/models');
-const { signJwt } = require('../../../lib/graphql/resolvers/helpers');
 
 const testTimeSlotDate = '2020-01-01';
 const testTimeSlotHour = 0;

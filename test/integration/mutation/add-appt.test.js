@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const server = require('../../../lib/server');
 const sequelize = require('../../../lib/data/sequelize');
 const { Appt, Config, User, Action, Restriction } = require('../../../lib/data/models');
-const { signJwt } = require('../../../lib/graphql/resolvers/helpers');
 
 const timeSlotDate = '2019-10-10';
 const timeSlotHour = 1;
