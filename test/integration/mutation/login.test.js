@@ -1,9 +1,9 @@
 const request = require('supertest');
 const bcrypt = require('bcrypt');
 
-const server = require('../../lib/server');
-const sequelize = require('../../lib/data/sequelize');
-const { User } = require('../../lib/data/models');
+const server = require('../../../lib/server');
+const sequelize = require('../../../lib/data/sequelize');
+const { User } = require('../../../lib/data/models');
 
 const sampleAdminPassword = '000000';
 const sampleAdmin =   {
@@ -18,17 +18,17 @@ const sampleAdmin =   {
   reminderSetting: 'BOTH'
 };
 
-beforeAll(done => {
-  sequelize.sync({ force: true })
-    .then(() => User.create(sampleAdmin))
-    .then(() => {
-      done();
-    });
-});
+describe('login Mutation', () => {
+  beforeEach(done => {
+    sequelize.sync({ force: true })
+      .then(() => User.create(sampleAdmin))
+      .then(() => {
+        done();
+      });
+  });
+  
+  afterAll(() => sequelize.close());
 
-afterAll(() => sequelize.close());
-
-describe('Login Mutation', () => {
   test('Registered user can login', done => {
     request(server)
       .post('/graphql')
