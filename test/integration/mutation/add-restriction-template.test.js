@@ -44,7 +44,7 @@ describe('addRestrictionTemplate Mutation', () => {
       .post('/graphql')
       .set('Authorization', 'Bearer ' + adminAuthToken)
       .send({ query: `mutation { addRestrictionTemplate(input: ${addRestrictionTemplateInput}) { name } }` })
-      //.expect(200)
+      .expect(200)
       .end((err, res) => {
         expect(res.body.data.addRestrictionTemplate.name).toBe(testTemplateName);
 
