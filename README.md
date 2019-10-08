@@ -161,7 +161,13 @@ The `tas-server` exposes one REST endpoint, `/auth-token`.
 This endpoint will respond with a signed JWT (auth/access token) if the request includes a valid `refreshToken` cookie. This cookie is set by the `login` GraphQL mutation. The refresh token is encrypted and stored on the user.
 
 ## Testing
-Currently, there are no tests written; this is an imminent todo.
+Run the test suite with
+
+```
+yarn test
+```
+
+Tests were an unforunate afterthought on this project and thus are largely tests of each graphql resolver which make actual calls to the database. Thus data in the database give in `.env` will be overwritten when running tests so please ensure you have a test environment set up before running.
 
 ### Linting
 Uses [ESLint](https://eslint.org/); configuration defined in [.eslintrc.js](https://github.com/j-d-b/tas-server/blob/master/.eslintrc.js).
