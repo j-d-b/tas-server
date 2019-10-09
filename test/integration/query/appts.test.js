@@ -13,7 +13,7 @@ const newAppt1Timeslot = {
   date: '2020-01-01'
 };
 
-const authToken = jwt.sign({
+const customerAuthToken = jwt.sign({
   userEmail: 'test',
   userRole: 'CUSTOMER'
 }, process.env.SECRET_KEY);
@@ -97,7 +97,7 @@ describe('appts Query', () => {
   test('appts query can return all appts in the database', done => {
     request(server)
       .post('/graphql')
-      .set('Authorization', 'Bearer ' + authToken)
+      .set('Authorization', 'Bearer ' + customerAuthToken)
       .send({ query: `{ appts(input: { where: {} }) { id } }` })
       .then(res => {
         console.log(res.body);
@@ -117,7 +117,7 @@ describe('appts Query', () => {
   test('appts query can return all appts for a given timeslot', done => {
     request(server)
       .post('/graphql')
-      .set('Authorization', 'Bearer ' + authToken)
+      .set('Authorization', 'Bearer ' + customerAuthToken)
       .send({ query: `{ appts(input: { where: { timeSlot: { hour: ${newAppt1Timeslot.hour}, date: "${newAppt1Timeslot.date}" } } }) { id } }` })
       .then(res => {
         expect(res.body.data.appts.length).toBe(1);
@@ -129,7 +129,7 @@ describe('appts Query', () => {
   test('appts query can return all appts of a given action type', async done => {
     request(server)
       .post('/graphql')
-      .set('Authorization', 'Bearer ' + authToken)
+      .set('Authorization', 'Bearer ' + customerAuthToken)
       .send({ query: `{ appts(input: { where: { actionType: IMPORT_FULL } }) { id } }` })
       .then(res => {
         expect(res.body.data.appts.length).toBe(1);
@@ -137,7 +137,7 @@ describe('appts Query', () => {
         
         return request(server)
         .post('/graphql')
-        .set('Authorization', 'Bearer ' + authToken)
+        .set('Authorization', 'Bearer ' + customerAuthToken)
         .send({ query: `{ appts(input: { where: { actionType: STORAGE_EMPTY } }) { id } }` })
       }).then(res => {
         expect(res.body.data.appts.length).toBe(2);
@@ -148,7 +148,7 @@ describe('appts Query', () => {
   test('appts query can return all appts for a given user', done => {
     request(server)
       .post('/graphql')
-      .set('Authorization', 'Bearer ' + authToken)
+      .set('Authorization', 'Bearer ' + customerAuthToken)
       .send({ query: `{ appts(input: { where: { userEmail: "${newAppt2UserEmail}" } }) { id } }` })
       .then(res => {
         expect(res.body.data.appts.length).toBe(1);
@@ -160,14 +160,14 @@ describe('appts Query', () => {
   test('appts query can combine where parameters (matching appts must satisfy both parameters)', async done => {
     request(server)
     .post('/graphql')
-    .set('Authorization', 'Bearer ' + authToken)
+    .set('Authorization', 'Bearer ' + customerAuthToken)
     .send({ query: `{ appts(input: { where: { actionType: EXPORT_FULL, userEmail: "${newAppt2UserEmail}" } }) { id } }` }) 
     .then(res => {
       expect(res.body.data.appts.length).toBe(0);
 
       return request(server)
         .post('/graphql')
-        .set('Authorization', 'Bearer ' + authToken)
+        .set('Authorization', 'Bearer ' + customerAuthToken)
         .send({ query: `{ appts(input: { where: { userEmail: "${newAppt2UserEmail}", actionType: STORAGE_EMPTY } }) { id } }` });
     }).then(res => {
       expect(res.body.data.appts.length).toBe(1);
