@@ -36,16 +36,16 @@ describe('addUser Mutation', () => {
       .post('/graphql')
       .send({ query: `mutation { addUser(input: ${addUserInput('000000')}) { email } }` })
       .expect(200)
-      .end((err, res) => {
+      .then(res => {
         expect(res.body.data.addUser.email).toBe(testUserEmail);
 
-        User.findById(testUserEmail).then(user => {
-          expect(user.name).toBe(testUserName);
-          expect(user.company).toBe(testUserCompany);
-          expect(user.confrimed).toBe(false);
-          expect(user.emailVerified).toBe(false);
-          done();
-        });
+        return User.findById(testUserEmail);
+      }).then(user => {
+        expect(user.name).toBe(testUserName);
+        expect(user.company).toBe(testUserCompany);
+        expect(user.confirmed).toBe(false);
+        expect(user.emailVerified).toBe(false);
+        done();
       });
   });
 
