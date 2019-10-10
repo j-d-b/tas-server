@@ -8,7 +8,7 @@ const { Config } = require('../../../lib/data/models');
 const testArrivalWindowLength = 5;
 
 describe('arrivalWindowLength Query', () => {
-  beforeEach(async done => {
+  beforeAll(async done => {
     await sequelize.sync({ force: true })
     await Config.create({
       arrivalWindowLength: testArrivalWindowLength,

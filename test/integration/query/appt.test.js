@@ -8,7 +8,7 @@ const { User, Appt } = require('../../../lib/data/models');
 const newApptId = '12345678';
 
 describe('appt Query', () => {
-  beforeEach(done => {
+  beforeAll(done => {
     sequelize.sync({ force: true })
       .then(() => {
         return User.create({

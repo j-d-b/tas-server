@@ -19,7 +19,7 @@ const customerAuthToken = jwt.sign({
 }, process.env.SECRET_KEY);
 
 describe('appts Query', () => {
-  beforeEach(done => {
+  beforeAll(done => {
     sequelize.sync({ force: true })
       .then(() => {
         return User.bulkCreate([

@@ -12,7 +12,7 @@ const timeSlot = {
 const timeSlotDayOfWeek = 'WEDNESDAY';
 
 describe('Appointment slot availability', () => {
-  beforeEach(done => {
+  beforeAll(done => {
     sequelize.sync({ force: true })
       .then(() => done());
   });
