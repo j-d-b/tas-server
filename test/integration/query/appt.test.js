@@ -52,7 +52,7 @@ describe('appt Query', () => {
       .send({ query: `{ appt(input: { id: ${newApptId}}) { id } }` })
       .then(res => {
         expect(res.body.data.appt.id).toBe(newApptId);
-        return Appt.findById(newApptId);
+        return Appt.findByPk(newApptId);
       }).then(appt => {
         expect(String(appt.id)).toBe(newApptId); // it's a number when it comes from the database
         done();

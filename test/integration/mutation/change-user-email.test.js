@@ -54,7 +54,7 @@ describe('changeUserEmail Mutation', () => {
       .end((err, res) => {
         expect(res.body.data.changeUserEmail).toBe(`User ${testUserEmail} changed to ${newEmail}`);
 
-        User.findById(newEmail).then(user => {
+        User.findByPk(newEmail).then(user => {
           expect(user.name).toBe(testUserName)
           done();
         });

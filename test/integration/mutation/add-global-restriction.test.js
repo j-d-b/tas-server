@@ -49,7 +49,7 @@ describe('addGlobalRestrictions Mutation', () => {
         expect(res.body.data.addGlobalRestrictions.length).toEqual(1);
         expect(res.body.data.addGlobalRestrictions[0].id).toBeTruthy();
         
-        Restriction.findById(res.body.data.addGlobalRestrictions[0].id).then(restriction => {
+        Restriction.findByPk(res.body.data.addGlobalRestrictions[0].id).then(restriction => {
           expect(restriction.timeSlot.date).toEqual(testTimeSlotDate);
           expect(restriction.timeSlot.hour).toEqual(testTimeSlotHour);
           expect(restriction.gateCapacity).toEqual(testGateCapacity);
@@ -74,7 +74,7 @@ describe('addGlobalRestrictions Mutation', () => {
         expect(res.body.data.addGlobalRestrictions.length).toEqual(1);
         expect(res.body.data.addGlobalRestrictions[0].id).toBeTruthy();
         
-        Restriction.findById(res.body.data.addGlobalRestrictions[0].id).then(restriction => {
+        Restriction.findByPk(res.body.data.addGlobalRestrictions[0].id).then(restriction => {
           expect(restriction.timeSlot.date).toEqual(testTimeSlotDate);
           expect(restriction.timeSlot.hour).toEqual(testTimeSlotHour);
           expect(restriction.gateCapacity).toEqual(testGateCapacity);
@@ -134,12 +134,12 @@ describe('addGlobalRestrictions Mutation', () => {
       if (err) return done(err);
       expect(res.body.data.addGlobalRestrictions.length).toEqual(2);
 
-      Restriction.findById(res.body.data.addGlobalRestrictions[0].id).then(restriction => {
+      Restriction.findByPk(res.body.data.addGlobalRestrictions[0].id).then(restriction => {
         expect(restriction.timeSlot.date).toEqual(testTimeSlotDate);
         expect(restriction.timeSlot.hour).toEqual(testTimeSlotHour);
         expect(restriction.gateCapacity).toEqual(testGateCapacity);
 
-        return Restriction.findById(res.body.data.addGlobalRestrictions[1].id);
+        return Restriction.findByPk(res.body.data.addGlobalRestrictions[1].id);
       }).then(restriction => {
         expect(restriction.timeSlot.date).toEqual(testTimeSlotDate2);
         expect(restriction.timeSlot.hour).toEqual(testTimeSlotHour2);
@@ -193,7 +193,7 @@ describe('addGlobalRestrictions Mutation', () => {
       expect(res.body.data.addGlobalRestrictions.length).toEqual(1);
       expect(res.body.data.addGlobalRestrictions[0].id).toBeTruthy();
       
-      return Restriction.findById(res.body.data.addGlobalRestrictions[0].id);
+      return Restriction.findByPk(res.body.data.addGlobalRestrictions[0].id);
     }).then(restriction => {
       expect(restriction.timeSlot.date).toEqual(testTimeSlotDate);
       expect(restriction.timeSlot.hour).toEqual(testTimeSlotHour);
@@ -220,7 +220,7 @@ describe('addGlobalRestrictions Mutation', () => {
           expect(res.body.data.addGlobalRestrictions.length).toEqual(1);
           expect(res.body.data.addGlobalRestrictions[0].id).toBeTruthy();
           
-          Restriction.findById(res.body.data.addGlobalRestrictions[0].id).then(restriction => {
+          Restriction.findByPk(res.body.data.addGlobalRestrictions[0].id).then(restriction => {
             expect(restriction.timeSlot.date).toEqual(testTimeSlotDate);
             expect(restriction.timeSlot.hour).toEqual(testTimeSlotHour);
             expect(restriction.gateCapacity).toEqual(testGateCapacity2);

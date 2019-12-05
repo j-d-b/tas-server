@@ -39,7 +39,7 @@ describe('addUser Mutation', () => {
       .then(res => {
         expect(res.body.data.addUser.email).toBe(testUserEmail);
 
-        return User.findById(testUserEmail);
+        return User.findByPk(testUserEmail);
       }).then(user => {
         expect(user.name).toBe(testUserName);
         expect(user.company).toBe(testUserCompany);
@@ -57,7 +57,7 @@ describe('addUser Mutation', () => {
       .end((err, res) => {
         expect(res.body.errors[0].message).toBe('Password must be at least 6 characters');
 
-        User.findById(testUserEmail).then(user => {
+        User.findByPk(testUserEmail).then(user => {
           expect(user).toBeNull();
           done();
         });

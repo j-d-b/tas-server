@@ -48,7 +48,7 @@ describe('addRestrictionTemplate Mutation', () => {
       .end((err, res) => {
         expect(res.body.data.addRestrictionTemplate.name).toBe(testTemplateName);
 
-        RestrictionTemplate.findById(testTemplateName).then(template => {
+        RestrictionTemplate.findByPk(testTemplateName).then(template => {
           expect(template).not.toBeNull();
           return Restriction.findOne({ where: { template: testTemplateName } });
         }).then(restriction => {
@@ -75,7 +75,7 @@ describe('addRestrictionTemplate Mutation', () => {
       .end((err, res) => {
         expect(res.body.data.addRestrictionTemplate.name).toBe(testTemplateName);
 
-        RestrictionTemplate.findById(testTemplateName).then(template => {
+        RestrictionTemplate.findByPk(testTemplateName).then(template => {
           expect(template).not.toBeNull();          
           return Restriction.findOne({ where: { template: testTemplateName } });
         }).then(restriction => {

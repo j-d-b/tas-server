@@ -55,7 +55,7 @@ describe('changePassword Mutation', () => {
       .end((err, res) => {
         expect(res.body.data.changePassword).toBe('Password updated successfully');
 
-        User.findById(testUserEmail).then(user => {
+        User.findByPk(testUserEmail).then(user => {
           const isValid = bcrypt.compareSync(newPassword, user.password);
           expect(isValid).toBe(true);
           done();
@@ -79,7 +79,7 @@ describe('changePassword Mutation', () => {
       .end((err, res) => {
         expect(res.body.errors[0].message).toBe('Password must be at least 6 characters');
 
-        User.findById(testUserEmail).then(user => {
+        User.findByPk(testUserEmail).then(user => {
           const isValid = bcrypt.compareSync(testUserPassword, user.password);
           expect(isValid).toBe(true);
           done();

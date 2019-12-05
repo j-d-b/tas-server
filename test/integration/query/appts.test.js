@@ -102,10 +102,10 @@ describe('appts Query', () => {
       .then(res => {
         expect(res.body.data.appts.length).toBe(2);
 
-        Appt.findById(res.body.data.appts[0].id)
+        Appt.findByPk(res.body.data.appts[0].id)
           .then(appt => {
             expect(appt).toBeDefined();
-            return Appt.findById(res.body.data.appts[1].id);
+            return Appt.findByPk(res.body.data.appts[1].id);
           }).then(appt => {
             expect(appt).toBeDefined();
             done();

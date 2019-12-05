@@ -57,7 +57,7 @@ describe('addAppt Mutation', () => {
         if (err) return done(err);
         expect(res.body.data.addAppt.id).toBeTruthy();
         
-        Appt.findById(res.body.data.addAppt.id).then(appt => {
+        Appt.findByPk(res.body.data.addAppt.id).then(appt => {
           expect(appt.timeSlot.date).toEqual(timeSlotDate);
           expect(appt.timeSlot.hour).toEqual(timeSlotHour);
           expect(appt.licensePlateNumber).toEqual(plateNum);
