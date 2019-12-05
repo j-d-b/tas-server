@@ -10,7 +10,7 @@ const newAppt2Id = '910111213';
 const newAppt2UserEmail = 'test2@test.com';
 const newAppt1Timeslot = {
   hour: 0,
-  date: '2020-03-01'
+  date: '2020-01-01'
 };
 
 const customerAuthToken = jwt.sign({
@@ -51,7 +51,7 @@ describe('appts Query', () => {
             userEmail: newAppt2UserEmail,
             timeSlot: {
               hour: 1,
-              date: '2020-01-01'
+              date: '2020-01-03'
             },
             arrivalWindowSlot: 0,
             arrivalWindowLength: 15
@@ -113,30 +113,29 @@ describe('appts Query', () => {
       });
   });
 
-  // test('appts query can return all appts after a given date', done => {
-  //   request(server)
-  //     .post('/graphql')
-  //     .set('Authorization', 'Bearer ' + customerAuthToken)
-  //     .send({ query: `{ appts(input: { startDate: '2020-02-01' }) { id } }` })
-  //     .then(res => {
-  //       console.log(res.body.data);
-  //       expect(res.body.data.appts.length).toBe(1);
-  //       expect(res.body.data.appts[0].id).toBe(newAppt1Id);
-  //       done();
-  //     });
-  // });
+  test('appts query can return all appts after a given date', done => {
+    request(server)
+      .post('/graphql')
+      .set('Authorization', 'Bearer ' + customerAuthToken)
+      .send({ query: `{ appts(input: { startDate: "2020-01-02" }) { id } }` })
+      .then(res => {
+        expect(res.body.data.appts.length).toBe(1);
+        expect(res.body.data.appts[0].id).toBe(newAppt2Id);
+        done();
+      });
+  });
 
-  // test('appts query can return all appts before a given date', done => {
-  //   request(server)
-  //     .post('/graphql')
-  //     .set('Authorization', 'Bearer ' + customerAuthToken)
-  //     .send({ query: `{ appts(input: { endDate: '2020-02-01' }) { id } }` })
-  //     .then(res => {
-  //       expect(res.body.data.appts.length).toBe(1);
-  //       expect(res.body.data.appts[0].id).toBe(newAppt2Id);
-  //       done();
-  //     });
-  // });
+  test('appts query can return all appts before a given date', done => {
+    request(server)
+      .post('/graphql')
+      .set('Authorization', 'Bearer ' + customerAuthToken)
+      .send({ query: `{ appts(input: { endDate: "2020-01-02" }) { id } }` })
+      .then(res => {
+        expect(res.body.data.appts.length).toBe(1);
+        expect(res.body.data.appts[0].id).toBe(newAppt1Id);
+        done();
+      });
+  });
 
   test('appts query can return all appts of a given action type', async done => {
     request(server)
