@@ -293,13 +293,12 @@ There are a still few areas that need attention.
 ### Core
 
 * Configure CORS
-* Re-assess which appt fields can be updated after booking
-* Production-quality transactional emails
 
 ### Production
 
-* Switch from Mailgun to BCTC's SMTP server
+* Switch from Mailgun to client's SMTP server
+* Swith to MSSQL (per client request)
 
 ---
 
-<p align="center">Copyright (C) 2019 <a href="https://kcus.org/home">KCUS, Inc.</a></p>
+Copyright (C) 2019 [KCUS, Inc.](https://kcus.org/home)
