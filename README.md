@@ -167,7 +167,7 @@ Run the test suite with
 yarn test
 ```
 
-Tests were an unforunate afterthought on this project and thus are largely tests of each graphql resolver which make actual calls to the database. Thus data in the database give in `.env` will be overwritten when running tests so please ensure you have a test environment set up before running.
+Tests were unforunatly a quick-and-dirty addition to this project and thus are largely tests of each graphql resolver which make actual calls to the database. Thus data in the database give in `.env` will be overwritten when running tests so *please ensure you have a test environment set up and do not run this on the live system.*
 
 ### Linting
 Uses [ESLint](https://eslint.org/); configuration defined in [.eslintrc.js](https://github.com/j-d-b/tas-server/blob/master/.eslintrc.js).
