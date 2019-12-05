@@ -1,22 +1,25 @@
-<div style="text-align: center; font-family: sans-serif; background-color: limegreen; height: 100%; padding: 0 1rem 2rem 1rem;">
+<div style="text-align: center; font-family: sans-serif; background-color: #4383ab; height: 100%; padding: 0 1rem 2rem 1rem;">
   <img style="height: 2rem; margin: 2rem 0 1rem 0;" src="cid:simple-logo" />
 
-  <div style="background-color: #fff; border-radius: 5px; max-width: 400px; margin: 0 auto; padding: 1rem 1rem 1rem 1rem;">
+  <div style="background-color: #fff; border-radius: 5px; max-width: 400px; margin: 0 auto; padding: 1rem 1rem 1rem 1rem; box-shadow: 2px 2px 4px rgba(82, 82, 82, 0.6);">
     <h1>Appointment Deleted Notice</h1>
     <p>{{name}}, an operator/admin has deleted your appointment.</p>
     <p>A summary of the deleted appointment is provided below:</p>
-    <table style="width: 100%; text-align: left; border: 2px solid tomato; padding: 1rem; border-radius: 3px;">
-      <tr>
-        <td style="font-weight: 600;">Date</td>
-        <td style="text-align: right;">{{date}}</td>
-      </tr>
-      <tr>
-        <td style="font-weight: 600;">Arrival Window</td>
-        <td style="text-align: right;">{{arrivalWindow}}</td>
-      </tr>
-      <tr>
-        <td style="font-weight: 600;">Action Type(s)</td>
-        <td style="text-align: right;">{{actionTypes}}</td>
-      </tr>
+    <table style="width: 100%">
+      <tbody>
+        <tr>
+          <th>Date</th>
+          <td>{{date}}</td>
+        </tr>
+        <tr>
+          <th>Arrival Window</th>
+          <td>{{arrivalWindow}}</td>
+        </tr>
+        <tr>
+          <th>Action Type(s)</th>
+          <td>{{actionTypes}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

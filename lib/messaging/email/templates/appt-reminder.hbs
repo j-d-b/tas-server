@@ -1,84 +1,15 @@
-<div style="text-align: center; font-family: sans-serif; background-color: limegreen; height: 100%; padding: 0 1rem;">
+<div style="text-align: center; font-family: sans-serif; background-color: #4383ab; height: 100%; padding: 0 1rem;">
   <img style="height: 2rem; margin: 2rem 0 1rem 0;" src="cid:simple-logo" />
 
-  <div style="background-color: #fff; border-radius: 5px; max-width: 400px; margin: 0 auto; padding: 1rem 1rem 0.4rem 1rem;">
+  <div style="background-color: #fff; border-radius: 5px; max-width: 400px; margin: 0 auto; padding: 1rem 1rem 0.4rem 1rem; box-shadow: 2px 2px 4px rgba(82, 82, 82, 0.6);">
     <h1>Upcoming Appointment Reminder</h1>
     <p>Hello {{name}}, you have an appointment scheduled for tomorrow</p>
     <p><strong style="font-size: 1.2rem;">{{date}}</strong></p>
     <p>Please arrive during the following window:</p>
     <p><strong style="font-size: 1.2rem;">{{arrivalWindow}}</strong></p>
-
-    <p>The appointment details are listed below:</p>
-    <table style="width: 100%; text-align: left; border: 2px solid tomato; padding: 1rem; border-radius: 3px;">
-      <tr>
-        <td style="font-weight: 600;">Appointment Type</td>
-        <td style="text-align: right;">{{type}}</td>
-      </tr>
-      {{#if licensePlateNumber}}
-        <tr>
-          <td style="font-weight: 600;">License Plate Number</td>
-          <td style="text-align: right;">{{licensePlateNumber}}</td>
-        </tr>
-      {{/if}}
-      {{#if notifyMobileNumber}}
-        <tr>
-          <td style="font-weight: 600;">Mobile Number</td>
-          <td style="text-align: right;">{{notifyMobileNumber}}</td>
-        </tr>
-      {{/if}}
-      {{#if containerId}}
-        <tr>
-          <td style="font-weight: 600;">Container Id</td>
-          <td style="text-align: right;">{{containerId}}</td>
-        </tr>
-      {{/if}}
-      {{#if containerSize}}
-        <tr>
-          <td style="font-weight: 600;">Container Size</td>
-          <td style="text-align: right;">{{containerSize}}</td>
-        </tr>
-      {{/if}}
-      {{#if containerType}}
-        <tr>
-          <td style="font-weight: 600;">Container Type</td>
-          <td style="text-align: right;">{{conatinerType}}</td>
-        </tr>
-      {{/if}}
-      {{#if containerWeight}}
-        <tr>
-          <td style="font-weight: 600;">Container Weight</td>
-          <td style="text-align: right;">{{containerWeight}}</td>
-        </tr>
-      {{/if}}
-      {{#if shippingLine}}
-        <tr>
-          <td style="font-weight: 600;">Shipping Line</td>
-          <td style="text-align: right;">{{shippingLine}}</td>
-        </tr>
-      {{/if}}
-      {{#if bookingNum}}
-        <tr>
-          <td style="font-weight: 600;">Booking Number</td>
-          <td style="text-align: right;">{{bookingNum}}</td>
-        </tr>
-      {{/if}}
-      {{#if formNumber705}}
-        <tr>
-          <td style="font-weight: 600;">705 Form Number</td>
-          <td style="text-align: right;">{{formNumber705}}</td>
-        </tr>
-      {{/if}}
-      {{#if emptyForCityFormNum}}
-        <tr>
-          <td style="font-weight: 600;">Empty for City Form Number</td>
-          <td style="text-align: right;">{{emptyForCityFormNum}}</td>
-        </tr>
-      {{/if}}
-    </table>
-    <p>See you then!</p>
   </div>
 
-  <div style="padding: 1.5rem; font-size: 0.7rem; color: #fff; max-width: 400px; margin: 0 auto;">
+  <div style="padding: 1.5rem; font-size: 0.7rem; color: #fff; max-width: 400px; margin: 0 auto; text-shadow: 1px 1px 2px rgba(82, 82, 82, 0.6);">
     <strong>Note:</strong> All times are UTC in 24-hour format.
   </div>
 </div>

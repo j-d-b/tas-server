@@ -17,7 +17,8 @@
     "setup:dev": "node lib/data/setup-scripts/setup-dev",
     "start:dev": "NODE_ENV=development nodemon lib/index",
     "develop": "yarn setup:dev && yarn start:dev",
-    "lint": "eslint lib"
+    "lint": "eslint lib",
+    "test": "jest --silent --runInBand"
   },
   "dependencies": {
     "apollo-errors": "^1.9.0",
@@ -28,6 +29,7 @@
     "chalk": "^2.4.1",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.5",
+    "date-fns": "^2.7.0",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "graphql": "^0.13.2",
@@ -48,6 +50,8 @@
   "devDependencies": {
     "eslint": "^5.15.1",
     "graphql-playground-middleware-express": "^1.6.3",
-    "nodemon": "^1.17.5"
+    "jest": "^24.9.0",
+    "nodemon": "^1.17.5",
+    "supertest": "^4.0.2"
   }
 }
