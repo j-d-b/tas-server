@@ -54,7 +54,7 @@ describe('appt Query', () => {
         expect(res.body.data.appt.id).toBe(newApptId);
         return Appt.findById(newApptId);
       }).then(appt => {
-        expect(appt.id).toBe(newApptId);
+        expect(String(appt.id)).toBe(newApptId); // it's a number when it comes from the database
         done();
       });
   });

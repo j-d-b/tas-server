@@ -81,4 +81,6 @@ describe('addUser Mutation', () => {
         done();
       });
   });
+
+  // test('New user password is hashed') // TODO
 });
