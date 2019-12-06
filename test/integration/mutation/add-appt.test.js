@@ -14,7 +14,7 @@ const authToken = jwt.sign({
   userEmail: 'test@test',
   userRole: 'ADMIN'
 }, process.env.SECRET_KEY);
-
+ 
 const validAddApptInput = `
   {
     timeSlot: {
@@ -35,7 +35,7 @@ const validAddApptInput = `
 describe('addAppt Mutation', () => {
   beforeEach(done => {
     sequelize.sync({ force: true })
-      .then(() => Config.create({ defaultAllowedApptsPerHour: 10, maxTFUPerAppt: 40, arrivalWindowLength: 5 }))
+      .then(() => Config.create({ defaultAllowedApptsPerHour: 10, maxTFUPerAppt: 40, arrivalWindowLength: 5, apptsQueryMaxCount: 500 }))
       .then(() => User.create({ email: 'test@test', name: 'test', company: 'test', password: 'test' }))
       .then(() => done());
   });

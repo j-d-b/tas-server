@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const server = require('../../../lib/server');
 const sequelize = require('../../../lib/data/sequelize');
-const { User, Appt, Action } = require('../../../lib/data/models');
+const { User, Appt, Action, Config } = require('../../../lib/data/models');
 
 const newAppt1Id = '12345678';
 const newAppt2Id = '910111213';
@@ -84,6 +84,14 @@ describe('appts Query', () => {
             emptyForCityFormNumber: 'form2i38r923r'
           }
         ]);
+      })
+      .then(() => {
+        return Config.create({
+          arrivalWindowLength: 5,
+          maxTFUPerAppt: 40,
+          defaultAllowedApptsPerHour: 5,
+          apptsQueryMaxCount: 500
+        });
       }).then(() => done());
   });
 
@@ -93,6 +101,8 @@ describe('appts Query', () => {
       done();
     });
   });
+
+  // TODO test that appts can't return more than the `apptsQueryMaxCount`
 
   test('appts query can return all appts in the database', done => {
     request(server)

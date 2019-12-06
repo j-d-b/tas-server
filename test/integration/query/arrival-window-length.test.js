@@ -13,7 +13,8 @@ describe('arrivalWindowLength Query', () => {
     await Config.create({
       arrivalWindowLength: testArrivalWindowLength,
       maxTFUPerAppt: 40,
-      defaultAllowedApptsPerHour: 5
+      defaultAllowedApptsPerHour: 5,
+      apptsQueryMaxCount: 500
     });
     done();
   });
