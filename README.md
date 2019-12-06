@@ -26,6 +26,10 @@ A `.env` environment variables file must also be added to the project root direc
 * `PLIVO_AUTH_ID`: Plivo auth ID (SMS sending)
 * `PLIVO_AUTH_TOKEN`: Plivo auth (SMS sending)
 * `PLIVO_SRC_NUM`: Plivo sender mobile number (SMS sending)
+* `DB_SETUP_DEFAULT_ALLOWED_APPTS_PER_HOUR`: Initial `config` table value for `defaultAllowedApptsPerHour`
+* `DB_SETUP_MAX_TFU_PER_APPT`: Initial `config` table value for `maxTFUPerAppt`
+* `DB_SETUP_ARRIVAL_WINDOW_LENGTH`: Initial `config` table value for `arrivalWindowLength` *must be `5`, `10`, `15`, `30`, or `60`*
+* `DB_SETUP_APPTS_QUERY_MAX_COUNT`: Initial `config` table value for `apptsQueryMaxCount`
 
 ### Installation
 Install dependencies
@@ -68,13 +72,15 @@ yarn setup:dev
 ```
 
 ### Production
-Setup the database tables (users, restrictions, appts, actions, config) *first time only*
+Setup the database tables (`users`, `restrictions`, `appts`, `actions`, `config`) *first time only*
 
 ```shell
 yarn setup
 ```
 
 **Note:** Running `yarn setup` will drop all existing database tables (it will warn you and ask for confirmation), so *only run if looking for a fresh start.*
+
+This script will also create a single entry in the `config` table using the `DB_SETUP` prefixed environment variables from `.env`. The application can not run unless there is an entry in the "config" table with values for each field.
 
 Start the server (with `NODE_ENV` set to `production`)
 
