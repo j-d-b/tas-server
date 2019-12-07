@@ -13,7 +13,8 @@ describe('defaultAllowedApptsPerHour Query', () => {
     await Config.create({
       arrivalWindowLength: 5,
       maxTFUPerAppt: 40,
-      defaultAllowedApptsPerHour: testDefaultAllowedApptsPerHour
+      defaultAllowedApptsPerHour: testDefaultAllowedApptsPerHour,
+      apptsQueryMaxCount: 500
     });
     done();
   });

@@ -25,13 +25,13 @@ describe('Appointment slot availability', () => {
   });
 
   test('Slot is available when no restrictions or no other appts in this slot and default allow appts per hour is greater than 0', async () => {
-    await Config.create({ defaultAllowedApptsPerHour: 1, maxTFUPerAppt: 40, arrivalWindowLength: 5 });
+    await Config.create({ defaultAllowedApptsPerHour: 1, maxTFUPerAppt: 40, arrivalWindowLength: 5, apptsQueryMaxCount: 500 });
     const isAvailable = await slotAvailability(timeSlot, Appt, Config, Restriction, RestrictionTemplate);
     expect(isAvailable).toEqual(true);
   });
 
   test('Slot is unavailable when no restrictions or no other appts in this slot and default allow appts per hour is 0', async () => {
-    await Config.create({ defaultAllowedApptsPerHour: 0, maxTFUPerAppt: 40, arrivalWindowLength: 5 });
+    await Config.create({ defaultAllowedApptsPerHour: 0, maxTFUPerAppt: 40, arrivalWindowLength: 5, apptsQueryMaxCount: 500 });
     const isAvailable = await slotAvailability(timeSlot, Appt, Config, Restriction, RestrictionTemplate);
     expect(isAvailable).toEqual(false);
   });
@@ -89,7 +89,7 @@ describe('Appointment slot availability', () => {
   });
 
   test('Slot is subject to template restrictions only when there is an applied restriction template with a value for the given slot', async () => {
-    await Config.create({ defaultAllowedApptsPerHour: 1, maxTFUPerAppt: 40, arrivalWindowLength: 5 });
+    await Config.create({ defaultAllowedApptsPerHour: 1, maxTFUPerAppt: 40, arrivalWindowLength: 5, apptsQueryMaxCount: 500 });
     const template = await RestrictionTemplate.create({ name: 'TEST TEMPLATE', isApplied: false });
     await Restriction.create({
       dayOfWeek: timeSlotDayOfWeek,

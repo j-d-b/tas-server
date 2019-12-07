@@ -7,7 +7,7 @@ const { Config } = require('../../lib/data/models');
 describe('isValidNumContainersCheck', () => {
   beforeAll(async done => {
     await sequelize.sync({ force: true });
-    await Config.create({ defaultAllowedApptsPerHour: 1, maxTFUPerAppt: 40, arrivalWindowLength: 5 });
+    await Config.create({ defaultAllowedApptsPerHour: 1, maxTFUPerAppt: 40, arrivalWindowLength: 5, apptsQueryMaxCount: 500 });
     done();
   });
 
