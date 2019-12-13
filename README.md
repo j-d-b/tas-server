@@ -20,6 +20,7 @@ A `.env` environment variables file must also be added to the project root direc
 * `WEB_APP_URL`: full URL of TAS web app
 * `SECRET_KEY`: key used to sign API access tokens
 * `DB_CONNECTION_STRING`: URL connection string for the MariaDB database (e.g. mysql://user@bctc-tas.com/tas)
+* `TIMEZONE`: IANA time zone string (e.g. `Asia/Beirut`) for location of container terminal
 * `MG_FROM_EMAIL`: Mailgun sender email address (email sending)
 * `MG_API_KEY`: Mailgun API key (email sending)
 * `MG_DOMAIN`: Mailgun domain (email sending)
@@ -95,6 +96,12 @@ Start the server (with `NODE_ENV` set to `production`)
 ```shell
 yarn start
 ```
+
+## Dates and Time Zones
+
+The `tas-server` does not store time zone information for an appointment date. The timezone of all time slots or hou is assumed to be UTC. *Please keep in mind when adding an appointment.*
+
+The time slot object { date, hour }, day of week, arrival window, and hour values are always assumed to be in the given `TIMEZONE`. This includes data received from queries/mutation. All full dates (stored in the database) are in UTC.
 
 ## Querying the GraphQL API
 Once the server is running, the GraphQL API will be available at `http://localhost:PORT/graphql`, with `PORT` as defined in `.env`.
@@ -177,7 +184,7 @@ This endpoint will respond with a signed JWT (auth/access token) if the request 
 ## Testing
 Run the test suite with
 
-```
+```shell
 yarn test
 ```
 
@@ -279,7 +286,7 @@ All JavaScript is located in `lib/`
   * Getting container size (for `IMPORT_FULL` appointments)
 
 ## Built With
-Node 10.7.0, using ECMAScript 2018 features (lot's of `async` (ES2017) and Rest/Spread (ES2018)).
+Node 10.7.0, using ECMAScript 2018 features.
 
 This project relies on the following technologies, most included as `npm` packages.
 
@@ -294,7 +301,7 @@ This project relies on the following technologies, most included as `npm` packag
 * [Apollo Errors](https://github.com/thebigredgeek/apollo-errors) and [Apollo Resolvers](https://github.com/thebigredgeek/apollo-resolvers) - Error management/formatting and easy resolver authentication by chaining
 
 ## License
-The TAS (and thus `tas-server`) was originally built for [BCTC](http://www.bctc-lb.com/) and is licensed under the [GNU General Public License, Version 3](https://www.gnu.org/licenses/gpl-3.0.en.html).
+The TAS (and thus `tas-server`) was built for [BCTC](http://www.bctc-lb.com/) and is licensed under the [GNU General Public License, Version 3](https://www.gnu.org/licenses/gpl-3.0.en.html).
 
 See [`LICENSE.md`](https://github.com/j-d-b/tas-server/blob/master/LICENSE.md) for details.
 
@@ -304,12 +311,9 @@ I don't have an official contribution guide, but welcome pull requests and any f
 ## Todo
 There are a still few areas that need attention.
 
-### Core
-
-* Configure CORS
-
 ### Production
 
+* Configure CORS
 * Switch from Mailgun to client's SMTP server
 * Swith to MSSQL (per client request)
 

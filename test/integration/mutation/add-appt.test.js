@@ -5,7 +5,7 @@ const server = require('../../../lib/server');
 const sequelize = require('../../../lib/data/sequelize');
 const { Appt, Config, User, Action, Restriction } = require('../../../lib/data/models');
 
-const timeSlotDate = '2019-10-10';
+const timeSlotDate = '2020-01-01';
 const timeSlotHour = 1;
 const plateNum = 'test_plate_num';
 const comment = 'test_comment';
@@ -115,22 +115,8 @@ describe('addAppt Mutation', () => {
   });
 
   test('Appt booking is subject to global gate capacity restrictions', async done => {
-    await Restriction.create({ type: 'GLOBAL', hour: timeSlotHour, timeSlotDate, gateCapacity: 0 });
-
-    request(server)
-    .post('/graphql')
-    .set('Authorization', 'Bearer ' + authToken)
-    .send({ query: `mutation { addAppt(input: ${validAddApptInput}) { id } }` })
-    .expect(200)
-    .end((err, res) => {
-      if (err) return done(err);
-      expect(res.body.errors[0].message).toBe('The appointment(s) cannot be scheduled for this time slot');
-      done();
-    });
-  });
-
-  test('Appt booking is subject to global gate capacity restrictions', async done => {
-    await Restriction.create({ type: 'GLOBAL', hour: timeSlotHour, timeSlotDate, gateCapacity: 0 });
+    const restriction = await Restriction.create({ type: 'GLOBAL', gateCapacity: 0 });
+    await restriction.update({ timeSlot: { hour: timeSlotHour, date: timeSlotDate } });
 
     request(server)
     .post('/graphql')
