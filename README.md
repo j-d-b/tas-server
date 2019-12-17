@@ -20,7 +20,7 @@ A `.env` environment variables file must also be added to the project root direc
 * `WEB_APP_URL`: full URL of TAS web app
 * `SECRET_KEY`: key used to sign API access tokens
 * `DB_CONNECTION_STRING`: URL connection string for the MariaDB database (e.g. mysql://user@bctc-tas.com/tas)
-* `TIMEZONE`: IANA time zone string (e.g. `Asia/Beirut`) for location of container terminal
+* `TIMEZONE`: IANA time zone string (e.g. `Asia/Beirut`) to set time zone (location of container server)
 * `MG_FROM_EMAIL`: Mailgun sender email address (email sending)
 * `MG_API_KEY`: Mailgun API key (email sending)
 * `MG_DOMAIN`: Mailgun domain (email sending)
@@ -99,9 +99,9 @@ yarn start
 
 ## Dates and Time Zones
 
-The `tas-server` does not store time zone information for an appointment date. The timezone of all time slots or hou is assumed to be UTC. *Please keep in mind when adding an appointment.*
+The `tas-server` stores all *dates in UTC* and all *time slot and hour values in the given `TIMEZONE`*.
 
-The time slot object { date, hour }, day of week, arrival window, and hour values are always assumed to be in the given `TIMEZONE`. This includes data received from queries/mutation. All full dates (stored in the database) are in UTC.
+When received as input, time slot object { date, hour }, day of week, arrival window, and hour values are assumed to be in the given `TIMEZONE`. This includes data received from queries/mutation.
 
 ## Querying the GraphQL API
 Once the server is running, the GraphQL API will be available at `http://localhost:PORT/graphql`, with `PORT` as defined in `.env`.
