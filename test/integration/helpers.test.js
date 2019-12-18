@@ -1,4 +1,5 @@
-require('dotenv').config(); // I don't like having to call this, should be more decoupled
+require('dotenv').config(); // I don't like having to call this in every file
+require('moment-timezone').tz.setDefault(process.env.TIMEZONE);
 
 const { slotAvailability } = require('../../lib/graphql/resolvers/helpers');
 const sequelize = require('../../lib/data/sequelize');
@@ -37,19 +38,19 @@ describe('Appointment slot availability', () => {
   });
 
   test('Slot is available when no other appts and global restriction for the slot is greater than 0', async () => {
-    await Restriction.create({ type: 'GLOBAL', gateCapacity: 1, hour: timeSlot.hour, timeSlotDate: timeSlot.date });
+    await Restriction.create({ type: 'GLOBAL', gateCapacity: 1, timeSlot });
     const isAvailable = await slotAvailability(timeSlot, Appt, Config, Restriction, RestrictionTemplate);
     expect(isAvailable).toEqual(true);
   });
 
   test('Slot is unavailable when no other appts and global restriction for the slot is 0', async () => {
-    await Restriction.create({ type: 'GLOBAL', gateCapacity: 0, hour: timeSlot.hour, timeSlotDate: timeSlot.date });
+    await Restriction.create({ type: 'GLOBAL', gateCapacity: 0, timeSlot });
     const isAvailable = await slotAvailability(timeSlot, Appt, Config, Restriction, RestrictionTemplate);
     expect(isAvailable).toEqual(false);
   });
 
   test('Slot is unavailable when one other appt exists in the slot and global restriction for the slot is 1', async () => {
-    await Restriction.create({ type: 'GLOBAL', gateCapacity: 1, hour: timeSlot.hour, timeSlotDate: timeSlot.date });
+    await Restriction.create({ type: 'GLOBAL', gateCapacity: 1, timeSlot });
     await User.create({
       email: 'robert@gmail.com',
       password: 'seals',
@@ -69,7 +70,7 @@ describe('Appointment slot availability', () => {
   });
 
   test('Slot is available when one other appt exists in the slot and and global restriction for the slot 2', async () => {
-    await Restriction.create({ type: 'GLOBAL', gateCapacity: 2, hour: timeSlot.hour, timeSlotDate: timeSlot.date });
+    await Restriction.create({ type: 'GLOBAL', gateCapacity: 2, timeSlot });
     await User.create({
       email: 'robert@gmail.com',
       password: 'seals',
