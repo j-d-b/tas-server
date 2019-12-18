@@ -188,7 +188,15 @@ Run the test suite with
 yarn test
 ```
 
-Tests were unforunatly a quick-and-dirty addition to this project and thus are largely tests of each graphql resolver which make actual calls to the database. Thus data in the database give in `.env` will be overwritten when running tests so *please ensure you have a test environment set up and do not run this on the live system.*
+Tests were unforunately a quick-and-dirty addition to this project and thus are largely tests of each graphql resolver which make actual calls to the database. Thus data in the database give in `.env` will be overwritten when running tests so *please ensure you have a test environment set up and do not run this on the live system.* Additionally, you must call the following code in each test suite.
+
+```javascript
+require('dotenv').config();
+
+const moment = require('moment-timezone');
+
+moment.tz.setDefault(process.env.TIMEZONE);
+```
 
 ### Linting
 Uses [ESLint](https://eslint.org/); configuration defined in [.eslintrc.js](https://github.com/j-d-b/tas-server/blob/master/.eslintrc.js).

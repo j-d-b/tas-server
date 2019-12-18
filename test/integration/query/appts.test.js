@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('moment-timezone').tz.setDefault(process.env.TIMEZONE);
 
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
@@ -125,11 +126,11 @@ describe('appts Query', () => {
       });
   });
 
-  test('appts query can return all appts after a given date', done => {
+  test('appts query can return all appts after a given timeslot', done => {
     request(server)
       .post('/graphql')
       .set('Authorization', 'Bearer ' + customerAuthToken)
-      .send({ query: `{ appts(input: { startDate: "2020-01-02" }) { id } }` })
+      .send({ query: `{ appts(input: { fromTimeSlot: { date: "2020-01-02", hour: 0 } }) { id } }` })
       .then(res => {
         expect(res.body.data.appts.length).toBe(1);
         expect(res.body.data.appts[0].id).toBe(newAppt2Id);
@@ -141,7 +142,7 @@ describe('appts Query', () => {
     request(server)
       .post('/graphql')
       .set('Authorization', 'Bearer ' + customerAuthToken)
-      .send({ query: `{ appts(input: { endDate: "2020-01-02" }) { id } }` })
+      .send({ query: `{ appts(input: { toTimeSlot: { date: "2020-01-02", hour: 0 } }) { id } }` })
       .then(res => {
         expect(res.body.data.appts.length).toBe(1);
         expect(res.body.data.appts[0].id).toBe(newAppt1Id);
