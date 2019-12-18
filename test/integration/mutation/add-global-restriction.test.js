@@ -1,3 +1,6 @@
+require('dotenv').config();
+require('moment-timezone').tz.setDefault(process.env.TIMEZONE);
+
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
 
@@ -9,15 +12,15 @@ const testTimeSlotDate = '2020-01-01';
 const testTimeSlotHour = 0;
 const testGateCapacity = 1;
 
-const addGlobalRestrictionsInput = `
-  [{
+const addGlobalRestrictionsInput = `[
+  {
     gateCapacity: ${testGateCapacity},
     timeSlot: {
       hour: ${testTimeSlotHour},
       date: "${testTimeSlotDate}"
     }
-  }]
-`;
+  }
+]`;
 
 const adminAuthToken = jwt.sign({
   userEmail: 'test',
@@ -50,6 +53,7 @@ describe('addGlobalRestrictions Mutation', () => {
         expect(res.body.data.addGlobalRestrictions[0].id).toBeTruthy();
         
         Restriction.findByPk(res.body.data.addGlobalRestrictions[0].id).then(restriction => {
+          console.log(restriction.timeSlot);
           expect(restriction.timeSlot.date).toEqual(testTimeSlotDate);
           expect(restriction.timeSlot.hour).toEqual(testTimeSlotHour);
           expect(restriction.gateCapacity).toEqual(testGateCapacity);
@@ -101,7 +105,7 @@ describe('addGlobalRestrictions Mutation', () => {
       });
   });
 
-  test('Can add multiple restrictions in one requestion', done => {
+  test('Can add multiple restrictions in one request', done => {
     const testTimeSlotDate2 = '2020-01-02';
     const testTimeSlotHour2 = 1;
     const testGateCapacity2 = 2;

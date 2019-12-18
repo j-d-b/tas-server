@@ -1,6 +1,8 @@
+require('dotenv').config();
+
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
-const { format, startOfToday, subMonths } = require('date-fns');
+const moment = require('moment');
 
 const server = require('../../../lib/server');
 const sequelize = require('../../../lib/data/sequelize');
@@ -35,7 +37,7 @@ describe('myAppts Query', () => {
         userEmail: testUser1Email,
         timeSlot: {
           hour: 0,
-          date: format(startOfToday(), 'yyyy-MM-dd')
+          date: moment().format('YYYY-MM-DD')
         },
         arrivalWindowSlot: 0,
         arrivalWindowLength: 15
@@ -45,7 +47,7 @@ describe('myAppts Query', () => {
         userEmail: testUser1Email,
         timeSlot: {
           hour: 0,
-          date: format(subMonths(startOfToday(), 2), 'yyyy-MM-dd')
+          date: moment().subtract(2, 'month').format('YYYY-MM-DD')
         },
         arrivalWindowSlot: 0,
         arrivalWindowLength: 15
@@ -55,7 +57,7 @@ describe('myAppts Query', () => {
         userEmail: testUser2Email,
         timeSlot: {
           hour: 1,
-          date: format(startOfToday(), 'yyyy-MM-dd')
+          date: moment().format('YYYY-MM-DD')
         },
         arrivalWindowSlot: 0,
         arrivalWindowLength: 15
