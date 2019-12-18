@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('moment-timezone').tz.setDefault(process.env.TIMEZONE);
 
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
