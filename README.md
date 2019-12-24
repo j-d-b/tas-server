@@ -24,9 +24,9 @@ A `.env` environment variables file must also be added to the project root direc
 * `MG_FROM_EMAIL`: Mailgun sender email address (email sending)
 * `MG_API_KEY`: Mailgun API key (email sending)
 * `MG_DOMAIN`: Mailgun domain (email sending)
-* `PLIVO_AUTH_ID`: Plivo auth ID (SMS sending)
-* `PLIVO_AUTH_TOKEN`: Plivo auth (SMS sending)
-* `PLIVO_SRC_NUM`: Plivo sender mobile number (SMS sending)
+* `TWILIO_ACCT_SID`: Twilio Account Sid (SMS Sending)
+* `TWILIO_AUTH_TOKEN`: Twilio Auth Token (SMS Sending)
+* `TWILIO_SRC_NUM`: Twilio sender mobile number (SMS sending)
 * `DB_SETUP_DEFAULT_ALLOWED_APPTS_PER_HOUR`: Initial `config` table value for `defaultAllowedApptsPerHour`
 * `DB_SETUP_MAX_TFU_PER_APPT`: Initial `config` table value for `maxTFUPerAppt`
 * `DB_SETUP_ARRIVAL_WINDOW_LENGTH`: Initial `config` table value for `arrivalWindowLength` *must be `5`, `10`, `15`, `30`, or `60`*
@@ -192,10 +192,7 @@ Tests were unforunately a quick-and-dirty addition to this project and thus are 
 
 ```javascript
 require('dotenv').config();
-
-const moment = require('moment-timezone');
-
-moment.tz.setDefault(process.env.TIMEZONE);
+require('moment-timezone').tz.setDefault(process.env.TIMEZONE);
 ```
 
 ### Linting
@@ -277,7 +274,7 @@ All JavaScript is located in `lib/`
 
 * Contains all email and SMS sending code and templates (If you're updating the frontend colors or logo, you'll have to change these templates too.)
 * Email is sent using [Mailgun](https://www.mailgun.com/)
-* SMS is sent using [Plivo](https://www.plivo.com/sms/)
+* SMS is sent using [Twilio](https://www.twilio.com/sms/)
 
 ### lib/graphql/
 
@@ -300,7 +297,7 @@ This project relies on the following technologies, most included as `npm` packag
 
 * [Express](https://expressjs.com/) - Web server exposing the GraphQL API endpoint
 * [Mailgun](https://www.mailgun.com/) - Email sending service
-* [Plivo](https://www.plivo.com/sms/) - SMS sending service
+* [Twilio](https://www.twilio.com/sms/) - SMS sending service
 * [Apollo Server](https://www.apollographql.com/docs/apollo-server/) - Express middleware to facilitate GraphQL interactions
 * [Sequelize](http://docs.sequelizejs.com/) - Abstracting database interactions
 * [ESLint](https://eslint.org/) - JavaScript linting
