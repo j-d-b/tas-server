@@ -74,7 +74,7 @@ describe('appts Query', () => {
             apptId: newAppt1Id,
             type: 'STORAGE_EMPTY',
             containerSize: 'TWENTYFOOT',
-            containerType: 'Sealtype',
+            containerType: 'GENERAL',
             shippingLine: 'Willow',
             emptyForCityFormNumber: 'form2i38r923r'
           },
@@ -82,7 +82,7 @@ describe('appts Query', () => {
             apptId: newAppt2Id,
             type: 'STORAGE_EMPTY',
             containerSize: 'TWENTYFOOT',
-            containerType: 'Sealtype',
+            containerType: 'GENERAL',
             shippingLine: 'Willow',
             emptyForCityFormNumber: 'form2i38r923r'
           }
