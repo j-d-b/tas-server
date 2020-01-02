@@ -316,11 +316,10 @@ I don't have an official contribution guide, but welcome pull requests and any f
 ## Todo
 There are a still few areas that need attention.
 
-### Production
-
-* Configure CORS
-* Switch from Mailgun to client's SMTP server
-* Swith to MSSQL (per client request)
+- [ ] Configure CORS
+- [ ] Switch from Mailgun to client's SMTP server
+- [ ] Swith to MSSQL (per client request)
+- [ ] Test reminders functionality
 
 ---
 
