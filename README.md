@@ -319,7 +319,6 @@ There are a still few areas that need attention.
 - [ ] Configure CORS
 - [ ] Switch from Mailgun to client's SMTP server
 - [ ] Swith to MSSQL (per client request)
-- [ ] Test reminders functionality
 
 ---
 
