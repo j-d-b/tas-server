@@ -32,6 +32,7 @@ A `.env` environment variables file must also be added to the project root direc
 * `DB_SETUP_ARRIVAL_WINDOW_LENGTH`: Initial `config` table value for `arrivalWindowLength` *must be `5`, `10`, `15`, `30`, or `60`*
 * `DB_SETUP_APPTS_QUERY_MAX_COUNT`: Initial `config` table value for `apptsQueryMaxCount`
 * `ROOT_USER_PW`: Password for the initial root user
+* `REMIND_HOUR`: Hour of the day (in the given TIMEZONE) to send appointment reminders
 
 ### Installation
 Install dependencies
@@ -181,6 +182,12 @@ The `tas-server` exposes one REST endpoint, `/auth-token`.
 
 This endpoint will respond with a signed JWT (auth/access token) if the request includes a valid `refreshToken` cookie. This cookie is set by the `login` GraphQL mutation. The refresh token is encrypted and stored on the user.
 
+## Reminders (`src/reminders`)
+
+This version of the TAS server includes a service which sends reminder emails and SMS to users with appointments for the next day. Reminders are sent every day at the given `REMIND_HOUR` (environment variable).
+
+Previously, the reminder system was a separate service which made the `sendApptReminders` mutation. This is cleaner if deploying the TAS with Docker; see the [separate-reminders branch](https://github.com/j-d-b/tas-server/tree/separate-reminders) for this implementation.
+
 ## Testing
 Run the test suite with
 
@@ -203,9 +210,9 @@ yarn lint
 ```
 
 ## Deployment
-The production TAS will be deployed using [Docker](https://www.docker.com/). `tas-server` is one part of the of the three-piece TAS backend, along with a notification cron and the database.
+The production TAS will be deployed using [Docker](https://www.docker.com/). `tas-server` is one part of the two-piece TAS backend, the other part is the database.
 
-The full TAS backend with `tas-server` as a submodule is exists as the [`tas-backend`](https://github.com/j-d-b/tas-backend) project. The entire backend is deployed with Docker Compose.
+The full TAS backend with `tas-server` as a submodule is exists as the [`tas-backend`](https://github.com/j-d-b/tas-backend) project. The full backend is deployed with Docker Compose.
 
 ## Docker
 The `tas-server` project can be run with [Docker](https://www.docker.com/). Is is also on [Docker Hub](https://hub.docker.com/r/jbrdy/tas-server/).
@@ -249,7 +256,7 @@ Then, log files can be found at `/var/lib/docker/volumes/tas-server-logs/` on th
 ### Docker Compose
 The Dockerized `tas-server` is exciting when used with [Docker Compose](https://docs.docker.com/compose/) to simultaneously start, setup, and connect to a MariaDB database with a single command.
 
-I've done this, a combined `tas-server`, database, and notification spawning cron process in the [`tas-backend`](https://github.com/j-d-b/tas-backend) project.
+I've done this in the [`tas-backend`](https://github.com/j-d-b/tas-backend) project.
 
 ## Project Organization
 All JavaScript is located in `lib/`
@@ -304,6 +311,7 @@ This project relies on the following technologies, most included as `npm` packag
 * [Nodemailer](https://nodemailer.com/about/) - Email sending
 * [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) - Signing and verifying JWTs
 * [Apollo Errors](https://github.com/thebigredgeek/apollo-errors) and [Apollo Resolvers](https://github.com/thebigredgeek/apollo-resolvers) - Error management/formatting and easy resolver authentication by chaining
+* [node-cron](https://github.com/node-cron/node-cron) - Daily appointment reminder sending
 
 ## License
 The TAS (and thus `tas-server`) was built for [BCTC](http://www.bctc-lb.com/) and is licensed under the [GNU General Public License, Version 3](https://www.gnu.org/licenses/gpl-3.0.en.html).
