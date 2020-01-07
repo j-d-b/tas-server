@@ -21,9 +21,9 @@ A `.env` environment variables file must also be added to the project root direc
 * `SECRET_KEY`: key used to sign API access tokens
 * `DB_CONNECTION_STRING`: URL connection string for the MariaDB database (e.g. mysql://user@bctc-tas.com/tas)
 * `TIMEZONE`: IANA time zone string (e.g. `Asia/Beirut`) to set time zone (location of container server)
-* `MG_FROM_EMAIL`: Mailgun sender email address (email sending)
-* `MG_API_KEY`: Mailgun API key (email sending)
-* `MG_DOMAIN`: Mailgun domain (email sending)
+* `SMTP_SERVER_HOST`: Host name of BCTC's SMTP server
+* `SMTP_SERVER_PORT`: Port for connecting to BCTC's SMTP server
+* `FROM_EMAIL`: Email address of sender/TAS
 * `TWILIO_ACCT_SID`: Twilio Account Sid (SMS Sending)
 * `TWILIO_AUTH_TOKEN`: Twilio Auth Token (SMS Sending)
 * `TWILIO_SRC_NUM`: Twilio sender mobile number (SMS sending)
@@ -280,7 +280,7 @@ All JavaScript is located in `lib/`
 ### lib/messaging/
 
 * Contains all email and SMS sending code and templates (If you're updating the frontend colors or logo, you'll have to change these templates too.)
-* Email is sent using [Mailgun](https://www.mailgun.com/)
+* Email is sent using BCTC's SMTP server
 * SMS is sent using [Twilio](https://www.twilio.com/sms/)
 
 ### lib/graphql/
@@ -303,7 +303,6 @@ Node 10.7.0, using ECMAScript 2018 features.
 This project relies on the following technologies, most included as `npm` packages.
 
 * [Express](https://expressjs.com/) - Web server exposing the GraphQL API endpoint
-* [Mailgun](https://www.mailgun.com/) - Email sending service
 * [Twilio](https://www.twilio.com/sms/) - SMS sending service
 * [Apollo Server](https://www.apollographql.com/docs/apollo-server/) - Express middleware to facilitate GraphQL interactions
 * [Sequelize](http://docs.sequelizejs.com/) - Abstracting database interactions
@@ -325,8 +324,8 @@ I don't have an official contribution guide, but welcome pull requests and any f
 There are a still few areas that need attention.
 
 - [ ] Configure CORS
-- [ ] Switch from Mailgun to client's SMTP server
-- [ ] Swith to MSSQL (per client request)
+- [x] Switch from Mailgun to client's SMTP server
+- [x] Swith to MSSQL (per client request)
 
 ---
 
