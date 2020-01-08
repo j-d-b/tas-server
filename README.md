@@ -19,7 +19,11 @@ A `.env` environment variables file must also be added to the project root direc
 * `PORT`: port to open for TAS API server
 * `WEB_APP_URL`: full URL of TAS web app
 * `SECRET_KEY`: key used to sign API access tokens
-* `DB_CONNECTION_STRING`: URL connection string for the MariaDB database (e.g. mysql://user@bctc-tas.com/tas)
+* `ROOT_USER_PW`: Password for the initial root user
+* `REMIND_HOUR`: Hour of the day (in the given TIMEZONE) to send appointment reminders
+* `MSSQL_DB_NAME`: SQL Server database name
+* `MSSQL_USERNAME`: SQL Server database username
+* `MSSQL_PASSWORD`: SQL Server user password
 * `TIMEZONE`: IANA time zone string (e.g. `Asia/Beirut`) to set time zone (location of container server)
 * `SMTP_SERVER_HOST`: Host name of BCTC's SMTP server
 * `SMTP_SERVER_PORT`: Port for connecting to BCTC's SMTP server
@@ -31,8 +35,6 @@ A `.env` environment variables file must also be added to the project root direc
 * `DB_SETUP_MAX_TFU_PER_APPT`: Initial `config` table value for `maxTFUPerAppt`
 * `DB_SETUP_ARRIVAL_WINDOW_LENGTH`: Initial `config` table value for `arrivalWindowLength` *must be `5`, `10`, `15`, `30`, or `60`*
 * `DB_SETUP_APPTS_QUERY_MAX_COUNT`: Initial `config` table value for `apptsQueryMaxCount`
-* `ROOT_USER_PW`: Password for the initial root user
-* `REMIND_HOUR`: Hour of the day (in the given TIMEZONE) to send appointment reminders
 
 ### Installation
 Install dependencies
@@ -42,7 +44,7 @@ yarn install
 ```
 
 ## Usage
-To use the `tas-server`, the database must be prepared (with the necessary tables) and the server started. The GraphQL API can then be queried.
+To use the `tas-server`, the SQL Server database must be prepared (with the necessary tables) and the server started. The GraphQL API can then be queried.
 
 The database can be initialized with scripts in `lib/data/setup-scripts/` (used in the yarn scripts below)
 
@@ -212,8 +214,6 @@ yarn lint
 ## Deployment
 The production TAS will be deployed using [Docker](https://www.docker.com/). `tas-server` is one part of the two-piece TAS backend, the other part is the database.
 
-The full TAS backend with `tas-server` as a submodule is exists as the [`tas-backend`](https://github.com/j-d-b/tas-backend) project. The full backend is deployed with Docker Compose.
-
 ## Docker
 The `tas-server` project can be run with [Docker](https://www.docker.com/). Is is also on [Docker Hub](https://hub.docker.com/r/jbrdy/tas-server/).
 
@@ -252,11 +252,6 @@ docker run -v tas-server-logs:/tas-server/logs -p 4000:4000 tas-server
 ```
 
 Then, log files can be found at `/var/lib/docker/volumes/tas-server-logs/` on the host machine.
-
-### Docker Compose
-The Dockerized `tas-server` is exciting when used with [Docker Compose](https://docs.docker.com/compose/) to simultaneously start, setup, and connect to a MariaDB database with a single command.
-
-I've done this in the [`tas-backend`](https://github.com/j-d-b/tas-backend) project.
 
 ## Project Organization
 All JavaScript is located in `lib/`
@@ -329,4 +324,4 @@ There are a still few areas that need attention.
 
 ---
 
-Copyright (C) 2019 [KCUS, Inc.](https://kcus.org/home)
+Copyright (C) 2020 [KCUS, Inc.](https://kcus.org/home)

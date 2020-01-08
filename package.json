@@ -42,6 +42,7 @@
     "node-cron": "^2.0.3",
     "nodemailer": "^4.6.7",
     "sequelize": "^5.15.1",
+    "tedious": "^6.6.5",
     "twilio": "^3.39.1",
     "validator": "^10.4.0",
     "winston": "^3.1.0"
