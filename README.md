@@ -325,8 +325,8 @@ I don't have an official contribution guide, but welcome pull requests and any f
 There are a still few areas that need attention.
 
 - [ ] Configure CORS
-- [ ] Switch from Mailgun to client's SMTP server
-- [ ] Swith to MSSQL (per client request)
+- [x] Switch from Mailgun to client's SMTP server (completed in [`bctc-prod branch`](https://github.com/j-d-b/tas-server/tree/bctc-prod))
+- [x] Switch to MSSQL (per client request) (completed in [`bctc-prod branch`](https://github.com/j-d-b/tas-server/tree/bctc-prod))
 
 ---
 
