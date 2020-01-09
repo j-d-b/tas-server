@@ -58,24 +58,22 @@ The entry point file, `lib/index.js`, starts the server (`lib/server/server.js`)
 The server can run in two modes: `development` and `production`.
 
 ### Development and testing
-Setup the database with sample data (clearing existing data; it will warn you) and start the server:
+Setup the database (clearing existing data; it will warn you):
 
 ```shell
-yarn develop
+yarn setup
 ```
 
-In development mode, the server is run with `nodemon`, which restarts the server any time a file is modified.
-
-You can also start the server without adding/clearing sample data using
+Start the server in development mode. The server is run with `nodemon`, which restarts the server any time a file is modified.
 
 ```shell
 yarn start:dev
 ```
 
-or just reset the database to only sample data (it will warn you) with
+You can reset the database at any time (it will warn you) with
 
 ```shell
-yarn setup:dev
+yarn setup
 ```
 
 ### Production
