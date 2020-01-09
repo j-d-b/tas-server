@@ -13,8 +13,8 @@
   },
   "scripts": {
     "setup": "node lib/data/setup-scripts/setup-prod",
-    "start": "$env:NODE_ENV=\"production\" node lib/index",
-    "start:dev": "$env:NODE_ENV=\"development\" nodemon lib/index",
+    "start": "$env:NODE_ENV=\"production\" && node lib/index",
+    "start:dev": "$env:NODE_ENV=\"development\" && nodemon lib/index",
     "lint": "eslint lib",
     "test": "jest --silent --runInBand"
   },
