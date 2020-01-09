@@ -330,4 +330,4 @@ There are a still few areas that need attention.
 
 ---
 
-Copyright (C) 2019 [KCUS, Inc.](https://kcus.org/home)
+Copyright (C) 2020 [KCUS, Inc.](https://kcus.org/home)
