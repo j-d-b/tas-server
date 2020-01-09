@@ -24,6 +24,7 @@ A `.env` environment variables file must also be added to the project root direc
 * `MSSQL_DB_NAME`: SQL Server database name
 * `MSSQL_USERNAME`: SQL Server database username
 * `MSSQL_PASSWORD`: SQL Server user password
+* `MSSQL_IPALL_TCP_DYNAMIC_PORTS`: The SQL Server TCP/IP Properities IPALL `TCP Dynamic Ports` value
 * `TIMEZONE`: IANA time zone string (e.g. `Asia/Beirut`) to set time zone (location of container server)
 * `SMTP_SERVER_HOST`: Host name of BCTC's SMTP server
 * `SMTP_SERVER_PORT`: Port for connecting to BCTC's SMTP server
