@@ -24,6 +24,7 @@ A `.env` environment variables file must also be added to the project root direc
 * `MSSQL_DB_NAME`: SQL Server database name
 * `MSSQL_USERNAME`: SQL Server database username
 * `MSSQL_PASSWORD`: SQL Server user password
+* `MSSQL_INSTANCE_NAME`: SQL Server instance name (e.g. `SQLEXPRESS`)
 * `MSSQL_IPALL_TCP_DYNAMIC_PORTS`: The SQL Server TCP/IP Properities IPALL `TCP Dynamic Ports` value
 * `TIMEZONE`: IANA time zone string (e.g. `Asia/Beirut`) to set time zone (location of container server)
 * `SMTP_SERVER_HOST`: Host name of BCTC's SMTP server
@@ -214,6 +215,13 @@ yarn lint
 
 ## Deployment
 The production TAS will be deployed using [Docker](https://www.docker.com/). `tas-server` is one part of the two-piece TAS backend, the other part is the database.
+
+### SQL Server Database
+There are a few things you must do after installing SQL Server to allow for connections from the tas-server. In the production deployment v1, we're using SQL Server Express (free version).
+
+From **Sql Server Configuration Manager**
+1. Ensure SQL Server Network Configuration -> Protocols for SQLEXPRESS (instance name) -> TCP/IP is enabled
+2. Note the TCP Dynamic Ports number for the IPALL group in TCP/IP Properties (for the `MSSQL_TCP_DYNAMIC_PORTS` env variable)
 
 ## Docker
 The `tas-server` project can be run with [Docker](https://www.docker.com/). Is is also on [Docker Hub](https://hub.docker.com/r/jbrdy/tas-server/).
