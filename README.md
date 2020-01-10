@@ -310,6 +310,7 @@ This project relies on the following technologies, most included as `npm` packag
 * [Sequelize](http://docs.sequelizejs.com/) - Abstracting database interactions
 * [ESLint](https://eslint.org/) - JavaScript linting
 * [Nodemailer](https://nodemailer.com/about/) - Email sending
+* [nodemailer-express-handlebars](https://github.com/yads/nodemailer-express-handlebars/) - Email templates
 * [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) - Signing and verifying JWTs
 * [Apollo Errors](https://github.com/thebigredgeek/apollo-errors) and [Apollo Resolvers](https://github.com/thebigredgeek/apollo-resolvers) - Error management/formatting and easy resolver authentication by chaining
 * [node-cron](https://github.com/node-cron/node-cron) - Daily appointment reminder sending
