@@ -29,7 +29,7 @@ const validAddApptInput = `
     actions: [
       { 
         type: IMPORT_FULL,
-        importFull: { containerId: "test_id", formNumber705: "test_form_num", containerType: REEFER }
+        importFull: { containerId: "test_id", formNumber705: "test_form_num", containerType: REEFER, containerSize: TWENTYFOOT }
       }
     ]
   }
