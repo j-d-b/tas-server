@@ -3,7 +3,7 @@ This repository contains the GraphQL API server originally built for the [BCTC](
 
 The TAS end-product is intended to have both web and native mobile interfaces. The backend web server exists in a separate environment (potentially physically) and exposes a GraphQL API endpoint for use by the web and mobile applications.
 
-The `tas-server` connects to a MariaDB (or MySQL) database specified in the `.env` configuration.
+The `tas-server` connects to a Microsoft SQL Server Express database specified in the `.env` configuration.
 
 ## Getting Started
 
@@ -25,7 +25,6 @@ A `.env` environment variables file must also be added to the project root direc
 * `MSSQL_USERNAME`: SQL Server database username
 * `MSSQL_PASSWORD`: SQL Server user password
 * `MSSQL_INSTANCE_NAME`: SQL Server instance name (e.g. `SQLEXPRESS`)
-* `MSSQL_IPALL_TCP_DYNAMIC_PORTS`: The SQL Server TCP/IP Properities IPALL `TCP Dynamic Ports` value
 * `TIMEZONE`: IANA time zone string (e.g. `Asia/Beirut`) to set time zone (location of container server)
 * `SMTP_SERVER_HOST`: Host name of BCTC's SMTP server
 * `SMTP_SERVER_PORT`: Port for connecting to BCTC's SMTP server
@@ -212,53 +211,7 @@ yarn lint
 ```
 
 ## Deployment
-The production TAS will be deployed using [Docker](https://www.docker.com/). `tas-server` is one part of the two-piece TAS backend, the other part is the database.
-
-### SQL Server Database
-There are a few things you must do after installing SQL Server to allow for connections from the tas-server. In the production deployment v1, we're using SQL Server Express (free version).
-
-From **Sql Server Configuration Manager**
-1. Ensure SQL Server Network Configuration -> Protocols for SQLEXPRESS (instance name) -> TCP/IP is enabled
-2. Note the TCP Dynamic Ports number for the IPALL group in TCP/IP Properties (for the `MSSQL_TCP_DYNAMIC_PORTS` env variable)
-
-## Docker
-The `tas-server` project can be run with [Docker](https://www.docker.com/). Is is also on [Docker Hub](https://hub.docker.com/r/jbrdy/tas-server/).
-
-To start `tas-server`, run:
-
-```shell
-docker build -t tas-server .
-docker run -p 4000:4000 tas-server
-```
-
-The default `NODE_ENV` (set in the Dockerfile) is `development`.
-
-### Production
-Set the environment to `production` with
-
-```shell
-docker run -e NODE_ENV=production -p 4000:4000 tas-server
-```
-
-### Database Setup
-To set up the database, `docker exec` into the container running `tas-server` and run either `yarn setup` or `yarn setup:dev`.
-
-```shell
-docker exec -it tas-server bash
-yarn setup
-exit
-```
-
-### Persisting Logs
-The dockerized `tas-server` logs to the `/tas-server/logs/` directory within the container. I recommend using named volumes to persist this data to the docker area.
-
-For example:
-
-```shell
-docker run -v tas-server-logs:/tas-server/logs -p 4000:4000 tas-server
-```
-
-Then, log files can be found at `/var/lib/docker/volumes/tas-server-logs/` on the host machine.
+TODO
 
 ## Project Organization
 All JavaScript is located in `lib/`
@@ -300,7 +253,7 @@ All JavaScript is located in `lib/`
   * Getting container size (for `IMPORT_FULL` appointments)
 
 ## Built With
-Node 10.7.0, using ECMAScript 2018 features.
+Node 10, using ECMAScript 2018 features.
 
 This project relies on the following technologies, most included as `npm` packages.
 
@@ -322,13 +275,6 @@ See [`LICENSE.md`](https://github.com/j-d-b/tas-server/blob/master/LICENSE.md) f
 
 ## Contributing
 I don't have an official contribution guide, but welcome pull requests and any form of comments (submit an issue!); if you're interested in contributing, please get in touch.
-
-## Todo
-There are a still few areas that need attention.
-
-- [ ] Configure CORS
-- [x] Switch from Mailgun to client's SMTP server
-- [x] Swith to MSSQL (per client request)
 
 ---
 
