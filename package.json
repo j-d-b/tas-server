@@ -45,7 +45,7 @@
     "nodemailer-mailgun-transport": "^1.4.0",
     "sequelize": "^5.15.1",
     "twilio": "^3.39.1",
-    "validator": "^10.4.0",
+    "validator": "^13.7.0",
     "winston": "^3.1.0"
   },
   "devDependencies": {
